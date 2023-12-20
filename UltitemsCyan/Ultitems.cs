@@ -6,16 +6,14 @@ using RoR2;
 using UltitemsCyan.Items;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UltitemsCyan.Buffs;
+using System.Collections.Generic;
 
-namespace Ultitems
+namespace UltitemsCyan
 {
     //Initialize R2API: ItemAPI
     [BepInDependency(ItemAPI.PluginGUID)]
     //Initialize R2API: LanguageAPI
-    [BepInDependency(LanguageAPI.PluginGUID)]
-
-    // This one is because we use a .language file for language tokens
-    // More info in https://risk-of-thunder.github.io/R2Wiki/Mod-Creation/Assets/Localization/
     [BepInDependency(LanguageAPI.PluginGUID)]
 
     // This attribute is required, and lists metadata for your plugin.
@@ -40,8 +38,11 @@ namespace Ultitems
         // Change the PluginAuthor and the PluginName !
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
-        public const string PluginName = "Ultitems";
+        public const string PluginName = "UltitemsCyan";
         public const string PluginVersion = "1.0.0";
+
+        public static Sprite mysterySprite = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
+        public static GameObject mysteryPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Mystery/PickupMystery.prefab").WaitForCompletion();
 
         /* TODO: Add Assets and Config File
         // assets
@@ -61,8 +62,31 @@ namespace Ultitems
             // Init our logging class so that we can properly log for debugging
             Log.Init(Logger);
 
-            ItemBase item = new();
-            item.Init();
+            // Add buffs to the game
+            BuffHelper.CreateBuffs();
+            Log.Debug("Buffs Done");
+
+            // Add items to the game
+            Log.Debug("Test 1");
+            List<ItemBase> ultitems = [];
+            //ultitems.Add(new TestItem());
+            Log.Debug("Test 2");
+            ultitems.Add(new BirthdayCandles());
+            Log.Debug("Test 3");
+            ultitems.Add(new FaultyBulb());
+            Log.Debug("Test 4");
+            Log.Debug("Listed Items:");
+            //ultitems.Add(new ());
+
+            foreach (ItemBase item in ultitems)
+            {
+                Log.Debug("Test 5");
+                Log.Debug("Adding items...");
+                item.Init();
+            }
+            Log.Debug("Items Done");
+
+            Log.Info("Ultitems Cyan Done");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using BepInEx.Logging;
 
-namespace Ultitems
+namespace UltitemsCyan
 {
     internal static class Log
     {

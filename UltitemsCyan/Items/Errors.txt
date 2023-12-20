@@ -1,0 +1,22 @@
+﻿
+
+Items
+
+
+[Warning: Unity Log] RoR2.ItemTierDef must be instantiated using the ScriptableObject.CreateInstance method instead of new ItemTierDef.
+Trying to acess the name of the item through a method which returns the itemDef.name parameter, but error caused.
+    Resolved to just keep track with a different variable for now...
+
+
+[Error  :R2API.Items] Custom item 'Faulty Bulb' is not XMLsafe. Item not added.
+Adding spaces to an item's token variables may cause problems for an XML format
+    So use tokens instead of standard strings, or just remove the spaces from your strings
+
+
+[Error  : Unity Log] ItemDef 'EXAMPLE_ITEM_NAME' has an item index of 'None'.  Attempting to fix...
+I had set my Itemdef to protected which meant the neccesary API couldn't read the item data.
+This made one item have funtionality of all the items and all the other items did nothing.
+    So set item definition to public.
+    I'm still getting the same error, but I think the index is set after startup
+
+Proc

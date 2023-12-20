@@ -1,0 +1,22 @@
+﻿
+
+ ! ! ! Important ! ! !
+
+Util.CheckRoll() ranges from 0f to 100f
+
+
+
+
+ Other notes
+
+For detecting standing still, you need to add an item behavior
+self.AddItemBehavior<OrichalcumItemBehavior>(self.inventory.GetItemCount(item.itemIndex));
+
+To get all healing items? https://github.com/SylmarDev/SpireItems/blob/3a4c8ef16ff58bd5457523d6efb475bddf7fe0d5/SpireItems/Relics/Tier1/WarPaint.cs
+Array.Exists(itemDef.tags, element => element == ItemTag.Healing)) // is a healing item
+
+Kill Self
+self.healthComponent.Suicide();
+
+Get the last item picked up
+self.itemAcquisitionOrder.Last<ItemIndex>();
