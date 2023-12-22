@@ -19,4 +19,14 @@ This made one item have funtionality of all the items and all the other items di
     So set item definition to public.
     I'm still getting the same error, but I think the index is set after startup
 
-Proc
+
+[Debug  :UltitemsCyan] Buffs Done
+[Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
+    Stack trace:
+    UltitemsCyan.Ultitems.Awake () (at <2180890ba7604f259a43d930384819da>:IL_005B)
+    UnityEngine.GameObject:AddComponent(Type)
+    BepInEx.Bootstrap.Chainloader:Start()
+    FlashWindow:.cctor()
+The program kept crashing right before running the init for items
+    It seemse it's because of this line: Log.Debug("Adding " + newItem.item.name);
+    Which tries to access the item definition's name but can't for some reason even though it's public and in the base class

@@ -1,17 +1,14 @@
 ﻿using RoR2;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan
 {
 
     // TODO: check if Item classes needs to be public
     public abstract class ItemBase
     {
-        public ItemDef item;
-        public static string name;
-
         public abstract void Init();
 
-        protected abstract void Hooks();
+        // protected abstract void Hooks();
 
 
         // Start of the Run
@@ -142,7 +139,7 @@ namespace UltitemsCyan.Items
         //protected void OnPlayerEnterEvent_OnTriggerEnter(On.RoR2.OnPlayerEnterEvent.orig_OnTriggerEnter orig, OnPlayerEnterEvent self, Collider other)
 
 
-        // Can change the new price of a shrine of chace
+        // Can change the new price of a shrine of chance
         //
         //     Hook:
         // On.RoR2.ShrineChanceBehavior.FixedUpdate += ShrineChanceBehavior_FixedUpdate;
@@ -150,17 +147,18 @@ namespace UltitemsCyan.Items
 
 
         // When the player picks up a specific item (count is how many items were picked up)
-        //
-        //     Hook:
-        // On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
-        //protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
-
-
+        // Called after itemDef
         // 
-        //
         //     Hook:
         // On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
         //protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+
+
+        // When the player is given a specific item
+        //
+        //     Hook:
+        // On.RoR2.Inventory.GiveItem_ItemDef_int += Inventory_GiveItem_ItemDef_int;
+        //protected void Inventory_GiveItem_ItemDef_int(On.RoR2.Inventory.orig_GiveItem_ItemDef_int orig, Inventory self, ItemDef itemDef, int count)
 
 
         // 

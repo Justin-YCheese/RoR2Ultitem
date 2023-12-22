@@ -6,17 +6,17 @@ namespace UltitemsCyan.Items
 {
 
     // TODO: check if Item classes needs to be public
-    public class TestItem : ItemBase
+    public class OverclockedGPU : ItemBase
     {
         public static ItemDef item;
         private void Tokens()
         {
-            string tokenPrefix = "EXAMPLE";
+            string tokenPrefix = "OVERCLOCKEDGPU";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cStack>text</style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Overclocked GPU");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase attack speed on kill.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increase <style=cIsDamage>attack speed</style> by <style=cIsDamage>8%</style>. Maximum cap of <style=isDamage>32%</style> <style=cStack>(+32% per stack)</style> <style=cIsDamage>attack speed</style>. Lose effect upon getting hit.");
+            LanguageAPI.Add(tokenPrefix + "_LORE", "GPU GPU");
 
             item.name = tokenPrefix + "_NAME";
             item.nameToken = tokenPrefix + "_NAME";
@@ -36,7 +36,7 @@ namespace UltitemsCyan.Items
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
+            itd.tier = ItemTier.Tier2;
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
@@ -48,7 +48,7 @@ namespace UltitemsCyan.Items
             item.hidden = false;
 
 
-            item.tags = [ItemTag.Any];
+            item.tags = [ItemTag.Damage, ItemTag.OnKillEffect];
 
             // TODO: Turn tokens into strings
             // AddTokens();

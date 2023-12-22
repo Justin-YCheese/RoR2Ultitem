@@ -3,18 +3,22 @@ using BepInEx.Configuration;
 using R2API;
 using R2API.Utils;
 using RoR2;
-using UltitemsCyan.Items;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UltitemsCyan.Buffs;
 using System.Collections.Generic;
+
+using UltitemsCyan.Items;
+using UltitemsCyan.Buffs;
 
 namespace UltitemsCyan
 {
-    //Initialize R2API: ItemAPI
+    // Dependencies for when downloading the mod
+    // For various important item methods
     [BepInDependency(ItemAPI.PluginGUID)]
-    //Initialize R2API: LanguageAPI
+    // For using Tokens
     [BepInDependency(LanguageAPI.PluginGUID)]
+    // For making giving stat changes
+    [BepInDependency(RecalculateStatsAPI.PluginGUID)]
 
     // This attribute is required, and lists metadata for your plugin.
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
@@ -55,7 +59,7 @@ namespace UltitemsCyan
 
         // config file
         private static ConfigFile cfgFile;
-        //*/
+        //*/        
 
         public void Awake()
         {
@@ -63,30 +67,39 @@ namespace UltitemsCyan
             Log.Init(Logger);
 
             // Add buffs to the game
-            BuffHelper.CreateBuffs();
+            List<BuffBase> ultitemBuffs = [];
+            ultitemBuffs.Add(new BirthdayBuff());
+            ultitemBuffs.Add(new DreamSpeedBuff());
+            foreach (BuffBase newBuff in ultitemBuffs)
+            {
+                //Log.Debug("Adding " + newItem.item.name); // This cause the mod to crash. Trying to access the name of the item definition
+                Log.Debug("Adding items...");
+                newBuff.Init();
+            }
+
+
             Log.Debug("Buffs Done");
 
             // Add items to the game
-            Log.Debug("Test 1");
-            List<ItemBase> ultitems = [];
+            List<ItemBase> ultitemItems = [];
             //ultitems.Add(new TestItem());
-            Log.Debug("Test 2");
-            ultitems.Add(new BirthdayCandles());
-            Log.Debug("Test 3");
-            ultitems.Add(new FaultyBulb());
-            Log.Debug("Test 4");
-            Log.Debug("Listed Items:");
+            ultitemItems.Add(new BirthdayCandles());
+            ultitemItems.Add(new DegreeScissors());
+            ultitemItems.Add(new DreamFuel());
+            ultitemItems.Add(new FaultyBulb());
             //ultitems.Add(new ());
+            Log.Debug("List Done");
 
-            foreach (ItemBase item in ultitems)
+
+            foreach (ItemBase newItem in ultitemItems)
             {
-                Log.Debug("Test 5");
+                //Log.Debug("Adding " + newItem.item.name); // This cause the mod to crash. Trying to access the name of the item definition
                 Log.Debug("Adding items...");
-                item.Init();
+                newItem.Init();
             }
             Log.Debug("Items Done");
 
-            Log.Info("Ultitems Cyan Done");
+            Log.Warning("Ultitems Cyan Done");
         }
     }
 }

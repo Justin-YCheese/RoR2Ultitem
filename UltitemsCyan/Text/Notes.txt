@@ -1,0 +1,43 @@
+﻿
+
+ ! ! ! Important ! ! !
+
+Util.CheckRoll() ranges from 0f to 100f
+
+
+
+
+	Other notes
+
+For detecting standing still, you need to add an item behavior
+self.AddItemBehavior<OrichalcumItemBehavior>(self.inventory.GetItemCount(item.itemIndex));
+
+To get all healing items? https://github.com/SylmarDev/SpireItems/blob/3a4c8ef16ff58bd5457523d6efb475bddf7fe0d5/SpireItems/Relics/Tier1/WarPaint.cs
+Array.Exists(itemDef.tags, element => element == ItemTag.Healing)) // is a healing item
+
+Kill Self
+self.healthComponent.Suicide();
+
+Get the last item picked up
+self.itemAcquisitionOrder.Last<ItemIndex>();
+
+	Other Mods
+
+Paired and broken items from ither mods
+{ "RegeneratingScrapConsumed", "RegeneratingScrap" }, // Vanilla
+{ "HealingPotionConsumed", "HealingPotion" },
+{ "FragileDamagebonusConsumed", "FragileDamageBonus" },
+{ "ExtraLifeConsumed", "ExtraLife" },
+{ "ExtraLifeVoidConsumed", "ExtraLifeVoid" },
+{ "FourHundredTicketsConsumed", "FourHundredTickets" }, // Hex3Mod
+{ "OneTicketConsumed", "OneTicket" },
+{ "TreasureCacheConsumed", "TreasureCache" }, // WolfoQOL
+{ "TreasureCacheVoidConsumed", "TreasureCacheVoid" },
+{ "MysticsItems_KeepShopTerminalOpenConsumed", "MysticsItems_KeepShopTerminalOpen" }, // MysticsItems
+{ "MysticsItems_LimitedArmorBroken", "MysticsItems_LimitedArmor" },
+{ "MysticsItems_GhostAppleWeak", "MysticsItems_GhostApple" },
+{ "ITEM_BROKEN_MESS", "ITEM_CLOCKWORK_ITEM" }, // VanillaVoid
+{ "ITEM_EMPTY_VIALS", "ITEM_EHANCE_VIALS_ITEM" },
+{ "HCFB_ITEM_BROKEN_CHOPSTICKS", "HCFB_ITEM_CHOPSTICKS" }, // Fork Is Back
+{ "ITEM_SINGULARITYCONSUMED", "ITEM_SINGULARITY" }, // Spikestrip
+{ "ITEM_CARTRIDGECONSUMED", "ITEM_AbyssalMedkit" }

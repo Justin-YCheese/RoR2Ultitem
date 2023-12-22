@@ -6,17 +6,17 @@ namespace UltitemsCyan.Items
 {
 
     // TODO: check if Item classes needs to be public
-    public class TestItem : ItemBase
+    public class ViralSmog : ItemBase
     {
         public static ItemDef item;
         private void Tokens()
         {
-            string tokenPrefix = "EXAMPLE";
+            string tokenPrefix = "VIRALSMOG";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cStack>text</style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Viral Smog");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase speed per status effect.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Increases <style=cIsUtility>movement speed</style> by <style=cIsUtility>30%</style> <style=cStack>(+30% per stack)</style> per <style=cIsDamage>unique status</style> you have.");
+            LanguageAPI.Add(tokenPrefix + "_LORE", "Illness");
 
             item.name = tokenPrefix + "_NAME";
             item.nameToken = tokenPrefix + "_NAME";
@@ -36,7 +36,7 @@ namespace UltitemsCyan.Items
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
+            itd.tier = ItemTier.Tier3;
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
@@ -47,8 +47,7 @@ namespace UltitemsCyan.Items
             item.canRemove = true;
             item.hidden = false;
 
-
-            item.tags = [ItemTag.Any];
+            item.tags = [ItemTag.Utility];
 
             // TODO: Turn tokens into strings
             // AddTokens();
