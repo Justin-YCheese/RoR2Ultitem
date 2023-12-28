@@ -1,7 +1,45 @@
 ﻿
+Current:
 
-Items
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resolved:
 
 [Warning: Unity Log] RoR2.ItemTierDef must be instantiated using the ScriptableObject.CreateInstance method instead of new ItemTierDef.
 Trying to acess the name of the item through a method which returns the itemDef.name parameter, but error caused.
@@ -30,3 +68,18 @@ This made one item have funtionality of all the items and all the other items di
 The program kept crashing right before running the init for items
     It seemse it's because of this line: Log.Debug("Adding " + newItem.item.name);
     Which tries to access the item definition's name but can't for some reason even though it's public and in the base class
+
+
+[Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
+Stack trace:
+UltitemsCyan.Buffs.BirthdayBuff.HealthComponent_TakeDamage (On.RoR2.HealthComponent+orig_TakeDamage orig, RoR2.HealthComponent self, RoR2.DamageInfo damageInfo) (at <c7077346de8a460193d9e3791c37d5d5>:IL_001D)
+DMD<>?-1682922752.Hook<RoR2.HealthComponent::TakeDamage>?-710065664 (RoR2.HealthComponent , RoR2.DamageInfo ) (at <6d76a0f99bd14840bfef943109122e88>:IL_000A)
+RoR2.CostTypeCatalog+<>c.<Init>b__5_9 (RoR2.CostTypeDef costTypeDef, RoR2.CostTypeDef+PayCostContext context) (at <1d532be543be416b9db3594e4b62447d>:IL_005E)
+RoR2.CostTypeDef.PayCost (System.Int32 cost, RoR2.Interactor activator, UnityEngine.GameObject purchasedObject, Xoroshiro128Plus rng, RoR2.ItemIndex avoidedItemIndex) (at <1d532be543be416b9db3594e4b62447d>:IL_0047)
+RoR2.PurchaseInteraction.OnInteractionBegin (RoR2.Interactor activator) (at <1d532be543be416b9db3594e4b62447d>:IL_0052)
+RoR2.Interactor.PerformInteraction (UnityEngine.GameObject interactableObject) (at <1d532be543be416b9db3594e4b62447d>:IL_0041)
+RoR2.Interactor.AttemptInteraction (UnityEngine.GameObject interactableObject) (at <1d532be543be416b9db3594e4b62447d>:IL_0007)
+RoR2.InteractionDriver.FixedUpdate () (at <1d532be543be416b9db3594e4b62447d>:IL_00A0)
+    Can't use shrine of blood?
+    Fixed this by reworking how the damage buff was applied. Instead of upon a target taking damage and checking the attacker,
+    I simply increase the attaker's stats with RecalculateStatsAPI_GetStatCoefficients

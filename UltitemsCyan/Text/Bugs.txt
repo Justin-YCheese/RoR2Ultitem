@@ -1,0 +1,24 @@
+﻿Known:
+
+
+Test:
+
+
+Fixed:
+- Birthday Candles disabling Shrine of Blood and other damaging structures
+	- Fixed this by reworking how the damage buff was applied. Instead of upon a target taking damage and checking the attacker,
+      I simply increase the attaker's stats with RecalculateStatsAPI_GetStatCoefficients while they have the buff
+- Viral Smog detecting 96 status effects (because of Birthday Candles?)
+	- It seems that while "sender.activeBuffsListCount" will corectly return how many statuses a player has active,
+	  "sender.activeBuffsList" will return the active buffs but also be of length for every status effect then fill
+	  that length with the most recent status defined. Which is why with 93 base status effect and then defining my
+	  own 3 status effects, in the testing it can correct say if I have just dream speed, but then says I have 95
+	  other birthday candle buffs.
+	- So I used "sender.activeBuffsListCount" as the effective length of "sender.activeBuffsList" and it worked
+- Birthday Candles in Multiplayer
+	- Cannot pick up / On trying to pick up gain buff every frame
+	- Finding the player that picked up the item was causing bugs
+	- Fixed by using a better method to find who picked up the item. Instead of a foreach loop using PlayerCharacterMasterController.instances and checking if the instance's inventory
+	  matched the current inventory, used "CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((CharacterBody body2) => body2.inventory == self);" instead
+- Immune to non enemy damage
+	- I didn't update damage (with orig) after checking if the damage was from a player in Birthday Buff

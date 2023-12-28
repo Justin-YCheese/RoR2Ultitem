@@ -43,7 +43,7 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "0.3.0";
 
         public static Sprite mysterySprite = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
         public static GameObject mysteryPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Mystery/PickupMystery.prefab").WaitForCompletion();
@@ -70,6 +70,8 @@ namespace UltitemsCyan
             List<BuffBase> ultitemBuffs = [];
             ultitemBuffs.Add(new BirthdayBuff());
             ultitemBuffs.Add(new DreamSpeedBuff());
+            ultitemBuffs.Add(new Overclockedbuff());
+            //ultitemBuffs.Add(new ());
             foreach (BuffBase newBuff in ultitemBuffs)
             {
                 //Log.Debug("Adding " + newItem.item.name); // This cause the mod to crash. Trying to access the name of the item definition
@@ -85,9 +87,11 @@ namespace UltitemsCyan
             //ultitems.Add(new TestItem());
             ultitemItems.Add(new BirthdayCandles());
             ultitemItems.Add(new DegreeScissors());
-            ultitemItems.Add(new DreamFuel());
+            ultitemItems.Add(new OverclockedGPU());
             ultitemItems.Add(new FaultyBulb());
-            //ultitems.Add(new ());
+            ultitemItems.Add(new ViralSmog());
+            ultitemItems.Add(new DreamFuel());
+            //ultitemItems.Add(new ());
             Log.Debug("List Done");
 
 
@@ -99,7 +103,7 @@ namespace UltitemsCyan
             }
             Log.Debug("Items Done");
 
-            Log.Warning("Ultitems Cyan Done");
+            Log.Warning("Ultitems Cyan Done: " + PluginVersion);
         }
     }
 }

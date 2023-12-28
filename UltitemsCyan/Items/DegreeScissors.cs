@@ -9,6 +9,7 @@ namespace UltitemsCyan.Items
     public class DegreeScissors : ItemBase
     {
         public static ItemDef item;
+        private const int scrapsPerScissor = 2;
         private void Tokens()
         {
             string tokenPrefix = "DEGREESCISSORS";
@@ -16,7 +17,7 @@ namespace UltitemsCyan.Items
             // Add translation from token to string
             LanguageAPI.Add(tokenPrefix + "_NAME", "1000 Degree Scissors");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Turn consumed items into scrap.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, <style=cIsUtility>convert</style> a <style=cIsUtility>consumed</style> item into <style=cIsUtility>2 common scraps</style>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, <style=cIsUtility>convert</style> a <style=cIsUtility>consumed</style> item into <style=cIsUtility>2 common scraps</style>. Otherwise <style=cIsUtility>convert</style> self.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "What's Youtube?");
 
             // Adds tokens to item
@@ -95,10 +96,9 @@ namespace UltitemsCyan.Items
                     foreach (ItemIndex index in itemsInInventory)
                     {
                         ItemDef definition = ItemCatalog.GetItemDef(index);
-                        // If item is untiered, has the word consumed, and not hidden
-                        // Checking for "consumed" accounts for Tonic Affliction and intergrates with modded consumed items assuming they follow the vanilla naming convention
+                        // If item is untiered, can be removed, and not hidden
                         // Don't need to check for regenerating scrap because it is restored before this check
-                        if (definition.tier.Equals(ItemTier.NoTier) && definition.name.ToUpper().Contains("CONSUMED") && !definition.hidden)
+                        if (definition.tier.Equals(ItemTier.NoTier) && definition.canRemove && !definition.hidden) //definition.name.ToUpper().Contains("CONSUMED") // Checking for "consumed"
                         {
                             //Log.Debug("Adding consumed item " + definition.name);
                             consumedItems.Add(definition);
@@ -117,20 +117,21 @@ namespace UltitemsCyan.Items
                     // for each scissors in inventory remove a random consumed item
                     if (length > 0)
                     {
-                        for (int i = 0; i < grabCount; i++)
+                        for (; grabCount > 0; grabCount--)
                         {
-                            int itemPos = Random.RandomRangeInt(0, length); // Don't need to subtract 1 from length because it doesn't generate the max
-                                                                                // Remove 1 consumed item
-                            Log.Debug("Removing " + consumedItems[itemPos].name + " at " + itemPos);
-                            self.inventory.RemoveItem(consumedItems[itemPos]);
+                            int itemPos = Random.RandomRangeInt(0, length);
+                            ItemDef selectedItem = consumedItems[itemPos]; // Don't need to subtract 1 from length because it excludes the max
+                            // Remove 1 consumed item
+                            Log.Debug("Removing " + selectedItem.name); // + " at " + itemPos);
+                            self.inventory.RemoveItem(selectedItem);
 
                             // Give 2 white scraps
-                            self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), 2);
+                            self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerScissor);
 
                             // If ran out of that consumable item in player's inventory
-                            if (self.inventory.GetItemCount(consumedItems[itemPos]) < 1)
+                            if (self.inventory.GetItemCount(selectedItem) < 1)
                             {
-                                Log.Debug("Out of " + consumedItems[itemPos].name);
+                                Log.Debug("Out of " + selectedItem.name);
                                 //Log.Debug("New length of " + (length - 1));
                                 consumedItems.RemoveAt(itemPos);
                                 length--;
@@ -142,6 +143,15 @@ namespace UltitemsCyan.Items
                                 }
                             }
                         }
+                    }
+                    // If after cutting there are still scissors which didn't cut anything (break out of loop or no cuttable items) then consume a scissor
+                    if (grabCount > 0)
+                    {
+                        Log.Debug("Scissors cuts itself");
+                        // Remove a scissors (Garenteed to have at least scissors)
+                        self.inventory.RemoveItem(item);
+                        // Give 2 white scraps
+                        self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerScissor);
                     }
                 }
             }

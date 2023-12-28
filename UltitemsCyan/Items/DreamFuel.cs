@@ -10,14 +10,14 @@ namespace UltitemsCyan.Items
     public class DreamFuel : ItemBase
     {
         public static ItemDef item;
-        //private const float dreamSpeed = 1; // 200f for +200% speed
+
         private void Tokens()
         {
             string tokenPrefix = "DREAMFUEL";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Dream Fuel");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Increase speed at full health <style=cDeath>BUT get rooted when hit</style>.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>200%</style> <style=cStack>(+200% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>120%</style> <style=cStack>(+120% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Nightmare fuel");
 
             item.name = tokenPrefix + "_NAME";
@@ -35,6 +35,7 @@ namespace UltitemsCyan.Items
             Tokens();
 
             Log.Debug("Init " + item.name);
+            //
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
@@ -88,11 +89,12 @@ namespace UltitemsCyan.Items
             orig(self);
         }//*/
 
+        // Speed at full health
         public class UltitemsDreamFuelBehaviour : CharacterBody.ItemBehavior
         {
             public HealthComponent healthComponent;
             private bool _isFullHealth = false;
-            public bool isFullHealth
+            public bool IsFullHealth
             {
                 get { return _isFullHealth; }
                 set
@@ -122,7 +124,7 @@ namespace UltitemsCyan.Items
             {
                 if (healthComponent)
                 {
-                    isFullHealth = healthComponent.combinedHealthFraction == 1;
+                    IsFullHealth = healthComponent.combinedHealthFraction == 1;
                 }
             }
 
@@ -134,46 +136,9 @@ namespace UltitemsCyan.Items
 
             public void OnDestroy()
             {
-                isFullHealth = false;
+                IsFullHealth = false;
             }
         }
-
-        /*/private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
-        {
-            if (sender && sender.inventory)
-            {
-                int grabCount = sender.inventory.GetItemCount(item);
-                if (grabCount > 0)
-                {
-                    Log.Debug("Base Movement : " + sender.baseMoveSpeed);
-                    Log.Debug("Movement Speed: " + sender.moveSpeed);
-
-                    args.moveSpeedMultAdd += grabCount;
-
-                    Log.Debug("post Base Movement : " + sender.baseMoveSpeed);
-                    Log.Debug("post Movement Speed: " + sender.moveSpeed);
-                }
-            }
-        }//*/
-
-        /*/private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
-        {
-            if (self && self.inventory)
-            {
-                int grabCount = self.inventory.GetItemCount(item);
-                if (grabCount > 0)
-                {
-                    Log.Debug("Dream Fuel recalculate stats");
-                    Log.Debug("Base Movement : " + self.baseMoveSpeed);
-                    Log.Debug("Movement Speed: " + self.moveSpeed);
-
-                    self.move *= grabCount + 1;
-                }
-            }
-            orig(self);
-        }//*/
-
-
 
         // Root when hit
         protected void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
@@ -182,31 +147,23 @@ namespace UltitemsCyan.Items
             {
                 // If the victum has an inventory
                 // and damage isn't rejected?
-                Log.Warning("Dream Hit!");
-
-                Log.Debug("Victum " + victim.name);
-                Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
-                Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);
-                Log.Debug("Damage rejected? " + damageInfo.rejected);
-                if (victim && victim.GetComponent<CharacterBody>() && victim.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
+                if (self && victim && victim.GetComponent<CharacterBody>() && victim.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT && (victim))
                 {
-                    Log.Debug("In Loop...");
                     CharacterBody injured = victim.GetComponent<CharacterBody>();
-                    Log.Debug("got injured... " + injured.name);
                     int grabCount = injured.inventory.GetItemCount(item);
-                    Log.Debug("grabCount... " + grabCount);
                     if (grabCount > 0)
                     {
-                        Log.Debug("...");
                         injured.AddTimedBuff(RoR2Content.Buffs.LunarSecondaryRoot, 2f * grabCount);
-                        
-                        Log.Debug("... Done?");
                     }
                 }
             }
             catch (NullReferenceException)
             {
-                Log.Warning("What Hit?");
+                Log.Warning("What Dream Hit?");
+                Log.Debug("Victum " + victim.name);
+                Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
+                Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);
+                Log.Debug("Damage rejected? " + damageInfo.rejected);
             }
             orig(self, damageInfo, victim);
         }

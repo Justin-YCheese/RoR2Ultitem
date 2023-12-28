@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using System.Linq;
 using UnityEngine;
 
 namespace UltitemsCyan.Items
@@ -22,7 +23,7 @@ namespace UltitemsCyan.Items
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Birthday Candles");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Temporarily deal extra damage.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>30%</style> <style=cStack>(+30% per stack)</style> for <style=cIsUtility>3 minutes</style> after pickup and after the start of each stage.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>50%</style> <style=cStack>(+30% per stack)</style> for <style=cIsUtility>3 minutes</style> after pickup and after the start of each stage.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "I don't know what to get you for your birthday...");
 
             item.name = tokenPrefix + "_NAME";
@@ -87,45 +88,69 @@ namespace UltitemsCyan.Items
                 
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 // If grabcount is zero exits loop
-                for(int i = 0; i < grabCount; i++)
+                for (int i = 0; i < grabCount; i++)
                 {
                     self.AddTimedBuff(Buffs.BirthdayBuff.buff, stageStartDuration);
                 }
             }
         }
-        
+
+        /*/ Item Acquisition Order is the order of items in your inventory, so
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody obj)
+        {
+            Log.Warning("Inventory Changed my Birthday");
+            if (obj && obj.inventory.GetItemCount(item) > 0)
+            {
+                ItemIndex pickedUpItem = obj.inventory.itemAcquisitionOrder.Last();
+                Log.Debug("Last item is " + ItemCatalog.GetItemDef(pickedUpItem).name);
+                // If item is Birthday Candles
+                if (pickedUpItem == item.itemIndex)
+                {
+                    Log.Debug("Adding buff");
+                    obj.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
+                }
+            }
+        }//*/
+
+        //
         protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            //Log.Warning("Give Birthday");
+            orig(self, itemIndex, count);
+
             // If item picked up is Birthday Candles and there is a character Body
             if (self && itemIndex == item.itemIndex)
             {
+                Log.Warning("Give Birthday Candles");
                 // Log.Debug("Count Birthday Candles on Pickup: " + count);
 
+                CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((CharacterBody body2) => body2.inventory == self);
+                player.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
+
                 // Compares current inventory with all player's inventory to find the player who picked up the item
-                var instances = PlayerCharacterMasterController.instances;
-                foreach (var player in PlayerCharacterMasterController.instances)
-                {
-                    Log.Debug("Birthday Player: " + player.name);
-                    if (self.Equals(player.body.inventory))
-                    {
-                        Log.Debug("Adding buff");
-                        player.body.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
-                    }
-                }
+
+                //var instances = PlayerCharacterMasterController.instances;
+                //foreach (var player in PlayerCharacterMasterController.instances)
+                //{
+                //Log.Debug("Birthday Players: " + player.name);
+                //if (self.Equals(player.body.inventory))
+                //{
+                //Log.Debug("Adding buff");
+                //player.body.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
+                //}
+                //}
 
 
-                /*/
-                CharacterBody owner = self.GetComponentInParent<CharacterBody>(); // Doesn't get Character Body
+                //
+                //CharacterBody owner = self.GetComponentInParent<CharacterBody>(); // Doesn't get Character Body
 
-                if (owner)
-                {
-                    Log.Debug("Birthday Boy: " + owner.name);
-                    owner.AddTimedBuff(BuffHelper.candleBuff, pickUpDuration);
-                }
-                //*/
+                //if (owner)
+                //{
+                //    Log.Debug("Birthday Boy: " + owner.name);
+                //    owner.AddTimedBuff(BuffHelper.candleBuff, pickUpDuration);
+                //}
+                //
             }
-            orig(self, itemIndex, count);
-        }
+
+        }//*/
     }
 }

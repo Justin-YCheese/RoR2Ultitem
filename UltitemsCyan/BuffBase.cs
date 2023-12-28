@@ -26,8 +26,10 @@ namespace UltitemsCyan
             definition.eliteDef = null;
             definition.isHidden = isHidden;
 
-            ContentAddition.AddBuffDef(definition);
-
+            if (ContentAddition.AddBuffDef(definition))
+            {
+                Log.Warning(definition.name + " Buff Initialized");
+            };
             return definition;
         }
     }
