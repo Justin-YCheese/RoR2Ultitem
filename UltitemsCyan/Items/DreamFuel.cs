@@ -84,13 +84,13 @@ namespace UltitemsCyan.Items
         {
             if (self && self.inventory)
             {
-                self.AddItemBehavior<UltitemsDreamFuelBehaviour>(self.inventory.GetItemCount(item));
+                self.AddItemBehavior<DreamFuelBehaviour>(self.inventory.GetItemCount(item));
             }
             orig(self);
         }//*/
 
         // Speed at full health
-        public class UltitemsDreamFuelBehaviour : CharacterBody.ItemBehavior
+        public class DreamFuelBehaviour : CharacterBody.ItemBehavior
         {
             public HealthComponent healthComponent;
             private bool _isFullHealth = false;

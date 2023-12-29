@@ -43,7 +43,7 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.3.0";
+        public const string PluginVersion = "0.3.1";
 
         public static Sprite mysterySprite = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
         public static GameObject mysteryPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Mystery/PickupMystery.prefab").WaitForCompletion();
@@ -91,6 +91,10 @@ namespace UltitemsCyan
             ultitemItems.Add(new FaultyBulb());
             ultitemItems.Add(new ViralSmog());
             ultitemItems.Add(new DreamFuel());
+            ultitemItems.Add(new RustedVault());
+            ultitemItems.Add(new RustedVaultConsumed());
+            ultitemItems.Add(new ToyRobot());
+
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
 

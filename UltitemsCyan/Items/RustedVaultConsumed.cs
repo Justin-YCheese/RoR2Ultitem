@@ -1,8 +1,6 @@
 ﻿using R2API;
 using RoR2;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace UltitemsCyan.Items
 {
@@ -17,8 +15,8 @@ namespace UltitemsCyan.Items
             string tokenPrefix = "RUSTEDVAULTCONSUMED";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Rusted Vault (Broken)");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "PICK It can't protect anything anymore");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "It can't protect anything anymore");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "It can't protect anything anymore...");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "DESCRIPTION It can't protect anything anymore...");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Rusted Rusted Rusted");
 
             item.name = tokenPrefix + "_NAME";

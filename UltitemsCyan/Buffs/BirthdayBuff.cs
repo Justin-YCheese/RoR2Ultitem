@@ -30,7 +30,7 @@ namespace UltitemsCyan.Buffs
             {
                 int buffCount = sender.GetBuffCount(buff);
                 args.damageMultAdd += birthdayBuffMultiplier / 100f * buffCount;
-                Debug.Log(sender.name + "Birthday modifier: " + (birthdayBuffMultiplier / 100f * buffCount));
+                //Debug.Log(sender.name + "Birthday modifier: " + (birthdayBuffMultiplier / 100f * buffCount));
             }
         }
 
