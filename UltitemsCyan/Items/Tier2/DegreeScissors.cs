@@ -120,7 +120,7 @@ namespace UltitemsCyan.Items.Tier2
                     {
                         for (; grabCount > 0; grabCount--)
                         {
-                            int itemPos = Random.RandomRangeInt(0, length);
+                            int itemPos = Random.Range(0, length);
                             ItemDef selectedItem = consumedItems[itemPos]; // Don't need to subtract 1 from length because it excludes the max
                             // Remove 1 consumed item
                             Log.Debug("Removing " + selectedItem.name); // + " at " + itemPos);

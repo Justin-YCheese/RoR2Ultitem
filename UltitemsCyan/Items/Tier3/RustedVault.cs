@@ -97,7 +97,7 @@ namespace UltitemsCyan.Items.Tier3
                     // Give 16 different white items
                     for (int i = 0; i < quantityInVault; i++)
                     {
-                        int itemPos = Random.RandomRangeInt(0, length);
+                        int itemPos = Random.Range(0, length);
                         //Log.Debug("Random Position: " + itemPos);
                         Log.Debug("Random White found: " + ItemCatalog.GetItemDef(allWhiteItems[itemPos]).name);
                         self.inventory.GiveItem(allWhiteItems[itemPos]);

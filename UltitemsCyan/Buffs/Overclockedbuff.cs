@@ -1,7 +1,7 @@
 ﻿using R2API;
 using RoR2;
-using System.Drawing;
 using UltitemsCyan.Items.Tier2;
+using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -13,7 +13,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("GPU Buff", true, false, Color.White, Ultitems.Assets.OverclockedSprite, false);
+            buff = DefineBuff("GPU Buff", true, false, Color.white, Ultitems.Assets.OverclockedSprite, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();
