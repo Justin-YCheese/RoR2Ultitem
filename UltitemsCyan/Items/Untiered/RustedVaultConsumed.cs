@@ -2,7 +2,7 @@
 using RoR2;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Untiered
 {
 
     // TODO: check if Item classes needs to be public
@@ -42,10 +42,10 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.RustedVaultConsumedSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
-            item.canRemove = true;
+            item.canRemove = false;
             item.hidden = false;
 
             item.tags = [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist];

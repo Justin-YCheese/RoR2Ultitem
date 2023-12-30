@@ -3,7 +3,7 @@ using RoR2;
 using System;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Lunar
 {
 
     // TODO: check if Item classes needs to be public
@@ -44,7 +44,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.DreamFuelSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -70,7 +70,7 @@ namespace UltitemsCyan.Items
 
         protected void Hooks()
         {
-            
+
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
 
             //RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
@@ -147,7 +147,7 @@ namespace UltitemsCyan.Items
             {
                 // If the victum has an inventory
                 // and damage isn't rejected?
-                if (self && victim && victim.GetComponent<CharacterBody>() && victim.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT && (victim))
+                if (self && victim && victim.GetComponent<CharacterBody>() && victim.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
                 {
                     CharacterBody injured = victim.GetComponent<CharacterBody>();
                     int grabCount = injured.inventory.GetItemCount(item);

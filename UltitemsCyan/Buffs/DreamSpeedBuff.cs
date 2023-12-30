@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using UltitemsCyan.Items.Lunar;
 using UnityEngine;
 
 namespace UltitemsCyan.Buffs
@@ -11,7 +12,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Dream Fuel buff", false, false, Color.cyan, Ultitems.mysterySprite, false);
+            buff = DefineBuff("Dream Fuel buff", false, false, Color.cyan, Ultitems.Assets.DreamSpeedSprite, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();
@@ -26,7 +27,7 @@ namespace UltitemsCyan.Buffs
         {
             if (sender && sender.inventory && sender.HasBuff(buff))
             {
-                int grabCount = sender.inventory.GetItemCount(Items.DreamFuel.item);
+                int grabCount = sender.inventory.GetItemCount(DreamFuel.item);
                 args.moveSpeedMultAdd += dreamSpeedStack / 100f * grabCount;
             }
         }

@@ -1,8 +1,9 @@
 ﻿using R2API;
 using RoR2;
+using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier3
 {
 
     // TODO: check if Item classes needs to be public
@@ -42,7 +43,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.RustedVaultSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -83,7 +84,7 @@ namespace UltitemsCyan.Items
                     self.inventory.RemoveItem(item);
                     // Give Consumed vault
                     self.inventory.GiveItem(RustedVaultConsumed.item);
-                    
+
                     // Get all white items
                     ItemIndex[] allWhiteItems = new ItemIndex[ItemCatalog.tier1ItemList.Count];
                     ItemCatalog.tier1ItemList.CopyTo(allWhiteItems);

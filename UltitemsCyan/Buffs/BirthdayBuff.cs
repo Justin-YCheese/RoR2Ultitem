@@ -12,7 +12,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Birthday Candle Buff", true, false, Color.green, Ultitems.mysterySprite, false);
+            buff = DefineBuff("Birthday Candle Buff", true, false, Color.green, Ultitems.Assets.BirthdaySprite, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();

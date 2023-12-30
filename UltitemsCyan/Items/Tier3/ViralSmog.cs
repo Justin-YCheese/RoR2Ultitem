@@ -2,7 +2,7 @@
 using RoR2;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier3
 {
 
     // TODO: check if Item classes needs to be public
@@ -42,7 +42,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.ViralSmogSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -102,7 +102,7 @@ namespace UltitemsCyan.Items
                         }
                     }
                     Log.Debug("Viral Smog\nCount: " + nonCooldownBuffs + "\n"
-                        + "Speed from Virus: " + (speedPerStackStatus / 100f * nonCooldownBuffs * grabCount));
+                        + "Speed from Virus: " + speedPerStackStatus / 100f * nonCooldownBuffs * grabCount);
                     // Gives 30% speed per status per item
                     if (activeBuffLength > 0)
                     {

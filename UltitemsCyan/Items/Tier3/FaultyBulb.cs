@@ -2,7 +2,7 @@
 using RoR2;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier3
 {
 
     // TODO: check if Item classes needs to be public
@@ -41,7 +41,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.FaultyBulbSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -88,13 +88,13 @@ namespace UltitemsCyan.Items
                     // procChance = 100 - dontResetChance ^ n
                     procChance = 100f - procChance;
                     //Log.Debug("procChance: " + procChance);
-                    bool reset = Util.CheckRoll(procChance);
+                    bool reset = Util.CheckRoll(procChance, self.master.luck);
                     if (reset)
                     {
                         Log.Debug("Faulty Bulb Reseting for: " + self.name);
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
                         skill.RestockSteplike();
-                        
+
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
                     }
                 }

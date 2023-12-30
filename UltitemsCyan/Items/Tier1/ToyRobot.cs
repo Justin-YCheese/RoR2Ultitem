@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier1
 {
 
     // TODO: check if Item classes needs to be public
@@ -44,7 +44,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.ToyRobotSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -103,7 +103,7 @@ namespace UltitemsCyan.Items
                     GravitatePickup gravitatePickup = pickUp.gameObject.GetComponent<GravitatePickup>();
                     if (gravitatePickup)
                     {
-                        if(gravitatePickup.teamFilter.teamIndex == body.teamComponent.teamIndex)
+                        if (gravitatePickup.teamFilter.teamIndex == body.teamComponent.teamIndex)
                         {
                             /*/ Measure distance
                             var measureDistance = Vector3.Distance(body.transform.position, pickUp.transform.position);
@@ -136,7 +136,7 @@ namespace UltitemsCyan.Items
             public void Start()
             {
                 colliders = new List<Collider>();
-                sphereSearch = new RoR2.SphereSearch()
+                sphereSearch = new SphereSearch()
                 {
                     mask = LayerIndex.pickups.mask,
                     queryTriggerInteraction = QueryTriggerInteraction.Collide

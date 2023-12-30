@@ -3,7 +3,7 @@ using RoR2;
 using System.Linq;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier2
 {
 
     // TODO: check if Item classes needs to be public
@@ -38,7 +38,7 @@ namespace UltitemsCyan.Items
             item = ScriptableObject.CreateInstance<ItemDef>();
 
             // tokens
-            
+
             Tokens();
 
             Log.Debug("Init " + item.name);
@@ -50,7 +50,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.BirthdayCandleSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -85,7 +85,7 @@ namespace UltitemsCyan.Items
             //Log.Debug("Birthday Candles On Body Start Global");
             if (self && self.inventory)
             {
-                
+
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 // If grabcount is zero exits loop
                 for (int i = 0; i < grabCount; i++)
@@ -117,13 +117,22 @@ namespace UltitemsCyan.Items
         {
             orig(self, itemIndex, count);
 
+            /*/
+            ItemDef defineItem = ItemCatalog.GetItemDef(itemIndex);
+            Sprite itemSprite = defineItem.pickupIconSprite;
+            GameObject itemPrefab = defineItem.pickupModelPrefab;
+            Texture itemTexture = defineItem.pickupIconTexture;//*/
+
+            //Log.Debug("Sprite::: height - " + itemSprite.rect.m_Height + " width - " + itemSprite.rect.width + " bounds - " + itemSprite.bounds.ToString() + " border - " + itemSprite.border.ToString());
+            //Log.Debug("itemTexture::: name - " + itemTexture.name + " string - " + itemTexture.ToString());
+
             // If item picked up is Birthday Candles and there is a character Body
             if (self && itemIndex == item.itemIndex)
             {
                 Log.Warning("Give Birthday Candles");
                 // Log.Debug("Count Birthday Candles on Pickup: " + count);
 
-                CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((CharacterBody body2) => body2.inventory == self);
+                CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body2) => body2.inventory == self);
                 player.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
 
                 // Compares current inventory with all player's inventory to find the player who picked up the item
