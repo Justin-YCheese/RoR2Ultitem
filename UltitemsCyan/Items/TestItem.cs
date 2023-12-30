@@ -32,7 +32,7 @@ namespace UltitemsCyan.Items
             // Add text for item
             Tokens();
 
-            Log.Debug("Init " + item.name);
+            // Log.Debug("Init " + item.name);
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();

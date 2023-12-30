@@ -4,7 +4,26 @@
 Test:
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Fixed:
+- var list = ItemCatalog.tier1ItemList;
+	- Rusted Vault would never give the same white item within a run. Editing list would change ItemCatalog.tier1ItemList
+	- So instead of making a copy of the list reference, I made a seperate duplicate which won't affect ItemCatalog.tier1ItemList
+	- Also need to set ItemIndex to length of White Item Tiers "ItemIndex[] allWhiteItems = new ItemIndex[ItemCatalog.tier1ItemList.Count];"
 - Birthday Candles disabling Shrine of Blood and other damaging structures
 	- Fixed this by reworking how the damage buff was applied. Instead of upon a target taking damage and checking the attacker,
       I simply increase the attaker's stats with RecalculateStatsAPI_GetStatCoefficients while they have the buff

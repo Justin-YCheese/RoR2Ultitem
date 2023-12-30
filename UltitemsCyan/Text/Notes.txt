@@ -7,6 +7,8 @@ activeBuffsList has a length equal to all buffs in the game mostly filled with g
 
 	Other notes
 
+CharacterBody.radius indicates how close enemies need to get to attack you, when inside they do nothing
+
 For detecting standing still, you need to add an item behavior
 self.AddItemBehavior<OrichalcumItemBehavior>(self.inventory.GetItemCount(item.itemIndex));
 

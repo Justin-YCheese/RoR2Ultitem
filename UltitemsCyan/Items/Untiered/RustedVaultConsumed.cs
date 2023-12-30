@@ -1,10 +1,8 @@
 ﻿using R2API;
 using RoR2;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Untiered
 {
 
     // TODO: check if Item classes needs to be public
@@ -17,8 +15,8 @@ namespace UltitemsCyan.Items
             string tokenPrefix = "RUSTEDVAULTCONSUMED";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Rusted Vault (Broken)");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "PICK It can't protect anything anymore");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "It can't protect anything anymore");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "It can't protect anything anymore...");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "DESCRIPTION It can't protect anything anymore...");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Rusted Rusted Rusted");
 
             item.name = tokenPrefix + "_NAME";
@@ -44,10 +42,10 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.RustedVaultConsumedSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
-            item.canRemove = true;
+            item.canRemove = false;
             item.hidden = false;
 
             item.tags = [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist];

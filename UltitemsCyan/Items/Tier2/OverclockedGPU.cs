@@ -1,9 +1,8 @@
 ﻿using R2API;
 using RoR2;
-using System;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier2
 {
     // Possibly make it so that it gains 8% +2%perStack max of 32% + 40+
     // 3% +3% max of 10 stacks
@@ -16,7 +15,7 @@ namespace UltitemsCyan.Items
         public static ItemDef item;
         //private const int maxOverclockedPerStack = 6;
         private const int maxOverclocked = 10;
-        
+
         private void Tokens()
         {
             string tokenPrefix = "OVERCLOCKEDGPU";
@@ -50,7 +49,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.OverclockedGPUSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;

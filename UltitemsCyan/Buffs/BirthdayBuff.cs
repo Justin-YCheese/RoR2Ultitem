@@ -12,7 +12,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Birthday Candle Buff", true, false, Color.green, Ultitems.mysterySprite, false);
+            buff = DefineBuff("Birthday Candle Buff", true, false, Color.green, Ultitems.Assets.BirthdaySprite, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();
@@ -30,7 +30,7 @@ namespace UltitemsCyan.Buffs
             {
                 int buffCount = sender.GetBuffCount(buff);
                 args.damageMultAdd += birthdayBuffMultiplier / 100f * buffCount;
-                Debug.Log(sender.name + "Birthday modifier: " + (birthdayBuffMultiplier / 100f * buffCount));
+                //Debug.Log(sender.name + "Birthday modifier: " + (birthdayBuffMultiplier / 100f * buffCount));
             }
         }
 

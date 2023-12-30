@@ -6,40 +6,13 @@ Current:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Resolved:
+
+Severity	Code	Description	Project	File	Line	Suppression State
+Error	CS0012	The type 'MonoBehaviour' is defined in an assembly that is not referenced. You must add a reference to assembly 'UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.	UltitemsCyan	C:\Users\Bluefishracer\Documents\CodeWorkspace\VisualStudioSpace\repos\RiskOfCoding\Modding\UltitemsCyan\Ultitems.cs	152	Active
+    I had updated the Unity Modle Package which was a big mistake
+    Basically because I started this project from the boilerplate, The packages already had their data instead of getting it through package source mapping
+    So I had to add the DLL references for all the DLLs from BePinEx, and the UnityEnginge DLL found in Risk of Rain 2
 
 [Warning: Unity Log] RoR2.ItemTierDef must be instantiated using the ScriptableObject.CreateInstance method instead of new ItemTierDef.
 Trying to acess the name of the item through a method which returns the itemDef.name parameter, but error caused.

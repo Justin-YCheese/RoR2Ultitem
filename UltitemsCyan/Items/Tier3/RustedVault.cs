@@ -1,10 +1,9 @@
 ﻿using R2API;
 using RoR2;
-using System.Linq;
+using UltitemsCyan.Items.Untiered;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier3
 {
 
     // TODO: check if Item classes needs to be public
@@ -35,7 +34,7 @@ namespace UltitemsCyan.Items
             // Add text for item
             Tokens();
 
-            Log.Debug("Init " + item.name);
+            //Log.Debug("Init " + item.name);
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
@@ -44,7 +43,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.RustedVaultSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -76,7 +75,7 @@ namespace UltitemsCyan.Items
         {
             if (self && self.inventory)
             {
-                // Get number of scissors
+                // Get number of vaults
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 if (grabCount > 0)
                 {
@@ -85,16 +84,27 @@ namespace UltitemsCyan.Items
                     self.inventory.RemoveItem(item);
                     // Give Consumed vault
                     self.inventory.GiveItem(RustedVaultConsumed.item);
+
                     // Get all white items
-                    System.Collections.Generic.List<ItemIndex> allWhiteItems = ItemCatalog.tier1ItemList;
-                    int length = allWhiteItems.Count;
+                    ItemIndex[] allWhiteItems = new ItemIndex[ItemCatalog.tier1ItemList.Count];
+                    ItemCatalog.tier1ItemList.CopyTo(allWhiteItems);
+                    int length = allWhiteItems.Length;
+
+                    Log.Debug("All White Items Length: " + length);
+                    // Error Message if there aren't enough items somehow
+                    if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
+
                     // Give 16 different white items
                     for (int i = 0; i < quantityInVault; i++)
                     {
-                        int itemPos = Random.RandomRangeInt(0, length);
+                        int itemPos = Random.Range(0, length);
+                        //Log.Debug("Random Position: " + itemPos);
                         Log.Debug("Random White found: " + ItemCatalog.GetItemDef(allWhiteItems[itemPos]).name);
                         self.inventory.GiveItem(allWhiteItems[itemPos]);
-                        allWhiteItems.RemoveAt(itemPos);
+                        // erase current item and preserve last item
+                        // setting current item equal to last item and shorten length effectively moving last item to current item
+                        allWhiteItems[itemPos] = allWhiteItems[length - 1];
+                        length--;
                     }
                 }
             }

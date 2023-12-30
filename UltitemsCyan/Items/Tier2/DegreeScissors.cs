@@ -1,8 +1,9 @@
 ﻿using R2API;
 using RoR2;
+using System.Linq;
 using UnityEngine;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier2
 {
 
     // TODO: check if Item classes needs to be public
@@ -44,7 +45,7 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.DegreeScissorsSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -83,7 +84,7 @@ namespace UltitemsCyan.Items
                     Log.Warning("Scissors on body start global...");
                     // Get inventory
                     System.Collections.Generic.List<ItemIndex> itemsInInventory = self.inventory.itemAcquisitionOrder;
-                    
+
                     /*/ Print items in inventory
                     Log.Debug("Items in inventory: " + itemsInInventory.ToString());
                     foreach (ItemIndex item in itemsInInventory)
@@ -98,7 +99,7 @@ namespace UltitemsCyan.Items
                         ItemDef definition = ItemCatalog.GetItemDef(index);
                         // If item is untiered, can be removed, and not hidden
                         // Don't need to check for regenerating scrap because it is restored before this check
-                        if (definition.tier.Equals(ItemTier.NoTier) && definition.canRemove && !definition.hidden) //definition.name.ToUpper().Contains("CONSUMED") // Checking for "consumed"
+                        if (definition.tier.Equals(ItemTier.NoTier) && !definition.hidden) //definition.name.ToUpper().Contains("CONSUMED") // Checking for "consumed"
                         {
                             //Log.Debug("Adding consumed item " + definition.name);
                             consumedItems.Add(definition);
@@ -119,7 +120,7 @@ namespace UltitemsCyan.Items
                     {
                         for (; grabCount > 0; grabCount--)
                         {
-                            int itemPos = Random.RandomRangeInt(0, length);
+                            int itemPos = Random.Range(0, length);
                             ItemDef selectedItem = consumedItems[itemPos]; // Don't need to subtract 1 from length because it excludes the max
                             // Remove 1 consumed item
                             Log.Debug("Removing " + selectedItem.name); // + " at " + itemPos);
