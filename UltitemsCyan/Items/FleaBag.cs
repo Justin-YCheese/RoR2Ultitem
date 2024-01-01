@@ -1,7 +1,12 @@
-﻿using R2API;
+﻿using IL.RoR2.Orbs;
+using On.RoR2.Orbs;
+using R2API;
 using RoR2;
+using RoR2.Orbs;
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
+//using static RoR2.GenericPickupController;
 
 namespace UltitemsCyan.Items
 {
@@ -10,7 +15,7 @@ namespace UltitemsCyan.Items
     public class FleaBag : ItemBase
     {
         public static ItemDef item;
-        private const float procChance = 10f;
+        private const float procChance = 100f; //10f
         private void Tokens()
         {
             string tokenPrefix = "FLEABAG";
@@ -55,6 +60,21 @@ namespace UltitemsCyan.Items
 
             ItemAPI.Add(new CustomItem(item, displayRules));
 
+            PickupDef bagDrop = new()
+            {
+                baseColor = new Color(150, 30, 50),
+                darkColor = new Color(90, 10, 65),
+                //displayPrefab = Ultitems.mysteryPrefab,
+                dropletDisplayPrefab = Ultitems.mysteryPrefab,
+                
+            };
+
+            //RoR2.Orbs.Add(bagDrop);
+
+            //RoR2.Orbs.OrbManager.instance;
+
+            //InstantiatePrefabBehavior.Instantiate(original, Transform)
+
             // Item Functionality
             Hooks();
 
@@ -79,17 +99,13 @@ namespace UltitemsCyan.Items
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
+                        Log.Warning("FleaBag on Hit");
                         bool drop = Util.CheckRoll(procChance, inflictor.master.luck);
                         if (drop)
                         {
-                            PickupDef bagDrop = new()
-                            {
-                                baseColor = new Color(150, 30, 50),
-                                darkColor = new Color(90, 10, 65),
-                                //displayPrefab = Ultitems.mysteryPrefab,
-                                dropletDisplayPrefab = Ultitems.mysteryPrefab,
-                                
-                            };
+                            Log.Debug("dropping flea");
+                            //RoR2.BuffPickup.Instantiate(item);
+                            SpawnOrb(victim.transform.position, victim.transform.rotation, TeamComponent.GetObjectTeam(inflictor.gameObject), 1);
                         }
                     }
                 }
@@ -104,5 +120,45 @@ namespace UltitemsCyan.Items
             }
             orig(self, damageInfo, victim);
         }
+
+        public static void SpawnOrb(Vector3 position, Quaternion rotation, TeamIndex teamIndex, int itemCount)
+        {
+            int flatHealing = 16;
+            float fractionalHealing = 4f;
+            float fractionalHealingPerStack = 4f;
+
+
+            if (NetworkServer.active)
+            {
+                GameObject orb = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/HealPack"), position, rotation);
+
+                orb.GetComponent<TeamFilter>().teamIndex = teamIndex;
+                orb.GetComponentInChildren<HealthPickup>().flatHealing = flatHealing;
+                orb.GetComponentInChildren<HealthPickup>().fractionalHealing = (fractionalHealing / 100f) + (fractionalHealingPerStack / 100f * (itemCount - 1));
+
+                //var ror1style = orb.GetComponentInChildren<GravitatePickup>().gameObject.AddComponent<GravitatePickupRoR1Style>();
+
+                //ror1style.targetPosition = position + rotation * Vector3.up * 4f;
+
+                orb.GetComponent<Rigidbody>().useGravity = false;
+                orb.transform.localScale = Vector3.one * (1f + orb.GetComponentInChildren<HealthPickup>().fractionalHealing);
+
+                NetworkServer.Spawn(orb);
+            }
+        }
+
+        /*/
+        public class GravitatePickupRoR1Style : MonoBehaviour
+        {
+            public Vector3 targetPosition;
+            public Vector3 targetScale;
+            public Vector3 scaleDifference;
+            public float lastPositionDifference = Mathf.Infinity;
+            public float moveTime = 0f;
+            public float moveTimeMax = 2f;
+            public float floatTime = 0f;
+            public float floatTimeMax = 1f;
+            public bool normalBehaviour = false;
+        }//*/
     }
 }

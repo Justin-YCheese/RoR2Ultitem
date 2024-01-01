@@ -21,6 +21,7 @@ using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Reflection;
 using Unity.Audio;
+using UltitemsCyan.Items;
 
 namespace UltitemsCyan
 {
@@ -99,8 +100,6 @@ namespace UltitemsCyan
                 Log.Debug("Adding items...");
                 newBuff.Init();
             }
-
-
             Log.Debug("Buffs Done");
 
             // Add items to the game
@@ -115,10 +114,10 @@ namespace UltitemsCyan
             ultitemItems.Add(new RustedVault());
             ultitemItems.Add(new RustedVaultConsumed());
             ultitemItems.Add(new ToyRobot());
+            ultitemItems.Add(new FleaBag());
 
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
-
 
             foreach (ItemBase newItem in ultitemItems)
             {
@@ -177,20 +176,7 @@ namespace UltitemsCyan
                 {
                     Log.Warning("Null mainBundle");
                 }
-                //beltPrefab = mainBundle.LoadAsset<GameObject>("Assets/ExampleSurvivor/ExampleSurvivorAssets/mdlExampleSurvivor.prefab");
-                //if (beltPrefab == null)
-                //{
-                //    Log.Warning("Null beltPrefab");
-                //}
                 BirthdayCandleSprite = mainBundle.LoadAsset<Sprite>("BirthdayCandle");
-                if (BirthdayCandleSprite == null)
-                {
-                    Log.Debug("Null BirthdayCandle");
-                }
-                else
-                {
-                    Log.Warning("Birthday Sprite is good");
-                }
                 DegreeScissorsSprite = mainBundle.LoadAsset<Sprite>("DegreeScissors");
                 OverclockedGPUSprite = mainBundle.LoadAsset<Sprite>("OverclockedGPU");
                 FaultyBulbSprite = mainBundle.LoadAsset<Sprite>("FaultyBulb");
@@ -203,88 +189,7 @@ namespace UltitemsCyan
                 DreamSpeedSprite = mainBundle.LoadAsset<Sprite>("DreamSpeed");
                 OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
                 BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");
-                //*/
             }
         }
-
-    /*/
-    public static class Assets
-    {
-        public static AssetBundle MainAssetBundle = null;
-        public static AssetBundleProvider Provider;
-
-        public static Sprite BirthdayCandleSprite;
-        public static Sprite DegreeScissorsSprite;
-        public static Sprite OverclockedGPUSprite;
-        public static Sprite FaultyBulbSprite;
-        public static Sprite ViralSmogSprite;
-        public static Sprite DreamFuelSprite;
-        public static Sprite RustedVaultSprite;
-        public static Sprite ToyRobotSprite;
-        public static Sprite RustedVaultConsumedSprite;
-
-        public static Sprite DreamSpeedSprite;
-        public static Sprite OverclockedSprite;
-        public static Sprite BirthdaySprite;
-
-        public static void PopulateAssets()
-        {
-            Log.Warning("Populating!");
-            if (MainAssetBundle == null)
-            {
-                Log.Debug("using");
-                using (Stream assetSteam = Assembly.GetExecutingAssembly().GetManifestResourceStream("UltitemsCyan.ultitemTempBundle"))
-                {
-                    Log.Debug("bundle...");
-                    MainAssetBundle = AssetBundle.LoadFromStream(assetSteam);
-
-                    if (MainAssetBundle == null)
-                    {
-                        Log.Warning("Null Bundle");
-                    }
-
-                    Provider = new AssetBundleProvider();
-
-
-                    Log.Debug("1...");
-                    BirthdayCandleSprite = bundle.LoadAsset<Sprite>("BirthdayCandle.png");
-                    if (BirthdayCandleSprite == null)
-                    {
-                        Log.Warning("Null Birthday");
-                    }
-                    Log.Debug("2...");
-                    DegreeScissorsSprite = bundle.LoadAsset<Sprite>("DegreeScissors.png");
-                    Log.Debug("3...");
-                    OverclockedGPUSprite = bundle.LoadAsset<Sprite>("OverclockedGPU.png");
-                    Log.Debug("4...");
-                    FaultyBulbSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/FaultyBulb.png");
-                    if (FaultyBulbSprite == null)
-                    {
-                        Log.Warning("Null FaultyBulbSprite");
-                    }
-                    Log.Debug("5...");
-                    ViralSmogSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/ViralSmog.png");
-                    Log.Debug("6...");
-                    DreamFuelSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/DreamFuel.png");
-                    Log.Debug("7...");
-                    RustedVaultSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/RustedVault.png");
-                    Log.Debug("8...");
-                    ToyRobotSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/ToyRobot.png");
-                    Log.Debug("9...");
-                    RustedVaultConsumedSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/RustedVaultConsumed.png");
-
-
-                    Log.Debug("10...");
-                    DreamSpeedSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/DreamSpeed.png");
-                    Log.Debug("11...");
-                    OverclockedSprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/Overclocked.png");
-                    Log.Debug("12...");
-                    BirthdaySprite = bundle.LoadAsset<Sprite>("Assets/ExampleSurvivor/ExampleSurvivorAssets/Birthday.png");
-                    Log.Debug("13...");
-                }
-            }
-            Log.Debug("14...");
-        }
-    }//*/
-}
+    }
 }

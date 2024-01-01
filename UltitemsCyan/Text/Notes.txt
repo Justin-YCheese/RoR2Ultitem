@@ -5,7 +5,17 @@
 Util.CheckRoll() ranges from 0f to 100f
 activeBuffsList has a length equal to all buffs in the game mostly filled with garbage data, use activeBuffsListCount to get effective length
 
+
+
+
+
+
+
 	Other notes
+
+Use PickupDropletController.CreatePickupDroplet(pickupIndex, transform.position, transform.forward * 20f); for spawning items (like from chest)
+
+
 
 CharacterBody.radius indicates how close enemies need to get to attack you, when inside they do nothing
 
@@ -21,6 +31,14 @@ self.itemAcquisitionOrder.Last<ItemIndex>();
 PurchaseInteraction for chest purchase prices
 
 Run.tierXDropList to get all items which can be dropped from a chest from a tier
+
+
+
+
+
+
+
+
 
 	Other Mods
 
