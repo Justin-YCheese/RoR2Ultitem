@@ -8,7 +8,7 @@ namespace UltitemsCyan.Buffs
     {
         public static BuffDef buff;
         //private const float birthdayBuffBaseMultiplier = 0.2f;
-        private const float birthdayBuffMultiplier = 30f;
+        private const float birthdayBuffMultiplier = 32f;
 
         public override void Init()
         {

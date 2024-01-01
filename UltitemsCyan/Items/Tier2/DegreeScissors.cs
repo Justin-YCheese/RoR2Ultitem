@@ -10,15 +10,16 @@ namespace UltitemsCyan.Items.Tier2
     public class DegreeScissors : ItemBase
     {
         public static ItemDef item;
-        private const int scrapsPerScissor = 2;
+        private const int consumedPerScissor = 2;
+        private const int scrapsPerConsumed = 2;
         private void Tokens()
         {
             string tokenPrefix = "DEGREESCISSORS";
 
             // Add translation from token to string
             LanguageAPI.Add(tokenPrefix + "_NAME", "1000 Degree Scissors");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Turn consumed items into scrap.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, <style=cIsUtility>convert</style> a <style=cIsUtility>consumed</style> item into <style=cIsUtility>2 common scraps</style>. Otherwise <style=cIsUtility>convert</style> self.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Melts two consumed items into scraps. Otherwise melts itself.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, <style=cIsUtility>melts</style> two <style=cIsUtility>consumed</style> items into <style=cIsUtility>2 common scraps</style> each. If a scissor is unused, then it <style=cIsUtility>melts</style> itself.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "What's Youtube?");
 
             // Adds tokens to item
@@ -78,10 +79,10 @@ namespace UltitemsCyan.Items.Tier2
             if (self && self.inventory)
             {
                 // Get number of scissors
-                int grabCount = self.inventory.GetItemCount(item.itemIndex);
+                int grabCount = self.inventory.GetItemCount(item.itemIndex) * consumedPerScissor; // 2 consumed items per Scissor
                 if (grabCount > 0)
                 {
-                    Log.Warning("Scissors on body start global...");
+                    Log.Warning("Scissors on body start global..." + self.name);
                     // Get inventory
                     System.Collections.Generic.List<ItemIndex> itemsInInventory = self.inventory.itemAcquisitionOrder;
 
@@ -118,8 +119,9 @@ namespace UltitemsCyan.Items.Tier2
                     // for each scissors in inventory remove a random consumed item
                     if (length > 0)
                     {
-                        for (; grabCount > 0; grabCount--)
+                        while (grabCount > 0)
                         {
+                            grabCount--; // Reduce usage first incase of break
                             int itemPos = Random.Range(0, length);
                             ItemDef selectedItem = consumedItems[itemPos]; // Don't need to subtract 1 from length because it excludes the max
                             // Remove 1 consumed item
@@ -127,7 +129,7 @@ namespace UltitemsCyan.Items.Tier2
                             self.inventory.RemoveItem(selectedItem);
 
                             // Give 2 white scraps
-                            self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerScissor);
+                            self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerConsumed);
 
                             // If ran out of that consumable item in player's inventory
                             if (self.inventory.GetItemCount(selectedItem) < 1)
@@ -146,13 +148,13 @@ namespace UltitemsCyan.Items.Tier2
                         }
                     }
                     // If after cutting there are still scissors which didn't cut anything (break out of loop or no cuttable items) then consume a scissor
-                    if (grabCount > 0)
+                    if (grabCount >= consumedPerScissor)
                     {
                         Log.Debug("Scissors cuts itself");
                         // Remove a scissors (Garenteed to have at least scissors)
                         self.inventory.RemoveItem(item);
                         // Give 2 white scraps
-                        self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerScissor);
+                        self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerConsumed);
                     }
                 }
             }

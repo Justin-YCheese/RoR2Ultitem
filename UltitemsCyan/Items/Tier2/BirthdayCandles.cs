@@ -11,8 +11,8 @@ namespace UltitemsCyan.Items.Tier2
     {
         public static ItemDef item;
         // Candle Buff damage multiple is in BuffHelper
-        private const float stageStartDuration = 180f;
-        private const float pickUpDuration = 180f;
+        private const float stageStartDuration = 300f;
+        private const float pickUpDuration = 300f;
 
         // Function
         public bool inPickupAlready = false;
@@ -22,8 +22,8 @@ namespace UltitemsCyan.Items.Tier2
             string tokenPrefix = "BIRTHDAYCANDLES";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Birthday Candles");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Temporarily deal extra damage.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>50%</style> <style=cStack>(+30% per stack)</style> for <style=cIsUtility>3 minutes</style> after pickup and after the start of each stage.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Temporarily deal extra damage after pickup and at the start of each stage.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for <style=cIsUtility>5 minutes</style> after pickup and after the start of each stage.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "I don't know what to get you for your birthday...");
 
             item.name = tokenPrefix + "_NAME";

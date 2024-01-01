@@ -15,7 +15,7 @@ namespace UltitemsCyan.Items.Tier3
             string tokenPrefix = "FAULTYBULB";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Faulty Bulb");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to reset cooldown.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to reset a skill when used.");
             LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>20%</style> <style=cStack>(+20% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
 

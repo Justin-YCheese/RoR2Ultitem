@@ -79,7 +79,7 @@ namespace UltitemsCyan.Items.Tier3
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 if (grabCount > 0)
                 {
-                    Log.Warning("Rusted Vault on body start global...");
+                    Log.Warning("Rusted Vault on body start global..." + self.name);
                     // Remove a vault
                     self.inventory.RemoveItem(item);
                     // Give Consumed vault

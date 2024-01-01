@@ -15,7 +15,7 @@ namespace UltitemsCyan.Items.Tier3
             string tokenPrefix = "VIRALSMOG";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Viral Smog");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase speed per status effect.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase speed per unique status effect.");
             LanguageAPI.Add(tokenPrefix + "_DESC", "Increases <style=cIsUtility>movement speed</style> by <style=cIsUtility>25%</style> <style=cStack>(+25% per stack)</style> per <style=cIsDamage>unique status</style> you have.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Illness");
 
