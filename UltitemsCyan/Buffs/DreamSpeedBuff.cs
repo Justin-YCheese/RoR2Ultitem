@@ -8,7 +8,7 @@ namespace UltitemsCyan.Buffs
     public class DreamSpeedBuff : BuffBase
     {
         public static BuffDef buff;
-        private const float dreamSpeedStack = 120f;
+        private const float dreamSpeed = Items.Lunar.DreamFuel.dreamSpeed;
 
         public override void Init()
         {
@@ -28,7 +28,7 @@ namespace UltitemsCyan.Buffs
             if (sender && sender.inventory && sender.HasBuff(buff))
             {
                 int grabCount = sender.inventory.GetItemCount(DreamFuel.item);
-                args.moveSpeedMultAdd += dreamSpeedStack / 100f * grabCount;
+                args.moveSpeedMultAdd += dreamSpeed / 100f * grabCount;
             }
         }
     }

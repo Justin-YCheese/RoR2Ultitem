@@ -10,9 +10,11 @@ namespace UltitemsCyan.Items.Tier2
     public class BirthdayCandles : ItemBase
     {
         public static ItemDef item;
-        // Candle Buff damage multiple is in BuffHelper
         private const float stageStartDuration = 300f;
         private const float pickUpDuration = 300f;
+
+        // For Birthday Buff
+        public const float birthdayBuffMultiplier = 32f;
 
         // Function
         public bool inPickupAlready = false;

@@ -11,6 +11,9 @@ namespace UltitemsCyan.Items.Lunar
     {
         public static ItemDef item;
 
+        // For Dream Speed Buff
+        public const float dreamSpeed = 120f;
+
         private void Tokens()
         {
             string tokenPrefix = "DREAMFUEL";

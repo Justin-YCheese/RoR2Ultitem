@@ -13,8 +13,10 @@ namespace UltitemsCyan.Items.Tier2
     public class OverclockedGPU : ItemBase
     {
         public static ItemDef item;
-        //private const int maxOverclockedPerStack = 6;
         private const int maxOverclocked = 10;
+
+        // For Overclocked Buff
+        public const float buffAttackSpeedPerItem = 3f;
 
         private void Tokens()
         {

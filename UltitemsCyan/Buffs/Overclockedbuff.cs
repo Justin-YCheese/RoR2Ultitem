@@ -8,8 +8,7 @@ namespace UltitemsCyan.Buffs
     public class Overclockedbuff : BuffBase
     {
         public static BuffDef buff;
-        //private const float attackSpeedPerStack = 5f; // 8%
-        private const float attackSpeedPerItem = 3f; // 8%
+        private const float attackSpeedPerItem = Items.Tier2.OverclockedGPU.buffAttackSpeedPerItem;
 
         public override void Init()
         {
