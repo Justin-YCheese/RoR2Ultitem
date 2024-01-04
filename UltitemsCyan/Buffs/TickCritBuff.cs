@@ -1,18 +1,20 @@
 ﻿using R2API;
 using RoR2;
+using UltitemsCyan.Items;
 using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
-    public class FleaTickBuff : BuffBase
+    public class TickCritBuff : BuffBase
     {
         public static BuffDef buff;
         //private const float birthdayBuffBaseMultiplier = 0.2f;
-        private const float FleaTickMultiplier = 8f;
+        private const float baseTickMultiplier = FleaBag.baseTickMultiplier;
+        private const float tickPerStack = FleaBag.tickPerStack;
 
         public override void Init()
         {
-            buff = DefineBuff("Flea Tick Buff", true, false, Color.green, Ultitems.Assets.BirthdaySprite, false);
+            buff = DefineBuff("Tick Crit Buff", true, false, Color.green, Ultitems.Assets.BirthdaySprite, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();
@@ -29,8 +31,8 @@ namespace UltitemsCyan.Buffs
             if (sender && sender.HasBuff(buff))
             {
                 int buffCount = sender.GetBuffCount(buff);
-                Log.Debug("Flea Tick Crit Added " + (FleaTickMultiplier * buffCount));
-                args.critAdd += FleaTickMultiplier * buffCount;
+                Log.Debug("Tick Crit Added " + (baseTickMultiplier + (tickPerStack * buffCount)));
+                args.critAdd += baseTickMultiplier + (tickPerStack * buffCount);
                 //Debug.Log(sender.name + "Birthday modifier: " + (birthdayBuffMultiplier / 100f * buffCount));
             }
         }

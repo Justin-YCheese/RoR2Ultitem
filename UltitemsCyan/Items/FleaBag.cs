@@ -19,16 +19,25 @@ namespace UltitemsCyan.Items
     {
         public static ItemDef item;
         public static GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
-        //public static GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Misc/BlueprintPickup.prefab").WaitForCompletion();
+        private const float procChance = 3f;
 
-        private const float procChance = 5f; //10f
+        // For Flea Pickup
+        public const float baseBuffDuration = 15f;
+        public const float buffDurationPerItem = 0f;
+        public const int buffMaxStack = 15;
+
+        // For Tick Crit Buff
+        public const float baseTickMultiplier = 5f;
+        public const float tickPerStack = 10f;
+
         private void Tokens()
         {
+            // Fire flies?
             string tokenPrefix = "FLEABAG";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Flea Bag");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Hits can drop bags which give critical chance. Critical Strikes drop more bags.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsAttack>5%</style> chance on hit to drop a bag which gives a <style=cIsAttack>8% critical chance</style> for 8 <style=cStack>(+6 per stack)</style> seconds. <style=cIsAttack>Critical strikes</style> are twice as likely to drop a bag.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsAttack>3%</style> chance on hit to drop a bag which gives a max of <style=cIsAttack>15%</style> <style=cStack>(+10% per stack)</style> <style=cIsAttack>critical chance</style> for 15 <style=cStack>(+0 per stack)</style> seconds. <style=cIsAttack>Critical strikes</style> are triply likely to drop a bag.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Movie?");
 
             item.name = tokenPrefix + "_NAME";
@@ -153,7 +162,7 @@ namespace UltitemsCyan.Items
                 FleaPickup FleaComponent = healthComponent.gameObject.AddComponent<FleaPickup>();
 
                 //FleaPickup FleaComponent = orb.GetComponentInChildren<>().gameObject.AddComponent<FleaPickup>();
-                FleaComponent.stack = itemCount;
+                FleaComponent.amount = itemCount;
 
                 FleaComponent.baseObject = orb;
                 FleaComponent.teamFilter = orb.GetComponent<TeamFilter>();

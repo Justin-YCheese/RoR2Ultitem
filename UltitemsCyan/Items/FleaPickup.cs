@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using RoR2;
 using System;
+using UnityEngine.ProBuilder.MeshOperations;
 
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable IDE0044 // Add readonly modifier
@@ -10,41 +11,32 @@ namespace UltitemsCyan.Items
 {
     public class FleaPickup : MonoBehaviour
     {
-        // Gets used anyways
         private void OnTriggerStay(Collider other)
         {
-            //Log.Debug("On Trigger Happened!");
             if (NetworkServer.active && alive && TeamComponent.GetObjectTeam(other.gameObject) == teamFilter.teamIndex)
             {
                 CharacterBody component = other.GetComponent<CharacterBody>();
                 if (component)
                 {
-                    //TODO clear old buffs and replace with new buffs
-                    Log.Debug("Flea On Trigger Happened again! " + (buffDuration + (buffDurationPerItem * stack)));
-
-                    if(component.GetBuffCount(buffDef) < maxStack)
+                    int amountOfStacks = Math.Min(amount, maxStack);
+                    float duration = baseBuffDuration + (buffDurationPerItem * amount);
+                    Log.Debug("Flea On Trigger Happened! amount: " + amountOfStacks + " duration: " + duration);
+                    for (int i = 0; i < amountOfStacks; i++)
                     {
-                        component.AddTimedBuff(buffDef.buffIndex, buffDuration + (buffDurationPerItem * stack));
+                        Log.Debug(" . add tick " + i);
+                        component.AddTimedBuff(buffDef, duration, amountOfStacks);
                     }
-                    /*/
-                    int addedStacks = Math.Min(stack, maxStack - component.GetBuffCount(buffDef));
-                    Log.Debug("Adding " + addedStacks + " Flea Buffs");
-                    for (int i = 0; i < addedStacks; i++)
-                    {
-                        component.AddTimedBuff(buffDef.buffIndex, buffDuration);
-                    }
-                    //*/
-                        //EffectManager.SpawnEffect(pickupEffect, new EffectData { origin = transform.position }, true);
+                    //EffectManager.SpawnEffect(pickupEffect, new EffectData { origin = transform.position }, true);
                     Destroy(baseObject);
                 }
             }
         }
 
-        public BuffDef buffDef = Buffs.FleaTickBuff.buff;
-        public float buffDuration = 8f;
-        public float buffDurationPerItem = 6f;
-        public int maxStack = 15;
-        public int stack;
+        private BuffDef buffDef = Buffs.TickCritBuff.buff;
+        private float baseBuffDuration = FleaBag.baseBuffDuration;
+        private float buffDurationPerItem = FleaBag.buffDurationPerItem;
+        private int maxStack = FleaBag.buffMaxStack;
+        public int amount;
         
         public GameObject baseObject;
         public TeamFilter teamFilter;
