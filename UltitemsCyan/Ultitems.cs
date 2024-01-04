@@ -93,6 +93,7 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new BirthdayBuff());
             ultitemBuffs.Add(new DreamSpeedBuff());
             ultitemBuffs.Add(new Overclockedbuff());
+            ultitemBuffs.Add(new FleaTickBuff());
             //ultitemBuffs.Add(new ());
             foreach (BuffBase newBuff in ultitemBuffs)
             {

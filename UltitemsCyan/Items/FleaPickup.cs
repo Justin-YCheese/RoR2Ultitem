@@ -1,43 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine;
 using RoR2;
+using System;
+
+#pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable IDE0044 // Add readonly modifier
 
 namespace UltitemsCyan.Items
 {
-    // Token: 0x020005C5 RID: 1477
-    public class FealPickup : MonoBehaviour
+    public class FleaPickup : MonoBehaviour
     {
-        // Token: 0x06001AC6 RID: 6854 RVA: 0x00072EB8 File Offset: 0x000710B8
+        // Gets used anyways
         private void OnTriggerStay(Collider other)
         {
+            //Log.Debug("On Trigger Happened!");
             if (NetworkServer.active && alive && TeamComponent.GetObjectTeam(other.gameObject) == teamFilter.teamIndex)
             {
-                SkillLocator component = other.GetComponent<SkillLocator>();
+                CharacterBody component = other.GetComponent<CharacterBody>();
                 if (component)
                 {
-                    alive = false;
-                    component.ApplyAmmoPack();
-                    EffectManager.SimpleEffect(pickupEffect, base.transform.position, Quaternion.identity, true);
+                    //TODO clear old buffs and replace with new buffs
+                    Log.Debug("Flea On Trigger Happened again! " + (buffDuration + (buffDurationPerItem * stack)));
+
+                    if(component.GetBuffCount(buffDef) < maxStack)
+                    {
+                        component.AddTimedBuff(buffDef.buffIndex, buffDuration + (buffDurationPerItem * stack));
+                    }
+                    /*/
+                    int addedStacks = Math.Min(stack, maxStack - component.GetBuffCount(buffDef));
+                    Log.Debug("Adding " + addedStacks + " Flea Buffs");
+                    for (int i = 0; i < addedStacks; i++)
+                    {
+                        component.AddTimedBuff(buffDef.buffIndex, buffDuration);
+                    }
+                    //*/
+                        //EffectManager.SpawnEffect(pickupEffect, new EffectData { origin = transform.position }, true);
                     Destroy(baseObject);
                 }
             }
         }
 
-        // Token: 0x040020E6 RID: 8422
-        //[Tooltip("The base object to destroy when this pickup is consumed.")]
+        public BuffDef buffDef = Buffs.FleaTickBuff.buff;
+        public float buffDuration = 8f;
+        public float buffDurationPerItem = 6f;
+        public int maxStack = 15;
+        public int stack;
+        
         public GameObject baseObject;
-
-        // Token: 0x040020E7 RID: 8423
-        //[Tooltip("The team filter object which determines who can pick up this pack.")]
         public TeamFilter teamFilter;
-
-        // Token: 0x040020E8 RID: 8424
         public GameObject pickupEffect;
 
-        // Token: 0x040020E9 RID: 8425
         private bool alive = true;
     }
 }

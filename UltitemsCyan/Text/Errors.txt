@@ -1,9 +1,16 @@
 ﻿
 Current:
 
-
-
-
+[Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
+Stack trace:
+RoR2.BuffPickup.OnTriggerStay (UnityEngine.Collider other) (at <1d532be543be416b9db3594e4b62447d>:IL_001A)
+[Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
+Stack trace:
+UltitemsCyan.Items.FleaBag.BuffPickup_OnTriggerStay (On.RoR2.BuffPickup+orig_OnTriggerStay orig, RoR2.BuffPickup self, UnityEngine.Collider other) (at <c0e7eb97706b4dadaa83dce9af98124a>:IL_0026)
+DMD<>?1874200320.Hook<RoR2.BuffPickup::OnTriggerStay>?1321745664 (RoR2.BuffPickup , UnityEngine.Collider ) (at <305265cba9724658b23657b11ec5b621>:IL_0014)
+    Trying to get BuffPickup working.
+    While the Pickup is overlapping with another collider it throws the error
+    If buff pickup component is apart of parent object 
 
 
 Resolved:

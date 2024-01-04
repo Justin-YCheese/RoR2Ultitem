@@ -101,7 +101,7 @@ namespace UltitemsCyan.Items.Tier1
                 {
                     // Get Gravitate Pickup if it has one
                     GravitatePickup gravitatePickup = pickUp.gameObject.GetComponent<GravitatePickup>();
-                    if (gravitatePickup)
+                    if (gravitatePickup && gravitatePickup.gravitateTarget == null)
                     {
                         if (gravitatePickup.teamFilter.teamIndex == body.teamComponent.teamIndex)
                         {
@@ -113,10 +113,7 @@ namespace UltitemsCyan.Items.Tier1
                                 Log.Debug("Max distance: " + maxDistance);
                             }//*/
                             //If it does not have a gravitation target, then pull in
-                            if (gravitatePickup.gravitateTarget == null)
-                            {
-                                gravitatePickup.gravitateTarget = body.transform;
-                            }
+                            gravitatePickup.gravitateTarget = body.transform;
                             //Body team = 1f
                             //Pickup team = Player
                             //gravitatePickup.maxSpeed = 40
