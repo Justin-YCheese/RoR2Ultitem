@@ -150,17 +150,17 @@ namespace UltitemsCyan.Items
                 orb.transform.rotation = rotation;
                 orb.GetComponent<TeamFilter>().teamIndex = teamIndex;
 
-                orb.GetComponent<TrailRenderer>().startColor = new Color(1f, 0f, 0f, 1f);
-                orb.GetComponent<TrailRenderer>().endColor = new Color(0f, 0f, 1f, 0f);
+                //orb.GetComponent<TrailRenderer>().startColor = new Color(1f, 0f, 0f, 1f);
+                //orb.GetComponent<TrailRenderer>().endColor = new Color(0f, 0f, 1f, 0f);
 
-                orb.GetComponent<DestroyOnTimer>().duration = 5f;
+                //orb.GetComponent<DestroyOnTimer>().duration = 5f;
 
                 //Health Pickup
                 HealthPickup healthComponent = orb.GetComponentInChildren<HealthPickup>();
                 Log.Debug("Orb has a Health Pickup");
                 //healthComponent.flatHealing = 0;
                 //healthComponent.fractionalHealing = 0;
-                //healthComponent.alive = false;
+                healthComponent.alive = false;
                 //*/
 
                 //BuffPickup
