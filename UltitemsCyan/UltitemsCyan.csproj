@@ -433,7 +433,6 @@
 
   <ItemGroup>
     <Folder Include="Items\Void\" />
-    <Folder Include="Items\Equipment\" />
   </ItemGroup>
 
 </Project>

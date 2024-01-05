@@ -22,6 +22,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Reflection;
 using Unity.Audio;
 using UltitemsCyan.Items;
+using UltitemsCyan.Equipment;
 
 namespace UltitemsCyan
 {
@@ -117,6 +118,8 @@ namespace UltitemsCyan
             ultitemItems.Add(new ToyRobot());
             ultitemItems.Add(new FleaBag());
 
+            ultitemItems.Add(new EquipTest());
+
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
 
@@ -151,7 +154,7 @@ namespace UltitemsCyan
             public static Sprite OverclockedSprite;
             public static Sprite BirthdaySprite;
 
-            public static GameObject beltPrefab;
+            //public static GameObject beltPrefab;
 
             //A constant of the AssetBundle's name.
             public const string bundleName = "ultitembundle";
