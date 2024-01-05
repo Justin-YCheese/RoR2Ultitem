@@ -3,11 +3,13 @@ using UnityEngine.Networking;
 using RoR2;
 using System;
 using UnityEngine.ProBuilder.MeshOperations;
+using UltitemsCyan.Items.Tier1;
+
 
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable IDE0044 // Add readonly modifier
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Component
 {
     public class FleaPickup : MonoBehaviour
     {
@@ -19,7 +21,7 @@ namespace UltitemsCyan.Items
                 if (component)
                 {
                     int amountOfStacks = Math.Min(amount, maxStack);
-                    float duration = baseBuffDuration + (buffDurationPerItem * amount);
+                    float duration = baseBuffDuration + buffDurationPerItem * amount;
                     Log.Debug("Flea On Trigger Happened! amount: " + amountOfStacks + " duration: " + duration);
                     for (int i = 0; i < amountOfStacks; i++)
                     {
@@ -37,7 +39,7 @@ namespace UltitemsCyan.Items
         private float buffDurationPerItem = FleaBag.buffDurationPerItem;
         private int maxStack = FleaBag.buffMaxStack;
         public int amount;
-        
+
         public GameObject baseObject;
         public TeamFilter teamFilter;
         public GameObject pickupEffect;

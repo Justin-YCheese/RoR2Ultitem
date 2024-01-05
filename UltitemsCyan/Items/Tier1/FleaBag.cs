@@ -6,14 +6,15 @@ using RoR2;
 using RoR2.Orbs;
 using System;
 using System.ComponentModel;
+using UltitemsCyan.Component;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 //using static RoR2.GenericPickupController;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Items.Tier1
 {
-    
+
     // TODO: check if Item classes needs to be public
     public class FleaBag : ItemBase
     {
@@ -79,7 +80,7 @@ namespace UltitemsCyan.Items
                 darkColor = new Color(90, 10, 65),
                 //displayPrefab = Ultitems.mysteryPrefab,
                 dropletDisplayPrefab = Ultitems.mysteryPrefab,
-                
+
             };
 
             // Item Functionality
@@ -145,7 +146,7 @@ namespace UltitemsCyan.Items
                 {
                     Log.Debug("Orb is loaded");
                 }
-                
+
                 orb.transform.position = position;
                 orb.transform.rotation = rotation;
                 orb.GetComponent<TeamFilter>().teamIndex = teamIndex;
@@ -174,7 +175,7 @@ namespace UltitemsCyan.Items
                 FleaComponent.pickupEffect = null;
 
                 orb.GetComponent<Rigidbody>().useGravity = true;
-                orb.transform.localScale = Vector3.one * (.5f + (itemCount / 20));
+                orb.transform.localScale = Vector3.one * (.5f + itemCount / 20);
 
                 Log.Debug("Spawning orb at: " + orb.transform.position);
                 NetworkServer.Spawn(orb);
