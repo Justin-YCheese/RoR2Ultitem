@@ -97,24 +97,6 @@ namespace UltitemsCyan.Items.Tier2
             }
         }
 
-        /*/ Item Acquisition Order is the order of items in your inventory, so
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody obj)
-        {
-            Log.Warning("Inventory Changed my Birthday");
-            if (obj && obj.inventory.GetItemCount(item) > 0)
-            {
-                ItemIndex pickedUpItem = obj.inventory.itemAcquisitionOrder.Last();
-                Log.Debug("Last item is " + ItemCatalog.GetItemDef(pickedUpItem).name);
-                // If item is Birthday Candles
-                if (pickedUpItem == item.itemIndex)
-                {
-                    Log.Debug("Adding buff");
-                    obj.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
-                }
-            }
-        }//*/
-
-        //
         protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             orig(self, itemIndex, count);
@@ -136,32 +118,7 @@ namespace UltitemsCyan.Items.Tier2
 
                 CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body2) => body2.inventory == self);
                 player.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
-
-                // Compares current inventory with all player's inventory to find the player who picked up the item
-
-                //var instances = PlayerCharacterMasterController.instances;
-                //foreach (var player in PlayerCharacterMasterController.instances)
-                //{
-                //Log.Debug("Birthday Players: " + player.name);
-                //if (self.Equals(player.body.inventory))
-                //{
-                //Log.Debug("Adding buff");
-                //player.body.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
-                //}
-                //}
-
-
-                //
-                //CharacterBody owner = self.GetComponentInParent<CharacterBody>(); // Doesn't get Character Body
-
-                //if (owner)
-                //{
-                //    Log.Debug("Birthday Boy: " + owner.name);
-                //    owner.AddTimedBuff(BuffHelper.candleBuff, pickUpDuration);
-                //}
-                //
             }
-
-        }//*/
+        }
     }
 }

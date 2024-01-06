@@ -10,8 +10,8 @@ namespace UltitemsCyan.Equipment
     {
         public static EquipmentDef equipment;
 
-        private const float percentDamage = 4f;
-        private const float flatDamage = 16f;
+        private const float percentDamage = 5f;
+        private const float flatDamage = 10f;
 
         private void Tokens()
         {
@@ -19,7 +19,7 @@ namespace UltitemsCyan.Equipment
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Pot of Regolith");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Take Damage");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Take 4% of health and 16 damage towards self");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Take 10 plus 5% of your current health as damage towards yourself");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The dust is as sharp as a knife");
 
             equipment.name = tokenPrefix + "_NAME";
@@ -82,7 +82,7 @@ namespace UltitemsCyan.Equipment
                 };
                 //if (damageSelf.crit) { damageSelf.damage *= 2; }
 
-                Log.Debug("Activator damage: " + damageSelf.damage);
+                Log.Debug("Activator damage: (" + (percentDamage * activator.healthComponent.combinedHealth / 100f) + " + " + flatDamage + ")");
 
                 activator.healthComponent.TakeDamage(damageSelf);
                 //self.subcooldownTimer += 5f;

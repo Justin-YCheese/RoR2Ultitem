@@ -118,6 +118,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new ToyRobot());
             ultitemItems.Add(new FleaBag());
             //ultitemItems.Add(new XenonAmpoule());
+            ultitemItems.Add(new CremeBrulee());
 
             ultitemItems.Add(new IceCubes());
             ultitemItems.Add(new PotOfRegolith());

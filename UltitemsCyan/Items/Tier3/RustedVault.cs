@@ -10,7 +10,8 @@ namespace UltitemsCyan.Items.Tier3
     public class RustedVault : ItemBase
     {
         public static ItemDef item;
-        private const int quantityInVault = 16;
+        private const int minimumInVault = 16;
+        private const int bonusInVault = 4;
         private void Tokens()
         {
             string tokenPrefix = "RUSTEDVAULT";
@@ -91,6 +92,10 @@ namespace UltitemsCyan.Items.Tier3
                     int length = allWhiteItems.Length;
 
                     Log.Debug("All White Items Length: " + length);
+
+                    // bonus plus one because rand int not include max
+                    int quantityInVault = minimumInVault + Random.Range(0, bonusInVault + 1);
+
                     // Error Message if there aren't enough items somehow
                     if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
 
@@ -106,6 +111,8 @@ namespace UltitemsCyan.Items.Tier3
                         allWhiteItems[itemPos] = allWhiteItems[length - 1];
                         length--;
                     }
+                    //TODO Add message for number of items in vault
+
                 }
             }
         }
