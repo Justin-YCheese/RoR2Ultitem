@@ -6,18 +6,18 @@ namespace UltitemsCyan.Equipment
 {
 
     // TODO: check if Item classes needs to be public
-    public class EquipTest : EquipmentBase
+    public class IceCubes : EquipmentBase
     {
         public static EquipmentDef equipment;
 
         private void Tokens()
         {
-            string tokenPrefix = "TESX";
+            string tokenPrefix = "ICECUBES";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "a");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "b");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "c");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "d");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "9 Ice Cubes");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain Full Barrier");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Gain Barrier equal to your max health");
+            LanguageAPI.Add(tokenPrefix + "_LORE", "Alice that freezes forever");
 
             equipment.name = tokenPrefix + "_NAME";
             equipment.nameToken = tokenPrefix + "_NAME";
@@ -34,7 +34,7 @@ namespace UltitemsCyan.Equipment
 
             Log.Debug("Init " + equipment.name);
 
-            equipment.cooldown = 3f;
+            equipment.cooldown = 45f;
 
             equipment.pickupModelPrefab = Ultitems.mysteryPrefab;
             equipment.pickupIconSprite = Ultitems.mysterySprite;
@@ -53,17 +53,11 @@ namespace UltitemsCyan.Equipment
             // Item Functionality
             Hooks();
 
-            // Log.Info("Faulty Bulb Initialized");
             Log.Warning("Initialized: " + equipment.name);
         }
 
         protected void Hooks()
         {
-            //EquipmentSlot.PerformEquipmentAction += new EquipmentSlot.hook_PerformEquipmentAction(this.PerformEquipmentAction);
-            //EquipmentSlot.onServerEquipmentActivated += EquipmentSlot_onServerEquipmentActivated;
-            //On.RoR2.EquipmentSlot.OnEquipmentExecuted += EquipmentSlot_OnEquipmentExecuted;
-            //On.RoR2.EquipmentSlot.cctor += EquipmentSlot_cctor;
-            //On.RoR2.EquipmentSlot.ExecuteIfReady += EquipmentSlot_ExecuteIfReady;
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
         }
 
@@ -74,7 +68,9 @@ namespace UltitemsCyan.Equipment
             {
                 CharacterBody activator = self.characterBody;
                 Log.Warning("Test Equipment!");
-                activator.healthComponent.AddBarrier(activator.healthComponent.fullCombinedHealth);
+                activator.healthComponent.AddBarrier(activator.healthComponent.fullBarrier);
+                self.subcooldownTimer += 5f;
+                Log.Debug("Sub cooldown");
                 return true;
             }
             else
@@ -82,33 +78,5 @@ namespace UltitemsCyan.Equipment
                 return orig(self, equipmentDef);
             }
         }
-
-        private bool EquipmentSlot_ExecuteIfReady(On.RoR2.EquipmentSlot.orig_ExecuteIfReady orig, EquipmentSlot self)
-        {
-            Log.Debug(" ~ ~ ~ ExecuteIfReady testing equipment?");
-            if (self.equipmentIndex == equipment.equipmentIndex)
-            {
-                Log.Debug("My equipment is ready");
-            }
-            return orig(self);
-        }
-
-        private void EquipmentSlot_cctor(On.RoR2.EquipmentSlot.orig_cctor orig)
-        {
-            Log.Debug(" - - - cctor testing equipment?");
-            orig();
-        }
-
-        private void EquipmentSlot_OnEquipmentExecuted(On.RoR2.EquipmentSlot.orig_OnEquipmentExecuted orig, EquipmentSlot self)
-        {
-            Log.Debug("Equipment Test OnEquipmentExecuted?");
-            orig(self);
-        }
-
-        /*/
-        private void EquipmentSlot_onServerEquipmentActivated(EquipmentSlot arg1, EquipmentIndex arg2)
-        {
-            Log.Debug("Server is testing equipment?");
-        }//*/
     }
 }

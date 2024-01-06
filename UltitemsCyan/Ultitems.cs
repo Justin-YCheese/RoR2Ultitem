@@ -117,8 +117,10 @@ namespace UltitemsCyan
             ultitemItems.Add(new RustedVaultConsumed());
             ultitemItems.Add(new ToyRobot());
             ultitemItems.Add(new FleaBag());
+            //ultitemItems.Add(new XenonAmpoule());
 
-            ultitemItems.Add(new EquipTest());
+            ultitemItems.Add(new IceCubes());
+            ultitemItems.Add(new PotOfRegolith());
 
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
