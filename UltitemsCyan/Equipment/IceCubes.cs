@@ -8,6 +8,7 @@ namespace UltitemsCyan.Equipment
     // TODO: check if Item classes needs to be public
     public class IceCubes : EquipmentBase
     {
+        // Inflict Slowdown on self?
         public static EquipmentDef equipment;
         private const float fractionOfBarrier = 0.8f;
 
@@ -64,14 +65,14 @@ namespace UltitemsCyan.Equipment
 
         private bool EquipmentSlot_PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
         {
-            Log.Debug(" ! ! ! Equipment Test PerformEquipmentAction");
             if (equipmentDef == equipment)
             {
                 CharacterBody activator = self.characterBody;
-                Log.Warning("Test Equipment!");
+                
                 activator.healthComponent.AddBarrier(activator.healthComponent.fullBarrier * fractionOfBarrier);
                 //self.subcooldownTimer += 5f;
-                Log.Debug("Sub cooldown");
+                //Log.Debug("Sub cooldown");
+                Util.PlaySound("Play_item_proc_iceRingSpear", self.gameObject);
                 return true;
             }
             else

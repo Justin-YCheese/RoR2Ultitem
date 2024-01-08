@@ -15,7 +15,7 @@ using UnityEngine.Networking;
 namespace UltitemsCyan.Items.Tier1
 {
 
-    // TODO: check if Item classes needs to be public
+    // TODO: Make better sound and visuals
     public class FleaBag : ItemBase
     {
         public static ItemDef item;
@@ -38,7 +38,7 @@ namespace UltitemsCyan.Items.Tier1
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Flea Bag");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Hits can drop bags which give critical chance. Critical Strikes drop more bags.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsAttack>3%</style> chance on hit to drop a bag which gives a max of <style=cIsAttack>15%</style> <style=cStack>(+10% per stack)</style> <style=cIsAttack>critical chance</style> for 15 <style=cStack>(+0 per stack)</style> seconds. <style=cIsAttack>Critical strikes</style> are triply likely to drop a bag.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+10% per stack)</style> <style=cIsDamage>critical chance</style> for 15 <style=cStack>(+0 per stack)</style> seconds. <style=cIsDamage>Critical strikes</style> are triply likely to drop a bag.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Movie?");
 
             item.name = tokenPrefix + "_NAME";
@@ -73,15 +73,6 @@ namespace UltitemsCyan.Items.Tier1
             ItemDisplayRuleDict displayRules = new(null);
 
             ItemAPI.Add(new CustomItem(item, displayRules));
-
-            PickupDef bagDrop = new()
-            {
-                baseColor = new Color(150, 30, 50),
-                darkColor = new Color(90, 10, 65),
-                //displayPrefab = Ultitems.mysteryPrefab,
-                dropletDisplayPrefab = Ultitems.mysteryPrefab,
-
-            };
 
             // Item Functionality
             Hooks();
@@ -121,6 +112,7 @@ namespace UltitemsCyan.Items.Tier1
                         {
                             Log.Debug("dropping flea");
                             //RoR2.BuffPickup.Instantiate(item);
+                            Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
                             SpawnOrb(victim.transform.position, victim.transform.rotation, TeamComponent.GetObjectTeam(inflictor.gameObject), grabCount);
                         }
                     }

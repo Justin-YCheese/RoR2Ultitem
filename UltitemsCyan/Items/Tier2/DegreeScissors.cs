@@ -119,6 +119,7 @@ namespace UltitemsCyan.Items.Tier2
                     // for each scissors in inventory remove a random consumed item
                     if (length > 0)
                     {
+                        
                         while (grabCount > 0)
                         {
                             grabCount--; // Reduce usage first incase of break
@@ -156,6 +157,8 @@ namespace UltitemsCyan.Items.Tier2
                         // Give 2 white scraps
                         self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerConsumed);
                     }
+                    // Really doesn't need sound, can't hear anyways
+                    //Util.PlaySound("Play_merc_sword_impact", self.gameObject);
                 }
             }
         }

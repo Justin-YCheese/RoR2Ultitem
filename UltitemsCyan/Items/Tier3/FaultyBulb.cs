@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using System;
 using UnityEngine;
 
 namespace UltitemsCyan.Items.Tier3
@@ -72,8 +73,9 @@ namespace UltitemsCyan.Items.Tier3
         protected void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
         {
             //Log.Warning("Faulty Bulb On Skill Activated...");
-            if (skill && self && self.inventory)
+            if (skill && skill.skillDef.baseRechargeInterval > 0 && self && self.inventory)
             {
+                //Log.Debug("Cooldown remain: " + skill.cooldownRemaining + " Scale: " + skill.cooldownScale + " Base Interval: " + skill.skillDef.baseRechargeInterval + " Reset Cooldown?: " + skill.skillDef.resetCooldownTimerOnUse);
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 if (grabCount > 0)
                 {
@@ -84,7 +86,7 @@ namespace UltitemsCyan.Items.Tier3
                     for (int i = 0; i < grabCount; i++)
                     {
                         procChance *= dontResetFraction;
-                    }
+                    } 
                     // procChance = 100 - dontResetChance ^ n
                     procChance = 100f - procChance;
                     //Log.Debug("procChance: " + procChance);
@@ -93,9 +95,17 @@ namespace UltitemsCyan.Items.Tier3
                     {
                         Log.Debug("Faulty Bulb Reseting for: " + self.name);
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
-                        skill.RestockSteplike();
-
+                        //skill.RestockContinuous(); // Doesn't do anything?
+                        //skill.RestockSteplike();
+                        skill.ApplyAmmoPack();
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
+                        Util.PlaySound("Play_mage_m2_zap", self.gameObject);
+                        Util.PlaySound("Play_mage_m2_zap", self.gameObject);
+                        Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
+                        Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
+                        //Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
+                        //Util.PlaySound("Play_mage_m2_impact", self.gameObject);
+                        Util.PlaySound("Play_item_use_BFG_explode", self.gameObject);
                     }
                 }
             }

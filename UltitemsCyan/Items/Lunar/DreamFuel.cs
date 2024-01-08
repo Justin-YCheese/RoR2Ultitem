@@ -111,7 +111,7 @@ namespace UltitemsCyan.Items.Lunar
                         {
                             // Don't know why I would need to check for NetworkServer active
                             // This ensures that the following code only runs as the host
-                            //if (NetworkServer.active)
+                            Util.PlaySound("Play_affix_void_bug_spawn", gameObject);
                             body.AddBuff(Buffs.DreamSpeedBuff.buff);
                         }
                         else
@@ -156,6 +156,7 @@ namespace UltitemsCyan.Items.Lunar
                     int grabCount = injured.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
+                        Util.PlaySound("Play_item_lunar_secondaryReplace_explode", injured.gameObject);
                         injured.AddTimedBuff(RoR2Content.Buffs.LunarSecondaryRoot, 2f * grabCount);
                     }
                 }

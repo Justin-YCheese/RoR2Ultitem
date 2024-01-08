@@ -10,14 +10,14 @@ namespace UltitemsCyan.Items.Tier3
     public class SuesMandibles : ItemBase
     {
         public static ItemDef item;
-        private const float invincibilityDuration = 16f;
+        private const float effectDuration = 16f;
         private void Tokens()
         {
             string tokenPrefix = "SUESMANDIBLES";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Prevent death and gain invincibility. Consumed on use.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Upon a killing blow, this item will be consumed and prevent death then grant 16 seconds of invincibility.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Endure a killing blow and gain invulnerability and invisibility. Consumed on use.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealth>live on 1 health</style> with <style=cIsHealth>16 seconds</style> of <style=cIsHealth>invulnerability</style> and <style=cIsUtility>invisibility</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
 
             item.name = tokenPrefix + "_NAME";
@@ -73,13 +73,13 @@ namespace UltitemsCyan.Items.Tier3
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
             CharacterBody victim = self.GetComponent<CharacterBody>();
-            Log.Warning("Sue Took Damage: " + (bool)victim + " | " + (bool)victim.inventory + " | " + (bool)self + " | " + !damageInfo.rejected);
+            //Log.Warning("Sue Took Damage: " + (bool)victim + " | " + (bool)victim.inventory + " | " + (bool)self + " | " + !damageInfo.rejected);
             if (victim && victim.inventory && self && !damageInfo.rejected)
             {
                 int grabCount = victim.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Debug("First Take Damage: " + victim.name + " alive? " + victim.healthComponent.alive);
+                    Log.Debug("Sue First Take Damage: " + victim.name + " alive? " + victim.healthComponent.alive);
                     Log.Debug("Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage);
                     if (self.combinedHealth <= damageInfo.damage)
                     {
@@ -89,6 +89,7 @@ namespace UltitemsCyan.Items.Tier3
                         // Set killing blow to health, but leave 1 health
                         damageInfo.damage = self.combinedHealth - 1;
                         victim.AddTimedBuff(RoR2Content.Buffs.Immune, 16f);
+                        victim.AddTimedBuff(RoR2Content.Buffs.Cloak, 16f);
                         Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
                         Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
                         Util.PlaySound("Play_item_proc_phasing", victim.gameObject);

@@ -111,8 +111,9 @@ namespace UltitemsCyan.Items.Tier3
                         allWhiteItems[itemPos] = allWhiteItems[length - 1];
                         length--;
                     }
+                    Log.Debug(quantityInVault + " white items from vault");
                     //TODO Add message for number of items in vault
-
+                    //Util.PlaySound("Play_UI_podBlastDoorOpen", self.gameObject);
                 }
             }
         }

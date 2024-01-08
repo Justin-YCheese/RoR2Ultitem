@@ -87,6 +87,8 @@ namespace UltitemsCyan.Equipment
                 activator.healthComponent.TakeDamage(damageSelf);
                 //self.subcooldownTimer += 5f;
                 //Log.Debug("Sub cooldown");
+                Util.PlaySound("Play_imp_attack", activator.gameObject);
+
                 return true;
             }
             else

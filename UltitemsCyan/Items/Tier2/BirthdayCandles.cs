@@ -6,7 +6,7 @@ using UnityEngine;
 namespace UltitemsCyan.Items.Tier2
 {
 
-    // TODO: check if Item classes needs to be public
+    // Can Buff by making buff non stackable, so always give power equal to number of candles held
     public class BirthdayCandles : ItemBase
     {
         public static ItemDef item;
@@ -87,12 +87,11 @@ namespace UltitemsCyan.Items.Tier2
             //Log.Debug("Birthday Candles On Body Start Global");
             if (self && self.inventory)
             {
-
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 // If grabcount is zero exits loop
                 for (int i = 0; i < grabCount; i++)
                 {
-                    self.AddTimedBuff(Buffs.BirthdayBuff.buff, stageStartDuration);
+                    ApplyBirthday(self);
                 }
             }
         }
@@ -117,8 +116,14 @@ namespace UltitemsCyan.Items.Tier2
                 // Log.Debug("Count Birthday Candles on Pickup: " + count);
 
                 CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body2) => body2.inventory == self);
-                player.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
+                ApplyBirthday(player);
             }
+        }
+
+        protected void ApplyBirthday(CharacterBody recipient)
+        {
+            Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
+            recipient.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
         }
     }
 }

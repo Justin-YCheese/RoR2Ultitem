@@ -101,31 +101,30 @@ namespace UltitemsCyan.Items.Tier1
                 {
                     // Get Gravitate Pickup if it has one
                     GravitatePickup gravitatePickup = pickUp.gameObject.GetComponent<GravitatePickup>();
-                    if (gravitatePickup && gravitatePickup.gravitateTarget == null)
+                    if (gravitatePickup && gravitatePickup.gravitateTarget == null && gravitatePickup.teamFilter.teamIndex == body.teamComponent.teamIndex)
                     {
-                        if (gravitatePickup.teamFilter.teamIndex == body.teamComponent.teamIndex)
+
+                        //Play_bellBody_attackCreate
+
+
+
+                        //foreach ()
+                        /*/ Measure distance
+                        var measureDistance = Vector3.Distance(body.transform.position, pickUp.transform.position);
+                        if (maxDistance < measureDistance)
                         {
-                            /*/ Measure distance
-                            var measureDistance = Vector3.Distance(body.transform.position, pickUp.transform.position);
-                            if (maxDistance < measureDistance)
-                            {
-                                maxDistance = measureDistance;
-                                Log.Debug("Max distance: " + maxDistance);
-                            }//*/
-                            //If it does not have a gravitation target, then pull in
-                            gravitatePickup.gravitateTarget = body.transform;
-                            //Body team = 1f
-                            //Pickup team = Player
-                            //gravitatePickup.maxSpeed = 40
-                            //Gravitate tag: untagged
-                            // 16 - 24 -
-                        }
-                        else
-                        {
-                            Log.Warning("ToyRobot Pickup is not of same team for " + body.name +
-                                "\nGravitate Team: " + gravitatePickup.teamFilter.teamIndex +
-                                "\nBody Team: " + body.teamComponent.teamIndex);
-                        }
+                            maxDistance = measureDistance;
+                            Log.Debug("Max distance: " + maxDistance);
+                        }//*/
+
+
+                        //If it does not have a gravitation target, then pull in
+                        gravitatePickup.gravitateTarget = body.transform;
+                        //Body team = 1f
+                        //Pickup team = Player
+                        //gravitatePickup.maxSpeed = 40
+                        //Gravitate tag: untagged
+                        // 16 - 24 -
                     }
                 }
             }

@@ -96,6 +96,7 @@ namespace UltitemsCyan.Items.Tier1
                             //Log.Debug("Heal Attacker, Initial: " + inflictor.healthComponent.health);
                             inflictor.healthComponent.Heal((inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount) + flatHealing, damageInfo.procChainMask);
                             Log.Debug("Healing: " + ((inflictor.healthComponent.fullHealth * percentHealing / 100f) + flatHealing));
+                            Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
                         }
                     }
                 }
