@@ -1,11 +1,6 @@
-﻿using Epic.OnlineServices;
-using IL.RoR2.Orbs;
-using On.RoR2.Orbs;
-using R2API;
+﻿using R2API;
 using RoR2;
-using RoR2.Orbs;
 using System;
-using System.ComponentModel;
 using UltitemsCyan.Component;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -150,7 +145,7 @@ namespace UltitemsCyan.Items.Tier1
 
                 //Health Pickup
                 HealthPickup healthComponent = orb.GetComponentInChildren<HealthPickup>();
-                Log.Debug("Orb has a Health Pickup");
+                //Log.Debug("Orb has a Health Pickup");
                 //healthComponent.flatHealing = 0;
                 //healthComponent.fractionalHealing = 0;
                 healthComponent.alive = false;

@@ -10,8 +10,7 @@ namespace UltitemsCyan.Items.Tier2
     public class BirthdayCandles : ItemBase
     {
         public static ItemDef item;
-        private const float stageStartDuration = 300f;
-        private const float pickUpDuration = 300f;
+        private const float birthdayDuration = 300f;
 
         // For Birthday Buff
         public const float birthdayBuffMultiplier = 32f;
@@ -123,7 +122,7 @@ namespace UltitemsCyan.Items.Tier2
         protected void ApplyBirthday(CharacterBody recipient)
         {
             Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
-            recipient.AddTimedBuff(Buffs.BirthdayBuff.buff, pickUpDuration);
+            recipient.AddTimedBuff(Buffs.BirthdayBuff.buff, birthdayDuration);
         }
     }
 }

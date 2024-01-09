@@ -10,14 +10,14 @@ namespace UltitemsCyan.Items.Tier3
     public class SuesMandibles : ItemBase
     {
         public static ItemDef item;
-        private const float effectDuration = 16f;
+        private const float effectDuration = 24f;
         private void Tokens()
         {
             string tokenPrefix = "SUESMANDIBLES";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Endure a killing blow and gain invulnerability and invisibility. Consumed on use.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>16 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsUtility>invisibility</style>.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Endure a killing blow then gain invulnerability and disable healing. Consumed on use.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>24 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
 
             item.name = tokenPrefix + "_NAME";
@@ -72,35 +72,38 @@ namespace UltitemsCyan.Items.Tier3
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
+            orig(self, damageInfo);
             CharacterBody victim = self.GetComponent<CharacterBody>();
-            //Log.Warning("Sue Took Damage: " + (bool)victim + " | " + (bool)victim.inventory + " | " + (bool)self + " | " + !damageInfo.rejected);
-            if (victim && victim.inventory && self && !damageInfo.rejected)
+            // If dead after damage
+            if (victim && victim.inventory && self && !self.alive)
             {
                 int grabCount = victim.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Debug("Sue First Take Damage: " + victim.name + " alive? " + victim.healthComponent.alive);
-                    Log.Debug("Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage);
-                    if (self.combinedHealth <= damageInfo.damage)
-                    {
-                        Log.Warning(" ! ! ! Killing Blow ! ! ! ");
-                        victim.inventory.RemoveItem(item);
-                        victim.inventory.GiveItem(SuesMandiblesConsumed.item);
-                        // Set killing blow to health, but leave 1 health
-                        damageInfo.damage = self.combinedHealth - 1;
-                        victim.AddTimedBuff(RoR2Content.Buffs.Immune, 16f);
-                        victim.AddTimedBuff(RoR2Content.Buffs.Cloak, 16f);
-                        Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
-                        Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
-                        Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
-                        Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
-                        Util.PlaySound("Play_elite_haunt_ghost_convert", victim.gameObject);
-                        //AkSoundEngine.StopPlayingID(soundID);
-                    }
+                    Log.Warning(" ! ! ! Killing Blow ! ! ! ");
+                    Log.Debug("S Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage + " Alive? " + self.alive);
+                    
+                    // Regain one health
+                    self.health = 1;
+                    
+                    // Trade Items
+                    victim.inventory.RemoveItem(item);
+                    victim.inventory.GiveItem(SuesMandiblesConsumed.item);
+
+                    // Give Effects
+                    //self.TriggerOneShotProtection();
+                    victim.AddTimedBuff(RoR2Content.Buffs.Immune, effectDuration);
+                    victim.AddTimedBuff(RoR2Content.Buffs.HealingDisabled, effectDuration); // Adds synergy with Ben's Raincoat and Genisis Loop
+
+                    // Play Sounds
+                    Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
+                    Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
+                    Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
+                    Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
+                    Util.PlaySound("Play_elite_haunt_ghost_convert", victim.gameObject);
                 }
             }
-            orig(self, damageInfo);
-            //Log.Debug("Has Taken Damage: " + victim.name + " alive? " + victim.healthComponent.alive);
+            //Log.Debug("Bye Sue");
         }
     }
     /*/
