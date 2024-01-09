@@ -37,8 +37,8 @@ namespace UltitemsCyan.Items.Tier1
             string tokenPrefix = "FLEABAG";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Flea Bag");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Hits can drop bags which give critical chance. Critical Strikes drop more bags.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+10% per stack)</style> <style=cIsDamage>critical chance</style> for 15 <style=cStack>(+0 per stack)</style> seconds. <style=cIsDamage>Critical strikes</style> are triply likely to drop a bag.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance on hit to drop a tick which gives critical chance. Critical Strikes drop more ticks.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+10% per stack)</style> <style=cIsDamage>critical chance</style> for 15 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Movie?");
 
             item.name = tokenPrefix + "_NAME";
@@ -62,7 +62,7 @@ namespace UltitemsCyan.Items.Tier1
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.FleaBagSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -98,7 +98,7 @@ namespace UltitemsCyan.Items.Tier1
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
-                        Log.Warning("FleaBag on Hit");
+                        //Log.Warning("FleaBag on Hit");
                         bool drop;
                         if (damageInfo.crit)
                         {
@@ -120,11 +120,11 @@ namespace UltitemsCyan.Items.Tier1
             }
             catch (NullReferenceException)
             {
-                Log.Warning("What Flea Hit?");
-                Log.Debug("Victum " + victim.name);
-                Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
-                Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);
-                Log.Debug("Damage rejected? " + damageInfo.rejected);
+                //Log.Warning("What Flea Hit?");
+                //Log.Debug("Victum " + victim.name);
+                //Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
+                //Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);
+                //Log.Debug("Damage rejected? " + damageInfo.rejected);
             }
             orig(self, damageInfo, victim);
         }

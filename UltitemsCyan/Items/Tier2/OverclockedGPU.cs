@@ -25,7 +25,7 @@ namespace UltitemsCyan.Items.Tier2
             LanguageAPI.Add(tokenPrefix + "_NAME", "Overclocked GPU");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Increase attack speed on kill. Resets after getting hurt.");
             //LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increase <style=cIsDamage>attack speed</style> by <style=cIsDamage>5%</style>. Maximum cap of <style=cIsDamage>30%</style> <style=cStack>(+30% per stack)</style> <style=cIsDamage>attack speed</style>. Lose effect upon getting hit.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increase <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> buffs. Lose effect upon getting hit.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> buffs. Lose buff upon getting hit.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "GPU GPU");
 
             item.name = tokenPrefix + "_NAME";

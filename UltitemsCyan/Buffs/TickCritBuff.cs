@@ -14,7 +14,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Tick Crit Buff", true, false, Color.red, Ultitems.mysterySprite, false);
+            buff = DefineBuff("Tick Crit Buff", true, false, Color.white, Ultitems.Assets.TickCritSprite, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();

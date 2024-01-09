@@ -18,8 +18,8 @@ namespace UltitemsCyan.Equipment
             string tokenPrefix = "POTOFREGOLITH";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Pot of Regolith");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Take Damage");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Take 10 plus 5% of your current health as damage towards yourself");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "<style=cDeath>Take damage</style> on use.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Take <style=cIsHealth>10</style> plus <style=cIsHealth>5% of your current health</style> as <style=cIsDamage>damage</style>");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The dust is as sharp as a knife");
 
             equipment.name = tokenPrefix + "_NAME";
@@ -39,8 +39,8 @@ namespace UltitemsCyan.Equipment
 
             equipment.cooldown = 2f;
 
+            equipment.pickupIconSprite = Ultitems.Assets.PotOfRegolithSprite;
             equipment.pickupModelPrefab = Ultitems.mysteryPrefab;
-            equipment.pickupIconSprite = Ultitems.mysterySprite;
 
             equipment.appearsInSinglePlayer = true;
             equipment.appearsInMultiPlayer = true;

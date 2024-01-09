@@ -18,7 +18,7 @@ namespace UltitemsCyan.Items.Tier3
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Rusted Vault");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains white items.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>16</style> unique white items");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>16 to 20</style> unique white items");
             LanguageAPI.Add(tokenPrefix + "_LORE", "This vault is sturdy, but over time the rust will just crack it open");
 
             item.name = tokenPrefix + "_NAME";

@@ -16,7 +16,7 @@ namespace UltitemsCyan.Items.Untiered
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles (Consumed)");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Resting in pieces");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Resting in pieces");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "DESCRIPTION Resting in pieces");
             LanguageAPI.Add(tokenPrefix + "_LORE", "I don't know sue");
 
             item.name = tokenPrefix + "_NAME";
@@ -41,7 +41,7 @@ namespace UltitemsCyan.Items.Untiered
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.SuesMandiblesConsumedSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = false;

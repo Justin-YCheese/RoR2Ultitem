@@ -28,8 +28,8 @@ namespace UltitemsCyan.Items.Tier1
             string tokenPrefix = "CREMEBRULEE";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Crème Brûlée");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting high health enemies");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealth>Heal</style> for <style=cIsHealth>16</style> plus an additional <style=cIsHealth>4%</style> <style=cStack>(+4% per stack)</style> when dealing damage to enemies above <style=cIsDamage>95% health</style>");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies above 95% health.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>16</style> plus an additional <style=cIsHealing>4%</style> <style=cStack>(+4% per stack)</style> when dealing damage to enemies above <style=cIsDamage>95% health</style>");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Sugar Crust");
 
             item.name = tokenPrefix + "_NAME";
@@ -53,7 +53,7 @@ namespace UltitemsCyan.Items.Tier1
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.CremeBruleeSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -103,7 +103,7 @@ namespace UltitemsCyan.Items.Tier1
             }
             catch (NullReferenceException)
             {
-                Log.Warning("What La Creme Hit?");
+                //Log.Warning("What La Creme Hit?");
             }
             orig(self, damageInfo);
         }

@@ -17,8 +17,8 @@ namespace UltitemsCyan.Equipment
             string tokenPrefix = "ICECUBES";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "9 Ice Cubes");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain Barrier");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Gain Barrier equal to 80% of your max health");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain temporary barrier on use");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Instantly gain <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>80% of your maximum health</style>");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Alice that freezes forever");
 
             equipment.name = tokenPrefix + "_NAME";
@@ -38,8 +38,8 @@ namespace UltitemsCyan.Equipment
 
             equipment.cooldown = 60f;
 
+            equipment.pickupIconSprite = Ultitems.Assets.IceCubesSprite;
             equipment.pickupModelPrefab = Ultitems.mysteryPrefab;
-            equipment.pickupIconSprite = Ultitems.mysterySprite;
 
             equipment.appearsInSinglePlayer = true;
             equipment.appearsInMultiPlayer = true;

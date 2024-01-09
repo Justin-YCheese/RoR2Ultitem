@@ -36,8 +36,8 @@ namespace UltitemsCyan.Equipment
 
             equipment.cooldown = 3f;
 
-            equipment.pickupModelPrefab = Ultitems.mysteryPrefab;
             equipment.pickupIconSprite = Ultitems.mysterySprite;
+            equipment.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             equipment.appearsInSinglePlayer = true;
             equipment.appearsInMultiPlayer = true;

@@ -154,10 +154,18 @@ namespace UltitemsCyan
             public static Sprite RustedVaultSprite;
             public static Sprite ToyRobotSprite;
             public static Sprite RustedVaultConsumedSprite;
+            public static Sprite FleaBagSprite;
+            public static Sprite CremeBruleeSprite;
+            public static Sprite SuesMandiblesSprite;
+            public static Sprite SuesMandiblesConsumedSprite;
+
+            public static Sprite IceCubesSprite;
+            public static Sprite PotOfRegolithSprite;
 
             public static Sprite DreamSpeedSprite;
             public static Sprite OverclockedSprite;
             public static Sprite BirthdaySprite;
+            public static Sprite TickCritSprite;
 
             //public static GameObject beltPrefab;
 
@@ -194,10 +202,18 @@ namespace UltitemsCyan
                 RustedVaultSprite = mainBundle.LoadAsset<Sprite>("RustedVault");
                 ToyRobotSprite = mainBundle.LoadAsset<Sprite>("ToyRobot");
                 RustedVaultConsumedSprite = mainBundle.LoadAsset<Sprite>("RustedVaultConsumed");
+                FleaBagSprite = mainBundle.LoadAsset<Sprite>("FleaBag");
+                CremeBruleeSprite = mainBundle.LoadAsset<Sprite>("CremeBrulee");
+                SuesMandiblesSprite = mainBundle.LoadAsset<Sprite>("SuesMandibles");
+                SuesMandiblesConsumedSprite = mainBundle.LoadAsset<Sprite>("SuesMandiblesConsumed");
+
+                IceCubesSprite = mainBundle.LoadAsset<Sprite>("IceCubes");
+                PotOfRegolithSprite = mainBundle.LoadAsset<Sprite>("PotOfRegolith");
 
                 DreamSpeedSprite = mainBundle.LoadAsset<Sprite>("DreamSpeed");
                 OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
                 BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");
+                TickCritSprite = mainBundle.LoadAsset<Sprite>("TickCrit");
             }
         }
     }

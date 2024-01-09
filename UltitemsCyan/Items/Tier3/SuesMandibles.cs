@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Tier3
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Endure a killing blow and gain invulnerability and invisibility. Consumed on use.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealth>live on 1 health</style> with <style=cIsHealth>16 seconds</style> of <style=cIsHealth>invulnerability</style> and <style=cIsUtility>invisibility</style>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>16 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsUtility>invisibility</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
 
             item.name = tokenPrefix + "_NAME";
@@ -42,7 +42,7 @@ namespace UltitemsCyan.Items.Tier3
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.SuesMandiblesSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
