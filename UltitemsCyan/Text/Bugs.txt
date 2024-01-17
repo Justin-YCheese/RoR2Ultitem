@@ -2,7 +2,9 @@
 
 
 Test:
-
+- Item doesn't record transform item
+	- Running: public static ItemDef transformItem = CremeBrulee.item;
+	- Instead initialize transformItem in awake
 
 
 

@@ -12,10 +12,13 @@ namespace UltitemsCyan.Items.Void
     public class DriedHam : ItemBase
     {
         public static ItemDef item;
-        public static ItemDef transformItem = CremeBrulee.item;
+        public static ItemDef transformItem;
         private const float threshold = 35f;
         private const float percentHealing = 2f;
         private const float flatHealing = 8f;
+
+        private const bool isVoid = true;
+        //public override bool IsVoid() { return isVoid; }
 
         private void Tokens()
         {
@@ -36,7 +39,7 @@ namespace UltitemsCyan.Items.Void
         public override void Init()
         {
             item = ScriptableObject.CreateInstance<ItemDef>();
-            //transformItem = ScriptableObject.CreateInstance<ItemDef>();
+            transformItem = CremeBrulee.item;
 
             // Add text for item
             Tokens();

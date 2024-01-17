@@ -63,7 +63,7 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.5.1";
+        public const string PluginVersion = "0.5.3";
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
@@ -111,6 +111,7 @@ namespace UltitemsCyan
             Log.Debug("Buffs Done");
 
             // Add items to the game
+            // Tiered Items
             List<ItemBase> ultitemItems = [];
             //ultitems.Add(new TestItem());
             ultitemItems.Add(new BirthdayCandles());
@@ -142,8 +143,6 @@ namespace UltitemsCyan
             int k = 0;
             foreach (ItemBase newItem in ultitemItems)
             {
-                //Log.Debug("Adding " + newItem.item.name); // This cause the mod to crash. Trying to access the name of the item definition
-                //Log.Debug("Adding items...");
                 newItem.Init();
                 // If a void item (which always transforms other items) then add to corruption pair list
                 if (newItem.GetTransformItem)
@@ -165,13 +164,21 @@ namespace UltitemsCyan
         }
 
         // Add Void Pairs
-        // Add CorruptionPairs to base game corruption pairs
         public void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
         {
+
+            // Add ultiCorruptionPairs to base game corruption pairs
+            Log.Warning("Ultitem Create Void Transformations!");
+            List<ItemDef.Pair> voidPairs = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].ToList(); // Collection Expression?
+            /*/
+            Log.Debug("Base Void Items:");
+            printPairList(voidPairs);
+            //*/
             Log.Debug("My Void Items:");
             printPairList(CorruptionPairs);
-            List<ItemDef.Pair> voidPairs = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].ToList(); // Collection Expression?
+
             ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = voidPairs.Union(CorruptionPairs).ToArray();
+            Log.Debug("Error?");
             orig();
         }
 
