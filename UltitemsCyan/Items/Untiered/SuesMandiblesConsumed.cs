@@ -10,6 +10,9 @@ namespace UltitemsCyan.Items.Untiered
     {
         public static ItemDef item;
         private const float invincibilityDuration = 16f;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "SUESMANDIBLESCONSUMED";
@@ -47,7 +50,7 @@ namespace UltitemsCyan.Items.Untiered
             item.canRemove = false;
             item.hidden = false;
 
-            item.tags = [ItemTag.Utility, ItemTag.AIBlacklist];
+            item.tags = [ItemTag.Utility, ItemTag.LowHealth, ItemTag.AIBlacklist];
 
             // TODO: Turn tokens into strings
             // AddTokens();
@@ -60,6 +63,7 @@ namespace UltitemsCyan.Items.Untiered
             //Hooks();
 
             // Log.Info("Faulty Bulb Initialized");
+            GetItemDef = item;
             Log.Warning("Initialized: " + item.name);
         }
     }

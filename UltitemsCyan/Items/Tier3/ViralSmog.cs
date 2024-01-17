@@ -10,6 +10,9 @@ namespace UltitemsCyan.Items.Tier3
     {
         public static ItemDef item;
         private const float speedPerStackStatus = 25f;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "VIRALSMOG";
@@ -61,6 +64,7 @@ namespace UltitemsCyan.Items.Tier3
             Hooks();
 
             //Log.Info("Test Item Initialized");
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 

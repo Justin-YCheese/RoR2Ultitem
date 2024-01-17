@@ -1,7 +1,7 @@
 using BepInEx;
-using BepInEx.Configuration;
+
 using R2API;
-using R2API.Utils;
+
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -10,19 +10,25 @@ using System.Collections.Generic;
 using UltitemsCyan.Items.Tier1;
 using UltitemsCyan.Items.Tier2;
 using UltitemsCyan.Items.Tier3;
-//using UltitemsCyan.Items.Equipment;
 using UltitemsCyan.Items.Lunar;
-//using UltitemsCyan.Items.Void;
+using UltitemsCyan.Items.Void;
 using UltitemsCyan.Items.Untiered;
-
+using UltitemsCyan.Equipment;
 using UltitemsCyan.Buffs;
+
+using System.Linq;
+//using HarmonyLib;
+
+// Unused?
 using UnityEngine.ResourceManagement.ResourceProviders;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Reflection;
 using Unity.Audio;
-using UltitemsCyan.Items;
-using UltitemsCyan.Equipment;
+using R2API.Utils;
+using BepInEx.Configuration;
+using UltitemsCyan.Component;
+using System;
 
 namespace UltitemsCyan
 {
@@ -57,8 +63,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.3.4";
+        public const string PluginVersion = "0.5.1";
 
+        public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
 
         public static Sprite mysterySprite = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
@@ -75,17 +82,16 @@ namespace UltitemsCyan
 
         // config file
         private static ConfigFile cfgFile;
-        //*/        
+        //*/
 
         public void Awake()
         {
             // Init our logging class so that we can properly log for debugging
             Log.Init(Logger);
-
             PInfo = Info;
 
-            // Load assets
-            Log.Debug("Populating Assets...");
+            // Load assets TODO when making a final version
+            //Log.Debug("Populating Assets...");
             //Assets.PopulateAssets();
             Assets.Init();
 
@@ -99,7 +105,7 @@ namespace UltitemsCyan
             foreach (BuffBase newBuff in ultitemBuffs)
             {
                 //Log.Debug("Adding " + newItem.item.name); // This cause the mod to crash. Trying to access the name of the item definition
-                Log.Debug("Adding items...");
+                //Log.Debug("Adding buffs...");
                 newBuff.Init();
             }
             Log.Debug("Buffs Done");
@@ -110,7 +116,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new BirthdayCandles());
             ultitemItems.Add(new DegreeScissors());
             ultitemItems.Add(new OverclockedGPU());
-            ultitemItems.Add(new FaultyBulb());
+            ultitemItems.Add(new FaultyLight());
             ultitemItems.Add(new ViralSmog());
             ultitemItems.Add(new DreamFuel());
             ultitemItems.Add(new RustedVault());
@@ -119,24 +125,63 @@ namespace UltitemsCyan
             ultitemItems.Add(new FleaBag());
             //ultitemItems.Add(new XenonAmpoule());
             ultitemItems.Add(new CremeBrulee());
+            ultitemItems.Add(new KoalaSticker());
             ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new SuesMandiblesConsumed());
 
+            // Void Items
+            ultitemItems.Add(new DriedHam());
+
+            // Equipments
             ultitemItems.Add(new IceCubes());
             ultitemItems.Add(new PotOfRegolith());
 
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
 
+            int k = 0;
             foreach (ItemBase newItem in ultitemItems)
             {
                 //Log.Debug("Adding " + newItem.item.name); // This cause the mod to crash. Trying to access the name of the item definition
-                Log.Debug("Adding items...");
+                //Log.Debug("Adding items...");
                 newItem.Init();
+                // If a void item (which always transforms other items) then add to corruption pair list
+                if (newItem.GetTransformItem)
+                {
+                    //Log.Warning("Adding Void Transformation to list!");
+                    CorruptionPairs.Add(new()
+                    {
+                        itemDef1 = newItem.GetTransformItem,
+                        itemDef2 = newItem.GetItemDef,
+                    });
+                }
             }
             Log.Debug("Items Done");
 
+            // Add Void Transformations
+            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+
             Log.Warning("Ultitems Cyan Done: " + PluginVersion);
+        }
+
+        // Add Void Pairs
+        // Add CorruptionPairs to base game corruption pairs
+        public void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        {
+            Log.Debug("My Void Items:");
+            printPairList(CorruptionPairs);
+            List<ItemDef.Pair> voidPairs = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].ToList(); // Collection Expression?
+            ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = voidPairs.Union(CorruptionPairs).ToArray();
+            orig();
+        }
+
+        private void printPairList(List<ItemDef.Pair> list)
+        {
+            foreach (ItemDef.Pair pair in list)
+            {
+                Log.Debug(". " + pair.itemDef1.name + " -> " + pair.itemDef2.name);
+            }
+            Log.Debug("end");
         }
 
         //Static class for ease of access

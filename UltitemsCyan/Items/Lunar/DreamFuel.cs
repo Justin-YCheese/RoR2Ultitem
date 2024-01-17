@@ -13,7 +13,7 @@ namespace UltitemsCyan.Items.Lunar
 
         // For Dream Speed Buff
         public const float dreamSpeed = 120f;
-
+        
         private void Tokens()
         {
             string tokenPrefix = "DREAMFUEL";
@@ -68,6 +68,7 @@ namespace UltitemsCyan.Items.Lunar
 
             //Ultitems.DefDreamFuel = item;
 
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 
@@ -127,7 +128,7 @@ namespace UltitemsCyan.Items.Lunar
             {
                 if (healthComponent)
                 {
-                    IsFullHealth = healthComponent.combinedHealthFraction == 1;
+                    IsFullHealth = healthComponent.combinedHealthFraction >= 1;
                 }
             }
 

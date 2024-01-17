@@ -10,6 +10,9 @@ namespace UltitemsCyan.Items.Untiered
     {
         public static ItemDef item;
         private const int quantityInVault = 16;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "RUSTEDVAULTCONSUMED";
@@ -58,6 +61,7 @@ namespace UltitemsCyan.Items.Untiered
             // Hooks();
 
             //Log.Info("Test Item Initialized");
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
     }

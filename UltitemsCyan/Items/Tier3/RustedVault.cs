@@ -12,6 +12,9 @@ namespace UltitemsCyan.Items.Tier3
         public static ItemDef item;
         private const int minimumInVault = 16;
         private const int bonusInVault = 4;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "RUSTEDVAULT";
@@ -64,6 +67,7 @@ namespace UltitemsCyan.Items.Tier3
             Hooks();
 
             //Log.Info("Test Item Initialized");
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 

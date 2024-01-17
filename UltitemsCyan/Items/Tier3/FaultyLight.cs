@@ -7,17 +7,20 @@ namespace UltitemsCyan.Items.Tier3
 {
 
     // TODO: check if Item classes needs to be public
-    public class FaultyBulb : ItemBase
+    public class FaultyLight : ItemBase
     {
         public static ItemDef item;
-        private const float dontResetFraction = 0.8f;
+        private const float dontResetFraction = 0.65f;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
-            string tokenPrefix = "FAULTYBULB";
+            string tokenPrefix = "FAULTYLIGHT";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Faulty Bulb");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to reset a skill after its used.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>20%</style> <style=cStack>(+20% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style>.");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Faulty Light");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to reset a skill after it's used.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>35%</style> <style=cStack>(+35% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
 
             item.name = tokenPrefix + "_NAME";
@@ -62,6 +65,7 @@ namespace UltitemsCyan.Items.Tier3
             Hooks();
 
             // Log.Info("Faulty Bulb Initialized");
+            GetItemDef = item;
             Log.Warning("Initialized: " + item.name);
         }
 

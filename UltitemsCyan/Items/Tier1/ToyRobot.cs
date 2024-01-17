@@ -12,6 +12,9 @@ namespace UltitemsCyan.Items.Tier1
     public class ToyRobot : ItemBase
     {
         public static ItemDef item;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "TOYROBOT";
@@ -63,6 +66,7 @@ namespace UltitemsCyan.Items.Tier1
             // Item Functionality
             Hooks();
 
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 

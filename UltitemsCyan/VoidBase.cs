@@ -6,14 +6,10 @@ namespace UltitemsCyan
 {
 
     // TODO: check if Item classes needs to be public
-    public abstract class ItemBase
+    public abstract class VoidBase : ItemBase
     {
-        public abstract void Init();
-        public ItemDef GetItemDef { get; set; }
-        public EquipmentDef GetEquipmentDef { get; set; }
-        public ItemDef GetTransformItem { get; set; }
-        //public ItemDef transformItem;
-        //public ItemDef item;
+        
+        ItemDef item;
         //public abstract bool IsVoid();
 
         // protected abstract void Hooks();

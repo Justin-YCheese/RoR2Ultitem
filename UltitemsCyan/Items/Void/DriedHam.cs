@@ -1,30 +1,30 @@
 ﻿using R2API;
 using RoR2;
 using System;
+using UltitemsCyan.Items.Tier1;
 using UnityEngine;
 //using static RoR2.GenericPickupController;
 
-namespace UltitemsCyan.Items.Tier1
+namespace UltitemsCyan.Items.Void
 {
 
     // TODO: check if Item classes needs to be public
-    public class CremeBrulee : ItemBase
+    public class DriedHam : ItemBase
     {
         public static ItemDef item;
-        private const float threshold = 95f;
+        public static ItemDef transformItem = CremeBrulee.item;
+        private const float threshold = 35f;
         private const float percentHealing = 2f;
         private const float flatHealing = 8f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
-            string tokenPrefix = "CREMEBRULEE";
+            string tokenPrefix = "DRIEDHAM";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Crème Brûlée");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies above 95% health.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>8</style> plus an additional <style=cIsHealing>2%</style> <style=cStack>(+2% per stack)</style> when dealing damage to enemies above <style=cIsDamage>95% health</style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Sugar Crust");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Dried Ham");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 35% health.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> plus an additional <style=cIsHealing>1%</style> <style=cStack>(+1% per stack)</style> when dealing damage to enemies below <style=cIsDamage>35% health</style>");
+            LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
             item.name = tokenPrefix + "_NAME";
             item.nameToken = tokenPrefix + "_NAME";
@@ -36,13 +36,14 @@ namespace UltitemsCyan.Items.Tier1
         public override void Init()
         {
             item = ScriptableObject.CreateInstance<ItemDef>();
+            //transformItem = ScriptableObject.CreateInstance<ItemDef>();
 
             // Add text for item
             Tokens();
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
+            itd.tier = ItemTier.VoidTier1;
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
@@ -55,8 +56,21 @@ namespace UltitemsCyan.Items.Tier1
 
             item.tags = [ItemTag.Healing];
 
+            // ~ * ~ * ~ * ~ * ~ Void Stuff ~ * ~ * ~ * ~ * ~ //
+
+
+            //item.requiredExpansion = ExpansionCatalog.expansionDefs.FirstOrDefault(x => x.nameToken == "DLC1_NAME");
+            /*/
+            voidLink = new()
+            {
+                itemDef1 = transformPair,
+                itemDef2 = item
+            };//*/
+            //Ultitems.CorruptionPairs.Add(voidLink);
+
             ItemDisplayRuleDict displayRules = new(null);
 
+            
             ItemAPI.Add(new CustomItem(item, displayRules));
 
             // Item Functionality
@@ -64,6 +78,7 @@ namespace UltitemsCyan.Items.Tier1
 
             //Log.Info("Test Item Initialized");
             GetItemDef = item;
+            GetTransformItem = transformItem;
             Log.Warning(" Initialized: " + item.name);
         }
 
@@ -76,21 +91,20 @@ namespace UltitemsCyan.Items.Tier1
         {
             try
             {
-                // If the victum has an inventory
-                // and damage isn't rejected?
                 if (self && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected) // && damageInfo.damageType != DamageType.DoT
                 {
                     CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
-                        Log.Warning("La Creme health");
+                        Log.Warning("Ham health");
                         //Log.Debug("Health: " + self.health + " Combined Health: " + self.fullHealth + " Combined Fraction: " + self.combinedHealthFraction);
-                        if (self.combinedHealthFraction >= threshold / 100f)
+                        if (self.combinedHealthFraction <= threshold / 100f)
                         {
                             //Log.Debug("Heal Attacker, Initial: " + inflictor.healthComponent.health);
-                            inflictor.healthComponent.Heal((inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount) + flatHealing, damageInfo.procChainMask);
-                            Log.Debug("Healing: " + ((inflictor.healthComponent.fullHealth * percentHealing / 100f) + flatHealing));
+                            inflictor.healthComponent.Heal(inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount + flatHealing, damageInfo.procChainMask);
+                            Log.Debug("Healing: " + (inflictor.healthComponent.fullHealth * percentHealing / 100f + flatHealing));
+                            // TODO Change sound
                             Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
                         }
                     }

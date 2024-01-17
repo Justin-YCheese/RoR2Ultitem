@@ -12,6 +12,7 @@ namespace UltitemsCyan.Equipment
         public static EquipmentDef equipment;
         private const float fractionOfBarrier = 0.8f;
 
+
         private void Tokens()
         {
             string tokenPrefix = "ICECUBES";
@@ -55,6 +56,7 @@ namespace UltitemsCyan.Equipment
             // Item Functionality
             Hooks();
 
+            GetEquipmentDef = equipment;
             Log.Warning("Initialized: " + equipment.name);
         }
 

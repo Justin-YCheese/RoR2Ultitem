@@ -18,6 +18,8 @@ namespace UltitemsCyan.Items.Tier2
         // Function
         public bool inPickupAlready = false;
 
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "BIRTHDAYCANDLES";
@@ -71,6 +73,7 @@ namespace UltitemsCyan.Items.Tier2
 
             //Log.Info("Birthday Candles Initialized");
 
+            GetItemDef = item;
             Log.Warning("Initialized: " + item.name);
         }
 

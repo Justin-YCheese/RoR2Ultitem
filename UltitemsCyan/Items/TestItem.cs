@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using System;
 using UnityEngine;
 
 namespace UltitemsCyan.Items
@@ -8,7 +9,8 @@ namespace UltitemsCyan.Items
     // TODO: check if Item classes needs to be public
     public class TestItem : ItemBase
     {
-        public static ItemDef item;
+        private static ItemDef item;
+        
         private void Tokens()
         {
             string tokenPrefix = "EXAMPLE";
@@ -61,6 +63,7 @@ namespace UltitemsCyan.Items
             Hooks();
 
             //Log.Info("Test Item Initialized");
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 

@@ -12,6 +12,9 @@ namespace UltitemsCyan.Items.Tier2
         public static ItemDef item;
         private const int consumedPerScissor = 2;
         private const int scrapsPerConsumed = 2;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "DEGREESCISSORS";
@@ -19,7 +22,7 @@ namespace UltitemsCyan.Items.Tier2
             // Add translation from token to string
             LanguageAPI.Add(tokenPrefix + "_NAME", "1000 Degree Scissors");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Melts two consumed items into scraps. Otherwise melts itself.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, <style=cIsUtility>melts</style> two <style=cIsUtility>consumed</style> items into <style=cIsUtility>2 common scraps</style> each. If a scissor is unused, then it <style=cIsUtility>melts</style> itself.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, <style=cIsUtility>melts</style> two <style=cIsUtility>consumed</style> items into <style=cIsUtility>2 common scraps</style> each. If no scissor is used, then it <style=cIsUtility>melts</style> itself.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "What's Youtube?");
 
             // Adds tokens to item
@@ -66,6 +69,7 @@ namespace UltitemsCyan.Items.Tier2
             Hooks();
 
             //Log.Info("Test Item Initialized");
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 
@@ -148,10 +152,10 @@ namespace UltitemsCyan.Items.Tier2
                             }
                         }
                     }
-                    // If after cutting there are still scissors which didn't cut anything (break out of loop or no cuttable items) then consume a scissor
-                    if (grabCount >= consumedPerScissor)
+                    else
                     {
-                        Log.Debug("Scissors cuts itself");
+                        // Player doesn't have any consumed items
+                        Log.Debug(self.name + " has no consumed items: Scissors cuts itself");
                         // Remove a scissors (Garenteed to have at least scissors)
                         self.inventory.RemoveItem(item);
                         // Give 2 white scraps

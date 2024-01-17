@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using System;
 using UnityEngine;
 
 namespace UltitemsCyan.Equipment
@@ -12,7 +13,7 @@ namespace UltitemsCyan.Equipment
 
         private const float percentDamage = 5f;
         private const float flatDamage = 10f;
-
+        
         private void Tokens()
         {
             string tokenPrefix = "POTOFREGOLITH";
@@ -56,6 +57,7 @@ namespace UltitemsCyan.Equipment
             // Item Functionality
             Hooks();
 
+            GetEquipmentDef = equipment;
             Log.Warning("Initialized: " + equipment.name);
         }
 

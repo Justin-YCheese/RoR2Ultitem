@@ -18,14 +18,16 @@ namespace UltitemsCyan.Items.Tier2
         // For Overclocked Buff
         public const float buffAttackSpeedPerItem = 3f;
 
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "OVERCLOCKEDGPU";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Overclocked GPU");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase attack speed on kill. Resets after getting hurt.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase attack speed on kill. Stacks 10 times. Resets after getting hurt.");
             //LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increase <style=cIsDamage>attack speed</style> by <style=cIsDamage>5%</style>. Maximum cap of <style=cIsDamage>30%</style> <style=cStack>(+30% per stack)</style> <style=cIsDamage>attack speed</style>. Lose effect upon getting hit.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> buffs. Lose buff upon getting hit.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "GPU GPU");
 
             item.name = tokenPrefix + "_NAME";
@@ -71,6 +73,7 @@ namespace UltitemsCyan.Items.Tier2
             Hooks();
 
             //Log.Info("Test Item Initialized");
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 

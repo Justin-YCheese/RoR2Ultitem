@@ -3,24 +3,24 @@ using RoR2;
 using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 
-namespace UltitemsCyan.Items.Tier3
+namespace UltitemsCyan.Items.Tier1
 {
-
+    // Currently triggers after Sue's Mandibles
     // TODO: check if Item classes needs to be public
-    public class SuesMandibles : ItemBase
+    public class KoalaSticker : ItemBase
     {
         public static ItemDef item;
-        private const float effectDuration = 24f;
+        private const float hyperbolicPercent = 12f;
 
         private const bool isVoid = false;
         //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
-            string tokenPrefix = "SUESMANDIBLES";
+            string tokenPrefix = "KOALASTICKER";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Endure a killing blow then gain invulnerability and disable healing. Consumed on use.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>24 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Koala Sticker");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Reduce the maxinum damage you can take");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "You only take a maxinum of 90% (-12% per stack) of your health from a hit, mininum of 1.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Last Stand");
 
             item.name = tokenPrefix + "_NAME";
@@ -40,19 +40,19 @@ namespace UltitemsCyan.Items.Tier3
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier3;
+            itd.tier = ItemTier.Tier1;
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.Assets.SuesMandiblesSprite;
+            item.pickupIconSprite = Ultitems.mysterySprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
             item.hidden = false;
 
 
-            item.tags = [ItemTag.Utility, ItemTag.LowHealth];
+            item.tags = [ItemTag.Utility];
 
             // TODO: Turn tokens into strings
             // AddTokens();
@@ -76,35 +76,43 @@ namespace UltitemsCyan.Items.Tier3
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
+            float initialHealth = self.health;
+            float initialShield = self.shield;
+            float initialBarrier = self.barrier;
             orig(self, damageInfo);
             CharacterBody victim = self.GetComponent<CharacterBody>();
             // If dead after damage
-            if (victim && victim.inventory && self && !self.alive && self.health <= 0)
+            if (victim && victim.inventory && self && self.alive)
             {
                 int grabCount = victim.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Warning(" ! ! ! Killing Blow ! ! ! ");
-                    Log.Debug("S Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage + " Alive? " + self.alive);
-                    
-                    // Regain one health
-                    self.health = 1;
-                    
-                    // Trade Items
-                    victim.inventory.RemoveItem(item);
-                    victim.inventory.GiveItem(SuesMandiblesConsumed.item);
-
-                    // Give Effects
-                    //self.TriggerOneShotProtection();
-                    victim.AddTimedBuff(RoR2Content.Buffs.Immune, effectDuration);
-                    victim.AddTimedBuff(RoR2Content.Buffs.HealingDisabled, effectDuration); // Adds synergy with Ben's Raincoat and Genisis Loop
-
-                    // Play Sounds
-                    Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
-                    Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
-                    Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
-                    Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
-                    Util.PlaySound("Play_elite_haunt_ghost_convert", victim.gameObject);
+                    Log.Warning("K Initial Health: " + initialHealth + " Shield: " + initialShield + " Barrier: " + initialBarrier);
+                    Log.Debug("FullHealth: " + self.fullHealth + " fullShield: " + self.fullShield + " fullBarrier: " + self.fullBarrier + " fullCombined: " + self.fullCombinedHealth);
+                    float percent = 1 / ((hyperbolicPercent / 100 * grabCount) + 1);
+                    float maxDamage = self.fullCombinedHealth * percent;
+                    float damage = initialHealth - self.health;
+                    Log.Debug("Damage: " + damage);
+                    if (damage > maxDamage)
+                    {
+                        if (maxDamage <= initialBarrier)
+                        {
+                            self.barrier = initialBarrier - maxDamage;
+                            self.shield = self.fullShield;
+                            self.health = self.fullHealth;
+                        }
+                        else if (maxDamage <= initialBarrier + initialShield)
+                        {
+                            self.shield = initialBarrier + initialShield - maxDamage;
+                            self.health = self.fullHealth;
+                        }
+                        else
+                        {
+                            self.health = initialHealth - maxDamage;
+                        }
+                        // Floor Damage
+                        Log.Debug("MaxDamage: " + maxDamage + " NewHealth: " + self.health + " | " + self.shield + " | " + self.barrier);
+                    }
                 }
             }
             //Log.Debug("Bye Sue");

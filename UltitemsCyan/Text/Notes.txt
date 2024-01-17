@@ -5,11 +5,14 @@
 Util.CheckRoll() ranges from 0f to 100f
 activeBuffsList has a length equal to all buffs in the game mostly filled with garbage data, use activeBuffsListCount to get effective length
 
+The order that the items are initialized matters in how the hooks are ordered
 
-
-
-
-
+	Healthcomponent
+health = Current: Hp + Shield + Barrier
+fullHealth = Max: Hp
+fullBarrier = Max: Hp + Shield
+fullCombinedHealth = Max: Hp + Shield
+CombinedHealthFraction = Current: Hp + Shield + Barrier / Hp + Shield
 
 	Other notes
 

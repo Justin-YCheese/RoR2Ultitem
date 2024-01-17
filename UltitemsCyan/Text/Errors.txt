@@ -1,6 +1,50 @@
 ﻿
 Current:
 
+[Error  : Unity Log] [RoR2.Items.ContagiousItemManager] System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.NullReferenceException: Object reference not set to an instance of an object
+  at RoR2.ItemDef+Pair.GetHashCode () [0x00000] in <1d532be543be416b9db3594e4b62447d>:IL_0000 
+  at System.Collections.Generic.GenericEqualityComparer`1[T].GetHashCode (T obj) [0x0000a] in <44afb4564e9347cf99a1865351ea8f4a>:IL_000A 
+  at System.Linq.Set`1[TElement].InternalGetHashCode (TElement value) [0x00008] in <55b3683038794c198a24e8a1362bfc61>:IL_0008 
+  at System.Linq.Set`1[TElement].Find (TElement value, System.Boolean add) [0x00000] in <55b3683038794c198a24e8a1362bfc61>:IL_0000 
+  at System.Linq.Set`1[TElement].Add (TElement value) [0x00000] in <55b3683038794c198a24e8a1362bfc61>:IL_0000 
+  at System.Linq.Enumerable+<UnionIterator>d__71`1[TSource].MoveNext () [0x000cb] in <55b3683038794c198a24e8a1362bfc61>:IL_00CB 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x00072] in <55b3683038794c198a24e8a1362bfc61>:IL_0072 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0000e] in <55b3683038794c198a24e8a1362bfc61>:IL_000E 
+  at UltitemsCyan.Ultitems.ContagiousItemManager_Init (On.RoR2.Items.ContagiousItemManager+orig_Init orig) [0x00043] in <aba601505e0d418fbf1452e8de4deea9>:IL_0043 
+  at DMD<>?-469855744.Hook<RoR2.Items.ContagiousItemManager::Init>?-1479833088 () [0x00014] in <acb84da6907344f68d918ba680817391>:IL_0014 
+  at (wrapper managed-to-native) System.Reflection.MonoMethod.InternalInvoke(System.Reflection.MonoMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoMethod.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00032] in <44afb4564e9347cf99a1865351ea8f4a>:IL_0032 
+   --- End of inner exception stack trace ---
+  at System.Reflection.MonoMethod.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0004b] in <44afb4564e9347cf99a1865351ea8f4a>:IL_004B 
+  at System.Reflection.MethodBase.Invoke (System.Object obj, System.Object[] parameters) [0x00000] in <44afb4564e9347cf99a1865351ea8f4a>:IL_0000 
+  at RoR2.SystemInitializerAttribute.Execute () [0x00174] in <1d532be543be416b9db3594e4b62447d>:IL_0174 
+    Cannot Run: ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = voidPairs.Union(Ultitems.ultiCorruptionPairs).ToArray();
+    Fails when trying to access new void pair, cannot turn into array
+    Kept failing because I added the object to the Ultitems public list outside of Ultitems, So instead added Pairs within Ultitems using public get and set methods for item definitions
+
+Resolved:
+
+[Error  : Unity Log] ArgumentNullException: Value cannot be null.
+Parameter name: key
+Stack trace:
+System.Collections.Generic.Dictionary`2[TKey,TValue].FindEntry (TKey key) (at <44afb4564e9347cf99a1865351ea8f4a>:IL_0008)
+System.Collections.Generic.Dictionary`2[TKey,TValue].get_Item (TKey key) (at <44afb4564e9347cf99a1865351ea8f4a>:IL_0000)
+UltitemsCyan.Ultitems.CreateVoidTransformations () (at <3b15b82a344f46e191419b672ee89ace>:IL_0001)
+UltitemsCyan.Ultitems.Awake () (at <3b15b82a344f46e191419b672ee89ace>:IL_01D6)
+UnityEngine.GameObject:AddComponent(Type)
+BepInEx.Bootstrap.Chainloader:Start()
+FlashWindow:.cctor()
+    Cannot Run: List<ItemDef.Pair> voidPairs = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].ToList();
+    Use Harmony to set void transformations after the ItemCatalog has been made
+    (Specifically [HarmonyPrefix, HarmonyPatch(typeof(RoR2.Items.ContagiousItemManager), nameof(RoR2.Items.ContagiousItemManager.Init))])
+    Or actually use On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+    If you don't want to use an extra tool
+
+
+Compiler Error CS0433
+    0Harmony and 0Harmony20 were both refered to in my assemblies, so I went to Dependencies > Assembilies and just removed 0Harmany20
+
+
 [Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
 Stack trace:
 RoR2.BuffPickup.OnTriggerStay (UnityEngine.Collider other) (at <1d532be543be416b9db3594e4b62447d>:IL_001A)
@@ -10,16 +54,16 @@ UltitemsCyan.Items.FleaBag.BuffPickup_OnTriggerStay (On.RoR2.BuffPickup+orig_OnT
 DMD<>?1874200320.Hook<RoR2.BuffPickup::OnTriggerStay>?1321745664 (RoR2.BuffPickup , UnityEngine.Collider ) (at <305265cba9724658b23657b11ec5b621>:IL_0014)
     Trying to get BuffPickup working.
     While the Pickup is overlapping with another collider it throws the error
-    If buff pickup component is apart of parent object 
+    If buff pickup component is apart of parent object
+    Used HealthPickup prefab from monster tooth and added BuffPickup component in same spot as Health
 
-
-Resolved:
 
 Severity	Code	Description	Project	File	Line	Suppression State
 Error	CS0012	The type 'MonoBehaviour' is defined in an assembly that is not referenced. You must add a reference to assembly 'UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.	UltitemsCyan	C:\Users\Bluefishracer\Documents\CodeWorkspace\VisualStudioSpace\repos\RiskOfCoding\Modding\UltitemsCyan\Ultitems.cs	152	Active
     I had updated the Unity Modle Package which was a big mistake
     Basically because I started this project from the boilerplate, The packages already had their data instead of getting it through package source mapping
     So I had to add the DLL references for all the DLLs from BePinEx, and the UnityEnginge DLL found in Risk of Rain 2
+
 
 [Warning: Unity Log] RoR2.ItemTierDef must be instantiated using the ScriptableObject.CreateInstance method instead of new ItemTierDef.
 Trying to acess the name of the item through a method which returns the itemDef.name parameter, but error caused.

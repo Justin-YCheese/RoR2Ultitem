@@ -11,8 +11,11 @@ namespace UltitemsCyan.Items
     // TODO: check if Item classes needs to be public
     public class XenonAmpoule : ItemBase
     {
-        public static ItemDef item;
+        private static ItemDef item;
         private static GameObject shockwaveProjectile;
+
+        private const bool isVoid = false;
+        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "XENONAMPOULE";
@@ -81,6 +84,7 @@ namespace UltitemsCyan.Items
             Hooks();
 
             //Log.Info("Test Item Initialized");
+            GetItemDef = item;
             Log.Warning(" Initialized: " + item.name);
         }
 

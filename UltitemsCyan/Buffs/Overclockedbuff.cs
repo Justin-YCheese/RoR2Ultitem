@@ -8,7 +8,7 @@ namespace UltitemsCyan.Buffs
     public class Overclockedbuff : BuffBase
     {
         public static BuffDef buff;
-        private const float attackSpeedPerItem = Items.Tier2.OverclockedGPU.buffAttackSpeedPerItem;
+        private const float attackSpeedPerItem = OverclockedGPU.buffAttackSpeedPerItem;
 
         public override void Init()
         {
@@ -25,10 +25,11 @@ namespace UltitemsCyan.Buffs
 
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
         {
-            if (!(sender != null || !sender.inventory || !sender.HasBuff(buff)))
+            if (sender && sender.inventory && sender.HasBuff(buff))
             {
                 int buffCount = sender.GetBuffCount(buff);
                 int grabCount = sender.inventory.GetItemCount(OverclockedGPU.item);
+                Log.Debug("Overclocked Amount: " + (attackSpeedPerItem / 100f * grabCount * buffCount));
                 args.attackSpeedMultAdd += attackSpeedPerItem / 100f * grabCount * buffCount; //attackSpeedPerStack / 100f * buffCount;
                 //Debug.Log("Overclocked modifier: " + (attackSpeedPerItem / 100f * grabCount * buffCount));
             }
