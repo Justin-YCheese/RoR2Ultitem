@@ -91,7 +91,7 @@ namespace UltitemsCyan.Items.Tier2
             {
                 CharacterBody killer = damageReport.attackerBody;
                 int grabCount = killer.inventory.GetItemCount(item);
-                int buffCount = killer.GetBuffCount(Buffs.Overclockedbuff.buff);
+                int buffCount = killer.GetBuffCount(Buffs.OverclockedBuff.buff);
                 // If body has the item and has fewer than the max stack then add buff
                 if (grabCount > 0 && buffCount < maxOverclocked) // maxOverclockedPerStack * grabCount
                 {
@@ -106,7 +106,7 @@ namespace UltitemsCyan.Items.Tier2
                         Util.PlaySound("Play_item_proc_crowbar", killer.gameObject);
                         Util.PlaySound("Play_wDroneDeath", killer.gameObject);
                     }
-                    killer.AddBuff(Buffs.Overclockedbuff.buff);
+                    killer.AddBuff(Buffs.OverclockedBuff.buff);
                 }
             }
             // TODO check if goes in beginning or end
@@ -120,10 +120,10 @@ namespace UltitemsCyan.Items.Tier2
             if (self && victim && victim.GetComponent<CharacterBody>() && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
             {
                 CharacterBody injured = victim.GetComponent<CharacterBody>();
-                if (injured.HasBuff(Buffs.Overclockedbuff.buff))
+                if (injured.HasBuff(Buffs.OverclockedBuff.buff))
                 {
                     Util.PlaySound("Play_item_goldgat_winddown", injured.gameObject);
-                    injured.SetBuffCount(Buffs.Overclockedbuff.buff.buffIndex, 0);
+                    injured.SetBuffCount(Buffs.OverclockedBuff.buff.buffIndex, 0);
                 }
             }
             orig(self, damageInfo, victim);

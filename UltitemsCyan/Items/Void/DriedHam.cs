@@ -26,7 +26,7 @@ namespace UltitemsCyan.Items.Void
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Dried Ham");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 35% health.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> plus an additional <style=cIsHealing>1%</style> <style=cStack>(+1% per stack)</style> when dealing damage to enemies below <style=cIsDamage>35% health</style>");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> plus an additional <style=cIsHealing>1%</style> <style=cStack>(+1% per stack)</style> when dealing damage to enemies below <style=cIsDamage>35% health</style>. Corrupts all Crème Brûlée.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
             item.name = tokenPrefix + "_NAME";

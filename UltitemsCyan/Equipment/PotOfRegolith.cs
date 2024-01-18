@@ -12,7 +12,7 @@ namespace UltitemsCyan.Equipment
         public static EquipmentDef equipment;
 
         private const float percentDamage = 5f;
-        private const float flatDamage = 10f;
+        private const float flatDamage = 20f;
         
         private void Tokens()
         {

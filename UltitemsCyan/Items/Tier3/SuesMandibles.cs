@@ -96,8 +96,8 @@ namespace UltitemsCyan.Items.Tier3
 
                     // Give Effects
                     //self.TriggerOneShotProtection();
-                    victim.AddTimedBuff(RoR2Content.Buffs.Immune, effectDuration);
-                    victim.AddTimedBuff(RoR2Content.Buffs.HealingDisabled, effectDuration); // Adds synergy with Ben's Raincoat and Genisis Loop
+                    victim.AddTimedBuffAuthority(RoR2Content.Buffs.Immune.buffIndex, effectDuration);
+                    victim.AddTimedBuffAuthority(RoR2Content.Buffs.HealingDisabled.buffIndex, effectDuration); // Adds synergy with Ben's Raincoat and Genisis Loop
 
                     // Play Sounds
                     Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);

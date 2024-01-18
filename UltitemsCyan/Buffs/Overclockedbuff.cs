@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
-    public class Overclockedbuff : BuffBase
+    public class OverclockedBuff : BuffBase
     {
         public static BuffDef buff;
         private const float attackSpeedPerItem = OverclockedGPU.buffAttackSpeedPerItem;
 
         public override void Init()
         {
-            buff = DefineBuff("GPU Buff", true, false, Color.white, Ultitems.Assets.OverclockedSprite, false);
+            buff = DefineBuff("GPU Buff", true, false, Color.white, Ultitems.Assets.OverclockedSprite, false, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();

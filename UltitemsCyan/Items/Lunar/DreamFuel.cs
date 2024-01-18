@@ -1,6 +1,8 @@
 ﻿using R2API;
 using RoR2;
 using System;
+using System.Linq;
+using UltitemsCyan.Buffs;
 using UnityEngine;
 
 namespace UltitemsCyan.Items.Lunar
@@ -75,20 +77,30 @@ namespace UltitemsCyan.Items.Lunar
         protected void Hooks()
         {
 
-            On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
-
-            //RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+            //On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
+            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
         }
 
+        protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+        {
+            orig(self, itemIndex, count);
+            if (self && itemIndex == item.itemIndex)
+            {
+                // Finds the player that picked up the item
+                CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body2) => body2.inventory == self);
+                player.AddItemBehavior<DreamFuelBehaviour>(count);
+            }
+        }
 
 
-        // Detect change which may include Dream Fuel
+        /*/ Detect change which may include Dream Fuel
         protected void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
         {
-            if (self && self.inventory)
+            if (self && self.inventory )
             {
-                self.AddItemBehavior<DreamFuelBehaviour>(self.inventory.GetItemCount(item));
+                // It Deosn't matter the stack count as that is handled by the Buff
+                self.AddItemBehavior<DreamFuelBehaviour>(1);
             }
             orig(self);
         }//*/
@@ -113,11 +125,11 @@ namespace UltitemsCyan.Items.Lunar
                             // Don't know why I would need to check for NetworkServer active
                             // This ensures that the following code only runs as the host
                             Util.PlaySound("Play_affix_void_bug_spawn", gameObject);
-                            body.AddBuff(Buffs.DreamSpeedBuff.buff);
+                            body.AddBuff(DreamSpeedBuff.buff);
                         }
                         else
                         {
-                            body.RemoveBuff(Buffs.DreamSpeedBuff.buff);
+                            body.RemoveBuff(DreamSpeedBuff.buff);
                         }
                     }
                 }
@@ -137,6 +149,18 @@ namespace UltitemsCyan.Items.Lunar
                 healthComponent = GetComponent<HealthComponent>();
             }
 
+            private void OnDisable()
+            {
+                Log.Warning("Dream Fuel Disabled? TODO");
+                /*/
+                if (body)
+                {
+                    if (body.HasBuff(DreamSpeedBuff.buff))
+                    {
+                        body.RemoveBuff(DreamSpeedBuff.buff);
+                    }
+                }//*/
+            }
 
             public void OnDestroy()
             {
@@ -158,7 +182,7 @@ namespace UltitemsCyan.Items.Lunar
                     if (grabCount > 0)
                     {
                         Util.PlaySound("Play_item_lunar_secondaryReplace_explode", injured.gameObject);
-                        injured.AddTimedBuff(RoR2Content.Buffs.LunarSecondaryRoot, 2f * grabCount);
+                        injured.AddTimedBuffAuthority(RoR2Content.Buffs.LunarSecondaryRoot.buffIndex, 2f * grabCount);
                     }
                 }
             }

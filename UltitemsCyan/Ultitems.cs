@@ -63,7 +63,7 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.5.3";
+        public const string PluginVersion = "0.5.4";
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
@@ -99,8 +99,9 @@ namespace UltitemsCyan
             List<BuffBase> ultitemBuffs = [];
             ultitemBuffs.Add(new BirthdayBuff());
             ultitemBuffs.Add(new DreamSpeedBuff());
-            ultitemBuffs.Add(new Overclockedbuff());
+            ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new TickCritBuff());
+            ultitemBuffs.Add(new RottingBuff());
             //ultitemBuffs.Add(new ());
             foreach (BuffBase newBuff in ultitemBuffs)
             {
@@ -132,6 +133,7 @@ namespace UltitemsCyan
 
             // Void Items
             ultitemItems.Add(new DriedHam());
+            ultitemItems.Add(new RottenBones());
 
             // Equipments
             ultitemItems.Add(new IceCubes());
@@ -163,10 +165,13 @@ namespace UltitemsCyan
             Log.Warning("Ultitems Cyan Done: " + PluginVersion);
         }
 
+
+
+
+
         // Add Void Pairs
         public void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
         {
-
             // Add ultiCorruptionPairs to base game corruption pairs
             Log.Warning("Ultitem Create Void Transformations!");
             List<ItemDef.Pair> voidPairs = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].ToList(); // Collection Expression?

@@ -12,7 +12,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Dream Fuel buff", false, false, Color.white, Ultitems.Assets.DreamSpeedSprite, false);
+            buff = DefineBuff("Dream Fuel buff", false, false, Color.white, Ultitems.Assets.DreamSpeedSprite, false, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();

@@ -118,14 +118,18 @@ namespace UltitemsCyan.Items.Tier2
                 // Log.Debug("Count Birthday Candles on Pickup: " + count);
 
                 CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body2) => body2.inventory == self);
-                ApplyBirthday(player);
+                // If you don't have any Rotten Bones
+                if (player.inventory.GetItemCount(Void.RottenBones.item) > 0)
+                {
+                    ApplyBirthday(player);
+                }
             }
         }
 
         protected void ApplyBirthday(CharacterBody recipient)
         {
             Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
-            recipient.AddTimedBuff(Buffs.BirthdayBuff.buff, birthdayDuration);
+            recipient.AddTimedBuffAuthority(Buffs.BirthdayBuff.buff.buffIndex, birthdayDuration);
         }
     }
 }

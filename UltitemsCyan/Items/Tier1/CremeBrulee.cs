@@ -12,8 +12,8 @@ namespace UltitemsCyan.Items.Tier1
     {
         public static ItemDef item;
         private const float threshold = 95f;
-        private const float percentHealing = 2f;
-        private const float flatHealing = 8f;
+        private const float percentHealing = 4f;
+        private const float flatHealing = 16f;
 
         private const bool isVoid = false;
         //public override bool IsVoid() { return isVoid; }
@@ -23,7 +23,7 @@ namespace UltitemsCyan.Items.Tier1
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Crème Brûlée");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies above 95% health.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>8</style> plus an additional <style=cIsHealing>2%</style> <style=cStack>(+2% per stack)</style> when dealing damage to enemies above <style=cIsDamage>95% health</style>");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>16</style> plus an additional <style=cIsHealing>4%</style> <style=cStack>(+4% per stack)</style> when dealing damage to enemies above <style=cIsDamage>95% health</style>");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Sugar Crust");
 
             item.name = tokenPrefix + "_NAME";
