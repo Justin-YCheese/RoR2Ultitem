@@ -16,7 +16,7 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        public const int rotsPerItem = 5;
+        public const int rotsPerItem = 4;
         public const float rottingBuffMultiplier = 20;
         public const float rotTimeInterval = 180; // 3 minutes
         public static float stageStartTime; // measured in seconds
@@ -30,7 +30,7 @@ namespace UltitemsCyan.Items.Void
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Rotten Bones");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Deal more damage over time.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>5</style> stacks. Corrupts Birthday Candles");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. Corrupts Birthday Candles");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
             item.name = tokenPrefix + "_NAME";
@@ -78,16 +78,56 @@ namespace UltitemsCyan.Items.Void
 
         protected void Hooks()
         {
+            // TODO Add 
             Stage.onStageStartGlobal += Stage_onStageStartGlobal;
-            //CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
-            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
-            //On.RoR2.Inventory.GiveItem_ItemDef_int
+            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+            On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
+            //On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
         }
 
         private void Stage_onStageStartGlobal(Stage obj)
         {
             stageStartTime = Run.instance.time;
             Log.Warning("Rotting Starts at: " + stageStartTime);
+        }
+
+        private void CharacterBody_onBodyStartGlobal(CharacterBody self)
+        {
+            // Add Behavior to player (expectially if the full time intervals have passed)
+            if (self && self.inventory)
+            {
+                self.AddItemBehavior<RottenBonesTimedVoidBehavior>(self.inventory.GetItemCount(item));
+            }
+        }
+        private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
+        {
+            orig(self);
+            // Add Behavior to player (expectially if the full time intervals have passed)
+            if (self && self.inventory)
+            {
+                if (self.inventory.GetItemCount(item) > 0)
+                {
+                    Log.Warning("Give Rotting Bones");
+                    // If within time intervals give item behavior
+                    if (Run.instance.time < stageStartTime + (rotTimeInterval * rotsPerItem))
+                    {
+                        RottenBonesTimedVoidBehavior behavior = self.AddItemBehavior<RottenBonesTimedVoidBehavior>(self.inventory.GetItemCount(item));
+                        Log.Debug("New Bone? Intervals Passed! " + behavior.intervalsPassed);
+                        ApplyRot(self, behavior.intervalsPassed);
+                    }
+                    else
+                    {
+                        // Apply max rot
+                        Log.Debug("Pass rot Time Interval Item Pickup");
+                        ApplyRot(self, rotsPerItem);
+                    }
+                }
+                else
+                {
+                    // If player doesn't have this item anymore
+                    self.AddItemBehavior<RottenBonesTimedVoidBehavior>(0);
+                }
+            }
         }
 
         private static void ApplyRot(CharacterBody player, int intervals)
@@ -100,7 +140,7 @@ namespace UltitemsCyan.Items.Void
             }
         }
 
-        // If the player picks up the item after max intervals have passed
+        /*/ If the player picks up the item after max intervals have passed
         protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             orig(self, itemIndex, count);
@@ -113,8 +153,8 @@ namespace UltitemsCyan.Items.Void
                 if (Run.instance.time < stageStartTime + (rotTimeInterval * rotsPerItem))
                 {
                     RottenBonesTimedVoidBehavior behavior = player.AddItemBehavior<RottenBonesTimedVoidBehavior>(player.inventory.GetItemCount(item));
-                    Log.Debug("New Bone? Intervals Passed! " + behavior.IntervalsPassed);
-                    ApplyRot(player, behavior.IntervalsPassed);
+                    Log.Debug("New Bone? Intervals Passed! " + behavior.intervalsPassed);
+                    ApplyRot(player, behavior.intervalsPassed);
                 }
                 else
                 {
@@ -123,61 +163,32 @@ namespace UltitemsCyan.Items.Void
                     ApplyRot(player, rotsPerItem);
                 }
             }
-        }
+        }//*/
 
         //
         public class RottenBonesTimedVoidBehavior : CharacterBody.ItemBehavior
         {
-            private int _intervalsPassed = 0;
-            public int IntervalsPassed
-            {
-                get { return _intervalsPassed; }
-                set
-                {
-                    // If more intervals have passed than before
-                    if (_intervalsPassed != value)
-                    {
-                        _intervalsPassed = value;
-                        ApplyRot(body, _intervalsPassed);
-                    }
-                }
-            }
-
-
-            public void Start()
-            {
-                Log.Warning("Start Rotten Bones");
-            }
-            private void Awake()
-            {
-                Log.Warning("Rotten Bones AWAKE!");
-            }
-
-            private void OnEnable()
-            {
-                Log.Warning("Rotten Bones ENABELED!");
-            }
+            public int intervalsPassed = 0;
+            // Order:
+            // Awake(), Enable(), Start()
+            // Disable(), Destory()
 
             private void OnDisable()
             {
-                Log.Warning("Rotten Bones DISED!");
-            }
-
-            private void OnDestroy()
-            {
-                Log.Warning("Rotten Bones GONE! DESTRO");
+                intervalsPassed = 0;
             }
 
             private void FixedUpdate()
             {
                 float currentTime = Run.instance.time;
                 // If more intervals have passed than currently recorded
-                if (currentTime > stageStartTime + (rotTimeInterval * (IntervalsPassed + 1)))
+                if (currentTime > stageStartTime + (rotTimeInterval * (intervalsPassed + 1)))
                 {
                     //Log.Warning("Rot Math: " + (currentTime - stageStartTime) + "\t/ " + rotTimeInterval + "\t = " + (int)((currentTime - stageStartTime) / rotTimeInterval));
-                    IntervalsPassed++;
+                    intervalsPassed++;
+                    ApplyRot(body, intervalsPassed);
                     // If max rots, remove behavior by setting stacks to zero?
-                    if(IntervalsPassed >= rotsPerItem)
+                    if (intervalsPassed >= rotsPerItem)
                     {
                         Log.Debug("Pass rot Time Interval But Behavior!");
                         body.AddItemBehavior<RottenBonesTimedVoidBehavior>(0); // Not sure if removes, but at least stop FixedUpdate for this item from running

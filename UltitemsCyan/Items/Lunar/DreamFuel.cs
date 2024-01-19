@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 using System;
-using System.Linq;
 using UltitemsCyan.Buffs;
 using UnityEngine;
 
@@ -77,32 +76,22 @@ namespace UltitemsCyan.Items.Lunar
         protected void Hooks()
         {
 
-            //On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
-            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
+            On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
+
+            //RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
         }
 
-        protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
-        {
-            orig(self, itemIndex, count);
-            if (self && itemIndex == item.itemIndex)
-            {
-                // Finds the player that picked up the item
-                CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body2) => body2.inventory == self);
-                player.AddItemBehavior<DreamFuelBehaviour>(count);
-            }
-        }
 
 
-        /*/ Detect change which may include Dream Fuel
+        // Detect change which may include Dream Fuel
         protected void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
         {
-            if (self && self.inventory )
-            {
-                // It Deosn't matter the stack count as that is handled by the Buff
-                self.AddItemBehavior<DreamFuelBehaviour>(1);
-            }
             orig(self);
+            if (self && self.inventory)
+            {
+                self.AddItemBehavior<DreamFuelBehaviour>(self.inventory.GetItemCount(item));
+            }
         }//*/
 
         // Speed at full health
