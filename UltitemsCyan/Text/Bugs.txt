@@ -1,27 +1,24 @@
 ﻿Known:
 
 
+
 Test:
-- Item doesn't record transform item
-	- Running: public static ItemDef transformItem = CremeBrulee.item;
-	- Instead initialize transformItem in awake
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 Fixed:
+- Birthday Candle doubles for non local players
+	- Check for server first
+- Koala Stickers not working?
+	- Does not protect from Killing blows 
+	- Koala Doesn't check alive status of player anymore
+- Elite Enemies Exploding Players
+	- Downloaded RAM On Hit Error when trying to print attacker
+- New Bulb Error Messages
+	- Check for Inventory fixes it for Character Body Start
+- Item doesn't record transform item
+	- Running: public static ItemDef transformItem = CremeBrulee.item;
+	- Instead initialize transformItem in awake
 - var list = ItemCatalog.tier1ItemList;
 	- Rusted Vault would never give the same white item within a run. Editing list would change ItemCatalog.tier1ItemList
 	- So instead of making a copy of the list reference, I made a seperate duplicate which won't affect ItemCatalog.tier1ItemList

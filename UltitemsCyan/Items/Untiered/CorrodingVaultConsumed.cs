@@ -6,18 +6,17 @@ namespace UltitemsCyan.Items.Untiered
 {
 
     // TODO: check if Item classes needs to be public
-    public class RustedVaultConsumed : ItemBase
+    public class CorrodingVaultConsumed : ItemBase
     {
         public static ItemDef item;
-        private const int quantityInVault = 16;
 
         private const bool isVoid = false;
         //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
-            string tokenPrefix = "RUSTEDVAULTCONSUMED";
+            string tokenPrefix = "CORRODINGVAULTCONSUMED";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Rusted Vault (Broken)");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Corroding Vault (Corroded)");
             LanguageAPI.Add(tokenPrefix + "_PICK", "It can't protect anything anymore...");
             LanguageAPI.Add(tokenPrefix + "_DESC", "DESCRIPTION It can't protect anything anymore...");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Rusted Rusted Rusted");
@@ -45,7 +44,7 @@ namespace UltitemsCyan.Items.Untiered
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.Assets.RustedVaultConsumedSprite;
+            item.pickupIconSprite = Ultitems.Assets.CorrodingVaultConsumedSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = false;

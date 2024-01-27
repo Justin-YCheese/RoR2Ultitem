@@ -1,26 +1,27 @@
 ﻿using R2API;
 using RoR2;
 using System;
+using System.Linq;
 using UnityEngine;
 
-namespace UltitemsCyan.Items.Tier3
+namespace UltitemsCyan.Items.Lunar
 {
 
     // TODO: check if Item classes needs to be public
-    public class FaultyLight : ItemBase
+    public class NewBulb : ItemBase
     {
         public static ItemDef item;
-        private const float dontResetFraction = 0.65f;
+        private const float dontResetFraction = 0.50f;
 
         private const bool isVoid = false;
         //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
-            string tokenPrefix = "FAULTYLIGHT";
+            string tokenPrefix = "NEWBULB";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Faulty Light");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to reset a skill after it's used.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>35%</style> <style=cStack>(+35% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style>.");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "New Bulb");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to instantly reset a skill after it's used but triples all cooldown");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>50%</style> <style=cStack>(+50% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style> but</style> <style=cStack>(Triple all cooldowns per stack)</style>");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
 
             item.name = tokenPrefix + "_NAME";
@@ -40,12 +41,12 @@ namespace UltitemsCyan.Items.Tier3
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier3;
+            itd.tier = ItemTier.Lunar;
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.Assets.FaultyBulbSprite;
+            item.pickupIconSprite = Ultitems.Assets.NewBulbSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -72,6 +73,13 @@ namespace UltitemsCyan.Items.Tier3
         protected void Hooks()
         {
             On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
+            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+            On.RoR2.GenericSkill.CalculateFinalRechargeInterval += GenericSkill_CalculateFinalRechargeInterval;
+        }
+
+        private float GenericSkill_CalculateFinalRechargeInterval(On.RoR2.GenericSkill.orig_CalculateFinalRechargeInterval orig, GenericSkill self)
+        {
+            return self.baseRechargeInterval > 0 ? Mathf.Max(0.5f, self.baseRechargeInterval * self.cooldownScale - self.flatCooldownReduction) : 0;
         }
 
         protected void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
@@ -80,7 +88,7 @@ namespace UltitemsCyan.Items.Tier3
             if (skill && skill.skillDef.baseRechargeInterval > 0 && self && self.inventory)
             {
                 //Log.Debug("Cooldown remain: " + skill.cooldownRemaining + " Scale: " + skill.cooldownScale + " Base Interval: " + skill.skillDef.baseRechargeInterval + " Reset Cooldown?: " + skill.skillDef.resetCooldownTimerOnUse);
-                int grabCount = self.inventory.GetItemCount(item.itemIndex);
+                int grabCount = self.inventory.GetItemCount(item.itemIndex) + (int)self.master.luck; // Change Luck
                 if (grabCount > 0)
                 {
                     //Log.Debug("garbCount: " + grabCount);
@@ -91,13 +99,13 @@ namespace UltitemsCyan.Items.Tier3
                     {
                         procChance *= dontResetFraction;
                     } 
-                    // procChance = 100 - dontResetChance ^ n
+                    // fleaDropChance = 100 - dontResetChance ^ n
                     procChance = 100f - procChance;
-                    //Log.Debug("procChance: " + procChance);
-                    bool reset = Util.CheckRoll(procChance, self.master.luck);
+                    //Log.Debug("fleaDropChance: " + fleaDropChance);
+                    bool reset = Util.CheckRoll(procChance);
                     if (reset)
                     {
-                        Log.Debug("Faulty Bulb Reseting for: " + self.name);
+                        Log.Debug("New Bulb Reseting for: " + self.GetUserName());
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
                         //skill.RestockContinuous(); // Doesn't do anything?
                         //skill.RestockSteplike();
@@ -111,9 +119,32 @@ namespace UltitemsCyan.Items.Tier3
                         //Util.PlaySound("Play_mage_m2_impact", self.gameObject);
                         Util.PlaySound("Play_item_use_BFG_explode", self.gameObject);
                     }
+                    else
+                    {
+                        //Log.Debug("Cooldowb Scale for: " + self.name);
+                        //skill.cooldownScale = 2^grabCount;
+                    }
                 }
             }
             orig(self, skill);
+        }
+        private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
+        {
+            if (sender && sender.inventory)
+            {
+                int grabCount = sender.inventory.GetItemCount(item);
+                if(grabCount > 0)
+                {
+                    int increase = 1;
+                    for (int i = 0; i < grabCount;i++)
+                    {
+                        increase *= 3;
+                    }
+                    increase--;
+                    //Log.Debug("New Bulb Cooldown Extend? " + (increase + 1));
+                    args.cooldownMultAdd += increase;
+                }
+            }
         }
     }
 }

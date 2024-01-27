@@ -2,6 +2,7 @@
 using RoR2;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -80,13 +81,13 @@ namespace UltitemsCyan.Items.Tier2
 
         protected void CharacterBody_onBodyStartGlobal(CharacterBody self)
         {
-            if (self && self.inventory)
+            if (NetworkServer.active && self && self.inventory)
             {
                 // Get number of scissors
                 int grabCount = self.inventory.GetItemCount(item.itemIndex) * consumedPerScissor; // 2 consumed items per Scissor
                 if (grabCount > 0)
                 {
-                    Log.Warning("Scissors on body start global..." + self.name);
+                    Log.Warning("Scissors on body start global..." + self.GetUserName());
                     // Get inventory
                     System.Collections.Generic.List<ItemIndex> itemsInInventory = self.inventory.itemAcquisitionOrder;
 
@@ -155,7 +156,7 @@ namespace UltitemsCyan.Items.Tier2
                     else
                     {
                         // Player doesn't have any consumed items
-                        Log.Debug(self.name + " has no consumed items: Scissors cuts itself");
+                        Log.Debug(self.GetUserName() + " has no consumed items: Scissors cuts itself");
                         // Remove a scissors (Garenteed to have at least scissors)
                         self.inventory.RemoveItem(item);
                         // Give 2 white scraps

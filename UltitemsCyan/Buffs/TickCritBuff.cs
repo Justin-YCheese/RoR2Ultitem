@@ -16,7 +16,6 @@ namespace UltitemsCyan.Buffs
         {
             buff = DefineBuff("Tick Crit Buff", true, false, Color.white, Ultitems.Assets.TickCritSprite, false, false);
             //Log.Info(buff.name + " Initialized");
-
             Hooks();
         }
 
@@ -31,7 +30,7 @@ namespace UltitemsCyan.Buffs
             if (sender && sender.HasBuff(buff))
             {
                 int buffCount = sender.GetBuffCount(buff);
-                Log.Debug("Tick Crit Added " + (baseTickMultiplier + (tickPerStack * buffCount)));
+                //Log.Debug("Tick Crit Added " + (baseTickMultiplier + (tickPerStack * buffCount)));
                 args.critAdd += baseTickMultiplier + (tickPerStack * buffCount);
                 //Debug.Log(sender.name + "Birthday modifier: " + (rottingBuffMultiplier / 100f * buffCount));
             }

@@ -13,6 +13,7 @@ namespace UltitemsCyan.Items.Tier2
     public class OverclockedGPU : ItemBase
     {
         public static ItemDef item;
+
         private const int maxOverclocked = 10;
 
         // For Overclocked Buff
@@ -116,17 +117,24 @@ namespace UltitemsCyan.Items.Tier2
         // Remove Overclocked buff when hit
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
+            orig(self, damageInfo, victim);
             //Log.Warning("Overclocking hit");
-            if (self && victim && victim.GetComponent<CharacterBody>() && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
+            try
             {
-                CharacterBody injured = victim.GetComponent<CharacterBody>();
-                if (injured.HasBuff(Buffs.OverclockedBuff.buff))
+                if (self && victim && victim.GetComponent<CharacterBody>() && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
                 {
-                    Util.PlaySound("Play_item_goldgat_winddown", injured.gameObject);
-                    injured.SetBuffCount(Buffs.OverclockedBuff.buff.buffIndex, 0);
+                    CharacterBody injured = victim.GetComponent<CharacterBody>();
+                    if (injured.HasBuff(Buffs.OverclockedBuff.buff))
+                    {
+                        Util.PlaySound("Play_item_goldgat_winddown", injured.gameObject);
+                        injured.SetBuffCount(Buffs.OverclockedBuff.buff.buffIndex, 0);
+                    }
                 }
             }
-            orig(self, damageInfo, victim);
+            catch
+            {
+                Log.Warning("Overloading GPU Hit Error?");
+            }
         }
     }
 }

@@ -2,12 +2,13 @@
 using RoR2;
 using UltitemsCyan.Items.Untiered;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UltitemsCyan.Items.Tier3
 {
 
     // TODO: check if Item classes needs to be public
-    public class RustedVault : ItemBase
+    public class CorrodingVault : ItemBase
     {
         public static ItemDef item;
         private const int minimumInVault = 16;
@@ -17,9 +18,9 @@ namespace UltitemsCyan.Items.Tier3
         //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
-            string tokenPrefix = "RUSTEDVAULT";
+            string tokenPrefix = "CORRODINGVAULT";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Rusted Vault");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Corroding Vault");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains white items.");
             LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>16 to 20</style> unique white items");
             LanguageAPI.Add(tokenPrefix + "_LORE", "This vault is sturdy, but over time the rust will just crack it open");
@@ -47,7 +48,7 @@ namespace UltitemsCyan.Items.Tier3
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.Assets.RustedVaultSprite;
+            item.pickupIconSprite = Ultitems.Assets.CorrodingVaultSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -78,24 +79,24 @@ namespace UltitemsCyan.Items.Tier3
 
         protected void CharacterBody_onBodyStartGlobal(CharacterBody self)
         {
-            if (self && self.inventory)
+            if (NetworkServer.active && self && self.inventory)
             {
                 // Get number of vaults
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 if (grabCount > 0)
                 {
-                    Log.Warning("Rusted Vault on body start global..." + self.name);
+                    Log.Warning("Rusted Vault on body start global..." + self.GetUserName());
                     // Remove a vault
                     self.inventory.RemoveItem(item);
                     // Give Consumed vault
-                    self.inventory.GiveItem(RustedVaultConsumed.item);
+                    self.inventory.GiveItem(CorrodingVaultConsumed.item);
 
                     // Get all white items
                     ItemIndex[] allWhiteItems = new ItemIndex[ItemCatalog.tier1ItemList.Count];
                     ItemCatalog.tier1ItemList.CopyTo(allWhiteItems);
                     int length = allWhiteItems.Length;
 
-                    Log.Debug("All White Items Length: " + length);
+                    //Log.Debug("All White Items Length: " + length);
 
                     // bonus plus one because rand int not include max
                     int quantityInVault = minimumInVault + Random.Range(0, bonusInVault + 1);
@@ -116,6 +117,9 @@ namespace UltitemsCyan.Items.Tier3
                         length--;
                     }
                     Log.Debug(quantityInVault + " white items from vault");
+
+                    Chat.AddMessage(self.GetUserName() + " got " + quantityInVault + " items from their vault");
+
                     //TODO Add message for number of items in vault
                     //Util.PlaySound("Play_UI_podBlastDoorOpen", self.gameObject);
                 }

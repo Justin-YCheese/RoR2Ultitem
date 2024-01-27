@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
-    public class RottingBuff : BuffBase
+    public class DownloadedBuff : BuffBase
     {
         public static BuffDef buff;
-        private const float rottingBuffMultiplier = Items.Void.RottenBones.rottingBuffMultiplier;
+        private const float rottingBuffMultiplier = Items.Void.DownloadedRAM.downloadedBuffMultiplier;
 
         public override void Init()
         {
-            buff = DefineBuff("Rotting Buff", true, false, Color.white, Ultitems.Assets.RottingSprite, false, false);
+            buff = DefineBuff("Rotting Buff", true, false, Color.white, Ultitems.Assets.DownloadedSprite, false, false);
             Hooks();
         }
 

@@ -15,16 +15,17 @@ namespace UltitemsCyan.Items.Tier1
     {
         public static ItemDef item;
         public static GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
-        private const float procChance = 3f;
+        private const float fleaDropChance = 3f;
+        private const int fleaDropCritMultiplier = 3;
 
         // For Flea Pickup
         public const float baseBuffDuration = 18f;
         public const float buffDurationPerItem = 0f;
-        public const int buffMaxStack = 15;
+        //public const int buffMaxStack = 15;
 
         // For Tick Crit Buff
-        public const float baseTickMultiplier = 5f;
-        public const float tickPerStack = 10f;
+        public const float baseTickMultiplier = 0f;
+        public const float tickPerStack = 15f;
 
         private const bool isVoid = false;
         //public override bool IsVoid() { return isVoid; }
@@ -35,7 +36,7 @@ namespace UltitemsCyan.Items.Tier1
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Flea Bag");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Chance on hit to drop a tick which gives critical chance. Critical Strikes drop more ticks.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+10% per stack)</style> <style=cIsDamage>critical chance</style> for 18 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> <style=cIsDamage>critical chance</style> for 18 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Movie?");
 
             item.name = tokenPrefix + "_NAME";
@@ -86,6 +87,7 @@ namespace UltitemsCyan.Items.Tier1
 
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
+            orig(self, damageInfo, victim);
             try
             {
                 // If the victum has an inventory
@@ -100,11 +102,11 @@ namespace UltitemsCyan.Items.Tier1
                         bool drop;
                         if (damageInfo.crit)
                         {
-                            drop = Util.CheckRoll(procChance * 2, inflictor.master.luck);
+                            drop = Util.CheckRoll(fleaDropChance * fleaDropCritMultiplier, inflictor.master.luck);
                         }
                         else
                         {
-                            drop = Util.CheckRoll(procChance, inflictor.master.luck);
+                            drop = Util.CheckRoll(fleaDropChance, inflictor.master.luck);
                         }
                         if (drop)
                         {
@@ -118,13 +120,12 @@ namespace UltitemsCyan.Items.Tier1
             }
             catch (NullReferenceException)
             {
-                //Log.Warning("What Flea Hit?");
+                Log.Warning("What Flea Hit?");
                 //Log.Debug("Victum " + victim.name);
                 //Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
                 //Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);
                 //Log.Debug("Damage rejected? " + damageInfo.rejected);
             }
-            orig(self, damageInfo, victim);
         }
 
         public static void SpawnOrb(Vector3 position, Quaternion rotation, TeamIndex teamIndex, int itemCount)

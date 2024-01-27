@@ -63,7 +63,7 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.5.5";
+        public const string PluginVersion = "0.6.6";
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
@@ -102,6 +102,7 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new TickCritBuff());
             ultitemBuffs.Add(new RottingBuff());
+            ultitemBuffs.Add(new DownloadedBuff());
             //ultitemBuffs.Add(new ());
             foreach (BuffBase newBuff in ultitemBuffs)
             {
@@ -118,11 +119,11 @@ namespace UltitemsCyan
             ultitemItems.Add(new BirthdayCandles());
             ultitemItems.Add(new DegreeScissors());
             ultitemItems.Add(new OverclockedGPU());
-            ultitemItems.Add(new FaultyLight());
+            //ultitemItems.Add(new FaultyLight());
             ultitemItems.Add(new ViralSmog());
             ultitemItems.Add(new DreamFuel());
-            ultitemItems.Add(new RustedVault());
-            ultitemItems.Add(new RustedVaultConsumed());
+            ultitemItems.Add(new CorrodingVault());
+            ultitemItems.Add(new CorrodingVaultConsumed());
             ultitemItems.Add(new ToyRobot());
             ultitemItems.Add(new FleaBag());
             //ultitemItems.Add(new XenonAmpoule());
@@ -131,13 +132,19 @@ namespace UltitemsCyan
             ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new SuesMandiblesConsumed());
 
-            // Void Items
-            ultitemItems.Add(new DriedHam());
-            ultitemItems.Add(new RottenBones());
+            ultitemItems.Add(new NewBulb());
 
             // Equipments
             ultitemItems.Add(new IceCubes());
             ultitemItems.Add(new PotOfRegolith());
+
+            // Void Items
+            ultitemItems.Add(new DriedHam());
+            ultitemItems.Add(new RottenBones());
+            ultitemItems.Add(new DownloadedRAM());
+            ultitemItems.Add(new InhabitedCoffin());
+            ultitemItems.Add(new InhabitedCoffinConsumed());
+
 
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
@@ -202,29 +209,63 @@ namespace UltitemsCyan
             //The mod's AssetBundle
             public static AssetBundle mainBundle;
 
+            // White
+            public static Sprite CremeBruleeSprite;
+            public static Sprite FleaBagSprite;
+            public static Sprite FlyingDiscSprite;
+            public static Sprite KoalaStickerSprite;
+            public static Sprite ToyRobotSprite;
+
+            // Green
             public static Sprite BirthdayCandleSprite;
             public static Sprite DegreeScissorsSprite;
             public static Sprite OverclockedGPUSprite;
+            public static Sprite TippedArrowSprite;
+
+            // Red
+            public static Sprite CorrodingVaultSprite;
             public static Sprite FaultyBulbSprite;
-            public static Sprite ViralSmogSprite;
-            public static Sprite DreamFuelSprite;
-            public static Sprite RustedVaultSprite;
-            public static Sprite ToyRobotSprite;
-            public static Sprite RustedVaultConsumedSprite;
-            public static Sprite FleaBagSprite;
-            public static Sprite CremeBruleeSprite;
+            public static Sprite GrapevineSprite;
             public static Sprite SuesMandiblesSprite;
+            public static Sprite ViralSmogSprite;
+            public static Sprite XenonAmpouleSprite;
+
+            // Void
+            public static Sprite DownloadedRAMSprite;
+            public static Sprite DriedHamSprite;
+            public static Sprite InhabitedCoffinSprite;
+            public static Sprite RottenBonesSprite;
+            public static Sprite TungstenRodSprite;
+            public static Sprite VacantCoffinConsumed;
+            public static Sprite WormHolesSprite;
+
+            // Lunar
+            public static Sprite CreatureDeckSprite;
+            public static Sprite NewBulbSprite;
+            public static Sprite DreamFuelSprite;
+            public static Sprite PowerChipsSprite;
+            public static Sprite SandPailSprite;
+            public static Sprite SilverThreadSprite;
+
+            // Untiered
+            public static Sprite CorrodingVaultConsumedSprite;
             public static Sprite SuesMandiblesConsumedSprite;
 
+            // Equipment
+            public static Sprite GoopyCageSprite;
             public static Sprite IceCubesSprite;
+            public static Sprite PetRockSprite;
             public static Sprite PotOfRegolithSprite;
+            public static Sprite TrebuchetSprite;
 
-            public static Sprite DreamSpeedSprite;
-            public static Sprite OverclockedSprite;
+            // Buffs
             public static Sprite BirthdaySprite;
+            public static Sprite DownloadedSprite;
+            public static Sprite DreamSpeedSprite;
+            public static Sprite GrapeSprite;
+            public static Sprite OverclockedSprite;
+            public static Sprite RottingSprite;
             public static Sprite TickCritSprite;
-
-            //public static GameObject beltPrefab;
 
             //A constant of the AssetBundle's name.
             public const string bundleName = "ultitembundle";
@@ -250,15 +291,73 @@ namespace UltitemsCyan
                 {
                     Log.Warning("Null mainBundle");
                 }
+                // White
+                CremeBruleeSprite = mainBundle.LoadAsset<Sprite>("CremeBrulee");
+                FleaBagSprite = mainBundle.LoadAsset<Sprite>("FleaBag");
+                FlyingDiscSprite = mainBundle.LoadAsset<Sprite>("FlyingDisc");
+                KoalaStickerSprite = mainBundle.LoadAsset<Sprite>("KoalaSticker");
+                ToyRobotSprite = mainBundle.LoadAsset<Sprite>("ToyRobot");
+
+                // Green
                 BirthdayCandleSprite = mainBundle.LoadAsset<Sprite>("BirthdayCandle");
+                DegreeScissorsSprite = mainBundle.LoadAsset<Sprite>("DegreeScissors");
+                OverclockedGPUSprite = mainBundle.LoadAsset<Sprite>("OverclockedGPU");
+                TippedArrowSprite = mainBundle.LoadAsset<Sprite>("TippedArrow");
+
+                // Red
+                CorrodingVaultSprite = mainBundle.LoadAsset<Sprite>("CorrodingVault");
+                FaultyBulbSprite = mainBundle.LoadAsset<Sprite>("FaultyBulb");
+                GrapevineSprite = mainBundle.LoadAsset<Sprite>("Grapevine");
+                SuesMandiblesSprite = mainBundle.LoadAsset<Sprite>("SuesMandibles");
+                ViralSmogSprite = mainBundle.LoadAsset<Sprite>("ViralSmog");
+                XenonAmpouleSprite = mainBundle.LoadAsset<Sprite>("XenonAmpoule");
+
+                // Void
+                DownloadedRAMSprite = mainBundle.LoadAsset<Sprite>("DownloadedRAM");
+                DriedHamSprite = mainBundle.LoadAsset<Sprite>("DriedHam");
+                InhabitedCoffinSprite = mainBundle.LoadAsset<Sprite>("InhabitedCoffin");
+                RottenBonesSprite = mainBundle.LoadAsset<Sprite>("RottenBones");
+                TungstenRodSprite = mainBundle.LoadAsset<Sprite>("TungstenRod");
+                VacantCoffinConsumed = mainBundle.LoadAsset<Sprite>("VacantCoffinConsumed");
+                WormHolesSprite = mainBundle.LoadAsset<Sprite>("WormHoles");
+
+                // Lunar
+                CreatureDeckSprite = mainBundle.LoadAsset<Sprite>("CreatureDeck");
+                DreamFuelSprite = mainBundle.LoadAsset<Sprite>("DreamFuel");
+                NewBulbSprite = mainBundle.LoadAsset<Sprite>("NewBulb");
+                PowerChipsSprite = mainBundle.LoadAsset<Sprite>("PowerChips");
+                SandPailSprite = mainBundle.LoadAsset<Sprite>("SandPail");
+                SilverThreadSprite = mainBundle.LoadAsset<Sprite>("SilverThread");
+
+                // Untiered
+                CorrodingVaultConsumedSprite = mainBundle.LoadAsset<Sprite>("CorrodingVaultConsumed");
+                SuesMandiblesConsumedSprite = mainBundle.LoadAsset<Sprite>("SuesMandiblesConsumed");
+
+                // Equipment
+                GoopyCageSprite = mainBundle.LoadAsset<Sprite>("GoopyCage");
+                IceCubesSprite = mainBundle.LoadAsset<Sprite>("IceCubes");
+                PetRockSprite = mainBundle.LoadAsset<Sprite>("PetRock");
+                PotOfRegolithSprite = mainBundle.LoadAsset<Sprite>("PotOfRegolith");
+                TrebuchetSprite = mainBundle.LoadAsset<Sprite>("Trebuchet");
+
+                // Buffs
+                BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");
+                DownloadedSprite = mainBundle.LoadAsset<Sprite>("Downloaded");
+                DreamSpeedSprite = mainBundle.LoadAsset<Sprite>("DreamSpeed");
+                GrapeSprite = mainBundle.LoadAsset<Sprite>("Grape");
+                OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
+                RottingSprite = mainBundle.LoadAsset<Sprite>("Rotting");
+                TickCritSprite = mainBundle.LoadAsset<Sprite>("TickCrit");
+
+                /*/
                 DegreeScissorsSprite = mainBundle.LoadAsset<Sprite>("DegreeScissors");
                 OverclockedGPUSprite = mainBundle.LoadAsset<Sprite>("OverclockedGPU");
                 FaultyBulbSprite = mainBundle.LoadAsset<Sprite>("FaultyBulb");
                 ViralSmogSprite = mainBundle.LoadAsset<Sprite>("ViralSmog");
                 DreamFuelSprite = mainBundle.LoadAsset<Sprite>("DreamFuel");
-                RustedVaultSprite = mainBundle.LoadAsset<Sprite>("RustedVault");
+                CorrodingVaultSprite = mainBundle.LoadAsset<Sprite>("CorrodingVault");
                 ToyRobotSprite = mainBundle.LoadAsset<Sprite>("ToyRobot");
-                RustedVaultConsumedSprite = mainBundle.LoadAsset<Sprite>("RustedVaultConsumed");
+                RustedVaultConsumedSprite = mainBundle.LoadAsset<Sprite>("CorrodingVaultConsumed");
                 FleaBagSprite = mainBundle.LoadAsset<Sprite>("FleaBag");
                 CremeBruleeSprite = mainBundle.LoadAsset<Sprite>("CremeBrulee");
                 SuesMandiblesSprite = mainBundle.LoadAsset<Sprite>("SuesMandibles");
@@ -271,6 +370,7 @@ namespace UltitemsCyan
                 OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
                 BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");
                 TickCritSprite = mainBundle.LoadAsset<Sprite>("TickCrit");
+                //*/
             }
         }
     }

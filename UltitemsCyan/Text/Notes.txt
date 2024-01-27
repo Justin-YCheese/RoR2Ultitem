@@ -16,6 +16,12 @@ CombinedHealthFraction = Current: Hp + Shield + Barrier / Hp + Shield
 
 	Other notes
 
+ChatMessageBase.GetObjectName(GameObject)
+To get name of objects, returns player username or object name
+
+if (NetworkServer.active)
+To make sure the code only runs on the server side
+
 Use PickupDropletController.CreatePickupDroplet(pickupIndex, transform.position, transform.forward * 20f); for spawning items (like from chest)
 
 //skill.skillDef.canceledFromSprinting = true;
@@ -35,15 +41,26 @@ PurchaseInteraction for chest purchase prices
 
 Run.tierXDropList to get all items which can be dropped from a chest from a tier
 
-
-
-
-
-
-
-
-
 	Other Mods
+MultiplayerModTesting
+In Console:
+connect localhost:7777
+
+DebugToolkit
+Ctrl + Alt + ~ : Open Console
+__Useful_Commands__
+give_item
+
+no_enemies
+buddha
+kill_all monster
+
+remove_all_items 
+
+teleport_on_cursor 
+respawn 
+
+
 
 All RTCP strings?
 "playerHealth"
@@ -57,6 +74,7 @@ All RTCP strings?
 "bossStatus"
 "eliteEnemy"
 "damageDirection"
+
 
 
 Paired and broken items from ither mods

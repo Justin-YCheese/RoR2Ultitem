@@ -4,6 +4,7 @@ using System.Linq;
 using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier2;
 using UnityEngine;
+using UnityEngine.Networking;
 using static UltitemsCyan.Items.Lunar.DreamFuel;
 //using static RoR2.GenericPickupController;
 
@@ -20,9 +21,6 @@ namespace UltitemsCyan.Items.Void
         public const float rottingBuffMultiplier = 20;
         public const float rotTimeInterval = 180; // 3 minutes
         public static float stageStartTime; // measured in seconds
-
-        private const bool isVoid = true;
-        //public override bool IsVoid() { return isVoid; }
 
         private void Tokens()
         {
@@ -55,7 +53,7 @@ namespace UltitemsCyan.Items.Void
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.Assets.BirthdayCandleSprite;
+            item.pickupIconSprite = Ultitems.Assets.RottenBonesSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -94,7 +92,7 @@ namespace UltitemsCyan.Items.Void
         private void CharacterBody_onBodyStartGlobal(CharacterBody self)
         {
             // Add Behavior to player (expectially if the full time intervals have passed)
-            if (self && self.inventory)
+            if (NetworkServer.active && self && self.inventory)
             {
                 self.AddItemBehavior<RottenBonesTimedVoidBehavior>(self.inventory.GetItemCount(item));
             }

@@ -2,6 +2,7 @@
 using RoR2;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -86,11 +87,15 @@ namespace UltitemsCyan.Items.Tier2
         // Start of each level (or when monsters spawn in)
         protected void CharacterBody_onBodyStartGlobal(CharacterBody self)
         {
-            //Log.Debug("Birthday Candles On Body Start Global");
-            if (self && self.inventory)
+            if (NetworkServer.active && self && self.inventory)
             {
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 // If grabcount is zero exits loop
+                if (grabCount > 0)
+                {
+                        
+                    Log.Debug("Birthday Candles On Body Start Global for " + self.GetUserName() + " | Candles: " + grabCount);
+                }
                 for (int i = 0; i < grabCount; i++)
                 {
                     ApplyBirthday(self);
@@ -114,12 +119,12 @@ namespace UltitemsCyan.Items.Tier2
             // If item picked up is Birthday Candles and there is a character Body
             if (self && itemIndex == item.itemIndex)
             {
-                Log.Warning("Give Birthday Candles");
+                //Log.Warning("Give Birthday Candles");
                 // Log.Debug("Count Birthday Candles on Pickup: " + count);
 
-                CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body2) => body2.inventory == self);
+                CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body) => body.inventory == self);
                 // If you don't have any Rotten Bones
-                if (player.inventory.GetItemCount(Void.RottenBones.item) > 0)
+                if (player.inventory.GetItemCount(Void.RottenBones.item) <= 0)
                 {
                     ApplyBirthday(player);
                 }
@@ -128,6 +133,7 @@ namespace UltitemsCyan.Items.Tier2
 
         protected void ApplyBirthday(CharacterBody recipient)
         {
+            //Log.Debug(". . It's My Birthday!");
             Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
             recipient.AddTimedBuffAuthority(Buffs.BirthdayBuff.buff.buffIndex, birthdayDuration);
         }

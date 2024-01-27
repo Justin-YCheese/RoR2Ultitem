@@ -84,12 +84,12 @@ namespace UltitemsCyan.Items.Tier3
                 int grabCount = sender.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Warning("Viral Smog Active");
+                    //Log.Warning("Viral Smog Active");
 
                     // Get active buffs list and how many in that list is actually active (length)
                     int activeBuffLength = sender.activeBuffsListCount;
                     BuffIndex[] activeBuffs = sender.activeBuffsList;
-                    Log.Debug("Active Count Length: " + activeBuffLength);
+                    //Log.Debug("Active Count Length: " + activeBuffLength);
 
                     int nonCooldownBuffs = activeBuffLength;
                     for (int i = 0; i < activeBuffLength; i++)
@@ -98,15 +98,15 @@ namespace UltitemsCyan.Items.Tier3
                         if (buffDef.isCooldown)
                         {
                             nonCooldownBuffs--;
-                            Log.Debug(" ~ Cooldown: " + buffDef.name + "\tnew nonCool Count: " + nonCooldownBuffs);
+                            //Log.Debug(" ~ Cooldown: " + buffDef.name + "\tnew nonCool Count: " + nonCooldownBuffs);
                         }
                         else
                         {
-                            Log.Debug("Not Cool: " + buffDef.name);
+                            //Log.Debug("Not Cool: " + buffDef.name);
                         }
                     }
-                    Log.Debug("Viral Smog\nCount: " + nonCooldownBuffs + "\n"
-                        + "Speed from Virus: " + speedPerStackStatus / 100f * nonCooldownBuffs * grabCount);
+                    //Log.Debug("Viral Smog\nCount: " + nonCooldownBuffs + "\n"
+                    //    + "Speed from Virus: " + speedPerStackStatus / 100f * nonCooldownBuffs * grabCount);
                     // Gives 30% speed per status per item
                     if (activeBuffLength > 0)
                     {
@@ -114,7 +114,7 @@ namespace UltitemsCyan.Items.Tier3
                     }
                     else
                     {
-                        Log.Debug("Didn't apply speed buff");
+                        //Log.Debug("Didn't apply speed buff");
                     }
                 }
             }

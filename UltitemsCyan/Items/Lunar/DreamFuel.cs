@@ -138,19 +138,6 @@ namespace UltitemsCyan.Items.Lunar
                 healthComponent = GetComponent<HealthComponent>();
             }
 
-            private void OnDisable()
-            {
-                Log.Warning("Dream Fuel Disabled? TODO");
-                /*/
-                if (body)
-                {
-                    if (body.HasBuff(DreamSpeedBuff.buff))
-                    {
-                        body.RemoveBuff(DreamSpeedBuff.buff);
-                    }
-                }//*/
-            }
-
             public void OnDestroy()
             {
                 IsFullHealth = false;
@@ -160,6 +147,7 @@ namespace UltitemsCyan.Items.Lunar
         // Root when hit
         protected void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
+            orig(self, damageInfo, victim);
             try
             {
                 // If the victum has an inventory
@@ -178,12 +166,11 @@ namespace UltitemsCyan.Items.Lunar
             catch (NullReferenceException)
             {
                 Log.Warning("What Dream Hit?");
-                Log.Debug("Victum " + victim.name);
-                Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
-                Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);
-                Log.Debug("Damage rejected? " + damageInfo.rejected);
+                //Log.Debug("Victum " + victim.name);
+                //Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
+                //Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);
+                //Log.Debug("Damage rejected? " + damageInfo.rejected);
             }
-            orig(self, damageInfo, victim);
         }
     }
 }

@@ -14,7 +14,6 @@ namespace UltitemsCyan.Buffs
         {
             buff = DefineBuff("Birthday Buff", true, false, Color.white, Ultitems.Assets.BirthdaySprite, false, false);
             //Log.Info(buff.name + " Initialized");
-
             Hooks();
         }
 

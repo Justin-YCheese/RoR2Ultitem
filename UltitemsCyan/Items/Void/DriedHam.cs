@@ -13,20 +13,17 @@ namespace UltitemsCyan.Items.Void
     {
         public static ItemDef item;
         public static ItemDef transformItem;
-        private const float threshold = 35f;
+        private const float threshold = 30f;
         private const float percentHealing = 2f;
         private const float flatHealing = 8f;
-
-        private const bool isVoid = true;
-        //public override bool IsVoid() { return isVoid; }
 
         private void Tokens()
         {
             string tokenPrefix = "DRIEDHAM";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Dried Ham");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 35% health.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> plus an additional <style=cIsHealing>1%</style> <style=cStack>(+1% per stack)</style> when dealing damage to enemies below <style=cIsDamage>35% health</style>. Corrupts all Crème Brûlée.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 30% health.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> plus an additional <style=cIsHealing>1%</style> <style=cStack>(+1% per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. Corrupts all Crème Brûlée.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
             item.name = tokenPrefix + "_NAME";
@@ -51,7 +48,7 @@ namespace UltitemsCyan.Items.Void
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.Assets.CremeBruleeSprite;
+            item.pickupIconSprite = Ultitems.Assets.DriedHamSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
@@ -94,7 +91,7 @@ namespace UltitemsCyan.Items.Void
         {
             try
             {
-                if (self && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected) // && damageInfo.damageType != DamageType.DoT
+                if (self && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
                 {
                     CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
                     int grabCount = inflictor.inventory.GetItemCount(item);

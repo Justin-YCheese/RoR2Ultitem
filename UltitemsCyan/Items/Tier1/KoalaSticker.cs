@@ -19,7 +19,7 @@ namespace UltitemsCyan.Items.Tier1
             string tokenPrefix = "KOALASTICKER";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Koala Sticker");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Reduce the maxinum damage you can take");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Reduce the maximum damage you can take.");
             LanguageAPI.Add(tokenPrefix + "_DESC", "You only take a maxinum of 90% (-12% per stack) of your health from a hit, mininum of 1.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Last Stand");
 
@@ -45,12 +45,11 @@ namespace UltitemsCyan.Items.Tier1
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
+            item.pickupIconSprite = Ultitems.Assets.KoalaStickerSprite;
             item.pickupModelPrefab = Ultitems.mysteryPrefab;
 
             item.canRemove = true;
             item.hidden = false;
-
 
             item.tags = [ItemTag.Utility];
 
@@ -81,20 +80,31 @@ namespace UltitemsCyan.Items.Tier1
             float initialBarrier = self.barrier;
             orig(self, damageInfo);
             CharacterBody victim = self.GetComponent<CharacterBody>();
+
             // If dead after damage
-            if (victim && victim.inventory && self && self.alive)
+            if (victim && victim.inventory && self)
             {
                 int grabCount = victim.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Warning("K Initial Health: " + initialHealth + " Shield: " + initialShield + " Barrier: " + initialBarrier);
-                    Log.Debug("FullHealth: " + self.fullHealth + " fullShield: " + self.fullShield + " fullBarrier: " + self.fullBarrier + " fullCombined: " + self.fullCombinedHealth);
+                    //Log.Debug("FullHealth: " + self.fullHealth + " fullShield: " + self.fullShield + " fullBarrier: " + self.fullBarrier + " fullCombined: " + self.fullCombinedHealth);
                     float percent = 1 / ((hyperbolicPercent / 100 * grabCount) + 1);
                     float maxDamage = self.fullCombinedHealth * percent;
+                    if (maxDamage < 1) // Minimum 
+                    {
+                        maxDamage = 1;
+                    }
                     float damage = initialHealth - self.health;
-                    Log.Debug("Damage: " + damage);
                     if (damage > maxDamage)
                     {
+                        Log.Warning("Koala " + victim.GetUserName() + " Damage: " + damage + " > MaxDamage: " + maxDamage);
+                        //" Initial Health: " + initialHealth + " Shield: " + initialShield + " Barrier: " + initialBarrier
+                        if (self.alive) {
+                            Log.Debug("Alive...");
+                        } else {
+                            Log.Debug("Dead With Koala!");
+                        }
+                        //Log.Debug("Damage: " + damage);
                         if (maxDamage <= initialBarrier)
                         {
                             self.barrier = initialBarrier - maxDamage;
@@ -108,7 +118,7 @@ namespace UltitemsCyan.Items.Tier1
                         }
                         else
                         {
-                            self.health = initialHealth - maxDamage;
+                            self.health = initialHealth + initialBarrier + initialShield - maxDamage;
                         }
                         // Floor Damage
                         Log.Debug("MaxDamage: " + maxDamage + " NewHealth: " + self.health + " | " + self.shield + " | " + self.barrier);

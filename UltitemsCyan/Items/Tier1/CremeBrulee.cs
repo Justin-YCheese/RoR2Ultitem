@@ -11,19 +11,17 @@ namespace UltitemsCyan.Items.Tier1
     public class CremeBrulee : ItemBase
     {
         public static ItemDef item;
-        private const float threshold = 95f;
-        private const float percentHealing = 4f;
-        private const float flatHealing = 16f;
+        private const float threshold = 100f;
+        private const float percentHealing = 5f;
+        private const float flatHealing = 20f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "CREMEBRULEE";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Crème Brûlée");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies above 95% health.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>16</style> plus an additional <style=cIsHealing>4%</style> <style=cStack>(+4% per stack)</style> when dealing damage to enemies above <style=cIsDamage>95% health</style>");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting full health enemies.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>20</style> plus an additional <style=cIsHealing>5%</style> <style=cStack>(+5% per stack)</style> when dealing damage to <style=cIsDamage>full health</style> enemies"); // enemies above <style=cIsDamage>80% health</style>
             LanguageAPI.Add(tokenPrefix + "_LORE", "Sugar Crust");
 
             item.name = tokenPrefix + "_NAME";
@@ -78,7 +76,7 @@ namespace UltitemsCyan.Items.Tier1
             {
                 // If the victum has an inventory
                 // and damage isn't rejected?
-                if (self && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected) // && damageInfo.damageType != DamageType.DoT
+                if (self && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected) //&& damageInfo.damageType != DamageType.DoT
                 {
                     CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
                     int grabCount = inflictor.inventory.GetItemCount(item);
