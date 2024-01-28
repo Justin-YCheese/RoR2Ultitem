@@ -14,21 +14,21 @@ namespace UltitemsCyan.Items.Tier1
     public class FleaBag : ItemBase
     {
         public static ItemDef item;
-        public static GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
+        private static GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
+        //public static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleWardOrbEffect.prefab").WaitForCompletion();
+        private static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealthOrbFlash.prefab").WaitForCompletion();
         private const float fleaDropChance = 3f;
         private const int fleaDropCritMultiplier = 3;
 
         // For Flea Pickup
-        public const float baseBuffDuration = 18f;
-        public const float buffDurationPerItem = 0f;
+        public const float baseBuffDuration = 12f;
+        public const float buffDurationPerItem = 0f; // Increase for buff?
         //public const int buffMaxStack = 15;
 
         // For Tick Crit Buff
         public const float baseTickMultiplier = 0f;
         public const float tickPerStack = 15f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             // Fire flies?
@@ -110,8 +110,9 @@ namespace UltitemsCyan.Items.Tier1
                         }
                         if (drop)
                         {
-                            Log.Debug("dropping flea");
+                            Log.Warning("Dropping flea from " + victim.name);
                             //RoR2.BuffPickup.Instantiate(item);
+                            Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
                             Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
                             SpawnOrb(victim.transform.position, victim.transform.rotation, TeamComponent.GetObjectTeam(inflictor.gameObject), grabCount);
                         }
@@ -135,23 +136,32 @@ namespace UltitemsCyan.Items.Tier1
                 GameObject orb = UnityEngine.Object.Instantiate(FleaOrb);
                 if (orb)
                 {
-                    Log.Debug("Orb is loaded");
+                    Log.Debug("Flea Orb is loaded");
                 }
 
                 orb.transform.position = position;
                 orb.transform.rotation = rotation;
                 orb.GetComponent<TeamFilter>().teamIndex = teamIndex;
 
-                //orb.GetComponent<TrailRenderer>().startColor = new Color(1f, 0f, 0f, 1f);
-                //orb.GetComponent<TrailRenderer>().endColor = new Color(0f, 0f, 1f, 0f);
+                // * * Additions * * //
+                VelocityRandomOnStart trajectory = orb.GetComponent<VelocityRandomOnStart>();
+                trajectory.maxSpeed = 35;
+                trajectory.minSpeed = 20;
+                trajectory.directionMode = VelocityRandomOnStart.DirectionMode.Hemisphere;
+                trajectory.coneAngle = 75;
+                //trajectory.maxAngularSpeed = 100;
+
+                //orb.GetComponent<ParticleSystem>().startColor = new Color(0f, 0f, 0f, 1f); // ERROR
+                //orb.GetComponent<TrailRenderer>().startColor = new Color(0f, 0f, 0f, 1f); // ERROR
+                //orb.GetComponent<TrailRenderer>().endColor = new Color(0f, 0f, 0f, 0f); // ERROR
 
                 //orb.GetComponent<DestroyOnTimer>().duration = 5f;
-
                 //Health Pickup
                 HealthPickup healthComponent = orb.GetComponentInChildren<HealthPickup>();
                 //Log.Debug("Orb has a Health Pickup");
                 //healthComponent.flatHealing = 0;
                 //healthComponent.fractionalHealing = 0;
+                Log.Debug("health Component? " + healthComponent.alive);
                 healthComponent.alive = false;
                 //*/
 
@@ -163,10 +173,11 @@ namespace UltitemsCyan.Items.Tier1
 
                 FleaComponent.baseObject = orb;
                 FleaComponent.teamFilter = orb.GetComponent<TeamFilter>();
-                FleaComponent.pickupEffect = null;
+                FleaComponent.pickupEffect = FleaEffect;
 
                 orb.GetComponent<Rigidbody>().useGravity = true;
-                orb.transform.localScale = Vector3.one * (.5f + itemCount / 20);
+                orb.transform.localScale = Vector3.one * (0.8f + (itemCount / 12));
+                //orb.transform.localScale = Vector3.one * (.5f + itemCount / 20);
 
                 Log.Debug("Spawning orb at: " + orb.transform.position);
                 NetworkServer.Spawn(orb);

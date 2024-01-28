@@ -63,7 +63,21 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.6.6";
+        public const string PluginVersion = "0.6.8";
+        /* Version Changes
+         * Toy Robot grabs pickups by chance
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         */
+
+
+
+
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }

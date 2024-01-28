@@ -1,16 +1,38 @@
 ﻿
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 	Next:
-
-- 
-
+- Change Fleabag orb color
 
 
-	Added:
 
-green
-- Birthday Candles
 
-red
-- Faulty Bulb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
