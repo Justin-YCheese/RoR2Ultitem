@@ -17,8 +17,6 @@ namespace UltitemsCyan.Items.Tier1
         private const float basePickupChance = 10f;
         private const float negativePickupPerStack = 40f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "TOYROBOT";

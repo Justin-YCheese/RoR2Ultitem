@@ -14,8 +14,6 @@ namespace UltitemsCyan.Items.Tier2
         private const int consumedPerScissor = 2;
         private const int scrapsPerConsumed = 2;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "DEGREESCISSORS";

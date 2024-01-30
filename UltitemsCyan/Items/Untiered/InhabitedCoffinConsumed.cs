@@ -10,8 +10,6 @@ namespace UltitemsCyan.Items.Untiered
     {
         public static ItemDef item;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "INHABITEDCOFFINCONSUMED";

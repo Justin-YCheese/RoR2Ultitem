@@ -14,8 +14,6 @@ namespace UltitemsCyan.Items.Tier3
         private const int minimumInVault = 16;
         private const int bonusInVault = 4;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "CORRODINGVAULT";
@@ -92,7 +90,9 @@ namespace UltitemsCyan.Items.Tier3
                     self.inventory.GiveItem(CorrodingVaultConsumed.item);
 
                     // Get all white items
+                    ;
                     ItemIndex[] allWhiteItems = new ItemIndex[ItemCatalog.tier1ItemList.Count];
+                    //ItemIndex[] allWhiteItems = Run.instance.availableTier1DropList.ToArray();
                     ItemCatalog.tier1ItemList.CopyTo(allWhiteItems);
                     int length = allWhiteItems.Length;
 

@@ -12,8 +12,6 @@ namespace UltitemsCyan.Items.Tier3
         public static ItemDef item;
         private const float dontResetFraction = 0.65f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "FAULTYLIGHT";

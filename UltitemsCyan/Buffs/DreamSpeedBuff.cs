@@ -8,7 +8,7 @@ namespace UltitemsCyan.Buffs
     public class DreamSpeedBuff : BuffBase
     {
         public static BuffDef buff;
-        private const float dreamSpeed = Items.Lunar.DreamFuel.dreamSpeed;
+        private const float dreamSpeed = DreamFuel.dreamSpeed;
 
         public override void Init()
         {

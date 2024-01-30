@@ -12,8 +12,6 @@ namespace UltitemsCyan.Items.Tier1
         public static ItemDef item;
         private const float hyperbolicPercent = 12f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "KOALASTICKER";

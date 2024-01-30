@@ -13,8 +13,6 @@ namespace UltitemsCyan.Items.Lunar
         public static ItemDef item;
         private const float dontResetFraction = 0.50f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "NEWBULB";
@@ -88,9 +86,10 @@ namespace UltitemsCyan.Items.Lunar
             if (skill && skill.skillDef.baseRechargeInterval > 0 && self && self.inventory)
             {
                 //Log.Debug("Cooldown remain: " + skill.cooldownRemaining + " Scale: " + skill.cooldownScale + " Base Interval: " + skill.skillDef.baseRechargeInterval + " Reset Cooldown?: " + skill.skillDef.resetCooldownTimerOnUse);
-                int grabCount = self.inventory.GetItemCount(item.itemIndex) + (int)self.master.luck; // Change Luck
+                int grabCount = self.inventory.GetItemCount(item.itemIndex); // Change Luck
                 if (grabCount > 0)
                 {
+                    grabCount += (int)self.master.luck;
                     //Log.Debug("garbCount: " + grabCount);
                     //Log.Debug("itemIndex: " + item.itemIndex);
 

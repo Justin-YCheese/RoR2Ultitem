@@ -17,8 +17,6 @@ namespace UltitemsCyan.Items.Void
         private const int minimumInCoffin = 5;
         private const int bonusInCoffin = 0;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "INHABITEDCOFFIN";

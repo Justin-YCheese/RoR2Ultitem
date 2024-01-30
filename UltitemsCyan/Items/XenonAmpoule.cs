@@ -14,8 +14,6 @@ namespace UltitemsCyan.Items
         private static ItemDef item;
         private static GameObject shockwaveProjectile;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "XENONAMPOULE";

@@ -19,8 +19,6 @@ namespace UltitemsCyan.Items.Tier2
         // For Overclocked Buff
         public const float buffAttackSpeedPerItem = 3f;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "OVERCLOCKEDGPU";

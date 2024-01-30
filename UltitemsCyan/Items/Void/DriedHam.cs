@@ -14,7 +14,7 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
         private const float threshold = 30f;
-        private const float percentHealing = 1f;
+        private const float percentHealing = 0f;
         private const float flatHealing = 4f;
 
         private void Tokens()
@@ -23,7 +23,8 @@ namespace UltitemsCyan.Items.Void
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Dried Ham");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 30% health.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>1%</style> plus an additional <style=cIsHealing>4</style> <style=cStack>(+4 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. Corrupts all Crème Brûlée.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> <style=cStack>(+4 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. Corrupts all Crème Brûlée.");
+            //LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>1%</style> plus an additional <style=cIsHealing>4</style> <style=cStack>(+4 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. Corrupts all Crème Brûlée.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
             item.name = tokenPrefix + "_NAME";

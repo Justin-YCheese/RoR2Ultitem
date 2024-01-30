@@ -19,8 +19,6 @@ namespace UltitemsCyan.Items.Tier2
         // Function
         public bool inPickupAlready = false;
 
-        private const bool isVoid = false;
-        //public override bool IsVoid() { return isVoid; }
         private void Tokens()
         {
             string tokenPrefix = "BIRTHDAYCANDLES";
@@ -90,15 +88,10 @@ namespace UltitemsCyan.Items.Tier2
             if (NetworkServer.active && self && self.inventory)
             {
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
-                // If grabcount is zero exits loop
                 if (grabCount > 0)
                 {
-                        
                     Log.Debug("Birthday Candles On Body Start Global for " + self.GetUserName() + " | Candles: " + grabCount);
-                }
-                for (int i = 0; i < grabCount; i++)
-                {
-                    ApplyBirthday(self);
+                    ApplyBirthday(self, grabCount);
                 }
             }
         }
@@ -106,7 +99,6 @@ namespace UltitemsCyan.Items.Tier2
         protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             orig(self, itemIndex, count);
-
             /*/
             ItemDef defineItem = ItemCatalog.GetItemDef(itemIndex);
             Sprite itemSprite = defineItem.pickupIconSprite;
@@ -126,16 +118,18 @@ namespace UltitemsCyan.Items.Tier2
                 // If you don't have any Rotten Bones
                 if (player.inventory.GetItemCount(Void.RottenBones.item) <= 0)
                 {
-                    ApplyBirthday(player);
+                    ApplyBirthday(player, count);
                 }
             }
         }
 
-        protected void ApplyBirthday(CharacterBody recipient)
+        protected void ApplyBirthday(CharacterBody recipient, int count)
         {
-            //Log.Debug(". . It's My Birthday!");
+            for (int i = 0; i < count; i++)
+            {
+                recipient.AddTimedBuffAuthority(Buffs.BirthdayBuff.buff.buffIndex, birthdayDuration);
+            }
             Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
-            recipient.AddTimedBuffAuthority(Buffs.BirthdayBuff.buff.buffIndex, birthdayDuration);
         }
     }
 }

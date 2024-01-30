@@ -63,10 +63,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.6.8";
+        public const string PluginVersion = "0.6.10";
         /* Version Changes
-         * Toy Robot grabs pickups by chance
-         * 
+         * Added Sonorous Pail
          * 
          * 
          * 
@@ -130,23 +129,32 @@ namespace UltitemsCyan
             // Tiered Items
             List<ItemBase> ultitemItems = [];
             //ultitems.Add(new TestItem());
+
+            // White
+            ultitemItems.Add(new CremeBrulee());
+            ultitemItems.Add(new KoalaSticker());
+            ultitemItems.Add(new ToyRobot());
+            ultitemItems.Add(new FleaBag());
+
+            // Green
             ultitemItems.Add(new BirthdayCandles());
             ultitemItems.Add(new DegreeScissors());
             ultitemItems.Add(new OverclockedGPU());
-            //ultitemItems.Add(new FaultyLight());
-            ultitemItems.Add(new ViralSmog());
-            ultitemItems.Add(new DreamFuel());
-            ultitemItems.Add(new CorrodingVault());
-            ultitemItems.Add(new CorrodingVaultConsumed());
-            ultitemItems.Add(new ToyRobot());
-            ultitemItems.Add(new FleaBag());
             //ultitemItems.Add(new XenonAmpoule());
-            ultitemItems.Add(new CremeBrulee());
-            ultitemItems.Add(new KoalaSticker());
+
+            // Red
+            ultitemItems.Add(new ViralSmog());
             ultitemItems.Add(new SuesMandibles());
+            ultitemItems.Add(new CorrodingVault());
+
+            // Untiered
+            ultitemItems.Add(new CorrodingVaultConsumed());
             ultitemItems.Add(new SuesMandiblesConsumed());
 
+            // Lunar Items
+            ultitemItems.Add(new DreamFuel());
             ultitemItems.Add(new NewBulb());
+            ultitemItems.Add(new SonorousPail());
 
             // Equipments
             ultitemItems.Add(new IceCubes());
@@ -159,11 +167,9 @@ namespace UltitemsCyan
             ultitemItems.Add(new InhabitedCoffin());
             ultitemItems.Add(new InhabitedCoffinConsumed());
 
-
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
 
-            int k = 0;
             foreach (ItemBase newItem in ultitemItems)
             {
                 newItem.Init();

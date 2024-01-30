@@ -1,29 +1,40 @@
 ﻿
 
+	When Testing:
+- Birthday Candles (optimized code, added edge case for picking up multiple candles)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-	Next:
+	ToDo Next:
 - Change Fleabag orb color
+- doesn't remove tonic allfiction with scissors
+- Optimize Sand Pail?
+- Add Pickup notifications to Vaults
+- Add 3D prefabs of 2D images
+- Add next 2 items
+
+
+
+	My Item Add Order:
+- Power Chips
+- Silver Thread
+- Grape Vine
+- Worm Holes
+- Xenon Ampoule
+- Goopy Cage
+- Trebuchet
 
 
 
 
+	For Future Consideration:
+- Birthday Candle Effect should be removed when lost. Same for bones.
+- Add Support for Simulacrum
+- Change vault items use run instance instead of Item Catalog
 
 
 
-
+	Ask my Friends Questions:
 
 
 
