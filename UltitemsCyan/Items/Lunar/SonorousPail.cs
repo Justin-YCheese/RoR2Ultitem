@@ -16,7 +16,7 @@ namespace UltitemsCyan.Items.Lunar
 
         private const float attackPerWhite = 1f;
         private const float regenPerGreen = 0.05f;
-        private const float speedPerRed = 5f;
+        private const float speedPerRed = 10f;
         private const float critPerBoss = 5f;
         //private const float armourPerUnMisc = 2f;
         //private const float healthPerLunar = 5f;
@@ -30,9 +30,9 @@ namespace UltitemsCyan.Items.Lunar
             string tokenPrefix = "SONOROUSPAIL";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Sonorous Pail");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain stats per item, but picking up an item restacks your inventory");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Gain 1% damage per common, 0.05 regen per uncommon, 5% speed per legendary, and 5% crit per boss item (+20% of each stat per stack). Trigger an item restack when picking up items.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "It's a tuning fork? no it's just a sand pail");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Gain <style=cIsDamage>1% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>5% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.");
+            LanguageAPI.Add(tokenPrefix + "_LORE", "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.");
 
             item.name = tokenPrefix + "_NAME";
             item.nameToken = tokenPrefix + "_NAME";
@@ -57,7 +57,7 @@ namespace UltitemsCyan.Items.Lunar
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.SandPailSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.SandPailPrefab;
 
             item.canRemove = true;
             item.hidden = false;
@@ -113,7 +113,7 @@ namespace UltitemsCyan.Items.Lunar
                 int grabCount = inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Warning("Sonorous Recalculate");
+                    //Log.Warning("Sonorous Recalculate");
                     // Boss - Crits
                     // White - Damage
                     // Green - Healing
@@ -155,11 +155,11 @@ namespace UltitemsCyan.Items.Lunar
                         itemIndex++;
                     }
                     float statMultiplier = 1f + ((grabCount - 1) * stackPercent / 100f);
-                    Log.Debug("stat Multiplier: " + statMultiplier);
-                    Log.Debug("Damage " + statTiers[1] + " which is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite / 100f * statMultiplier));
+                    //Log.Debug("stat Multiplier: " + statMultiplier);
+                    //Log.Debug("Damage " + statTiers[1] + " which is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite / 100f * statMultiplier));
                     args.damageMultAdd += statTiers[1] * attackPerWhite / 100f * statMultiplier;
                     // Regen increases per level
-                    Log.Debug("Regen " + statTiers[2] + " which is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
+                    //Log.Debug("Regen " + statTiers[2] + " which is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
                     args.regenMultAdd += statTiers[2] * regenPerGreen * (1f + 0.2f * sender.level) * statMultiplier;
                     args.moveSpeedMultAdd += statTiers[3] * speedPerRed / 100f * statMultiplier;
                     args.critAdd += statTiers[4] * critPerBoss * statMultiplier;

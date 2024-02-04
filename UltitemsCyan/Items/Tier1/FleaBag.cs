@@ -61,7 +61,7 @@ namespace UltitemsCyan.Items.Tier1
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.FleaBagSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.FleaBagPrefab;
 
             item.canRemove = true;
             item.hidden = false;
@@ -92,7 +92,7 @@ namespace UltitemsCyan.Items.Tier1
             {
                 // If the victum has an inventory
                 // and damage isn't rejected?
-                if (self && victim && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
+                if (self && victim && damageInfo.attacker && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
                 {
                     CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
                     int grabCount = inflictor.inventory.GetItemCount(item);
@@ -121,7 +121,7 @@ namespace UltitemsCyan.Items.Tier1
             }
             catch (NullReferenceException)
             {
-                Log.Warning("What Flea Hit?");
+                //Log.Warning("What Flea Hit?");
                 //Log.Debug("Victum " + victim.name);
                 //Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
                 //Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);

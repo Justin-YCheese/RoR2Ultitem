@@ -42,8 +42,8 @@ namespace UltitemsCyan.Items.Untiered
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.Assets.VacantCoffinConsumed;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupIconSprite = Ultitems.Assets.InhabitedCoffinConsumedSprite;
+            item.pickupModelPrefab = Ultitems.Assets.InhabitedCoffinConsumedPrefab;
 
             item.canRemove = false;
             item.hidden = false;

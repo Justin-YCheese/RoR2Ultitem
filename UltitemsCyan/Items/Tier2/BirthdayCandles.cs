@@ -3,6 +3,8 @@ using RoR2;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UltitemsCyan.Buffs;
+
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -25,7 +27,7 @@ namespace UltitemsCyan.Items.Tier2
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Birthday Candles");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Temporarily deal extra damage after pickup and at the start of each stage.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for <style=cIsUtility>5 minutes</style> after pickup and after the start of each stage.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for<style=cIsUtility>5 minutes</style>after pickup and after the start of each stage.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "I don't know what to get you for your birthday...");
 
             item.name = tokenPrefix + "_NAME";
@@ -53,7 +55,7 @@ namespace UltitemsCyan.Items.Tier2
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.BirthdayCandleSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.BirthdayCandlePrefab;
 
             item.canRemove = true;
             item.hidden = false;
@@ -78,8 +80,18 @@ namespace UltitemsCyan.Items.Tier2
 
         protected void Hooks()
         {
-            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
-            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
+            On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged; // Remove buff if no birthday candles
+            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal; // Start of stage give buff
+            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int; // Upon pickup give buff
+        }
+
+        private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
+        {
+            orig(self);
+            if (self && self.inventory && self.inventory.GetItemCount(item) < 1)
+            {
+                self.SetBuffCount(BirthdayBuff.buff.buffIndex, 0);
+            }
         }
 
         // Start of each level (or when monsters spawn in)
@@ -91,7 +103,7 @@ namespace UltitemsCyan.Items.Tier2
                 if (grabCount > 0)
                 {
                     Log.Debug("Birthday Candles On Body Start Global for " + self.GetUserName() + " | Candles: " + grabCount);
-                    ApplyBirthday(self, grabCount);
+                    ApplyBirthday(self, grabCount, grabCount);
                 }
             }
         }
@@ -118,16 +130,16 @@ namespace UltitemsCyan.Items.Tier2
                 // If you don't have any Rotten Bones
                 if (player.inventory.GetItemCount(Void.RottenBones.item) <= 0)
                 {
-                    ApplyBirthday(player, count);
+                    ApplyBirthday(player, count, self.GetItemCount(item.itemIndex));
                 }
             }
         }
 
-        protected void ApplyBirthday(CharacterBody recipient, int count)
+        protected void ApplyBirthday(CharacterBody recipient, int count, int max)
         {
             for (int i = 0; i < count; i++)
             {
-                recipient.AddTimedBuffAuthority(Buffs.BirthdayBuff.buff.buffIndex, birthdayDuration);
+                recipient.AddTimedBuff(BirthdayBuff.buff, birthdayDuration, max);
             }
             Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
         }

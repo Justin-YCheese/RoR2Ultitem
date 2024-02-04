@@ -50,7 +50,7 @@ namespace UltitemsCyan.Items.Tier1
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.ToyRobotSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.ToyRobotPrefab;
 
             item.canRemove = true;
             item.hidden = false;
@@ -113,7 +113,7 @@ namespace UltitemsCyan.Items.Tier1
                     {
                         // If it does not have a gravitation target, then pull in
                         // Chance to pickup, so that one player doesn't pickup all stuff
-                        Log.Warning("Pickup for " + body.GetUserName() + "\t is " + (basePickupChance + (negativePickupPerStack / stack)));
+                        Log.Warning("Toy Pickup for " + body.GetUserName() + "\t is " + (basePickupChance + (negativePickupPerStack / stack)));
                         if (Util.CheckRoll(basePickupChance + (negativePickupPerStack / stack)))
                         {
                             Log.Debug("     Got");

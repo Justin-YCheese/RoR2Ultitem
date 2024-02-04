@@ -1,6 +1,36 @@
 ﻿
 Current:
 
+[Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
+Stack trace:
+UltitemsCyan.Items.Void.RottenBones.ApplyRot (RoR2.CharacterBody player, System.Int32 intervals) (at <1b2227c5deab435f91a45db01e5c2e2f>:IL_0001)
+UltitemsCyan.Items.Void.RottenBones+RottenBonesTimedVoidBehavior.FixedUpdate () (at <1b2227c5deab435f91a45db01e5c2e2f>:IL_006B)
+UltitemsCyan.Items.Void.RottenBones+RottenBonesTimedVoidBehavior.OnEnable () (at <1b2227c5deab435f91a45db01e5c2e2f>:IL_001C)
+UnityEngine.GameObject:AddComponent()
+RoR2.CharacterBody:AddItemBehavior(Int32)
+UltitemsCyan.Items.Void.RottenBones:CharacterBody_OnInventoryChanged(orig_OnInventoryChanged, CharacterBody)
+DMD<>?-539648:Hook<RoR2.CharacterBody::OnInventoryChanged>?210786048(CharacterBody)
+DMD<>?-539648:Trampoline<RoR2.CharacterBody::OnInventoryChanged>?1563279360(CharacterBody)
+UltitemsCyan.Items.Void.DownloadedRAM:CharacterBody_OnInventoryChanged(orig_OnInventoryChanged, CharacterBody)
+DMD<>?-539648:Hook<RoR2.CharacterBody::OnInventoryChanged>?1626291456(CharacterBody)
+RoR2.Inventory:HandleInventoryChanged()
+DMD<GiveItem>?-539648:_RoR2_Inventory::GiveItem(Inventory, ItemIndex, Int32)
+DMD<>?-539648:Trampoline<RoR2.Inventory::GiveItem>?-1742843904(Inventory, ItemIndex, Int32)
+UltitemsCyan.Items.Tier2.BirthdayCandles:Inventory_GiveItem_ItemIndex_int(orig_GiveItem_ItemIndex_int, Inventory, ItemIndex, Int32)
+DMD<>?-539648:Hook<RoR2.Inventory::GiveItem>?-806174208(Inventory, ItemIndex, Int32)
+DMD<>?-539648:Trampoline<RoR2.Inventory::GiveItem>?-1381139456(Inventory, ItemIndex, Int32)
+UltitemsCyan.Items.Lunar.SonorousPail:Inventory_GiveItem_ItemIndex_int(orig_GiveItem_ItemIndex_int, Inventory, ItemIndex, Int32)
+DMD<>?-539648:Hook<RoR2.Inventory::GiveItem>?-82107520(Inventory, ItemIndex, Int32)
+RoR2.ItemDef:AttemptGrant(GrantContext&)
+RoR2.GenericPickupController:AttemptGrant(CharacterBody)
+RoR2.GenericPickupController:OnInteractionBegin(Interactor)
+RoR2.Interactor:PerformInteraction(GameObject)
+RoR2.Interactor:AttemptInteraction(GameObject)
+RoR2.InteractionDriver:FixedUpdate()
+    When Picking up RottenBones Something to do with body no existing on startup?
+
+
+
 [Error  : Unity Log] [RoR2.Items.ContagiousItemManager] System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.NullReferenceException: Object reference not set to an instance of an object
   at RoR2.ItemDef+Pair.GetHashCode () [0x00000] in <1d532be543be416b9db3594e4b62447d>:IL_0000 
   at System.Collections.Generic.GenericEqualityComparer`1[T].GetHashCode (T obj) [0x0000a] in <44afb4564e9347cf99a1865351ea8f4a>:IL_000A 

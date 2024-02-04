@@ -1,5 +1,4 @@
 ﻿Known:
-- Pail Hopefully fix multiple triggers upon interacting and visual bug when picking up pail in newt shop
 
 
 Test:
@@ -7,6 +6,8 @@ Test:
 
 
 Fixed:
+- Pail Hopefully fix multiple triggers upon interacting and visual bug when picking up pail in newt shop
+	- Checked if on server
 - Birthday Candle doubles for non local players
 	- Check for server first
 - Koala Stickers not working?

@@ -44,7 +44,7 @@ namespace UltitemsCyan.Items.Tier3
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.SuesMandiblesSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.SuesMandiblesPrefab;
 
             item.canRemove = true;
             item.hidden = false;

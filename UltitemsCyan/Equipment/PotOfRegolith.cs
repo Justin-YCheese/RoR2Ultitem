@@ -41,7 +41,7 @@ namespace UltitemsCyan.Equipment
             equipment.cooldown = 2f;
 
             equipment.pickupIconSprite = Ultitems.Assets.PotOfRegolithSprite;
-            equipment.pickupModelPrefab = Ultitems.mysteryPrefab;
+            equipment.pickupModelPrefab = Ultitems.Assets.PotOfRegolithPrefab;
 
             equipment.appearsInSinglePlayer = true;
             equipment.appearsInMultiPlayer = true;

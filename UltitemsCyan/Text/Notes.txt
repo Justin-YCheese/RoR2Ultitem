@@ -16,6 +16,10 @@ CombinedHealthFraction = Current: Hp + Shield + Barrier / Hp + Shield
 
 	Other notes
 
+Item Behavior Order:
+Adding -> OnAwake(), OnEnable(), Start()
+Removing -> OnDisable(), Destory()
+
 ChatMessageBase.GetObjectName(GameObject)
 To get name of objects, returns player username or object name
 

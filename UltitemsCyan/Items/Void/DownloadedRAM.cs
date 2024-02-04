@@ -34,8 +34,8 @@ namespace UltitemsCyan.Items.Void
             string tokenPrefix = "DOWNLOADEDRAM";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Downloaded RAM");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance on hit to increase damage by 10%. Stacks 4 (+4 per stack) times.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>15%</style> chance on hit to increase damage by <style=cIsDamage>10%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. Corrupts all Overclocked GPU.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance on hit to increase damage by 10%. Stacks 4 (+4 per stack) times. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>15%</style> chance on hit to increase damage by <style=cIsDamage>10%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.");
                 //"   EXTRA: Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. Corrupts Birthday Candles");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
@@ -62,7 +62,7 @@ namespace UltitemsCyan.Items.Void
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.DownloadedRAMSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.DownloadedRAMPrefab;
 
             item.canRemove = true;
             item.hidden = false;
@@ -175,7 +175,7 @@ namespace UltitemsCyan.Items.Void
             private bool _attacking = false;
 
             // Order:
-            // Awake(), Enable(), Start()
+            // Awake(), Enable(), OnStart()
             // Disable(), Destory()
 
             public void UpdateStopwatch(float newTime)

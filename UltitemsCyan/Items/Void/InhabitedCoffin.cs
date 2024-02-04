@@ -14,6 +14,8 @@ namespace UltitemsCyan.Items.Void
     {
         public static ItemDef item;
         public static ItemDef transformItem;
+
+        private const float noFreeCoffinChance = 90f;
         private const int minimumInCoffin = 5;
         private const int bonusInCoffin = 0;
 
@@ -22,8 +24,8 @@ namespace UltitemsCyan.Items.Void
             string tokenPrefix = "INHABITEDCOFFIN";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Inhabited Coffin");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains void items.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>6</style> random void items");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains void items. <style=cIsVoid>Corrupts all Corroding Vaults</stlye>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>6</style> random void items. <style=cIsVoid>Corrupts all Corroding Vaults</stlye>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Something lives inside this coffin. That coffin is deeper than you think.");
 
             item.name = tokenPrefix + "_NAME";
@@ -51,7 +53,7 @@ namespace UltitemsCyan.Items.Void
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.InhabitedCoffinSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.InhabitedCoffinPrefab;
 
             item.canRemove = true;
             item.hidden = false;
@@ -109,7 +111,22 @@ namespace UltitemsCyan.Items.Void
                     int length = allVoidItems.Length;
                     Log.Debug("All Void Items Length: " + length);
 
-                    int quantityInVault = minimumInCoffin + Random.Range(0, bonusInCoffin + 1); // bonus plus one because rand int not include max
+                    // 14 Vanilla void items
+                    // 4 modded void items
+                    int quantityInVault = 0;
+                    if (Util.CheckRoll(noFreeCoffinChance, self.master.luck))
+                    {
+                        // No coffin
+                        quantityInVault = minimumInCoffin;
+                    }
+                    else
+                    {
+                        // You get a free coffin
+                        self.inventory.GiveItem(item);
+                        quantityInVault = minimumInCoffin - 1;
+                    }
+
+                    ;// + Random.Range(0, bonusInCoffin + 1); // bonus plus one because rand int not include max
 
                     // Error Message if there aren't enough items somehow
                     if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }

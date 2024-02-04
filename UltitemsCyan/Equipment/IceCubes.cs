@@ -40,7 +40,7 @@ namespace UltitemsCyan.Equipment
             equipment.cooldown = 60f;
 
             equipment.pickupIconSprite = Ultitems.Assets.IceCubesSprite;
-            equipment.pickupModelPrefab = Ultitems.mysteryPrefab;
+            equipment.pickupModelPrefab = Ultitems.Assets.IceCubesPrefab;
 
             equipment.appearsInSinglePlayer = true;
             equipment.appearsInMultiPlayer = true;

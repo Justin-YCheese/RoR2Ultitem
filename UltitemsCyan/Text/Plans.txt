@@ -1,14 +1,14 @@
 ﻿
 
 	When Testing:
-- Birthday Candles (optimized code, added edge case for picking up multiple candles)
+- Test Inhabited Coffin Recoffin Chance
+- Test 3D models
 
 
 
 	ToDo Next:
-- Change Fleabag orb color
 - doesn't remove tonic allfiction with scissors
-- Optimize Sand Pail?
+- Add Luck chance for Inhabited Coffin to add another coffin
 - Add Pickup notifications to Vaults
 - Add 3D prefabs of 2D images
 - Add next 2 items
@@ -28,22 +28,10 @@
 
 
 	For Future Consideration:
-- Birthday Candle Effect should be removed when lost. Same for bones.
+- Change Fleabag orb color
 - Add Support for Simulacrum
-- Change vault items use run instance instead of Item Catalog
+- Change vault items use run instance instead of Item Catalog (for if items are banned in a run)
 
 
 
 	Ask my Friends Questions:
-
-
-
-
-
-
-
-
-
-
-
-

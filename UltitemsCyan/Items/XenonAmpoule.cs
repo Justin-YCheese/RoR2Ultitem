@@ -63,7 +63,7 @@ namespace UltitemsCyan.Items
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.XenonAmpouleSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.XenonAmpoulePrefab;
 
             item.canRemove = true;
             item.hidden = false;

@@ -22,8 +22,8 @@ namespace UltitemsCyan.Items.Void
             string tokenPrefix = "DRIEDHAM";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Dried Ham");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 30% health.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> <style=cStack>(+4 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. Corrupts all Crème Brûlée.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 30% health. <style=cIsVoid>Corrupts all Crème Brûlées</style>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> <style=cStack>(+4 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. <style=cIsVoid>Corrupts all Crème Brûlées</style>.");
             //LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>1%</style> plus an additional <style=cIsHealing>4</style> <style=cStack>(+4 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. Corrupts all Crème Brûlée.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
@@ -50,7 +50,7 @@ namespace UltitemsCyan.Items.Void
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.DriedHamSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.DriedHamPrefab;
 
             item.canRemove = true;
             item.hidden = false;

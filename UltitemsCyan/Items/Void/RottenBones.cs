@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        public const int rotsPerItem = 4;
+        public const int rotsPerItem = 3;
         public const float rottingBuffMultiplier = 20;
         public const float rotTimeInterval = 180; // 3 minutes
         public static float stageStartTime; // measured in seconds
@@ -27,8 +27,8 @@ namespace UltitemsCyan.Items.Void
             string tokenPrefix = "ROTTENBONES";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Rotten Bones");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Deal more damage over time.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. Corrupts Birthday Candles");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Deal more damage over time. <style=cIsVoid>Corrupts all Birthday Candles</style>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. <style=cIsVoid>Corrupts all Birthday Candles</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
 
             item.name = tokenPrefix + "_NAME";
@@ -54,7 +54,7 @@ namespace UltitemsCyan.Items.Void
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.RottenBonesSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.RottenBonesPrefab;
 
             item.canRemove = true;
             item.hidden = false;
@@ -94,7 +94,7 @@ namespace UltitemsCyan.Items.Void
             // Add Behavior to player (expectially if the full time intervals have passed)
             if (NetworkServer.active && self && self.inventory)
             {
-                self.AddItemBehavior<RottenBonesTimedVoidBehavior>(self.inventory.GetItemCount(item));
+                self.AddItemBehavior<RottenBonesVoidBehavior>(self.inventory.GetItemCount(item));
             }
         }
         private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
@@ -109,21 +109,23 @@ namespace UltitemsCyan.Items.Void
                     // If within time intervals give item behavior
                     if (Run.instance.time < stageStartTime + (rotTimeInterval * rotsPerItem))
                     {
-                        RottenBonesTimedVoidBehavior behavior = self.AddItemBehavior<RottenBonesTimedVoidBehavior>(self.inventory.GetItemCount(item));
-                        Log.Debug("New Bone? Intervals Passed! " + behavior.intervalsPassed);
-                        ApplyRot(self, behavior.intervalsPassed);
+                        RottenBonesVoidBehavior behavior = self.AddItemBehavior<RottenBonesVoidBehavior>(self.inventory.GetItemCount(item));
+                        //Log.Debug("New Bone? Intervals Passed! " + behavior.IntervalsPassed);
+                        ApplyRot(self, behavior.IntervalsPassed);
                     }
                     else
                     {
                         // Apply max rot
-                        Log.Debug("Pass rot Time Interval Item Pickup");
+                        //Log.Debug("Pass rot Time Interval Item Pickup");
                         ApplyRot(self, rotsPerItem);
                     }
                 }
                 else
                 {
                     // If player doesn't have this item anymore
-                    self.AddItemBehavior<RottenBonesTimedVoidBehavior>(0);
+                    //Log.Debug("Inventory no bones");
+                    //self.AddItemBehavior<RottenBonesVoidBehavior>(0); // When removed and added the same frame gets messed up
+                    self.SetBuffCount(RottingBuff.buff.buffIndex, 0);
                 }
             }
         }
@@ -150,7 +152,7 @@ namespace UltitemsCyan.Items.Void
                 // If within time intervals give item behavior
                 if (Run.instance.time < stageStartTime + (rotTimeInterval * rotsPerItem))
                 {
-                    RottenBonesTimedVoidBehavior behavior = player.AddItemBehavior<RottenBonesTimedVoidBehavior>(player.inventory.GetItemCount(item));
+                    RottenBonesVoidBehavior behavior = player.AddItemBehavior<RottenBonesVoidBehavior>(player.inventory.GetItemCount(item));
                     Log.Debug("New Bone? Intervals Passed! " + behavior.intervalsPassed);
                     ApplyRot(player, behavior.intervalsPassed);
                 }
@@ -164,33 +166,42 @@ namespace UltitemsCyan.Items.Void
         }//*/
 
         //
-        public class RottenBonesTimedVoidBehavior : CharacterBody.ItemBehavior
+        public class RottenBonesVoidBehavior : CharacterBody.ItemBehavior
         {
-            public int intervalsPassed = 0;
+            private int _intervalsPassed = 0;
             // Order:
             // Awake(), Enable(), Start()
             // Disable(), Destory()
 
-            private void OnDisable()
+            public int IntervalsPassed
             {
-                intervalsPassed = 0;
+                get { return _intervalsPassed; }
+                set
+                {
+                    //Log.Debug("_intervalsPassed: " + _intervalsPassed);
+                    // If not already the same value
+                    _intervalsPassed = value;
+                    // If full health
+                    if (_intervalsPassed > 0)
+                    {
+                        ApplyRot(body, _intervalsPassed);
+                        if (_intervalsPassed >= rotsPerItem)
+                        {
+                            Log.Debug("Pass rot Time Interval But Behavior!");
+                            enabled = false; // Not sure if removes, but at least stop FixedUpdate for this item from running
+                        }
+                    }
+                }
             }
 
             private void FixedUpdate()
             {
                 float currentTime = Run.instance.time;
                 // If more intervals have passed than currently recorded
-                if (currentTime > stageStartTime + (rotTimeInterval * (intervalsPassed + 1)))
+                while (currentTime > stageStartTime + (rotTimeInterval * (_intervalsPassed + 1)) && _intervalsPassed < rotsPerItem)
                 {
                     //Log.Warning("Rot Math: " + (currentTime - stageStartTime) + "\t/ " + rotTimeInterval + "\t = " + (int)((currentTime - stageStartTime) / rotTimeInterval));
-                    intervalsPassed++;
-                    ApplyRot(body, intervalsPassed);
-                    // If max rots, remove behavior by setting stacks to zero?
-                    if (intervalsPassed >= rotsPerItem)
-                    {
-                        Log.Debug("Pass rot Time Interval But Behavior!");
-                        body.AddItemBehavior<RottenBonesTimedVoidBehavior>(0); // Not sure if removes, but at least stop FixedUpdate for this item from running
-                    }
+                    IntervalsPassed++;
                 }
             }
         }

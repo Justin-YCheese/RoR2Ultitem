@@ -63,14 +63,13 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.6.10";
-        /* Version Changes
-         * Added Sonorous Pail
-         * 
-         * 
-         * 
-         * 
-         * 
+        public const string PluginVersion = "0.7.0";
+        /* Version Changes     Git v7.0
+         * Fixing Birthday Candle Sonorous Pail bug v11
+         * Removing Rotting buff when item lost  
+         * Fixed Rotting bones with sonorous Pail v12
+         * Added Purple Void Text to void items
+         * Added luck factor for inhabited coffin
          * 
          */
 
@@ -153,9 +152,9 @@ namespace UltitemsCyan
 
             // Lunar Items
             ultitemItems.Add(new DreamFuel());
-            ultitemItems.Add(new NewBulb());
+            ultitemItems.Add(new UltravioletBulb());
             ultitemItems.Add(new SonorousPail());
-
+            a
             // Equipments
             ultitemItems.Add(new IceCubes());
             ultitemItems.Add(new PotOfRegolith());
@@ -235,12 +234,21 @@ namespace UltitemsCyan
             public static Sprite FlyingDiscSprite;
             public static Sprite KoalaStickerSprite;
             public static Sprite ToyRobotSprite;
+            public static GameObject CremeBruleePrefab;
+            public static GameObject FleaBagPrefab;
+            public static GameObject FlyingDiscPrefab;
+            public static GameObject KoalaStickerPrefab;
+            public static GameObject ToyRobotPrefab;
 
             // Green
             public static Sprite BirthdayCandleSprite;
             public static Sprite DegreeScissorsSprite;
             public static Sprite OverclockedGPUSprite;
             public static Sprite TippedArrowSprite;
+            public static GameObject BirthdayCandlePrefab;
+            public static GameObject DegreeScissorsPrefab;
+            public static GameObject OverclockedGPUPrefab;
+            public static GameObject TippedArrowPrefab;
 
             // Red
             public static Sprite CorrodingVaultSprite;
@@ -249,6 +257,12 @@ namespace UltitemsCyan
             public static Sprite SuesMandiblesSprite;
             public static Sprite ViralSmogSprite;
             public static Sprite XenonAmpouleSprite;
+            public static GameObject CorrodingVaultPrefab;
+            public static GameObject FaultyBulbPrefab;
+            public static GameObject GrapevinePrefab;
+            public static GameObject SuesMandiblesPrefab;
+            public static GameObject ViralSmogPrefab;
+            public static GameObject XenonAmpoulePrefab;
 
             // Void
             public static Sprite DownloadedRAMSprite;
@@ -256,8 +270,15 @@ namespace UltitemsCyan
             public static Sprite InhabitedCoffinSprite;
             public static Sprite RottenBonesSprite;
             public static Sprite TungstenRodSprite;
-            public static Sprite VacantCoffinConsumed;
+            public static Sprite InhabitedCoffinConsumedSprite;
             public static Sprite WormHolesSprite;
+            public static GameObject DownloadedRAMPrefab;
+            public static GameObject DriedHamPrefab;
+            public static GameObject InhabitedCoffinPrefab;
+            public static GameObject RottenBonesPrefab;
+            public static GameObject TungstenRodPrefab;
+            public static GameObject InhabitedCoffinConsumedPrefab;
+            public static GameObject WormHolesPrefab;
 
             // Lunar
             public static Sprite CreatureDeckSprite;
@@ -266,10 +287,18 @@ namespace UltitemsCyan
             public static Sprite PowerChipsSprite;
             public static Sprite SandPailSprite;
             public static Sprite SilverThreadSprite;
+            public static GameObject CreatureDeckPrefab;
+            public static GameObject NewBulbPrefab;
+            public static GameObject DreamFuelPrefab;
+            public static GameObject PowerChipsPrefab;
+            public static GameObject SandPailPrefab;
+            public static GameObject SilverThreadPrefab;
 
             // Untiered
             public static Sprite CorrodingVaultConsumedSprite;
             public static Sprite SuesMandiblesConsumedSprite;
+            public static GameObject CorrodingVaultConsumedPrefab;
+            public static GameObject SuesMandiblesConsumedPrefab;
 
             // Equipment
             public static Sprite GoopyCageSprite;
@@ -277,6 +306,11 @@ namespace UltitemsCyan
             public static Sprite PetRockSprite;
             public static Sprite PotOfRegolithSprite;
             public static Sprite TrebuchetSprite;
+            public static GameObject GoopyCagePrefab;
+            public static GameObject IceCubesPrefab;
+            public static GameObject PetRockPrefab;
+            public static GameObject PotOfRegolithPrefab;
+            public static GameObject TrebuchetPrefab;
 
             // Buffs
             public static Sprite BirthdaySprite;
@@ -311,54 +345,133 @@ namespace UltitemsCyan
                 {
                     Log.Warning("Null mainBundle");
                 }
-                // White
-                CremeBruleeSprite = mainBundle.LoadAsset<Sprite>("CremeBrulee");
-                FleaBagSprite = mainBundle.LoadAsset<Sprite>("FleaBag");
-                FlyingDiscSprite = mainBundle.LoadAsset<Sprite>("FlyingDisc");
-                KoalaStickerSprite = mainBundle.LoadAsset<Sprite>("KoalaSticker");
-                ToyRobotSprite = mainBundle.LoadAsset<Sprite>("ToyRobot");
+
+                float localScale = 0.2f;
+
+                CremeBruleeSprite = mainBundle.LoadAsset<Sprite>("CremeBrulee.png");
+                FleaBagSprite = mainBundle.LoadAsset<Sprite>("FleaBag.png");
+                FlyingDiscSprite = mainBundle.LoadAsset<Sprite>("FlyingDisc.png");
+                KoalaStickerSprite = mainBundle.LoadAsset<Sprite>("KoalaSticker.png");
+                ToyRobotSprite = mainBundle.LoadAsset<Sprite>("ToyRobot.png");
+                CremeBruleePrefab = mainBundle.LoadAsset<GameObject>("CremeBrulee.prefab");
+                FleaBagPrefab = mainBundle.LoadAsset<GameObject>("FleaBag.prefab");
+                FlyingDiscPrefab = mainBundle.LoadAsset<GameObject>("FlyingDisc.prefab");
+                KoalaStickerPrefab = mainBundle.LoadAsset<GameObject>("KoalaSticker.prefab");
+                ToyRobotPrefab = mainBundle.LoadAsset<GameObject>("ToyRobot.prefab");
+
+                CremeBruleePrefab.transform.localScale = Vector3.up * localScale;
+                FleaBagPrefab.transform.localScale = Vector3.up * localScale;
+                FlyingDiscPrefab.transform.localScale = Vector3.up * localScale;
+                KoalaStickerPrefab.transform.localScale = Vector3.up * localScale;
+                ToyRobotPrefab.transform.localScale = Vector3.up * localScale;
 
                 // Green
-                BirthdayCandleSprite = mainBundle.LoadAsset<Sprite>("BirthdayCandle");
-                DegreeScissorsSprite = mainBundle.LoadAsset<Sprite>("DegreeScissors");
-                OverclockedGPUSprite = mainBundle.LoadAsset<Sprite>("OverclockedGPU");
-                TippedArrowSprite = mainBundle.LoadAsset<Sprite>("TippedArrow");
+                BirthdayCandleSprite = mainBundle.LoadAsset<Sprite>("BirthdayCandle.png");
+                DegreeScissorsSprite = mainBundle.LoadAsset<Sprite>("DegreeScissors.png");
+                OverclockedGPUSprite = mainBundle.LoadAsset<Sprite>("OverclockedGPU.png");
+                TippedArrowSprite = mainBundle.LoadAsset<Sprite>("TippedArrow.png");
+                BirthdayCandlePrefab = mainBundle.LoadAsset<GameObject>("BirthdayCandle.prefab");
+                DegreeScissorsPrefab = mainBundle.LoadAsset<GameObject>("DegreeScissors.prefab");
+                OverclockedGPUPrefab = mainBundle.LoadAsset<GameObject>("OverclockedGPU.prefab");
+                TippedArrowPrefab = mainBundle.LoadAsset<GameObject>("TippedArrow.prefab");
+
+                BirthdayCandlePrefab.transform.localScale = Vector3.up * localScale;
+                DegreeScissorsPrefab.transform.localScale = Vector3.up * localScale;
+                OverclockedGPUPrefab.transform.localScale = Vector3.up * localScale;
+                TippedArrowPrefab.transform.localScale = Vector3.up * localScale;
 
                 // Red
-                CorrodingVaultSprite = mainBundle.LoadAsset<Sprite>("CorrodingVault");
-                FaultyBulbSprite = mainBundle.LoadAsset<Sprite>("FaultyBulb");
-                GrapevineSprite = mainBundle.LoadAsset<Sprite>("Grapevine");
-                SuesMandiblesSprite = mainBundle.LoadAsset<Sprite>("SuesMandibles");
-                ViralSmogSprite = mainBundle.LoadAsset<Sprite>("ViralSmog");
-                XenonAmpouleSprite = mainBundle.LoadAsset<Sprite>("XenonAmpoule");
+                CorrodingVaultSprite = mainBundle.LoadAsset<Sprite>("CorrodingVault.png");
+                FaultyBulbSprite = mainBundle.LoadAsset<Sprite>("FaultyBulb.png");
+                GrapevineSprite = mainBundle.LoadAsset<Sprite>("Grapevine.png");
+                SuesMandiblesSprite = mainBundle.LoadAsset<Sprite>("SuesMandibles.png");
+                ViralSmogSprite = mainBundle.LoadAsset<Sprite>("ViralSmog.png");
+                XenonAmpouleSprite = mainBundle.LoadAsset<Sprite>("XenonAmpoule.png");
+                CorrodingVaultPrefab = mainBundle.LoadAsset<GameObject>("CorrodingVault.prefab");
+                FaultyBulbPrefab = mainBundle.LoadAsset<GameObject>("FaultyBulb.prefab");
+                GrapevinePrefab = mainBundle.LoadAsset<GameObject>("Grapevine.prefab");
+                SuesMandiblesPrefab = mainBundle.LoadAsset<GameObject>("SuesMandibles.prefab");
+                ViralSmogPrefab = mainBundle.LoadAsset<GameObject>("ViralSmog.prefab");
+                XenonAmpoulePrefab = mainBundle.LoadAsset<GameObject>("XenonAmpoule.prefab");
+
+                CorrodingVaultPrefab.transform.localScale = Vector3.up * localScale;
+                FaultyBulbPrefab.transform.localScale = Vector3.up * localScale;
+                GrapevinePrefab.transform.localScale = Vector3.up * localScale;
+                SuesMandiblesPrefab.transform.localScale = Vector3.up * localScale;
+                ViralSmogPrefab.transform.localScale = Vector3.up * localScale;
+                XenonAmpoulePrefab.transform.localScale = Vector3.up * localScale;
 
                 // Void
-                DownloadedRAMSprite = mainBundle.LoadAsset<Sprite>("DownloadedRAM");
-                DriedHamSprite = mainBundle.LoadAsset<Sprite>("DriedHam");
-                InhabitedCoffinSprite = mainBundle.LoadAsset<Sprite>("InhabitedCoffin");
-                RottenBonesSprite = mainBundle.LoadAsset<Sprite>("RottenBones");
-                TungstenRodSprite = mainBundle.LoadAsset<Sprite>("TungstenRod");
-                VacantCoffinConsumed = mainBundle.LoadAsset<Sprite>("VacantCoffinConsumed");
-                WormHolesSprite = mainBundle.LoadAsset<Sprite>("WormHoles");
+                DownloadedRAMSprite = mainBundle.LoadAsset<Sprite>("DownloadedRAM.png");
+                DriedHamSprite = mainBundle.LoadAsset<Sprite>("DriedHam.png");
+                InhabitedCoffinSprite = mainBundle.LoadAsset<Sprite>("InhabitedCoffin.png");
+                RottenBonesSprite = mainBundle.LoadAsset<Sprite>("RottenBones.png");
+                TungstenRodSprite = mainBundle.LoadAsset<Sprite>("TungstenRod.png");
+                InhabitedCoffinConsumedSprite = mainBundle.LoadAsset<Sprite>("VacantCoffinConsumed.png");
+                WormHolesSprite = mainBundle.LoadAsset<Sprite>("WormHoles.png");
+                DownloadedRAMPrefab = mainBundle.LoadAsset<GameObject>("DownloadedRAM.prefab");
+                DriedHamPrefab = mainBundle.LoadAsset<GameObject>("DriedHam.prefab");
+                InhabitedCoffinPrefab = mainBundle.LoadAsset<GameObject>("InhabitedCoffin.prefab");
+                RottenBonesPrefab = mainBundle.LoadAsset<GameObject>("RottenBones.prefab");
+                TungstenRodPrefab = mainBundle.LoadAsset<GameObject>("TungstenRod.prefab");
+                InhabitedCoffinConsumedPrefab = mainBundle.LoadAsset<GameObject>("VacantCoffinConsumed.prefab");
+                WormHolesPrefab = mainBundle.LoadAsset<GameObject>("WormHoles.prefab");
+
+                DownloadedRAMPrefab.transform.localScale = Vector3.up * localScale;
+                DriedHamPrefab.transform.localScale = Vector3.up * localScale;
+                InhabitedCoffinPrefab.transform.localScale = Vector3.up * localScale;
+                RottenBonesPrefab.transform.localScale = Vector3.up * localScale;
+                TungstenRodPrefab.transform.localScale = Vector3.up * localScale;
+                InhabitedCoffinConsumedPrefab.transform.localScale = Vector3.up * localScale;
+                WormHolesPrefab.transform.localScale = Vector3.up * localScale;
 
                 // Lunar
-                CreatureDeckSprite = mainBundle.LoadAsset<Sprite>("CreatureDeck");
-                DreamFuelSprite = mainBundle.LoadAsset<Sprite>("DreamFuel");
-                NewBulbSprite = mainBundle.LoadAsset<Sprite>("NewBulb");
-                PowerChipsSprite = mainBundle.LoadAsset<Sprite>("PowerChips");
-                SandPailSprite = mainBundle.LoadAsset<Sprite>("SandPail");
-                SilverThreadSprite = mainBundle.LoadAsset<Sprite>("SilverThread");
+                CreatureDeckSprite = mainBundle.LoadAsset<Sprite>("CreatureDeck.png");
+                DreamFuelSprite = mainBundle.LoadAsset<Sprite>("DreamFuel.png");
+                NewBulbSprite = mainBundle.LoadAsset<Sprite>("NewBulb.png");
+                PowerChipsSprite = mainBundle.LoadAsset<Sprite>("PowerChips.png");
+                SandPailSprite = mainBundle.LoadAsset<Sprite>("SandPail.png");
+                SilverThreadSprite = mainBundle.LoadAsset<Sprite>("SilverThread.png");
+                CreatureDeckPrefab = mainBundle.LoadAsset<GameObject>("CreatureDeck.prefab");
+                DreamFuelPrefab = mainBundle.LoadAsset<GameObject>("DreamFuel.prefab");
+                NewBulbPrefab = mainBundle.LoadAsset<GameObject>("NewBulb.prefab");
+                PowerChipsPrefab = mainBundle.LoadAsset<GameObject>("PowerChips.prefab");
+                SandPailPrefab = mainBundle.LoadAsset<GameObject>("SandPail.prefab");
+                SilverThreadPrefab = mainBundle.LoadAsset<GameObject>("SilverThread.prefab");
+
+                CreatureDeckPrefab.transform.localScale = Vector3.up * localScale;
+                DreamFuelPrefab.transform.localScale = Vector3.up * localScale;
+                NewBulbPrefab.transform.localScale = Vector3.up * localScale;
+                PowerChipsPrefab.transform.localScale = Vector3.up * localScale;
+                SandPailPrefab.transform.localScale = Vector3.up * localScale;
+                SilverThreadPrefab.transform.localScale = Vector3.up * localScale;
 
                 // Untiered
-                CorrodingVaultConsumedSprite = mainBundle.LoadAsset<Sprite>("CorrodingVaultConsumed");
-                SuesMandiblesConsumedSprite = mainBundle.LoadAsset<Sprite>("SuesMandiblesConsumed");
+                CorrodingVaultConsumedSprite = mainBundle.LoadAsset<Sprite>("CorrodingVaultConsumed.png");
+                SuesMandiblesConsumedSprite = mainBundle.LoadAsset<Sprite>("SuesMandiblesConsumed.png");
+                CorrodingVaultConsumedPrefab = mainBundle.LoadAsset<GameObject>("CorrodingVaultConsumed.prefab");
+                SuesMandiblesConsumedPrefab = mainBundle.LoadAsset<GameObject>("SuesMandiblesConsumed.prefab");
+
+                CorrodingVaultConsumedPrefab.transform.localScale = Vector3.up * localScale;
+                SuesMandiblesConsumedPrefab.transform.localScale = Vector3.up * localScale;
 
                 // Equipment
-                GoopyCageSprite = mainBundle.LoadAsset<Sprite>("GoopyCage");
-                IceCubesSprite = mainBundle.LoadAsset<Sprite>("IceCubes");
-                PetRockSprite = mainBundle.LoadAsset<Sprite>("PetRock");
-                PotOfRegolithSprite = mainBundle.LoadAsset<Sprite>("PotOfRegolith");
-                TrebuchetSprite = mainBundle.LoadAsset<Sprite>("Trebuchet");
+                GoopyCageSprite = mainBundle.LoadAsset<Sprite>("GoopyCage.png");
+                IceCubesSprite = mainBundle.LoadAsset<Sprite>("IceCubes.png");
+                PetRockSprite = mainBundle.LoadAsset<Sprite>("PetRock.png");
+                PotOfRegolithSprite = mainBundle.LoadAsset<Sprite>("PotOfRegolith.png");
+                TrebuchetSprite = mainBundle.LoadAsset<Sprite>("Trebuchet.png");
+                GoopyCagePrefab = mainBundle.LoadAsset<GameObject>("GoopyCage.prefab");
+                IceCubesPrefab = mainBundle.LoadAsset<GameObject>("IceCubes.prefab");
+                PetRockPrefab = mainBundle.LoadAsset<GameObject>("PetRock.prefab");
+                PotOfRegolithPrefab = mainBundle.LoadAsset<GameObject>("PotOfRegolith.prefab");
+                TrebuchetPrefab = mainBundle.LoadAsset<GameObject>("Trebuchet.prefab");
+
+                GoopyCagePrefab.transform.localScale = Vector3.up * localScale;
+                IceCubesPrefab.transform.localScale = Vector3.up * localScale;
+                PetRockPrefab.transform.localScale = Vector3.up * localScale;
+                PotOfRegolithPrefab.transform.localScale = Vector3.up * localScale;
+                TrebuchetPrefab.transform.localScale = Vector3.up * localScale;
 
                 // Buffs
                 BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");

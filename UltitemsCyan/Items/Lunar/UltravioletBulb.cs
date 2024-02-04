@@ -8,18 +8,19 @@ namespace UltitemsCyan.Items.Lunar
 {
 
     // TODO: check if Item classes needs to be public
-    public class NewBulb : ItemBase
+    public class UltravioletBulb : ItemBase
     {
         public static ItemDef item;
         private const float dontResetFraction = 0.50f;
 
         private void Tokens()
         {
-            string tokenPrefix = "NEWBULB";
+            string tokenPrefix = "ULTRAVIOLETBULB";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "New Bulb");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to instantly reset a skill after it's used but triples all cooldown");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>50%</style> <style=cStack>(+50% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style> but</style> <style=cStack>(Triple all cooldowns per stack)</style>");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Ultraviolet Bulb");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to instantly reset a skill after it's used... <style=cDeath>BUT triples all cooldown</style>");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>50%</style> <style=cStack>(+50% per stack)</style> chance to" +
+                "<style=cIsUtility>reset a skill cooldown</style> and <style=cDeath>triple all cooldowns</style> <style=cStack>(per stack)</style>");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
 
             item.name = tokenPrefix + "_NAME";
@@ -45,7 +46,7 @@ namespace UltitemsCyan.Items.Lunar
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.NewBulbSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.NewBulbPrefab;
 
             item.canRemove = true;
             item.hidden = false;

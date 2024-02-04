@@ -20,7 +20,7 @@ namespace UltitemsCyan.Items.Lunar
             string tokenPrefix = "DREAMFUEL";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Dream Fuel");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase speed at full health <style=cDeath>BUT get rooted when hit</style>.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase speed at full health... <style=cDeath>BUT get rooted when hit.</style>");
             LanguageAPI.Add(tokenPrefix + "_DESC", "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>120%</style> <style=cStack>(+120% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Nightmare fuel");
 
@@ -49,7 +49,7 @@ namespace UltitemsCyan.Items.Lunar
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.pickupIconSprite = Ultitems.Assets.DreamFuelSprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupModelPrefab = Ultitems.Assets.DreamFuelPrefab;
 
             item.canRemove = true;
             item.hidden = false;
