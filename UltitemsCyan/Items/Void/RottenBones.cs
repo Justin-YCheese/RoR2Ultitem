@@ -20,7 +20,6 @@ namespace UltitemsCyan.Items.Void
         public const int rotsPerItem = 3;
         public const float rottingBuffMultiplier = 20;
         public const float rotTimeInterval = 180; // 3 minutes
-        public static float stageStartTime; // measured in seconds
 
         private void Tokens()
         {
@@ -77,17 +76,12 @@ namespace UltitemsCyan.Items.Void
         protected void Hooks()
         {
             // TODO Add 
-            Stage.onStageStartGlobal += Stage_onStageStartGlobal;
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
             //On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
         }
 
-        private void Stage_onStageStartGlobal(Stage obj)
-        {
-            stageStartTime = Run.instance.time;
-            Log.Warning("Rotting Starts at: " + stageStartTime);
-        }
+
 
         private void CharacterBody_onBodyStartGlobal(CharacterBody self)
         {
@@ -105,9 +99,9 @@ namespace UltitemsCyan.Items.Void
             {
                 if (self.inventory.GetItemCount(item) > 0)
                 {
-                    Log.Warning("Give Rotting Bones");
+                    //Log.Warning("Give Rotting Bones");
                     // If within time intervals give item behavior
-                    if (Run.instance.time < stageStartTime + (rotTimeInterval * rotsPerItem))
+                    if (Run.instance.time < Ultitems.stageStartTime + (rotTimeInterval * rotsPerItem))
                     {
                         RottenBonesVoidBehavior behavior = self.AddItemBehavior<RottenBonesVoidBehavior>(self.inventory.GetItemCount(item));
                         //Log.Debug("New Bone? Intervals Passed! " + behavior.IntervalsPassed);
@@ -198,7 +192,7 @@ namespace UltitemsCyan.Items.Void
             {
                 float currentTime = Run.instance.time;
                 // If more intervals have passed than currently recorded
-                while (currentTime > stageStartTime + (rotTimeInterval * (_intervalsPassed + 1)) && _intervalsPassed < rotsPerItem)
+                while (currentTime > Ultitems.stageStartTime + (rotTimeInterval * (_intervalsPassed + 1)) && _intervalsPassed < rotsPerItem)
                 {
                     //Log.Warning("Rot Math: " + (currentTime - stageStartTime) + "\t/ " + rotTimeInterval + "\t = " + (int)((currentTime - stageStartTime) / rotTimeInterval));
                     IntervalsPassed++;

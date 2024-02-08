@@ -10,7 +10,8 @@ namespace UltitemsCyan.Items.Tier3
     public class SuesMandibles : ItemBase
     {
         public static ItemDef item;
-        private const float effectDuration = 24f;
+        private const float warningDelay = 25f;
+        private const float effectDuration = 30f;
 
         private void Tokens()
         {
@@ -18,7 +19,7 @@ namespace UltitemsCyan.Items.Tier3
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles");
             LanguageAPI.Add(tokenPrefix + "_PICK", "Endure a killing blow then gain invulnerability and disable healing. Consumed on use.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>24 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>30 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Last Stand");
 
             item.name = tokenPrefix + "_NAME";

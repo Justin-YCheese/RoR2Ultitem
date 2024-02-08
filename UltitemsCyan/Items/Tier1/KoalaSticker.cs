@@ -76,11 +76,12 @@ namespace UltitemsCyan.Items.Tier1
             float initialHealth = self.health;
             float initialShield = self.shield;
             float initialBarrier = self.barrier;
+            //damageInfo.damageColorIndex = 0;
             orig(self, damageInfo);
             CharacterBody victim = self.GetComponent<CharacterBody>();
 
             // If dead after damage
-            if (victim && victim.inventory && self)
+            if (victim && victim.inventory && self && damageInfo.damageType != DamageType.VoidDeath)
             {
                 int grabCount = victim.inventory.GetItemCount(item);
                 if (grabCount > 0)

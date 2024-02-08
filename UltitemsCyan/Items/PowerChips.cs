@@ -1,23 +1,25 @@
 ﻿using R2API;
 using RoR2;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace UltitemsCyan.Items
 {
 
     // TODO: check if Item classes needs to be public
-    public class TestItem : ItemBase
+    public class PowerChips : ItemBase
     {
-        private static ItemDef item;
-        
+        public static ItemDef item;
+        private const float dontResetFraction = 0.50f;
+
         private void Tokens()
         {
-            string tokenPrefix = "EXAMPLE";
+            string tokenPrefix = "POWERCHIPS";
 
-            LanguageAPI.Add(tokenPrefix + "_NAME", "");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cStack>text</style>");
+            LanguageAPI.Add(tokenPrefix + "_NAME", "Power Chips");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "<style=cDeath></style>");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility></style>");
             LanguageAPI.Add(tokenPrefix + "_LORE", "");
 
             item.name = tokenPrefix + "_NAME";
@@ -31,26 +33,24 @@ namespace UltitemsCyan.Items
         {
             item = ScriptableObject.CreateInstance<ItemDef>();
 
-            // Add text for item
             Tokens();
 
-            // Log.Debug("Init " + item.name);
+            Log.Debug("Init " + item.name);
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
+            itd.tier = ItemTier.Lunar;
 #pragma warning disable Publicizer001 // Accessing a member that was not originally public
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
-            item.pickupIconSprite = Ultitems.mysterySprite;
-            item.pickupModelPrefab = Ultitems.mysteryPrefab;
+            item.pickupIconSprite = Ultitems.Assets.PowerChipsSprite;
+            item.pickupModelPrefab = Ultitems.Assets.PowerChipsPrefab;
 
             item.canRemove = true;
             item.hidden = false;
 
-
-            item.tags = [ItemTag.Any];
+            item.tags = [ItemTag.Utility];
 
             // TODO: Turn tokens into strings
             // AddTokens();
@@ -62,16 +62,25 @@ namespace UltitemsCyan.Items
             // Item Functionality
             Hooks();
 
-            //Log.Info("Test Item Initialized");
+            // Log.Info("Faulty Bulb Initialized");
             GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            Log.Warning("Initialized: " + item.name);
         }
 
         protected void Hooks()
         {
-            
+            On.RoR2.ChestBehavior.ItemDrop += ChestBehavior_ItemDrop;
         }
 
-        
+        private void ChestBehavior_ItemDrop(On.RoR2.ChestBehavior.orig_ItemDrop orig, ChestBehavior self)
+        {
+            //self.tier1Chance = .8f for regular chest
+            Log.Warning("Tier 1 Chance: " + self.tier1Chance);
+            //self.dropTransform = Transform.
+            Log.Debug("Player Controller: " + self.playerControllerId);
+
+            //Log.Debug("Rolled Pickup: " + self.HasRolledPickup());
+            //Log.Debug("" + self.)
+        }
     }
 }

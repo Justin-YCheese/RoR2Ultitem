@@ -11,7 +11,7 @@ namespace UltitemsCyan.Items.Lunar
     public class UltravioletBulb : ItemBase
     {
         public static ItemDef item;
-        private const float dontResetFraction = 0.50f;
+        private const float dontResetChance = 50f;
 
         private void Tokens()
         {
@@ -36,7 +36,7 @@ namespace UltitemsCyan.Items.Lunar
 
             Tokens();
 
-            Log.Debug("Init " + item.name);
+            //Log.Debug("Init " + item.name);
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
@@ -66,7 +66,7 @@ namespace UltitemsCyan.Items.Lunar
 
             // Log.Info("Faulty Bulb Initialized");
             GetItemDef = item;
-            Log.Warning("Initialized: " + item.name);
+            //Log.Warning("Initialized: " + item.name);
         }
 
         protected void Hooks()
@@ -93,11 +93,11 @@ namespace UltitemsCyan.Items.Lunar
                     grabCount += (int)self.master.luck;
                     //Log.Debug("garbCount: " + grabCount);
                     //Log.Debug("itemIndex: " + item.itemIndex);
-
+                    float resetFraction = dontResetChance / 100;
                     float procChance = 100f;
                     for (int i = 0; i < grabCount; i++)
                     {
-                        procChance *= dontResetFraction;
+                        procChance *= resetFraction;
                     } 
                     // fleaDropChance = 100 - dontResetChance ^ n
                     procChance = 100f - procChance;
@@ -133,12 +133,19 @@ namespace UltitemsCyan.Items.Lunar
             if (sender && sender.inventory)
             {
                 int grabCount = sender.inventory.GetItemCount(item);
-                if(grabCount > 0)
+                if (grabCount > 0)
                 {
                     int increase = 1;
-                    for (int i = 0; i < grabCount;i++)
+                    if (grabCount < 9) // Max cap on exponential 
                     {
-                        increase *= 3;
+                        for (int i = 0; i < grabCount; i++)
+                        {
+                            increase *= 3;
+                        }
+                    }
+                    else
+                    {
+                        increase = 9999;
                     }
                     increase--;
                     //Log.Debug("New Bulb Cooldown Extend? " + (increase + 1));

@@ -83,13 +83,21 @@ namespace UltitemsCyan.Items.Tier1
                     if (grabCount > 0)
                     {
                         Log.Warning("La Creme health");
-                        //Log.Debug("Health: " + self.health + " Combined Health: " + self.fullHealth + " Combined Fraction: " + self.combinedHealthFraction);
+                        Log.Debug("Health: " + self.health + " Combined Health: " + self.fullHealth + " Combined Fraction: " + self.combinedHealthFraction);
                         if (self.combinedHealthFraction >= threshold / 100f)
                         {
                             //Log.Debug("Heal Attacker, Initial: " + inflictor.healthComponent.health);
                             inflictor.healthComponent.Heal((inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount) + flatHealing, damageInfo.procChainMask);
-                            Log.Debug("Healing: " + ((inflictor.healthComponent.fullHealth * percentHealing / 100f) + flatHealing));
+                            //Log.Debug("Healing: " + ((inflictor.healthComponent.fullHealth * percentHealing / 100f) + flatHealing));
                             Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
+                            /*/
+                            EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/HealthOrbEffect"), new EffectData
+                            {
+                                origin = self.transform.position,
+                                rotation = Quaternion.identity,
+                                scale = 0.5f,
+                                color = new Color(1, 1, 0.58f) // Cyan Lunar color
+                            }, true);//*/
                         }
                     }
                 }

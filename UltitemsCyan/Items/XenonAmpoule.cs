@@ -4,6 +4,7 @@ using RoR2.Projectile;
 using UnityEngine;
 using RoR2.Projectile;
 using UnityEngine.Networking;
+using static UltitemsCyan.Ultitems;
 
 namespace UltitemsCyan.Items
 {
@@ -105,6 +106,7 @@ namespace UltitemsCyan.Items
                 if (grabCount > 0)
                 {
                     Log.Debug(" ! Xenon held, fire projectile");
+                    /*/
                     FireProjectileInfo fireProjectileInfo = new()
                     {
                         owner = activator.gameObject,
@@ -114,7 +116,7 @@ namespace UltitemsCyan.Items
                         crit = false,
                         projectilePrefab = Ultitems.mysteryPrefab
                     };
-                    ProjectileManager.instance.FireProjectile(fireProjectileInfo);
+                    ProjectileManager.instance.FireProjectile(fireProjectileInfo);//*/
                 }
                 return true;
             }

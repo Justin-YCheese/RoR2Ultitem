@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UltitemsCyan.Items.Tier3;
 using UltitemsCyan.Items.Untiered;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -15,7 +16,7 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        private const float noFreeCoffinChance = 90f;
+        private const float noFreeCoffinChance = 88f;
         private const int minimumInCoffin = 5;
         private const int bonusInCoffin = 0;
 
@@ -24,8 +25,8 @@ namespace UltitemsCyan.Items.Void
             string tokenPrefix = "INHABITEDCOFFIN";
 
             LanguageAPI.Add(tokenPrefix + "_NAME", "Inhabited Coffin");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains void items. <style=cIsVoid>Corrupts all Corroding Vaults</stlye>.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>6</style> random void items. <style=cIsVoid>Corrupts all Corroding Vaults</stlye>.");
+            LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.");
+            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>6</style> random void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.");
             LanguageAPI.Add(tokenPrefix + "_LORE", "Something lives inside this coffin. That coffin is deeper than you think.");
 
             item.name = tokenPrefix + "_NAME";
@@ -103,7 +104,7 @@ namespace UltitemsCyan.Items.Void
                     foreach (ItemDef.Pair pair in voidCorruptions)
                     {
                         bool added = voidItemsList.AddDistinct(pair.itemDef2.itemIndex);
-                        Log.Debug(". Adding " + pair.itemDef2.name + "? " + added);
+                        //Log.Debug(". Adding " + pair.itemDef2.name + "? " + added);
                     }
 
                     // All Void Items
@@ -113,7 +114,7 @@ namespace UltitemsCyan.Items.Void
 
                     // 14 Vanilla void items
                     // 4 modded void items
-                    int quantityInVault = 0;
+                    int quantityInVault;
                     if (Util.CheckRoll(noFreeCoffinChance, self.master.luck))
                     {
                         // No coffin
@@ -123,6 +124,8 @@ namespace UltitemsCyan.Items.Void
                     {
                         // You get a free coffin
                         self.inventory.GiveItem(item);
+                        Log.Debug("- Coffin got Coffin");
+                        GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)item.itemIndex]);
                         quantityInVault = minimumInCoffin - 1;
                     }
 
@@ -136,6 +139,7 @@ namespace UltitemsCyan.Items.Void
                         int itemPos = Random.Range(0, length);
                         Log.Debug("- random Void found: " + ItemCatalog.GetItemDef(allVoidItems[itemPos]).name);
                         self.inventory.GiveItem(allVoidItems[itemPos]);
+                        GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)allVoidItems[itemPos]]);
                     }
 
                     /*/ Give void items

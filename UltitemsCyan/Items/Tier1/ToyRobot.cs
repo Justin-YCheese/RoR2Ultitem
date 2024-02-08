@@ -117,6 +117,15 @@ namespace UltitemsCyan.Items.Tier1
                         if (Util.CheckRoll(basePickupChance + (negativePickupPerStack / stack)))
                         {
                             Log.Debug("     Got");
+
+                            /*/
+                            EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData
+                            {
+                                origin = pickUp.transform.position,
+                                rotation = Quaternion.identity,
+                                scale = 0.5f,
+                                color = new Color(0.2392f, 0.8196f, 0.917647f) // Cyan Lunar color
+                            }, true);//*/
                             gravitatePickup.gravitateTarget = body.transform;
                         }
                         

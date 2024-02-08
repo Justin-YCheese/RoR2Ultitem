@@ -135,7 +135,7 @@ namespace UltitemsCyan.Items.Void
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
-                        Log.Warning("RAM Download ! ! ! Def no Viris");
+                        //Log.Warning("RAM Download ! ! ! Def no Viris");
                         //Log.Debug("Is Crit?: " + damageInfo.crit + " Is out of combat? " + inflictor.outOfCombat);
 
                         //   *   *   *   ADD EFFECT   *   *   *   //
@@ -158,7 +158,7 @@ namespace UltitemsCyan.Items.Void
             catch (NullReferenceException)
             {
                 // If error here then elite errors
-                Log.Warning("???What hit Downloading?");
+                //Log.Warning("???What hit Downloading?");
                 //Log.Debug("Attacker: " + damageInfo.attacker.GetComponent<CharacterBody>().name);
                 //Log.Debug("Victum " + victim.name);
                 //Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
@@ -219,7 +219,7 @@ namespace UltitemsCyan.Items.Void
             private void FixedUpdate()
             {
                 // If too much time has passed since last dealing damage
-                Log.Debug("RAM Times: " + attackingStopwatch);
+                //Log.Debug("RAM Times: " + attackingStopwatch);
                 DealingDamage = Run.instance.time <= attackingStopwatch + notAttackingDelay;
             }
             private void OnCharacterDeathGlobal(DamageReport damageReport)

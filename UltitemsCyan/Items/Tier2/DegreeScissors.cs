@@ -134,6 +134,11 @@ namespace UltitemsCyan.Items.Tier2
 
                             // Give 2 white scraps
                             self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerConsumed);
+                            CharacterMasterNotificationQueue.SendTransformNotification(
+                                self.master,
+                                selectedItem.itemIndex,
+                                RoR2Content.Items.ScrapWhite.itemIndex,
+                                CharacterMasterNotificationQueue.TransformationType.Default);
 
                             // If ran out of that consumable item in player's inventory
                             if (self.inventory.GetItemCount(selectedItem) < 1)
@@ -154,7 +159,7 @@ namespace UltitemsCyan.Items.Tier2
                     else
                     {
                         // Player doesn't have any consumed items
-                        Log.Debug(self.GetUserName() + " has no consumed items: Scissors cuts itself");
+                        Log.Warning(self.GetUserName() + " has no consumed items: Scissors cuts itself");
                         // Remove a scissors (Garenteed to have at least scissors)
                         self.inventory.RemoveItem(item);
                         // Give 2 white scraps

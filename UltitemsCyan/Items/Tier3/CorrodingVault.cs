@@ -111,6 +111,7 @@ namespace UltitemsCyan.Items.Tier3
                         //Log.Debug("Random Position: " + itemPos);
                         Log.Debug("Random White found: " + ItemCatalog.GetItemDef(allWhiteItems[itemPos]).name);
                         self.inventory.GiveItem(allWhiteItems[itemPos]);
+                        GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)allWhiteItems[itemPos]]);
                         // erase current item and preserve last item
                         // setting current item equal to last item and shorten length effectively moving last item to current item
                         allWhiteItems[itemPos] = allWhiteItems[length - 1];
@@ -118,7 +119,8 @@ namespace UltitemsCyan.Items.Tier3
                     }
                     Log.Debug(quantityInVault + " white items from vault");
 
-                    Chat.AddMessage(self.GetUserName() + " got " + quantityInVault + " items from their vault");
+
+                    Chat.AddMessage("You got " + quantityInVault + " items from their vault");
 
                     //TODO Add message for number of items in vault
                     //Util.PlaySound("Play_UI_podBlastDoorOpen", self.gameObject);

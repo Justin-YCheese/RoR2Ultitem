@@ -16,7 +16,7 @@ namespace UltitemsCyan.Items.Tier1
         public static ItemDef item;
         private static GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
         //public static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleWardOrbEffect.prefab").WaitForCompletion();
-        private static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealthOrbFlash.prefab").WaitForCompletion();
+        private static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/HealthOrbEffect.prefab").WaitForCompletion();
         private const float fleaDropChance = 3f;
         private const int fleaDropCritMultiplier = 3;
 
@@ -77,7 +77,7 @@ namespace UltitemsCyan.Items.Tier1
 
             //Log.Info("Test Item Initialized");
             GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            //Log.Warning(" Initialized: " + item.name);
         }
 
         protected void Hooks()
@@ -181,6 +181,39 @@ namespace UltitemsCyan.Items.Tier1
 
                 Log.Debug("Spawning orb at: " + orb.transform.position);
                 NetworkServer.Spawn(orb);
+
+
+                /*/ Change Color?
+                base.duration = this.overrideDuration;
+                float scale = this.scaleOrb ? Mathf.Min(this.healValue / this.target.healthComponent.fullHealth, 1f) : 1f;
+                EffectData effectData = new EffectData
+                {
+                    scale = scale,
+                    origin = this.origin,
+                    genericFloat = base.duration
+                };
+                effectData.SetHurtBoxReference(this.target);
+
+                GameObject origHealOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/OrbEffects/HealthOrbEffect");
+                GameObject newHealOrb = PrefabAPI.InstantiateClone(origHealOrb, "BloodHealOrb", true);
+
+                changeColor(newHealOrb.transform.Find("VFX/Core").GetComponent<ParticleSystem>());
+                changeColorTrail(newHealOrb.transform.Find("TrailParent/Trail").GetComponent<TrailRenderer>());
+                EffectManager.SpawnEffect(newHealOrb, effectData, true);
+                
+        private static void changeColor(ParticleSystem particleSystem)
+        {
+            ParticleSystem.MainModule main = particleSystem.main;
+            main.startColor = Color.black;
+            Log.Debug(particleSystem.randomSeed);
+        }
+
+        private static void changeColorTrail(TrailRenderer trailRenderer)
+        {
+            trailRenderer.startColor = Color.black;
+            Log.Debug(trailRenderer.startWidth);
+        }
+                //*/
             }
         }
     }

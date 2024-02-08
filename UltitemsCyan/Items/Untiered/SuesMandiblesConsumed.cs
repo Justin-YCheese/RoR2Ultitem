@@ -9,7 +9,6 @@ namespace UltitemsCyan.Items.Untiered
     public class SuesMandiblesConsumed : ItemBase
     {
         public static ItemDef item;
-        private const float invincibilityDuration = 16f;
 
         private void Tokens()
         {

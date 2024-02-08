@@ -29,6 +29,7 @@ using R2API.Utils;
 using BepInEx.Configuration;
 using UltitemsCyan.Component;
 using System;
+using UltitemsCyan.Items;
 
 namespace UltitemsCyan
 {
@@ -55,6 +56,10 @@ namespace UltitemsCyan
     // More information in the Unity Docs: https://docs.unity3d.com/ScriptReference/MonoBehaviour.html
     public class Ultitems : BaseUnityPlugin
     {
+
+
+        public static float stageStartTime; // measured in seconds
+
         // The Plugin GUID should be a unique ID for this plugin,
         // which is human readable (as it is used in places like the config).
         // If we see this PluginGUID as it is on thunderstore,
@@ -63,16 +68,17 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.7.0";
-        /* Version Changes     Git v7.0
-         * Fixing Birthday Candle Sonorous Pail bug v11
-         * Removing Rotting buff when item lost  
-         * Fixed Rotting bones with sonorous Pail v12
-         * Added Purple Void Text to void items
-         * Added luck factor for inhabited coffin
+        public const string PluginVersion = "0.7.4";
+        /* Version Changes     Old Git v7.0
+         * Added Item notifications for Vault, Coffin, and Scissors v7.1
+         * Added max limit for UV Bulb v7.2
+         * Disabled Koala preventing Void Death
+         * Added Silver Thread v7.3
+         * Silver Thread Death, and cost increase working v7.4
+         * 
+         * 
          * 
          */
-
 
 
 
@@ -129,6 +135,14 @@ namespace UltitemsCyan
             List<ItemBase> ultitemItems = [];
             //ultitems.Add(new TestItem());
 
+            // First Priority
+
+            // Untiered
+            ultitemItems.Add(new CorrodingVaultConsumed());
+            ultitemItems.Add(new InhabitedCoffinConsumed());
+            ultitemItems.Add(new SuesMandiblesConsumed());
+            ultitemItems.Add(new SilverThreadConsumed());
+
             // White
             ultitemItems.Add(new CremeBrulee());
             ultitemItems.Add(new KoalaSticker());
@@ -137,7 +151,7 @@ namespace UltitemsCyan
 
             // Green
             ultitemItems.Add(new BirthdayCandles());
-            ultitemItems.Add(new DegreeScissors());
+            //ultitemItems.Add(new DegreeScissors()); // Last Priority
             ultitemItems.Add(new OverclockedGPU());
             //ultitemItems.Add(new XenonAmpoule());
 
@@ -146,15 +160,13 @@ namespace UltitemsCyan
             ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new CorrodingVault());
 
-            // Untiered
-            ultitemItems.Add(new CorrodingVaultConsumed());
-            ultitemItems.Add(new SuesMandiblesConsumed());
-
             // Lunar Items
             ultitemItems.Add(new DreamFuel());
             ultitemItems.Add(new UltravioletBulb());
+            //ultitemItems.Add(new PowerChip());
+            ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail?
             ultitemItems.Add(new SonorousPail());
-            a
+
             // Equipments
             ultitemItems.Add(new IceCubes());
             ultitemItems.Add(new PotOfRegolith());
@@ -164,7 +176,10 @@ namespace UltitemsCyan
             ultitemItems.Add(new RottenBones());
             ultitemItems.Add(new DownloadedRAM());
             ultitemItems.Add(new InhabitedCoffin());
-            ultitemItems.Add(new InhabitedCoffinConsumed());
+            //ultitemItems.Add(new InhabitedCoffinConsumed()); // Untiered
+
+            // Last Priority
+            ultitemItems.Add(new DegreeScissors()); // After Vault and Coffin to grab consumed items
 
             //ultitemItems.Add(new ());
             Log.Debug("List Done");
@@ -185,14 +200,21 @@ namespace UltitemsCyan
             }
             Log.Debug("Items Done");
 
-            // Add Void Transformations
+
+            // Add Hooks
+            Stage.onStageStartGlobal += Stage_onStageStartGlobal;
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+
 
             Log.Warning("Ultitems Cyan Done: " + PluginVersion);
         }
 
 
-
+        private void Stage_onStageStartGlobal(Stage obj)
+        {
+            stageStartTime = Run.instance.time;
+            Log.Warning("Ultitem Starts at: " + stageStartTime);
+        }
 
 
         // Add Void Pairs

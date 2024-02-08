@@ -2,7 +2,7 @@
 using RoR2;
 using UnityEngine;
 
-namespace UltitemsCyan
+namespace UltitemsCyan.Items
 {
 
     // TODO: check if Item classes needs to be public
@@ -12,6 +12,11 @@ namespace UltitemsCyan
         public ItemDef GetItemDef { get; set; }
         public EquipmentDef GetEquipmentDef { get; set; }
         public ItemDef GetTransformItem { get; set; }
+
+
+
+
+
         //public ItemDef transformItem;
         //public ItemDef item;
         //public abstract bool IsVoid();

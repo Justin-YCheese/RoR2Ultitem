@@ -23,7 +23,7 @@ namespace UltitemsCyan.Items.Lunar
         //private const float jumpPerLunar = 5f;
         private const float stackPercent = 20f;
 
-        public bool inCatatonicAlready = false;
+        public bool inSonorousAlready = false;
 
         private void Tokens()
         {
@@ -90,17 +90,17 @@ namespace UltitemsCyan.Items.Lunar
         private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
         {
             orig(self);
-            if (!inCatatonicAlready)
+            if (!inSonorousAlready)
             {
                 if (self && self.inventory && self.inventory.GetItemCount(item) > 0)
                 {
-                    inCatatonicAlready = true;
+                    inSonorousAlready = true;
                     Log.Warning("Spork the inventory");
                     //SporkRestackInventory(player.inventory, new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
                     //self.inventory.ShrineRestackInventory(new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
                     SporkRestackInventory(self.inventory, self.transform.position, new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
                     Log.Debug("Effect Spork!");
-                    inCatatonicAlready = false;
+                    inSonorousAlready = false;
                 }
             }
         }//*/
@@ -156,10 +156,10 @@ namespace UltitemsCyan.Items.Lunar
                     }
                     float statMultiplier = 1f + ((grabCount - 1) * stackPercent / 100f);
                     //Log.Debug("stat Multiplier: " + statMultiplier);
-                    //Log.Debug("Damage " + statTiers[1] + " which is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite / 100f * statMultiplier));
+                    Log.Debug("Damage " + statTiers[1] + " which is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite / 100f * statMultiplier));
                     args.damageMultAdd += statTiers[1] * attackPerWhite / 100f * statMultiplier;
                     // Regen increases per level
-                    //Log.Debug("Regen " + statTiers[2] + " which is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
+                    Log.Debug("Regen " + statTiers[2] + " which is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
                     args.regenMultAdd += statTiers[2] * regenPerGreen * (1f + 0.2f * sender.level) * statMultiplier;
                     args.moveSpeedMultAdd += statTiers[3] * speedPerRed / 100f * statMultiplier;
                     args.critAdd += statTiers[4] * critPerBoss * statMultiplier;
@@ -171,21 +171,29 @@ namespace UltitemsCyan.Items.Lunar
         private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             orig(self, itemIndex, count);
-            if (NetworkServer.active && !inCatatonicAlready && self) // Hopefully fix multiple triggers and visual bug?
+            if (NetworkServer.active && !inSonorousAlready && self) // Hopefully fix multiple triggers and visual bug?
             {
                 ItemDef iDef = ItemCatalog.GetItemDef(itemIndex);
                 ItemTierDef iTierDef = ItemTierCatalog.GetItemTierDef(iDef.tier);
                 // Validate check, and pass if not lunar unless is pail
                 if (iDef && iTierDef && iTierDef.canRestack && (iTierDef.tier != ItemTier.Lunar || iDef == item)) // Valid Check (check iDef and iTierDef)
                 {
-                    inCatatonicAlready = true;
+                    inSonorousAlready = true;
                     CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body) => body.inventory == self);
                     if (player && self.GetItemCount(item) > 0) // Valid Check
                     {
                         Log.Warning("Spork the inventory");
                         SporkRestackInventory(self, player.transform.position, new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
+                        // Effect after restock
+                        EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData
+                        {
+                            origin = player.transform.position,
+                            rotation = Quaternion.identity,
+                            scale = 0.5f,
+                            color = new Color(0.2392f, 0.8196f, 0.917647f) // Cyan Lunar color
+                        }, true);
                     }
-                    inCatatonicAlready = false;
+                    inSonorousAlready = false;
                 }
             }
         }//*/
@@ -229,14 +237,8 @@ namespace UltitemsCyan.Items.Lunar
                     }
                     if (list.Count > 0)
                     {
-                        inventory.GiveItem(rng.NextElementUniform(list), num);
-                        EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData
-                        {
-                            origin = pos,
-                            rotation = Quaternion.identity,
-                            scale = 0.5f,
-                            color = new Color(0.2392f, 0.8196f, 0.917647f) // Cyan Lunar color
-                        }, true);
+                        // Add items minus silver treads (will be countered by silver thead it self
+                        inventory.GiveItem(rng.NextElementUniform(list), num - inventory.GetItemCount(SilverThread.item));
                         flag = true;
                     }
                 }

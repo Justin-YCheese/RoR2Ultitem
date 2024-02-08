@@ -1,23 +1,17 @@
 ﻿
 
 	When Testing:
-- Test Inhabited Coffin Recoffin Chance
-- Test 3D models
+- Test Scissors Priority over vault, Coffin
+- Damage is returning item before death?
 
 
 
 	ToDo Next:
-- doesn't remove tonic allfiction with scissors
-- Add Luck chance for Inhabited Coffin to add another coffin
-- Add Pickup notifications to Vaults
-- Add 3D prefabs of 2D images
 - Add next 2 items
 
 
 
 	My Item Add Order:
-- Power Chips
-- Silver Thread
 - Grape Vine
 - Worm Holes
 - Xenon Ampoule
@@ -26,12 +20,29 @@
 
 
 
-
 	For Future Consideration:
+- Silver Thread
+	- Don't kill mythrics instanty
+	- Can return thread
+	- But won't return if killed by thread
+	- Boardcast if Mythrics actuall has thread
+- Add VFX:
+	- Ultraviolet Bulb
+	- Ice Cubes
+	- Pot of Regolith
+	- Koala Sticker (Damage Color, VFX)
+	- Sues Mandibles (Warning Effect)
+	- RAM
+	- CremeBrulee
+	- RottenBones
+- Actually fix Silver Thread and Sonorous Pail Problem (doesn't work if player has the same or fewer number of an item compared to silver)
+- doesn't remove tonic allfiction with scissors
 - Change Fleabag orb color
 - Add Support for Simulacrum
 - Change vault items use run instance instead of Item Catalog (for if items are banned in a run)
+- Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
 
 
 
 	Ask my Friends Questions:
+- Enter Mythrics Fight Reset Stage Start Timer for Silver Thread?

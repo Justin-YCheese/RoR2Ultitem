@@ -38,7 +38,7 @@ namespace UltitemsCyan.Items.Lunar
             // Add text for item
             Tokens();
 
-            Log.Debug("Init " + item.name);
+            //Log.Debug("Init " + item.name);
             //
 
             // tier
@@ -70,7 +70,7 @@ namespace UltitemsCyan.Items.Lunar
             //Ultitems.DefDreamFuel = item;
 
             GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            //Log.Warning(" Initialized: " + item.name);
         }
 
         protected void Hooks()

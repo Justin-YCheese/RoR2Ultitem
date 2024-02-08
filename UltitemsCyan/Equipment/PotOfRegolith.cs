@@ -36,7 +36,7 @@ namespace UltitemsCyan.Equipment
 
             Tokens();
 
-            Log.Debug("Init " + equipment.name);
+            //Log.Debug("Init " + equipment.name);
 
             equipment.cooldown = 2f;
 
@@ -50,6 +50,7 @@ namespace UltitemsCyan.Equipment
             equipment.enigmaCompatible = true;
             equipment.isBoss = false;
             equipment.isLunar = true;
+            equipment.colorIndex = ColorCatalog.ColorIndex.LunarItem;
 
             ItemDisplayRuleDict displayRules = new(null);
             ItemAPI.Add(new CustomEquipment(equipment, displayRules));
@@ -58,7 +59,7 @@ namespace UltitemsCyan.Equipment
             Hooks();
 
             GetEquipmentDef = equipment;
-            Log.Warning("Initialized: " + equipment.name);
+            //Log.Warning("Initialized: " + equipment.name);
         }
 
         protected void Hooks()

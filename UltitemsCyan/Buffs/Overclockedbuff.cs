@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using UltitemsCyan.Items;
 using UltitemsCyan.Items.Tier2;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace UltitemsCyan.Buffs
             {
                 int buffCount = sender.GetBuffCount(buff);
                 int grabCount = sender.inventory.GetItemCount(OverclockedGPU.item);
-                Log.Debug("Overclocked Amount: " + (attackSpeedPerItem / 100f * grabCount * buffCount));
+                //Log.Debug("Overclocked Amount: " + (attackSpeedPerItem / 100f * grabCount * buffCount));
                 args.attackSpeedMultAdd += attackSpeedPerItem / 100f * grabCount * buffCount; //attackSpeedPerStack / 100f * buffCount;
                 //Debug.Log("Overclocked modifier: " + (attackSpeedPerItem / 100f * grabCount * buffCount));
             }
