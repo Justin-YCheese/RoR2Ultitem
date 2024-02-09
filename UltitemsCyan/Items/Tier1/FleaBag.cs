@@ -23,64 +23,28 @@ namespace UltitemsCyan.Items.Tier1
         // For Flea Pickup
         public const float baseBuffDuration = 12f;
         public const float buffDurationPerItem = 0f; // Increase for buff?
-        //public const int buffMaxStack = 15;
 
         // For Tick Crit Buff
         public const float baseTickMultiplier = 0f;
         public const float tickPerStack = 15f;
 
-        private void Tokens()
-        {
-            // Fire flies?
-            string tokenPrefix = "FLEABAG";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Flea Bag");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance on hit to drop a tick which gives critical chance. Critical Strikes drop more ticks.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> <style=cIsDamage>critical chance</style> for 18 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Movie?");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.FleaBagSprite;
-            item.pickupModelPrefab = Ultitems.Assets.FleaBagPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Damage];
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            //Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "FLEABAG",
+                "Flea Bag",
+                "Chance on hit to drop a tick which gives critical chance. Critical Strikes drop more ticks.",
+                "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> <style=cIsDamage>critical chance</style> for 18 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.",
+                "Movie?",
+                ItemTier.Tier1,
+                Ultitems.Assets.FleaBagSprite,
+                Ultitems.Assets.FleaBagPrefab,
+                [ItemTag.Damage]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
         }

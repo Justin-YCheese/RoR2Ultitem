@@ -13,56 +13,24 @@ namespace UltitemsCyan.Equipment
 
         private const float percentDamage = 5f;
         private const float flatDamage = 20f;
-        
-        private void Tokens()
-        {
-            string tokenPrefix = "POTOFREGOLITH";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Pot of Regolith");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "<style=cDeath>Take damage</style> on use.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Take <style=cIsHealth>20</style> plus <style=cIsHealth>5% of your current health</style> as <style=cIsDamage>damage</style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "The dust is as sharp as a knife");
-
-            equipment.name = tokenPrefix + "_NAME";
-            equipment.nameToken = tokenPrefix + "_NAME";
-            equipment.pickupToken = tokenPrefix + "_PICK";
-            equipment.descriptionToken = tokenPrefix + "_DESC";
-            equipment.loreToken = tokenPrefix + "_LORE";
-        }
 
         public override void Init()
         {
-            equipment = ScriptableObject.CreateInstance<EquipmentDef>();
-
-            Tokens();
-
-            //Log.Debug("Init " + equipment.name);
-
-            equipment.cooldown = 2f;
-
-            equipment.pickupIconSprite = Ultitems.Assets.PotOfRegolithSprite;
-            equipment.pickupModelPrefab = Ultitems.Assets.PotOfRegolithPrefab;
-
-            equipment.appearsInSinglePlayer = true;
-            equipment.appearsInMultiPlayer = true;
-            equipment.canDrop = true;
-
-            equipment.enigmaCompatible = true;
-            equipment.isBoss = false;
-            equipment.isLunar = true;
-            equipment.colorIndex = ColorCatalog.ColorIndex.LunarItem;
-
-            ItemDisplayRuleDict displayRules = new(null);
-            ItemAPI.Add(new CustomEquipment(equipment, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            GetEquipmentDef = equipment;
-            //Log.Warning("Initialized: " + equipment.name);
+            equipment = CreateItemDef(
+                "POTOFREGOLITH",
+                "Pot of Regolith",
+                "<style=cDeath>Take damage</style> on use.",
+                "Take <style=cIsHealth>20</style> plus <style=cIsHealth>5% of your current health</style> as <style=cIsDamage>damage</style>",
+                "The dust is as sharp as a knife",
+                2f,
+                true,
+                true,
+                Ultitems.Assets.PotOfRegolithSprite,
+                Ultitems.Assets.PotOfRegolithPrefab
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
         }
@@ -75,7 +43,7 @@ namespace UltitemsCyan.Equipment
                 DamageInfo damageSelf = new()
                 {
                     crit = false, // activator.RollCrit()
-                    damage = (percentDamage * activator.healthComponent.combinedHealth / 100f) + flatDamage, // + activator.baseDamage
+                    damage = (percentDamage * activator.healthComponent.combinedHealth) + flatDamage, // + activator.baseDamage
                     procCoefficient = 100f,
 
                     damageType = DamageType.Generic,

@@ -15,79 +15,22 @@ namespace UltitemsCyan.Items
         private static ItemDef item;
         private static GameObject shockwaveProjectile;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "XENONAMPOULE";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Xenon Ampoule");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "add me");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cStack>text</style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "asdf");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            /*/
-            shockwaveProjectile = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("prefabs/projectiles/FMJ"), "ShockwaveProjectile", true);
-            model = assetBundle.LoadAsset<GameObject>("shockwaveProjectile.prefab");
-
-            model.AddComponent<NetworkIdentity>();
-            model.AddComponent<ProjectileGhostController>();
-
-            var projectileController = shockwaveProjectile.GetComponent<ProjectileController>();
-            projectileController.ghostPrefab = model;
-
-            PrefabAPI.RegisterNetworkPrefab(shockwaveProjectile);
-            ContentAddition.AddProjectile(shockwaveProjectile);
-            //*/
-
-            // Add text for item
-            Tokens();
-
-            
-
-            // Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier2;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.XenonAmpouleSprite;
-            item.pickupModelPrefab = Ultitems.Assets.XenonAmpoulePrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Any];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "XENONAMPOULE",
+                "Xenon Ampoule",
+                "",
+                "",
+                "",
+                ItemTier.Tier2,
+                Ultitems.Assets.XenonAmpouleSprite,
+                Ultitems.Assets.XenonAmpoulePrefab,
+                [ItemTag.Damage, ItemTag.EquipmentRelated]
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             EquipmentSlot.onServerEquipmentActivated += EquipmentSlot_onServerEquipmentActivated;
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;

@@ -12,61 +12,23 @@ namespace UltitemsCyan.Items.Tier1
         public static ItemDef item;
         private const float hyperbolicPercent = 12f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "KOALASTICKER";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Koala Sticker");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Reduce the maximum damage you can take.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "You only take a maxinum of 90% (-12% per stack) of your health from a hit, mininum of 1.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Last Stand");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.KoalaStickerSprite;
-            item.pickupModelPrefab = Ultitems.Assets.KoalaStickerPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Utility];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            // Log.Info("Faulty Bulb Initialized");
-            GetItemDef = item;
-            Log.Warning("Initialized: " + item.name);
+            item = CreateItemDef(
+                "KOALASTICKER",
+                "Koala Sticker",
+                "Reduce the maximum damage you can take.",
+                "You only take a maxinum of 90% (-12% per stack) of your health from a hit, mininum of 1.",
+                "Like the bear but more consistant...   and more cute",
+                ItemTier.Tier1,
+                Ultitems.Assets.KoalaStickerSprite,
+                Ultitems.Assets.KoalaStickerPrefab,
+                [ItemTag.Utility]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }

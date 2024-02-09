@@ -13,61 +13,22 @@ namespace UltitemsCyan.Items
         public static ItemDef item;
         private const float dontResetFraction = 0.50f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "POWERCHIPS";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Power Chips");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "<style=cDeath></style>");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility></style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Lunar;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.PowerChipsSprite;
-            item.pickupModelPrefab = Ultitems.Assets.PowerChipsPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Utility];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            // Log.Info("Faulty Bulb Initialized");
-            GetItemDef = item;
-            Log.Warning("Initialized: " + item.name);
+            item = CreateItemDef(
+                "POWERCHIPS",
+                "Power Chips",
+                "",
+                "",
+                "",
+                ItemTier.Lunar,
+                Ultitems.Assets.PowerChipsSprite,
+                Ultitems.Assets.PowerChipsPrefab,
+                [ItemTag.Utility]
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             On.RoR2.ChestBehavior.ItemDrop += ChestBehavior_ItemDrop;
         }

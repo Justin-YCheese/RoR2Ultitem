@@ -3,7 +3,7 @@
 	When Testing:
 - Test Scissors Priority over vault, Coffin
 - Damage is returning item before death?
-
+- Test Pot Damage
 
 
 	ToDo Next:

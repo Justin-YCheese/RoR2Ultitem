@@ -29,60 +29,24 @@ namespace UltitemsCyan.Items.Void
 
         public const float notAttackingDelay = 3f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "DOWNLOADEDRAM";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Downloaded RAM");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance on hit to increase damage by 10%. Stacks 4 (+4 per stack) times. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsDamage>15%</style> chance on hit to increase damage by <style=cIsDamage>10%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.");
-                //"   EXTRA: Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. Corrupts Birthday Candles");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-            transformItem = OverclockedGPU.item;
-
-            // Add text for item
-            Tokens();
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.VoidTier2;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.DownloadedRAMSprite;
-            item.pickupModelPrefab = Ultitems.Assets.DownloadedRAMPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Damage];
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            GetTransformItem = transformItem;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "DOWNLOADEDRAM",
+                "Downloaded RAM",
+                "Chance on hit to increase damage by 10%. Stacks 4 (+4 per stack) times. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
+                "<style=cIsDamage>15%</style> chance on hit to increase damage by <style=cIsDamage>10%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
+                "The bitter aftertaste is just the spoilage",
+                ItemTier.VoidTier2,
+                Ultitems.Assets.DownloadedRAMSprite,
+                Ultitems.Assets.DownloadedRAMPrefab,
+                [ItemTag.Damage],
+                OverclockedGPU.item
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             //On.RoR2.CharacterBody.OnOutOfDangerChanged += CharacterBody_OnOutOfDangerChanged;
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;

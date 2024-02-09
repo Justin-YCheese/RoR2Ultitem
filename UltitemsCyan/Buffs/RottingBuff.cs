@@ -1,6 +1,5 @@
 ﻿using R2API;
 using RoR2;
-using UltitemsCyan.Items;
 using UnityEngine;
 
 namespace UltitemsCyan.Buffs

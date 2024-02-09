@@ -14,66 +14,23 @@ namespace UltitemsCyan.Items.Lunar
 
         // For Dream Speed Buff
         public const float dreamSpeed = 120f;
-        
-        private void Tokens()
-        {
-            string tokenPrefix = "DREAMFUEL";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Dream Fuel");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase speed at full health... <style=cDeath>BUT get rooted when hit.</style>");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>120%</style> <style=cStack>(+120% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Nightmare fuel");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
 
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            //Log.Debug("Init " + item.name);
-            //
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Lunar;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.DreamFuelSprite;
-            item.pickupModelPrefab = Ultitems.Assets.DreamFuelPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Utility];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Ultitems.DefDreamFuel = item;
-
-            GetItemDef = item;
-            //Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "DREAMFUEL",
+                "Dream Fuel",
+                "Increase speed at full health... <style=cDeath>BUT get rooted when hit.</style>",
+                "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>120%</style> <style=cStack>(+120% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.",
+                "More like Nightmare fuel",
+                ItemTier.Lunar,
+                Ultitems.Assets.DreamFuelSprite,
+                Ultitems.Assets.DreamFuelPrefab,
+                [ItemTag.Utility]
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
 
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;

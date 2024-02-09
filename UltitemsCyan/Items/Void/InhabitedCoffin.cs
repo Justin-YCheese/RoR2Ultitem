@@ -20,66 +20,23 @@ namespace UltitemsCyan.Items.Void
         private const int minimumInCoffin = 5;
         private const int bonusInCoffin = 0;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "INHABITEDCOFFIN";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Inhabited Coffin");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>6</style> random void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Something lives inside this coffin. That coffin is deeper than you think.");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-            transformItem = CorrodingVault.item;
-
-            // Add text for item
-            Tokens();
-
-            //Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.VoidTier3;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.InhabitedCoffinSprite;
-            item.pickupModelPrefab = Ultitems.Assets.InhabitedCoffinPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            GetTransformItem = transformItem;
-
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "INHABITEDCOFFIN",
+                "Inhabited Coffin",
+                "Breaks at the start of the next stage. Contains void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
+                "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>6</style> random void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
+                "Something lives inside this coffin. That coffin is deeper than you think.",
+                ItemTier.VoidTier3,
+                Ultitems.Assets.InhabitedCoffinSprite,
+                Ultitems.Assets.InhabitedCoffinPrefab,
+                [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist],
+                CorrodingVault.item
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
         }

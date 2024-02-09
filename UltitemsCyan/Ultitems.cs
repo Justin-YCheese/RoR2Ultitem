@@ -69,12 +69,13 @@ namespace UltitemsCyan
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
         public const string PluginVersion = "0.7.4";
-        /* Version Changes     Old Git v7.0
-         * Added Item notifications for Vault, Coffin, and Scissors v7.1
-         * Added max limit for UV Bulb v7.2
-         * Disabled Koala preventing Void Death
-         * Added Silver Thread v7.3
-         * Silver Thread Death, and cost increase working v7.4
+        /* Version Changes     Old Git v7.4
+         * Moved Init functions to ItemBase
+         * 
+         * 
+         * 
+         * 
+         * 
          * 
          * 
          * 

@@ -14,65 +14,23 @@ namespace UltitemsCyan.Items.Tier2
         private const int consumedPerScissor = 2;
         private const int scrapsPerConsumed = 2;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "DEGREESCISSORS";
-
-            // Add translation from token to string
-            LanguageAPI.Add(tokenPrefix + "_NAME", "1000 Degree Scissors");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Melts two consumed items into scraps. Otherwise melts itself.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, <style=cIsUtility>melts</style> two <style=cIsUtility>consumed</style> items into <style=cIsUtility>2 common scraps</style> each. If no scissor is used, then it <style=cIsUtility>melts</style> itself.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "What's Youtube?");
-
-            // Adds tokens to item
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier2;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.DegreeScissorsSprite;
-            item.pickupModelPrefab = Ultitems.Assets.DegreeScissorsPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "DEGREESCISSORS",
+                "1000 Degree Scissors",
+                "Melts two consumed items into scraps. Otherwise melts itself.",
+                "At the start of each stage, <style=cIsUtility>melts</style> two <style=cIsUtility>consumed</style> items into <style=cIsUtility>2 common scraps</style> each. If no scissor is used, then it <style=cIsUtility>melts</style> itself.",
+                "What's Youtube?",
+                ItemTier.Tier2,
+                Ultitems.Assets.DegreeScissorsSprite,
+                Ultitems.Assets.DegreeScissorsPrefab,
+                [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
         }

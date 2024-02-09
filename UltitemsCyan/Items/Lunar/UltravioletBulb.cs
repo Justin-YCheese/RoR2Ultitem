@@ -13,63 +13,22 @@ namespace UltitemsCyan.Items.Lunar
         public static ItemDef item;
         private const float dontResetChance = 50f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "ULTRAVIOLETBULB";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Ultraviolet Bulb");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Chance to instantly reset a skill after it's used... <style=cDeath>BUT triples all cooldown</style>");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Have a <style=cIsUtility>50%</style> <style=cStack>(+50% per stack)</style> chance to" +
-                "<style=cIsUtility>reset a skill cooldown</style> and <style=cDeath>triple all cooldowns</style> <style=cStack>(per stack)</style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Stacks exponetially");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            Tokens();
-
-            //Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Lunar;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.NewBulbSprite;
-            item.pickupModelPrefab = Ultitems.Assets.NewBulbPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Utility];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            // Log.Info("Faulty Bulb Initialized");
-            GetItemDef = item;
-            //Log.Warning("Initialized: " + item.name);
+            item = CreateItemDef(
+                "ULTRAVIOLETBULB",
+                "Ultraviolet Bulb",
+                "Chance to instantly reset a skill after it's used... <style=cDeath>BUT triples all cooldown</style>",
+                "Have a <style=cIsUtility>50%</style> <style=cStack>(+50% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style> and <style=cDeath>triple all cooldowns</style> <style=cStack>(per stack)</style>",
+                "Voilent Stacks exponetially. Clover is like another bulb",
+                ItemTier.Lunar,
+                Ultitems.Assets.NewBulbSprite,
+                Ultitems.Assets.NewBulbPrefab,
+                [ItemTag.Utility]
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;

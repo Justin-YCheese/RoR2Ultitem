@@ -10,59 +10,22 @@ namespace UltitemsCyan.Items.Untiered
     {
         public static ItemDef item;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "SUESMANDIBLESCONSUMED";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles (Consumed)");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Resting in pieces");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "DESCRIPTION Resting in pieces");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "I don't know sue");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.NoTier;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.SuesMandiblesConsumedSprite;
-            item.pickupModelPrefab = Ultitems.Assets.SuesMandiblesConsumedPrefab;
-
-            item.canRemove = false;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Utility, ItemTag.LowHealth, ItemTag.AIBlacklist];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            //Hooks();
-
-            // Log.Info("Faulty Bulb Initialized");
-            GetItemDef = item;
-            Log.Warning("Initialized: " + item.name);
+            item = CreateItemDef(
+                "SUESMANDIBLESCONSUMED",
+                "Sue's Mandibles (Consumed)",
+                "Resting in pieces",
+                "DESCRIPTION Resting in pieces",
+                "I don't know sue",
+                ItemTier.NoTier,
+                Ultitems.Assets.SuesMandiblesConsumedSprite,
+                Ultitems.Assets.SuesMandiblesConsumedPrefab,
+                [ItemTag.Utility, ItemTag.LowHealth, ItemTag.AIBlacklist]
+            );
         }
+
+        protected override void Hooks() { }
     }
     /*/
         public void RespawnExtraLife()

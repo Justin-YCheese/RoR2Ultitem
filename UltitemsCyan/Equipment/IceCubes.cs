@@ -10,57 +10,25 @@ namespace UltitemsCyan.Equipment
     {
         // Inflict Slowdown on self?
         public static EquipmentDef equipment;
-        private const float fractionOfBarrier = 0.8f;
-
-
-        private void Tokens()
-        {
-            string tokenPrefix = "ICECUBES";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "9 Ice Cubes");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain temporary barrier on use");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Instantly gain <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>80% of your maximum health</style>");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Alice that freezes forever");
-
-            equipment.name = tokenPrefix + "_NAME";
-            equipment.nameToken = tokenPrefix + "_NAME";
-            equipment.pickupToken = tokenPrefix + "_PICK";
-            equipment.descriptionToken = tokenPrefix + "_DESC";
-            equipment.loreToken = tokenPrefix + "_LORE";
-        }
+        private const float percentOfBarrier = 80f;
 
         public override void Init()
         {
-            equipment = ScriptableObject.CreateInstance<EquipmentDef>();
-
-            Tokens();
-
-            //Log.Debug("Init " + equipment.name);
-
-            equipment.cooldown = 60f;
-
-            equipment.pickupIconSprite = Ultitems.Assets.IceCubesSprite;
-            equipment.pickupModelPrefab = Ultitems.Assets.IceCubesPrefab;
-
-            equipment.appearsInSinglePlayer = true;
-            equipment.appearsInMultiPlayer = true;
-            equipment.canDrop = true;
-
-            equipment.enigmaCompatible = true;
-            equipment.isBoss = false;
-            equipment.isLunar = false;
-
-            ItemDisplayRuleDict displayRules = new(null);
-            ItemAPI.Add(new CustomEquipment(equipment, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            GetEquipmentDef = equipment;
-            //Log.Warning("Initialized: " + equipment.name);
+            equipment = CreateItemDef(
+                "ICECUBES",
+                "9 Ice Cubes",
+                "Gain barrier on use",
+                "Instantly gain <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>80% of your maximum health</style>",
+                "Alice that freezes forever",
+                60f,
+                false,
+                true,
+                Ultitems.Assets.IceCubesSprite,
+                Ultitems.Assets.IceCubesPrefab
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
         }
@@ -70,10 +38,7 @@ namespace UltitemsCyan.Equipment
             if (equipmentDef == equipment)
             {
                 CharacterBody activator = self.characterBody;
-                
-                activator.healthComponent.AddBarrier(activator.healthComponent.fullBarrier * fractionOfBarrier);
-                //self.subcooldownTimer += 5f;
-                //Log.Debug("Sub cooldown");
+                activator.healthComponent.AddBarrier(activator.healthComponent.fullBarrier * percentOfBarrier / 100f);
                 Util.PlaySound("Play_item_proc_iceRingSpear", self.gameObject);
                 return true;
             }

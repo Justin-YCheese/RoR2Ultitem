@@ -11,6 +11,7 @@ using UltitemsCyan.Items.Tier2;
 using UnityEngine;
 using UnityEngine.Networking;
 using Zio;
+using static Rewired.UI.ControlMapper.ControlMapper;
 //using static RoR2.GenericPickupController;
 
 namespace UltitemsCyan.Items.Lunar
@@ -30,57 +31,22 @@ namespace UltitemsCyan.Items.Lunar
 
         private bool inSilverAlready = false;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "SILVERTHREAD";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Silver Thread");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain additional items BUT die in 10 (-50% per stack) minutes. Upon death, this item will be consumed.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Pick up 1 (+1 per stack) additional item when you gain items BUT die in 10 (-50% per stack) minutes after the start of each stage. Upon death, this item will be consumed.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "The end of the abacus of life. A King's Riches Lays before you, but at the end of a strand which has been snapped intwine.");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Lunar;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.SilverThreadSprite;
-            item.pickupModelPrefab = Ultitems.Assets.SilverThreadPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Utility, ItemTag.OnStageBeginEffect];
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "SILVERTHREAD",
+                "Silver Thread",
+                "Gain additional items BUT die in 10 (-50% per stack) minutes. Upon death, this item will be consumed.",
+                "Pick up 1 (+1 per stack) additional item when you gain items BUT die in 10 (-50% per stack) minutes after the start of each stage. Upon death, this item will be consumed.",
+                "The end of the abacus of life. A King's Riches Lays before you, but at the end of a strand which has been snapped intwine.",
+                ItemTier.Lunar,
+                Ultitems.Assets.SilverThreadSprite,
+                Ultitems.Assets.SilverThreadPrefab,
+                [ItemTag.Utility, ItemTag.OnStageBeginEffect]
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             // Give Thread Item Behavior   
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;

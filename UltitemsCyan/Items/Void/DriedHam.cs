@@ -17,73 +17,24 @@ namespace UltitemsCyan.Items.Void
         private const float percentHealing = 0f;
         private const float flatHealing = 5f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "DRIEDHAM";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Dried Ham");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting enemies below 30% health. <style=cIsVoid>Corrupts all Crème Brûlées</style>.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>5</style> <style=cStack>(+5 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. <style=cIsVoid>Corrupts all Crème Brûlées</style>.");
-            //LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>1%</style> plus an additional <style=cIsHealing>4</style> <style=cStack>(+4 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. Corrupts all Crème Brûlée.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-            transformItem = CremeBrulee.item;
-
-            // Add text for item
-            Tokens();
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.VoidTier1;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.DriedHamSprite;
-            item.pickupModelPrefab = Ultitems.Assets.DriedHamPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Healing];
-
-            // ~ * ~ * ~ * ~ * ~ Void Stuff ~ * ~ * ~ * ~ * ~ //
-
-
-            //item.requiredExpansion = ExpansionCatalog.expansionDefs.FirstOrDefault(x => x.nameToken == "DLC1_NAME");
-            /*/
-            voidLink = new()
-            {
-                itemDef1 = transformPair,
-                itemDef2 = item
-            };//*/
-            //Ultitems.CorruptionPairs.Add(voidLink);
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            GetTransformItem = transformItem;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "DRIEDHAM",
+                "Dried Ham",
+                "Heal when hitting enemies below 30% health. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
+                "<style=cIsHealing>Heal</style> for <style=cIsHealing>5</style> <style=cStack>(+5 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
+                "The bitter aftertaste is just the spoilage",
+                ItemTier.VoidTier1,
+                Ultitems.Assets.DriedHamSprite,
+                Ultitems.Assets.DriedHamPrefab,
+                [ItemTag.Healing],
+                CremeBrulee.item
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }

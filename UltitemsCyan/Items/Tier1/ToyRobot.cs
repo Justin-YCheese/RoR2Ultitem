@@ -1,10 +1,13 @@
-﻿using R2API;
+﻿using Generics.Dynamics;
+using R2API;
 using Rewired.Utils;
 using RoR2;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Mono.Security.X509.X520;
 
 namespace UltitemsCyan.Items.Tier1
 {
@@ -17,62 +20,23 @@ namespace UltitemsCyan.Items.Tier1
         private const float basePickupChance = 10f;
         private const float negativePickupPerStack = 40f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "TOYROBOT";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Toy Robot");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Grab pickups from further away");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Pull in pickups from <style=cIsUtility>16m</style> <style=cStack>(+8m per stack)</style> away");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "They march to you like a song carriers their steps. More robots have a weaker pull");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            // Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.ToyRobotSprite;
-            item.pickupModelPrefab = Ultitems.Assets.ToyRobotPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Utility];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "TOYROBOT",
+                "Toy Robot",
+                "Grab pickups from further away",
+                "Pull in pickups from <style=cIsUtility>16m</style> <style=cStack>(+8m per stack)</style> away",
+                "They march to you like a song carriers their steps. More robots have a weaker pull",
+                ItemTier.Tier1,
+                Ultitems.Assets.ToyRobotSprite,
+                Ultitems.Assets.ToyRobotPrefab,
+                [ItemTag.Utility]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
         }

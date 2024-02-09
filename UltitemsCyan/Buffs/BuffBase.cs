@@ -7,7 +7,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace UltitemsCyan.Items
+namespace UltitemsCyan.Buffs
 {
     public abstract class BuffBase : MonoBehaviour
     {

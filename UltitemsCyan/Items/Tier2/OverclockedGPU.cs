@@ -19,64 +19,23 @@ namespace UltitemsCyan.Items.Tier2
         // For Overclocked Buff
         public const float buffAttackSpeedPerItem = 3f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "OVERCLOCKEDGPU";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Overclocked GPU");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Increase attack speed on kill. Stacks 10 times. Resets after getting hurt.");
-            //LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increase <style=cIsDamage>attack speed</style> by <style=cIsDamage>5%</style>. Maximum cap of <style=cIsDamage>30%</style> <style=cStack>(+30% per stack)</style> <style=cIsDamage>attack speed</style>. Lose effect upon getting hit.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "GPU GPU");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier2;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.OverclockedGPUSprite;
-            item.pickupModelPrefab = Ultitems.Assets.OverclockedGPUPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Damage, ItemTag.OnKillEffect];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "OVERCLOCKEDGPU",
+                "Overclocked GPU",
+                "Increase attack speed on kill. Stacks 10 times. Resets after getting hurt.",
+                "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.",
+                "GPU GPU",
+                ItemTier.Tier2,
+                Ultitems.Assets.OverclockedGPUSprite,
+                Ultitems.Assets.OverclockedGPUPrefab,
+                [ItemTag.Damage, ItemTag.OnKillEffect]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;

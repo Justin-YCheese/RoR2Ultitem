@@ -18,67 +18,23 @@ namespace UltitemsCyan.Items.Tier2
         // For Birthday Buff
         public const float birthdayBuffMultiplier = 32f;
 
-        // Function
-        public bool inPickupAlready = false;
-
-        private void Tokens()
-        {
-            string tokenPrefix = "BIRTHDAYCANDLES";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Birthday Candles");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Temporarily deal extra damage after pickup and at the start of each stage.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for<style=cIsUtility>5 minutes</style>after pickup and after the start of each stage.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "I don't know what to get you for your birthday...");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // tokens
-
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier2;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.BirthdayCandleSprite;
-            item.pickupModelPrefab = Ultitems.Assets.BirthdayCandlePrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Damage, ItemTag.OnStageBeginEffect];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Birthday Candles Initialized");
-
-            GetItemDef = item;
-            Log.Warning("Initialized: " + item.name);
+            item = CreateItemDef(
+                "BIRTHDAYCANDLES",
+                "Birthday Candles",
+                "Temporarily deal extra damage after pickup and at the start of each stage.",
+                "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for<style=cIsUtility>5 minutes</style>after pickup and after the start of each stage.",
+                "I don't know what to get you for your birthday...",
+                ItemTier.Tier2,
+                Ultitems.Assets.BirthdayCandleSprite,
+                Ultitems.Assets.BirthdayCandlePrefab,
+                [ItemTag.Damage, ItemTag.OnStageBeginEffect]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged; // Remove buff if no birthday candles
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal; // Start of stage give buff

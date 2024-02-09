@@ -25,61 +25,23 @@ namespace UltitemsCyan.Items.Lunar
 
         public bool inSonorousAlready = false;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "SONOROUSPAIL";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Sonorous Pail");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Gain <style=cIsDamage>1% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>5% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Lunar;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.SandPailSprite;
-            item.pickupModelPrefab = Ultitems.Assets.SandPailPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Utility];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            // Log.Info("Faulty Bulb Initialized");
-            GetItemDef = item;
-            Log.Warning("Initialized: " + item.name);
+            item = CreateItemDef(
+                "SONOROUSPAIL",
+                "Sonorous Pail",
+                "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>",
+                "Gain <style=cIsDamage>1% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>5% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
+                "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.",
+                ItemTier.Lunar,
+                Ultitems.Assets.SandPailSprite,
+                Ultitems.Assets.SandPailPrefab,
+                [ItemTag.Utility]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             //On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;

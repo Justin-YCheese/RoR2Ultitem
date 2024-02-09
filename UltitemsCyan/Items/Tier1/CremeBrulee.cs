@@ -15,57 +15,22 @@ namespace UltitemsCyan.Items.Tier1
         private const float percentHealing = 5f;
         private const float flatHealing = 20f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "CREMEBRULEE";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Crème Brûlée");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Heal when hitting full health enemies.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsHealing>Heal</style> for <style=cIsHealing>20</style> plus an additional <style=cIsHealing>5%</style> <style=cStack>(+5% per stack)</style> when dealing damage to <style=cIsDamage>full health</style> enemies"); // enemies above <style=cIsDamage>80% health</style>
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Sugar Crust");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier1;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.CremeBruleeSprite;
-            item.pickupModelPrefab = Ultitems.Assets.CremeBruleePrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Healing];
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "CREMEBRULEE",
+                "Crème Brûlée",
+                "Heal when hitting full health enemies.",
+                "<style=cIsHealing>Heal</style> for <style=cIsHealing>20</style> plus an additional <style=cIsHealing>5%</style> <style=cStack>(+5% per stack)</style> when dealing damage to <style=cIsDamage>full health</style> enemies",
+                "Super Sugar Crust!",
+                ItemTier.Tier1,
+                Ultitems.Assets.CremeBruleeSprite,
+                Ultitems.Assets.CremeBruleePrefab,
+                [ItemTag.Healing]
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }

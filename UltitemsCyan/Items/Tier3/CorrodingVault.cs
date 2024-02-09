@@ -14,63 +14,23 @@ namespace UltitemsCyan.Items.Tier3
         private const int minimumInVault = 16;
         private const int bonusInVault = 4;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "CORRODINGVAULT";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Corroding Vault");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Breaks at the start of the next stage. Contains white items.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>16 to 20</style> unique white items");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "This vault is sturdy, but over time the rust will just crack it open");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            // Add text for item
-            Tokens();
-
-            //Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier3;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.CorrodingVaultSprite;
-            item.pickupModelPrefab = Ultitems.Assets.CorrodingVaultPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "CORRODINGVAULT",
+                "Corroding Vault",
+                "Breaks at the start of the next stage. Contains white items.",
+                "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>16 to 20</style> unique white items",
+                "This vault is sturdy, but over time the rust will just crack it open",
+                ItemTier.Tier3,
+                Ultitems.Assets.CorrodingVaultSprite,
+                Ultitems.Assets.CorrodingVaultPrefab,
+                [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
         }

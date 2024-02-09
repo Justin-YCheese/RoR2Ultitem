@@ -13,62 +13,23 @@ namespace UltitemsCyan.Items.Tier3
         private const float warningDelay = 25f;
         private const float effectDuration = 30f;
 
-        private void Tokens()
-        {
-            string tokenPrefix = "SUESMANDIBLES";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Sue's Mandibles");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Endure a killing blow then gain invulnerability and disable healing. Consumed on use.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>30 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "Last Stand");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-
-            Tokens();
-
-            Log.Debug("Init " + item.name);
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.Tier3;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.SuesMandiblesSprite;
-            item.pickupModelPrefab = Ultitems.Assets.SuesMandiblesPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-
-            item.tags = [ItemTag.Utility, ItemTag.LowHealth];
-
-            // TODO: Turn tokens into strings
-            // AddTokens();
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            // Log.Info("Faulty Bulb Initialized");
-            GetItemDef = item;
-            Log.Warning("Initialized: " + item.name);
+            item = CreateItemDef(
+                "SUESMANDIBLES",
+                "Sue's Mandibles",
+                "Endure a killing blow then gain invulnerability and disable healing. Consumed on use.",
+                "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>30 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.",
+                "Last Stand",
+                ItemTier.Tier3,
+                Ultitems.Assets.SuesMandiblesSprite,
+                Ultitems.Assets.SuesMandiblesPrefab,
+                [ItemTag.Utility, ItemTag.LowHealth]
+            );
         }
 
-        protected void Hooks()
+
+        protected override void Hooks()
         {
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }

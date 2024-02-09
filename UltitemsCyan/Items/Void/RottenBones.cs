@@ -21,67 +21,29 @@ namespace UltitemsCyan.Items.Void
         public const float rottingBuffMultiplier = 20;
         public const float rotTimeInterval = 180; // 3 minutes
 
-        private void Tokens()
-        {
-            string tokenPrefix = "ROTTENBONES";
-
-            LanguageAPI.Add(tokenPrefix + "_NAME", "Rotten Bones");
-            LanguageAPI.Add(tokenPrefix + "_PICK", "Deal more damage over time. <style=cIsVoid>Corrupts all Birthday Candles</style>.");
-            LanguageAPI.Add(tokenPrefix + "_DESC", "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. <style=cIsVoid>Corrupts all Birthday Candles</style>.");
-            LanguageAPI.Add(tokenPrefix + "_LORE", "The bitter aftertaste is just the spoilage");
-
-            item.name = tokenPrefix + "_NAME";
-            item.nameToken = tokenPrefix + "_NAME";
-            item.pickupToken = tokenPrefix + "_PICK";
-            item.descriptionToken = tokenPrefix + "_DESC";
-            item.loreToken = tokenPrefix + "_LORE";
-        }
-
         public override void Init()
         {
-            item = ScriptableObject.CreateInstance<ItemDef>();
-            transformItem = BirthdayCandles.item;
-
-            // Add text for item
-            Tokens();
-
-            // tier
-            ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
-            itd.tier = ItemTier.VoidTier2;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
-            item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-
-            item.pickupIconSprite = Ultitems.Assets.RottenBonesSprite;
-            item.pickupModelPrefab = Ultitems.Assets.RottenBonesPrefab;
-
-            item.canRemove = true;
-            item.hidden = false;
-
-            item.tags = [ItemTag.Damage];
-
-            ItemDisplayRuleDict displayRules = new(null);
-
-            ItemAPI.Add(new CustomItem(item, displayRules));
-
-            // Item Functionality
-            Hooks();
-
-            //Log.Info("Test Item Initialized");
-            GetItemDef = item;
-            GetTransformItem = transformItem;
-            Log.Warning(" Initialized: " + item.name);
+            item = CreateItemDef(
+                "ROTTENBONES",
+                "Rotten Bones",
+                "Deal more damage over time. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
+                "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
+                "The bitter aftertaste is just the spoilage",
+                ItemTier.VoidTier2,
+                Ultitems.Assets.RottenBonesSprite,
+                Ultitems.Assets.RottenBonesPrefab,
+                [ItemTag.Utility, ItemTag.OnStageBeginEffect],
+                BirthdayCandles.item
+            );
         }
 
-        protected void Hooks()
+        protected override void Hooks()
         {
             // TODO Add 
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
             //On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
         }
-
-
 
         private void CharacterBody_onBodyStartGlobal(CharacterBody self)
         {
