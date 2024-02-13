@@ -21,11 +21,11 @@ namespace UltitemsCyan.Component
                 if (component)
                 {
                     //int amountOfStacks = Math.Min(amount, maxStack);
-                    float duration = baseBuffDuration + buffDurationPerItem * amount;
-                    Log.Debug("Flea On Trigger Happened! amount: " + amount + " duration: " + duration);
+                    float duration = baseBuffDuration; //+ buffDurationPerItem * amount
+                    //Log.Debug("Flea On Trigger Happened! amount: " + amount + " duration: " + duration);
                     for (int i = 0; i < amount; i++)
                     {
-                        Log.Debug(" . add tick " + i);
+                        //Log.Debug(" . add tick " + i);
                         component.AddTimedBuff(buffDef, duration, amount);
                     }
                     //EffectManager.SpawnEffect(pickupEffect, new EffectData { origin = transform.position }, true);
@@ -36,7 +36,7 @@ namespace UltitemsCyan.Component
 
         private BuffDef buffDef = Buffs.TickCritBuff.buff;
         private float baseBuffDuration = FleaBag.baseBuffDuration;
-        private float buffDurationPerItem = FleaBag.buffDurationPerItem;
+        //private float buffDurationPerItem = FleaBag.buffDurationPerItem;
         //private int maxStack = FleaBag.buffMaxStack; // Was for limiting max number of TickCrit stacks
         public int amount;
 

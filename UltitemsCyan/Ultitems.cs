@@ -68,12 +68,12 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.7.5";
+        public const string PluginVersion = "0.7.6";
         /* Version Changes     Old Git v7.4
          * Moved Init functions to ItemBase
          * Used IL functions v7.5
          * SilverThread death when hit
-         * 
+         * Using Real Pickup Prefabs v7.6
          * 
          * 
          * 

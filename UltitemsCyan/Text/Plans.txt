@@ -1,9 +1,13 @@
 ﻿
 
 	When Testing:
+- Test Reglolith Pot Damage
+
+
 
 	ToDo Next:
-- Add next 2 items
+- Add Grape Vine
+
 
 
 	My Item Add Order:
@@ -16,7 +20,6 @@
 
 
 	For Future Consideration:
-- Test Reglolith Pot Damage
 - Silver Thread
 	- Don't kill mythrics instanty
 	- Can return thread
@@ -42,3 +45,4 @@
 
 	Ask my Friends Questions:
 - Should barrier count for dream fuel max health?
+- Silver Thread lose items porportional to thread stacks? Lose all red items after resurrection?

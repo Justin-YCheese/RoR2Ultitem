@@ -11,8 +11,8 @@ namespace UltitemsCyan.Equipment
     {
         public static EquipmentDef equipment;
 
-        private const float percentDamage = 5f;
-        private const float flatDamage = 20f;
+        private const float basePercentDamage = 5f;
+        private const float maxPercentDamage = 20f;
 
         public override void Init()
         {
@@ -20,9 +20,9 @@ namespace UltitemsCyan.Equipment
                 "POTOFREGOLITH",
                 "Pot of Regolith",
                 "<style=cDeath>Take damage</style> on use.",
-                "Take <style=cIsHealth>20</style> plus <style=cIsHealth>5% of your current health</style> as <style=cIsDamage>damage</style>",
+                "Take <style=cIsHealth>5% or 20% of your current health</style> as <style=cIsDamage>damage</style>",
                 "The dust is as sharp as a knife",
-                2f,
+                3f,
                 true,
                 true,
                 Ultitems.Assets.PotOfRegolithSprite,
@@ -40,10 +40,22 @@ namespace UltitemsCyan.Equipment
             if (equipmentDef == equipment)
             {
                 CharacterBody activator = self.characterBody;
+                //UnityEngine.Random.Range(basePercentDamage, maxPercentDamage);
+
+                float percentDamage = maxPercentDamage;
+                if (Util.CheckRoll(80f, activator.master.luck))
+                {
+                    percentDamage = basePercentDamage;
+                }
+                else
+                {
+                    Log.Debug("Pot High Damage");
+                }
+
                 DamageInfo damageSelf = new()
                 {
                     crit = false, // activator.RollCrit()
-                    damage = (percentDamage / 100f * activator.healthComponent.combinedHealth) + flatDamage, // + activator.baseDamage
+                    damage = (percentDamage / 100f * activator.healthComponent.health), // + activator.baseDamage
                     procCoefficient = 100f,
 
                     damageType = DamageType.Generic,
@@ -53,7 +65,7 @@ namespace UltitemsCyan.Equipment
                 };
                 //if (damageSelf.crit) { damageSelf.damage *= 2; }
 
-                Log.Debug("Activator damage: (" + (damageSelf.damage - flatDamage) + " + " + flatDamage + ")");
+                Log.Debug("Pot activator damage: " + damageSelf.damage);
 
                 activator.healthComponent.TakeDamage(damageSelf);
                 //self.subcooldownTimer += 5f;
