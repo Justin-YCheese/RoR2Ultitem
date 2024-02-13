@@ -34,8 +34,8 @@ namespace UltitemsCyan.Items.Void
             item = CreateItemDef(
                 "DOWNLOADEDRAM",
                 "Downloaded RAM",
-                "Chance on hit to increase damage by 10%. Stacks 4 (+4 per stack) times. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
-                "<style=cIsDamage>15%</style> chance on hit to increase damage by <style=cIsDamage>10%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
+                "Chance on hit to increase damage by 10%. Stacks 4 (+4 per stack) times. Lose stacks when not attacking. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
+                "<style=cIsDamage>15%</style> chance on hit to increase damage by <style=cIsDamage>10%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. Lose stacks 3 seconds after inflicting damage. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
                 "The bitter aftertaste is just the spoilage",
                 ItemTier.VoidTier2,
                 Ultitems.Assets.DownloadedRAMSprite,
@@ -44,7 +44,6 @@ namespace UltitemsCyan.Items.Void
                 OverclockedGPU.item
             );
         }
-
 
         protected override void Hooks()
         {

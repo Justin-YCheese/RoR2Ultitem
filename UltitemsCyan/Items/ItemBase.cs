@@ -63,7 +63,7 @@ namespace UltitemsCyan.Items
             GetItemDef = item;
             if (transformItem)
             {
-                Log.Warning("Transform from + " + transformItem.name);
+                //Log.Warning("Transform from + " + transformItem.name);
                 GetTransformItem = transformItem;
             }
             //Log.Warning(" Initialized: " + item.name);

@@ -29,7 +29,7 @@ namespace UltitemsCyan.Buffs
 
             if (ContentAddition.AddBuffDef(definition))
             {
-                Log.Warning(definition.name + " Buff Initialized");
+                //Log.Warning(definition.name + " Buff Initialized");
             };
             return definition;
         }

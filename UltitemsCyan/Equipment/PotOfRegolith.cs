@@ -43,7 +43,7 @@ namespace UltitemsCyan.Equipment
                 DamageInfo damageSelf = new()
                 {
                     crit = false, // activator.RollCrit()
-                    damage = (percentDamage * activator.healthComponent.combinedHealth) + flatDamage, // + activator.baseDamage
+                    damage = (percentDamage / 100f * activator.healthComponent.combinedHealth) + flatDamage, // + activator.baseDamage
                     procCoefficient = 100f,
 
                     damageType = DamageType.Generic,
@@ -53,7 +53,7 @@ namespace UltitemsCyan.Equipment
                 };
                 //if (damageSelf.crit) { damageSelf.damage *= 2; }
 
-                Log.Debug("Activator damage: (" + (percentDamage * activator.healthComponent.combinedHealth / 100f) + " + " + flatDamage + ")");
+                Log.Debug("Activator damage: (" + (damageSelf.damage - flatDamage) + " + " + flatDamage + ")");
 
                 activator.healthComponent.TakeDamage(damageSelf);
                 //self.subcooldownTimer += 5f;

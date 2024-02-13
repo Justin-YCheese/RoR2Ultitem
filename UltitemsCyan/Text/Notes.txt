@@ -16,6 +16,8 @@ CombinedHealthFraction = Current: Hp + Shield + Barrier / Hp + Shield
 
 	Other notes
 
+Util.FindNetworkObject() // Get Object from Network Instance ID
+
 Item Behavior Order:
 Adding -> OnAwake(), OnEnable(), Start()
 Removing -> OnDisable(), Destory()

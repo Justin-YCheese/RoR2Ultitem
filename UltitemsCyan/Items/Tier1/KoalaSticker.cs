@@ -1,5 +1,9 @@
-﻿using R2API;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using R2API;
+using R2API.Utils;
 using RoR2;
+using System;
 using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 
@@ -30,93 +34,88 @@ namespace UltitemsCyan.Items.Tier1
 
         protected override void Hooks()
         {
-            On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }
 
-        private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
+        private void HealthComponent_TakeDamage(ILContext il)
         {
-            float initialHealth = self.health;
-            float initialShield = self.shield;
-            float initialBarrier = self.barrier;
-            //damageInfo.damageColorIndex = 0;
-            orig(self, damageInfo);
-            CharacterBody victim = self.GetComponent<CharacterBody>();
+            ILCursor c = new(il); // Make new ILContext
 
-            // If dead after damage
-            if (victim && victim.inventory && self && damageInfo.damageType != DamageType.VoidDeath)
+            int num = -1;   //Initial Total Damage
+            int num12 = -1; //New Total Damage
+
+            // Inject code just before damage is subtracted from health
+            // Go just before the "if (num12 > 0f && this.barrier > 0f)" line, which is equal to the following instructions
+
+            Log.Warning("Koala Sticker Take Damage");
+
+            if (c.TryGotoNext(MoveType.Before,                              // TODO make cursor search more robust
+                x => x.MatchLdloc(out num),                                 // 1130 ldloc.s V_6 (6)
+                x => x.MatchStloc(out num12),                               // 1130 stloc.s V_7 (7)
+                x => x.MatchLdloc(out num12),                               // 1130 ldloc.s V_7 (7)
+                x => x.MatchLdcR4(0f),                                      // 1131 ldc.r4 0
+                x => x.Match(OpCodes.Ble_Un_S),                             // 1132 ble.un.s 1200 (0D38) ldloc.s V_7 (7)
+                x => x.MatchLdarg(0),                                       // 1133 ldarg.0
+                x => x.MatchLdcI4(0),                                       // 1134 ldci4.0
+                x => x.MatchStfld<HealthComponent>("isShieldRegenForced")   // 1135 ldfld float32 RoR2.HealthComponent::barrier
+            ))
             {
-                int grabCount = victim.inventory.GetItemCount(item);
-                if (grabCount > 0)
+
+                Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
+                //[Warning:UltitemsCyan] * **Start C Index: 1129 > // ILCursor: System.Void DMD<RoR2.HealthComponent::TakeDamage>?-456176384::RoR2.HealthComponent::TakeDamage(RoR2.HealthComponent,RoR2.DamageInfo), 1129, Next
+                //IL_0e05: stfld System.Single RoR2.HealthComponent::adaptiveArmorValue
+                //IL_0e0a: ldloc.s V_6
+
+                //give_item koalasticker 100
+
+                c.Index += 4;
+
+                Log.Debug(" * * * +4 Working Index: " + c.Index + " > " + c.ToString());
+                //[Debug  :UltitemsCyan] * **+4 Working Index: 1133 > // ILCursor: System.Void DMD<RoR2.HealthComponent::TakeDamage>?-771449600::RoR2.HealthComponent::TakeDamage(RoR2.HealthComponent,RoR2.DamageInfo), 1133, None
+                //IL_0e10: ldc.r4 0
+                //IL_0e15: ble.un.s IL_0e21
+
+
+                c.Emit(OpCodes.Ldarg, 0);       // Load Health Component
+                //c.Emit(OpCodes.Ldarg, 1);     // Load Damage Info (If Damage rejected, returned earlier)
+                c.Emit(OpCodes.Ldloc, num);     // Load Total Damage
+
+                // Run custom code
+                c.EmitDelegate<Func<HealthComponent, float, float>>((hc, td) =>
                 {
-                    //Log.Debug("FullHealth: " + self.fullHealth + " fullShield: " + self.fullShield + " fullBarrier: " + self.fullBarrier + " fullCombined: " + self.fullCombinedHealth);
-                    float percent = 1 / ((hyperbolicPercent / 100 * grabCount) + 1);
-                    float maxDamage = self.fullCombinedHealth * percent;
-                    if (maxDamage < 1) // Minimum 
+                    CharacterBody cb = hc.body;
+                    //Log.Debug("Health: " + hc.fullCombinedHealth + "\t Body: " + cb.GetUserName() + "\t Damage: " + td);
+                    if (cb.master.inventory)
                     {
-                        maxDamage = 1;
+                        int grabCount = cb.master.inventory.GetItemCount(item);
+                        if (grabCount > 0)
+                        {
+                            Log.Debug("Koala Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
+                            //Log.Debug("Max Percent: " + ((hyperbolicPercent / 100 * grabCount) + 1) + " of " + hc.fullCombinedHealth);
+                            float maxDamage = hc.fullCombinedHealth / ((hyperbolicPercent / 100 * grabCount) + 1);
+                            Log.Debug("Is " + td + "\t > " + maxDamage + "?");
+                            if (td > maxDamage)
+                            {
+                                Log.Debug("Yes");
+                                return maxDamage;
+                            }
+                        }
                     }
-                    float damage = initialHealth - self.health;
-                    if (damage > maxDamage)
-                    {
-                        Log.Warning("Koala " + victim.GetUserName() + " Damage: " + damage + " > MaxDamage: " + maxDamage);
-                        //" Initial Health: " + initialHealth + " Shield: " + initialShield + " Barrier: " + initialBarrier
-                        if (self.alive) {
-                            Log.Debug("Alive...");
-                        } else {
-                            Log.Debug("Dead With Koala!");
-                        }
-                        //Log.Debug("Damage: " + damage);
-                        if (maxDamage <= initialBarrier)
-                        {
-                            self.barrier = initialBarrier - maxDamage;
-                            self.shield = self.fullShield;
-                            self.health = self.fullHealth;
-                        }
-                        else if (maxDamage <= initialBarrier + initialShield)
-                        {
-                            self.shield = initialBarrier + initialShield - maxDamage;
-                            self.health = self.fullHealth;
-                        }
-                        else
-                        {
-                            self.health = initialHealth + initialBarrier + initialShield - maxDamage;
-                        }
-                        // Floor Damage
-                        Log.Debug("MaxDamage: " + maxDamage + " NewHealth: " + self.health + " | " + self.shield + " | " + self.barrier);
-                    }
-                }
+                    return td;
+                });
+
+                c.Emit(OpCodes.Stloc, num12); // Store Total Damage
+                //
+                //}
+                //else
+                //{
+                //    Log.Warning("Koala cannot find 'for (int k = 0; k < num15; k++){}'");
+                //}
             }
-            //Log.Debug("Bye Sue");
+            else
+            {
+                Log.Warning("Koala cannot find '(num12 > 0f && this.barrier > 0f)'");
+            }
         }
     }
-    /*/
-        public void RespawnExtraLife()
-		{
-			this.inventory.GiveItem(RoR2Content.Items.ExtraLifeConsumed, 1);
-			CharacterMasterNotificationQueue.SendTransformNotification(this, RoR2Content.Items.ExtraLife.itemIndex, RoR2Content.Items.ExtraLifeConsumed.itemIndex, CharacterMasterNotificationQueue.TransformationType.Default);
-			Vector3 vector = this.deathFootPosition;
-			if (this.killedByUnsafeArea)
-			{
-				vector = (TeleportHelper.FindSafeTeleportDestination(this.deathFootPosition, this.bodyPrefab.GetComponent<CharacterBody>(), RoR2Application.rng) ?? this.deathFootPosition);
-			}
-			this.Respawn(vector, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f));
-			this.GetBody().AddTimedBuff(RoR2Content.Buffs.Immune, 3f);
-			GameObject gameObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/HippoRezEffect");
-			if (this.bodyInstanceObject)
-			{
-				foreach (EntityStateMachine entityStateMachine in this.bodyInstanceObject.GetComponents<EntityStateMachine>())
-				{
-					entityStateMachine.initialStateType = entityStateMachine.mainStateType;
-				}
-				if (gameObject)
-				{
-					EffectManager.SpawnEffect(gameObject, new EffectData
-					{
-						origin = vector,
-						rotation = this.bodyInstanceObject.transform.rotation
-					}, true);
-				}
-			}
-		}
-    //*/
 }

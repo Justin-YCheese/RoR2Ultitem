@@ -1,14 +1,9 @@
 ﻿
 
 	When Testing:
-- Test Scissors Priority over vault, Coffin
-- Damage is returning item before death?
-- Test Pot Damage
-
 
 	ToDo Next:
 - Add next 2 items
-
 
 
 	My Item Add Order:
@@ -21,6 +16,7 @@
 
 
 	For Future Consideration:
+- Test Reglolith Pot Damage
 - Silver Thread
 	- Don't kill mythrics instanty
 	- Can return thread
@@ -45,4 +41,4 @@
 
 
 	Ask my Friends Questions:
-- Enter Mythrics Fight Reset Stage Start Timer for Silver Thread?
+- Should barrier count for dream fuel max health?

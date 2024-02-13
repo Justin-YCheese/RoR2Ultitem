@@ -14,11 +14,11 @@ namespace UltitemsCyan.Items.Lunar
     {
         public static ItemDef item;
 
-        private const float attackPerWhite = 1f;
+        private const float attackPerWhite = 2f;
         private const float regenPerGreen = 0.05f;
         private const float speedPerRed = 10f;
-        private const float critPerBoss = 5f;
-        //private const float armourPerUnMisc = 2f;
+        private const float critPerBoss = 10f;
+        //private const float armourPerMisc = 2f;
         //private const float healthPerLunar = 5f;
         //private const float jumpPerLunar = 5f;
         private const float stackPercent = 20f;
@@ -31,7 +31,7 @@ namespace UltitemsCyan.Items.Lunar
                 "SONOROUSPAIL",
                 "Sonorous Pail",
                 "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>",
-                "Gain <style=cIsDamage>1% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>5% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
+                "Gain <style=cIsDamage>2% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
                 "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.",
                 ItemTier.Lunar,
                 Ultitems.Assets.SandPailSprite,

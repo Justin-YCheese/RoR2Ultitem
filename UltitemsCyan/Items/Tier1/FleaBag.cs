@@ -93,10 +93,27 @@ namespace UltitemsCyan.Items.Tier1
             }
         }
 
+        /*/
+        public static GameObject CreateBlankPrefab(string name = "GameObject", bool network = false)
+        {
+            GameObject gameObject = PrefabAPI.InstantiateClone(new GameObject(name), name, false);
+            if (network)
+            {
+                gameObject.AddComponent<NetworkIdentity>();
+                gameObject.AddComponent<NetworkHelper.MysticsRisky2UtilsNetworkHelper>();
+                PrefabAPI.RegisterNetworkPrefab(gameObject);
+            }
+            return gameObject;
+        }//*/
+
         public static void SpawnOrb(Vector3 position, Quaternion rotation, TeamIndex teamIndex, int itemCount)
         {
             if (NetworkServer.active)
             {
+
+
+
+
                 GameObject orb = UnityEngine.Object.Instantiate(FleaOrb);
                 if (orb)
                 {

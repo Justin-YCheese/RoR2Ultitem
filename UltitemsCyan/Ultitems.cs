@@ -40,6 +40,8 @@ namespace UltitemsCyan
     [BepInDependency(LanguageAPI.PluginGUID)]
     // For making giving stat changes
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
+    // For using custom prefabs
+    [BepInDependency(PrefabAPI.PluginGUID)]
 
     // This attribute is required, and lists metadata for your plugin.
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
@@ -56,8 +58,6 @@ namespace UltitemsCyan
     // More information in the Unity Docs: https://docs.unity3d.com/ScriptReference/MonoBehaviour.html
     public class Ultitems : BaseUnityPlugin
     {
-
-
         public static float stageStartTime; // measured in seconds
 
         // The Plugin GUID should be a unique ID for this plugin,
@@ -68,11 +68,11 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.7.4";
+        public const string PluginVersion = "0.7.5";
         /* Version Changes     Old Git v7.4
          * Moved Init functions to ItemBase
-         * 
-         * 
+         * Used IL functions v7.5
+         * SilverThread death when hit
          * 
          * 
          * 
