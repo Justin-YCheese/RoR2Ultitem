@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 using System;
-using UltitemsCyan.Component;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -17,8 +16,12 @@ namespace UltitemsCyan.Items.Tier3
         private static GameObject GrapeOrbPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
         private static GameObject GrapeEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/HealthOrbEffect.prefab").WaitForCompletion();
 
-        private const float grapeDropChance = 20f;
-        private const int maxGrapes = 20;
+        private const float baseGrapeDropChance = 25f;
+        private const float stackGrapeDropChance = 25f;
+
+        // For Slippery Buff
+        public const float grapeBlockChance = 50f;
+        public const int maxGrapes = 50;
 
         public override void Init()
         {
@@ -27,7 +30,7 @@ namespace UltitemsCyan.Items.Tier3
                 "GRAPEVINE",
                 "Grapevine",
                 "Kills drop orbs that block damage.",
-                "20% (+20% on stack) chance on kill to grow a grape that blocks damage.",
+                "50% (+25% per stack) chance on kill to grow a grape that block damage half the time.",
                 "If you close your eyes, you can pretend their eyeballs",
                 ItemTier.Tier3,
                 Ultitems.Assets.GrapevineSprite,
@@ -52,9 +55,9 @@ namespace UltitemsCyan.Items.Tier3
                 //int buffCount = killer.GetBuffCount(Buffs.OverclockedBuff.buff);
                 if (grabCount > 0)
                 {
-                    if (Util.CheckRoll(grapeDropChance * grabCount, killer.master.luck))
+                    if (Util.CheckRoll(baseGrapeDropChance + (stackGrapeDropChance * grabCount), killer.master.luck))
                     {
-                        Log.Warning("Dropping flea from " + victim.name);
+                        Log.Warning("Dropping grape from " + victim.name);
                         //RoR2.BuffPickup.Instantiate(item);
                         //Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
                         //Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
@@ -69,7 +72,7 @@ namespace UltitemsCyan.Items.Tier3
             GameObject orb = UnityEngine.Object.Instantiate(GrapeOrbPrefab);
             if (orb)
             {
-                Log.Debug("Grape Orb is loaded");
+                //Log.Debug("Grape Orb is loaded");
             }
 
             orb.transform.position = position;
@@ -95,11 +98,38 @@ namespace UltitemsCyan.Items.Tier3
             GrapeComponent.pickupEffect = GrapeEffect;
 
             orb.GetComponent<Rigidbody>().useGravity = true;
-            orb.transform.localScale = Vector3.one * (1.5f + (itemCount / 3f));
+            orb.transform.localScale = Vector3.one * 2.5f;
 
             Log.Debug("Spawning orb at: " + orb.transform.position);
             NetworkServer.Spawn(orb);
         }
         //*/
+    }
+
+    public class GrapePickup : MonoBehaviour
+    {
+        private int maxGrapes = Grapevine.maxGrapes;
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (NetworkServer.active && alive && TeamComponent.GetObjectTeam(other.gameObject) == teamFilter.teamIndex)
+            {
+                CharacterBody body = other.GetComponent<CharacterBody>();
+                if (body && body.GetBuffCount(buffDef) < maxGrapes)
+                {
+                    body.AddBuff(buffDef);
+                }
+                Destroy(baseObject);
+            }
+        }
+
+        //private BuffDef buffDef = JunkContent.Buffs.BodyArmor;
+        private BuffDef buffDef = Buffs.SlipperyGrape.buff;
+
+        public GameObject baseObject;
+        public TeamFilter teamFilter;
+        public GameObject pickupEffect;
+
+        private bool alive = true;
     }
 }

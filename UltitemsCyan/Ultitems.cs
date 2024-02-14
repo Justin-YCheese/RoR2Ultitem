@@ -27,7 +27,6 @@ using System.Reflection;
 using Unity.Audio;
 using R2API.Utils;
 using BepInEx.Configuration;
-using UltitemsCyan.Component;
 using System;
 using UltitemsCyan.Items;
 
@@ -68,13 +67,13 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.7.6";
+        public const string PluginVersion = "0.7.7";
         /* Version Changes     Old Git v7.4
          * Moved Init functions to ItemBase
          * Used IL functions v7.5
          * SilverThread death when hit
          * Grapevine item v7.6
-         * 
+         * Grapevine buff v7.7
          * 
          * 
          * 
@@ -122,6 +121,7 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new TickCritBuff());
             ultitemBuffs.Add(new RottingBuff());
             ultitemBuffs.Add(new DownloadedBuff());
+            ultitemBuffs.Add(new SlipperyGrape());
             //ultitemBuffs.Add(new ());
             foreach (BuffBase newBuff in ultitemBuffs)
             {

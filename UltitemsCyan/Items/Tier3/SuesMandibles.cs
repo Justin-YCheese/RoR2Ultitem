@@ -18,7 +18,7 @@ namespace UltitemsCyan.Items.Tier3
             item = CreateItemDef(
                 "SUESMANDIBLES",
                 "Sue's Mandibles",
-                "Endure a killing blow then gain invulnerability and disable healing. Consumed on use.",
+                "Endure a killing blow then gain invulnerability and disable healing for 30s. Consumed on use.",
                 "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>30 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.",
                 "Last Stand",
                 ItemTier.Tier3,

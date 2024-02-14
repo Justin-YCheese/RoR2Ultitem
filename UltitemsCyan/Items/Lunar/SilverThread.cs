@@ -110,7 +110,7 @@ namespace UltitemsCyan.Items.Lunar
                     CharacterBody cb = hc.body;
                     //Log.Debug("Health: " + hc.fullCombinedHealth + "\t Body: " + cb.GetUserName() + "\t Damage: " + td);
                     //Log.Warning("Damage Info " + di.ToString() + " with " + di.damage + " initial damage");
-                    if (cb.master.inventory && aCb)
+                    if (cb && cb.master && cb.master.inventory && aCb)
                     {
                         //if (aCb.master.inventory){ Log.Debug("and has inventory"); }
                         int grabCount = MaxStack(cb.master.inventory);

@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 using System;
-using UltitemsCyan.Component;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -220,5 +219,41 @@ namespace UltitemsCyan.Items.Tier1
             NetworkServer.Spawn(orb);
         }
         //*/
+    }
+
+    public class FleaPickup : MonoBehaviour
+    {
+        private void OnTriggerStay(Collider other)
+        {
+            if (NetworkServer.active && alive && TeamComponent.GetObjectTeam(other.gameObject) == teamFilter.teamIndex)
+            {
+                CharacterBody body = other.GetComponent<CharacterBody>();
+                if (body)
+                {
+                    //int amountOfStacks = Math.Min(amount, maxStack);
+                    float duration = baseBuffDuration; //+ buffDurationPerItem * amount
+                    //Log.Debug("Flea On Trigger Happened! amount: " + amount + " duration: " + duration);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        //Log.Debug(" . add tick " + i);
+                        body.AddTimedBuff(buffDef, duration, amount);
+                    }
+                    //EffectManager.SpawnEffect(pickupEffect, new EffectData { origin = transform.position }, true);
+                    Destroy(baseObject);
+                }
+            }
+        }
+
+        private BuffDef buffDef = Buffs.TickCritBuff.buff;
+        private float baseBuffDuration = FleaBag.baseBuffDuration;
+        //private float buffDurationPerItem = FleaBag.buffDurationPerItem;
+        //private int maxStack = FleaBag.buffMaxStack; // Was for limiting max number of TickCrit stacks
+        public int amount;
+
+        public GameObject baseObject;
+        public TeamFilter teamFilter;
+        public GameObject pickupEffect;
+
+        private bool alive = true;
     }
 }

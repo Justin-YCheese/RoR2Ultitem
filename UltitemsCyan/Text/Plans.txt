@@ -1,16 +1,13 @@
 ﻿
 
 	When Testing:
-- Test Reglolith Pot Damage
 - Kill Mythrics with Thread
 
 
 	ToDo Next:
-- Add own buff with IL
 
 
 	My Item Add Order:
-- Grape Vine
 - Worm Holes
 - Xenon Ampoule
 - Goopy Cage
