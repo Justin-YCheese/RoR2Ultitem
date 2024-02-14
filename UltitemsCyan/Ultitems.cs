@@ -73,7 +73,7 @@ namespace UltitemsCyan
          * Moved Init functions to ItemBase
          * Used IL functions v7.5
          * SilverThread death when hit
-         * Using Real Pickup Prefabs v7.6
+         * Grapevine item v7.6
          * 
          * 
          * 
@@ -160,6 +160,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new ViralSmog());
             ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new CorrodingVault());
+            ultitemItems.Add(new Grapevine());
 
             // Lunar Items
             ultitemItems.Add(new DreamFuel());

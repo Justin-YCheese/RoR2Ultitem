@@ -2,12 +2,11 @@
 
 	When Testing:
 - Test Reglolith Pot Damage
-
+- Kill Mythrics with Thread
 
 
 	ToDo Next:
-- Add Grape Vine
-
+- Add own buff with IL
 
 
 	My Item Add Order:
@@ -20,11 +19,6 @@
 
 
 	For Future Consideration:
-- Silver Thread
-	- Don't kill mythrics instanty
-	- Can return thread
-	- But won't return if killed by thread
-	- Boardcast if Mythrics actuall has thread
 - Add VFX:
 	- Ultraviolet Bulb
 	- Ice Cubes
