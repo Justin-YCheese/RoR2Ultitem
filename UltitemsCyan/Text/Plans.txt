@@ -2,16 +2,17 @@
 
 	When Testing:
 - Kill Mythrics with Thread
-
+- Test Thread with notier items
+- 
 
 	ToDo Next:
 
 
 	My Item Add Order:
-- Worm Holes
-- Xenon Ampoule
-- Goopy Cage
+- Salt
+- Jelly Cage
 - Trebuchet
+- Worm Holes
 
 
 

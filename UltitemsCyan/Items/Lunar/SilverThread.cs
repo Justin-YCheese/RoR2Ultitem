@@ -288,7 +288,7 @@ namespace UltitemsCyan.Items.Lunar
         // Increase Items gained when given
         public void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            if (NetworkServer.active && !inSilverAlready && self && itemIndex != item.itemIndex)
+            if (NetworkServer.active && !inSilverAlready && self && ItemCatalog.GetItemDef(itemIndex).tier != ItemTier.NoTier && itemIndex != item.itemIndex )
             {
                 // Precaution incase something causes an infinity loop of items
                 inSilverAlready = true;

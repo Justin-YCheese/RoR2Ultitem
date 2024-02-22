@@ -41,7 +41,6 @@ namespace UltitemsCyan
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
     // For using custom prefabs
     [BepInDependency(PrefabAPI.PluginGUID)]
-
     // This attribute is required, and lists metadata for your plugin.
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 
@@ -67,21 +66,13 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.7.7";
-        /* Version Changes     Old Git v7.4
-         * Moved Init functions to ItemBase
-         * Used IL functions v7.5
-         * SilverThread death when hit
-         * Grapevine item v7.6
-         * Grapevine buff v7.7
-         * 
-         * 
+        public const string PluginVersion = "0.7.8";
+        /* Version Changes     Old Git v7.7
+         * Got XenonAmpoule Laser Working v7.7
+         * XenonAmpoule Refined v7.8
          * 
          * 
          */
-
-
-
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
@@ -154,7 +145,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new BirthdayCandles());
             //ultitemItems.Add(new DegreeScissors()); // Last Priority
             ultitemItems.Add(new OverclockedGPU());
-            //ultitemItems.Add(new XenonAmpoule());
+            ultitemItems.Add(new XenonAmpoule());
 
             // Red
             ultitemItems.Add(new ViralSmog());

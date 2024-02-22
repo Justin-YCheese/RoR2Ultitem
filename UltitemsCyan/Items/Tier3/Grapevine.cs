@@ -29,8 +29,8 @@ namespace UltitemsCyan.Items.Tier3
             item = CreateItemDef(
                 "GRAPEVINE",
                 "Grapevine",
-                "Kills drop orbs that block damage.",
-                "50% (+25% per stack) chance on kill to grow a grape that block damage half the time.",
+                "Chance on kill to drop grapes that block damage.",
+                "50% (+25% per stack) chance on kill to grow a grape that blocks damage half the time.",
                 "If you close your eyes, you can pretend their eyeballs",
                 ItemTier.Tier3,
                 Ultitems.Assets.GrapevineSprite,

@@ -55,12 +55,10 @@ namespace UltitemsCyan.Equipment
                 DamageInfo damageSelf = new()
                 {
                     crit = false, // activator.RollCrit()
-                    damage = (percentDamage / 100f * activator.healthComponent.health), // + activator.baseDamage
+                    damage = (percentDamage / 100f * activator.healthComponent.fullCombinedHealth), // + activator.baseDamage
                     procCoefficient = 100f,
-
                     damageType = DamageType.Generic,
                     inflictor = activator.gameObject,
-                    attacker = activator.gameObject,
                     position = activator.transform.position
                 };
                 //if (damageSelf.crit) { damageSelf.damage *= 2; }

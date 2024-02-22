@@ -13,8 +13,7 @@ namespace UltitemsCyan.Items.Void
     {
         public static ItemDef item;
         public static ItemDef transformItem;
-        private const float threshold = 30f;
-        private const float percentHealing = 0f;
+        private const float threshold = 35f;
         private const float flatHealing = 5f;
 
         public override void Init()
@@ -22,8 +21,8 @@ namespace UltitemsCyan.Items.Void
             item = CreateItemDef(
                 "DRIEDHAM",
                 "Dried Ham",
-                "Heal when hitting enemies below 30% health. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
-                "<style=cIsHealing>Heal</style> for <style=cIsHealing>5</style> <style=cStack>(+5 per stack)</style> when dealing damage to enemies below <style=cIsDamage>30% health</style>. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
+                "Heal when hitting enemies below 35% health. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
+                "<style=cIsHealing>Heal</style> for <style=cIsHealing>5</style> <style=cStack>(+5 per stack)</style> when dealing damage to enemies below <style=cIsDamage>35% health</style>. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
                 "The bitter aftertaste is just the spoilage",
                 ItemTier.VoidTier1,
                 Ultitems.Assets.DriedHamSprite,
@@ -54,9 +53,9 @@ namespace UltitemsCyan.Items.Void
                         if (self.combinedHealthFraction <= threshold / 100f)
                         {
                             //Log.Debug("Heal Attacker, Initial: " + inflictor.healthComponent.health);
-                            inflictor.healthComponent.Heal(inflictor.healthComponent.fullHealth * percentHealing / 100f + flatHealing * grabCount, damageInfo.procChainMask);
+                            inflictor.healthComponent.Heal(flatHealing * grabCount, damageInfo.procChainMask);
                             //inflictor.healthComponent.Heal(inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount + flatHealing, damageInfo.procChainMask);
-                            Log.Debug("Healing: " + (inflictor.healthComponent.fullHealth * percentHealing / 100f + flatHealing));
+                            Log.Debug("Healing: " + (flatHealing * grabCount));
                             // TODO Change sound
                             Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
                         }

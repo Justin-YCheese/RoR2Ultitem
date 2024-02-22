@@ -4,7 +4,12 @@ using RoR2.Projectile;
 using UnityEngine;
 using RoR2.Projectile;
 using UnityEngine.Networking;
-using static UltitemsCyan.Ultitems;
+using UnityEngine.AddressableAssets;
+using Random = UnityEngine.Random;
+using UnityEngine.ProBuilder;
+using static UnityEngine.UI.Image;
+using RoR2.Audio;
+using System;
 
 namespace UltitemsCyan.Items
 {
@@ -13,16 +18,35 @@ namespace UltitemsCyan.Items
     public class XenonAmpoule : ItemBase
     {
         private static ItemDef item;
-        private static GameObject shockwaveProjectile;
+
+
+        public static GameObject TracerRailgunSuper = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/Railgunner/TracerRailgunSuper.prefab").WaitForCompletion();
+        //public static GameObject Tracer2 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/OrbitalLaser/TracerAncientWisp.prefab").WaitForCompletion();
+        //public static GameObject Tracer3 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Mage/TracerMageLightningLaser.prefab").WaitForCompletion();
+        //public static GameObject Tracer4 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Mage/TracerMageIceLaser.prefab").WaitForCompletion();
+        //public static GameObject Tracer5 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Commando/TracerBarrage2.prefab").WaitForCompletion();
+
+        public static float damagePerStack = 4f;
+        public static float baseDamage = 16f;
+
+        public static float laserRadius = 2.5f;
+
+        //public static float innerRadius = 1.75f;
+        //public static float outerRadius = 3.5f;
+
+        public static float sourDamagePercent = 20f;
 
         public override void Init()
         {
+            damagePerStack /= 3f;   // Counter WeakPointHit and Crit bonus
+            baseDamage /= 3f;       // Counter WeakPointHit and Crit bonus
+
             item = CreateItemDef(
                 "XENONAMPOULE",
                 "Xenon Ampoule",
-                "",
-                "",
-                "",
+                "Fire a critting laser when you activate your active item.",
+                "Fire a critting laser for 1600% (+400% per stack) damage when you activate your active item.",
+                "It's Purple because I messed up. Xenon is supposed to be more blue than hyrdogen, but I wanted an X name. Sorry.",
                 ItemTier.Tier2,
                 Ultitems.Assets.XenonAmpouleSprite,
                 Ultitems.Assets.XenonAmpoulePrefab,
@@ -32,54 +56,81 @@ namespace UltitemsCyan.Items
 
         protected override void Hooks()
         {
-            EquipmentSlot.onServerEquipmentActivated += EquipmentSlot_onServerEquipmentActivated;
-            On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
+            //EquipmentSlot.onServerEquipmentActivated += EquipmentSlot_onServerEquipmentActivated; // Doesn't work?
+            //On.RoR2.EquipmentSlot.PerformEquipmentAction // For Equipment Activation (if used, has a chance of returning before eaching hooked code)
+            On.RoR2.EquipmentSlot.OnEquipmentExecuted += EquipmentSlot_OnEquipmentExecuted; // For If the Equipment was fired
         }
 
-        private bool EquipmentSlot_PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
+        private void EquipmentSlot_OnEquipmentExecuted(On.RoR2.EquipmentSlot.orig_OnEquipmentExecuted orig, EquipmentSlot self)
         {
-            Log.Debug("Xenon Perform Equipment Action");
-            bool firedEquipment = orig(self, equipmentDef);
-            Log.Debug("Fired? " + firedEquipment);
-            if (firedEquipment)
+            orig(self);
+
+            //Log.Debug("Xenon Perform Equipment Action");
+            if (NetworkServer.active && self.characterBody && self.inventory)
             {
-                Log.Debug(" ? ? ? Xenon Perform Equipment Action Actually Activated?");
+                //Log.Debug(" ? ? ? Xenon Perform Equipment Action Actually Activated?");
                 CharacterBody activator = self.characterBody;
                 int grabCount = activator.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
                     Log.Debug(" ! Xenon held, fire projectile");
-                    /*/
-                    FireProjectileInfo fireProjectileInfo = new()
-                    {
-                        owner = activator.gameObject,
-                        damage = activator.baseDamage * 5 * grabCount,
-                        position = activator.corePosition,
-                        rotation = Util.QuaternionSafeLookRotation(self.inputBank.aimDirection),
-                        crit = false,
-                        projectilePrefab = Ultitems.mysteryPrefab
-                    };
-                    ProjectileManager.instance.FireProjectile(fireProjectileInfo);//*/
+                    activateAmpoule(activator, grabCount);
                 }
-                return true;
             }
             else
             {
-                Log.Debug("X No X");
-                return false;
+                Log.Warning("Xe Equipment not fired?");
             }
-
-            //return orig(self, equipmentDef);
         }
 
-        private void EquipmentSlot_onServerEquipmentActivated(EquipmentSlot arg1, EquipmentIndex arg2)
+        private static void activateAmpoule(CharacterBody activator, int grabCount)
         {
-            Log.Debug("Xenon Ampoule Equipment Activated");
+            //Log.Debug(" - - : Firing Da Lazer!");
+
+            Ray aimRay = activator.inputBank.GetAimRay();
+            float damage = activator.damage * (baseDamage + (damagePerStack * (grabCount - 1)));
+
+            //Util.PlaySound("Play_railgunner_m2_fire", activator.gameObject);
+            Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
+            
+
+            //float radius = 15;
+
+            BulletAttack baseLaser = new()
+            {
+                owner = activator.gameObject,
+                weapon = activator.gameObject,
+                origin = aimRay.origin,
+                aimVector = aimRay.direction,
+                minSpread = 0f,
+                maxSpread = 0f,
+                bulletCount = 1U,
+                procCoefficient = 2f,
+                damageType = DamageType.WeakPointHit,
+                //damage = activator.damage * damage,
+                force = 1f,
+                falloffModel = BulletAttack.FalloffModel.None,
+                tracerEffectPrefab = TracerRailgunSuper,
+                //muzzleName = MinigunState.muzzleName,
+                //hitEffectPrefab = ImpactRailgun,
+                isCrit = true, // true
+                HitEffectNormal = false,
+                //radius = 2f,
+                maxDistance = 2000f,
+                smartCollision = true,
+                stopperMask = LayerIndex.noDraw.mask
+            };
+
+            FireLaser(baseLaser, damage, laserRadius);
+            //fireLaser(baseLaser, damage, innerRadius);
+            //fireLaser(baseLaser, damage * sourDamagePercent / 100f, outerRadius);
         }
 
-        /*
-         * 
-         * 
-         */
+        private static void FireLaser(BulletAttack laser, float damage, float radius)
+        {
+            laser.damage = damage;
+            laser.radius = radius;
+            laser.Fire();
+        }
     }
 }

@@ -118,10 +118,10 @@ namespace UltitemsCyan.Items.Lunar
                     }
                     float statMultiplier = 1f + ((grabCount - 1) * stackPercent / 100f);
                     //Log.Debug("stat Multiplier: " + statMultiplier);
-                    Log.Debug("Damage " + statTiers[1] + " which is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite / 100f * statMultiplier));
+                    Log.Debug("Pail Damage is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite * statMultiplier) + "%");
                     args.damageMultAdd += statTiers[1] * attackPerWhite / 100f * statMultiplier;
                     // Regen increases per level
-                    Log.Debug("Regen " + statTiers[2] + " which is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
+                    Log.Debug("Pail Regen is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
                     args.regenMultAdd += statTiers[2] * regenPerGreen * (1f + 0.2f * sender.level) * statMultiplier;
                     args.moveSpeedMultAdd += statTiers[3] * speedPerRed / 100f * statMultiplier;
                     args.critAdd += statTiers[4] * critPerBoss * statMultiplier;
