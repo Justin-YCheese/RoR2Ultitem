@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace UltitemsCyan.Items.Lunar
@@ -24,6 +25,8 @@ namespace UltitemsCyan.Items.Lunar
         private const float stackPercent = 20f;
 
         public bool inSonorousAlready = false;
+
+        public static GameObject ShrineUseEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
 
         public override void Init()
         {
@@ -94,7 +97,7 @@ namespace UltitemsCyan.Items.Lunar
                     // Go Through All Items
                     while (itemIndex < itemCount)
                     {
-                        int tier = 0;
+                        int tier = 0; // Misc
                         ItemTier itemTier = ItemCatalog.GetItemDef(itemIndex).tier;
                         if (itemTier is ItemTier.Tier1 or ItemTier.VoidTier1)
                         {
@@ -147,7 +150,7 @@ namespace UltitemsCyan.Items.Lunar
                         Log.Warning("Spork the inventory");
                         SporkRestackInventory(self, player.transform.position, new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
                         // Effect after restock
-                        EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData
+                        EffectManager.SpawnEffect(ShrineUseEffect, new EffectData
                         {
                             origin = player.transform.position,
                             rotation = Quaternion.identity,

@@ -32,7 +32,6 @@ namespace UltitemsCyan.Items.Void
             );
         }
 
-
         protected override void Hooks()
         {
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
@@ -48,14 +47,14 @@ namespace UltitemsCyan.Items.Void
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
-                        Log.Warning("Ham health");
+                        //Log.Warning("Ham health");
                         //Log.Debug("Health: " + self.health + " Combined Health: " + self.fullHealth + " Combined Fraction: " + self.combinedHealthFraction);
                         if (self.combinedHealthFraction <= threshold / 100f)
                         {
                             //Log.Debug("Heal Attacker, Initial: " + inflictor.healthComponent.health);
                             inflictor.healthComponent.Heal(flatHealing * grabCount, damageInfo.procChainMask);
                             //inflictor.healthComponent.Heal(inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount + flatHealing, damageInfo.procChainMask);
-                            Log.Debug("Healing: " + (flatHealing * grabCount));
+                            //Log.Debug("Healing: " + (flatHealing * grabCount));
                             // TODO Change sound
                             Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
                         }

@@ -66,10 +66,18 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.7.8";
-        /* Version Changes     Old Git v7.7
-         * Got XenonAmpoule Laser Working v7.7
-         * XenonAmpoule Refined v7.8
+        public const string PluginVersion = "0.7.10";
+
+        public const string PluginSuffix = "Seed RNG for Vault and Coffin";
+        /* Version Changes     Old Git v7.8
+         * Added Rocky Taffy v7.9
+         * Fixed Rocky Taffy Check inventory bug
+         * Various Item fixes for, Xenon and Sliver Thread rework
+         * Fixed Double cost for thread v7.10
+         * Seed RNG for Vault and Coffin
+         * 
+         * 
+         * 
          * 
          * 
          */
@@ -151,6 +159,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new ViralSmog());
             ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new CorrodingVault());
+            ultitemItems.Add(new RockyTaffy());
             ultitemItems.Add(new Grapevine());
 
             // Lunar Items
@@ -199,7 +208,7 @@ namespace UltitemsCyan
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
 
 
-            Log.Warning("Ultitems Cyan Done: " + PluginVersion);
+            Log.Warning("Ultitems Cyan Done: " + PluginVersion + " <- " + PluginSuffix);
         }
 
 

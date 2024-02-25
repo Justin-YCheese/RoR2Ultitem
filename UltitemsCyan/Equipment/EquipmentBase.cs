@@ -42,6 +42,11 @@ namespace UltitemsCyan.Equipment
             equipment.cooldown = cooldown;
 
             equipment.isLunar = isLunar;
+            if (isLunar)
+            {
+                equipment.colorIndex = ColorCatalog.ColorIndex.LunarItem;
+            }
+
             equipment.enigmaCompatible = enigmaCompatible;
 
             equipment.pickupIconSprite = sprite;

@@ -1,5 +1,6 @@
 ﻿Known:
-
+- Rocky Taffy doesn't update it's shield granted when health changes (i.e. from stone flux pauldron) unlick personal shield
+- Silver Thread and Cleansing Pools work weird if player has a lunar active
 
 Test:
 

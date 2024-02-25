@@ -44,11 +44,11 @@ namespace UltitemsCyan.Items
             item._itemTierDef = itd;
 #pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
+            item.canRemove = tier != ItemTier.NoTier;
+            item.hidden = false;
+
             item.pickupIconSprite = sprite;
             item.pickupModelPrefab = prefab;
-
-            item.canRemove = true;
-            item.hidden = false;
 
             item.tags = tags;
 

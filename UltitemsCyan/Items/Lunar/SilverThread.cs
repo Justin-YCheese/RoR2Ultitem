@@ -16,11 +16,13 @@ namespace UltitemsCyan.Items.Lunar
 
         //private const int extraItemsPerStack = 1;
         private const int maxStack = 3;
+        private const int doublePickup = 2;
 
         //private const float percentPerStack = 50f;
         //private const float deathSnapTime = 600f; // 10 minutes
 
-        private static readonly float[] division = [1f, 0.5f, 0.25f];
+        private const float baseThreadChance = 50f;
+        private const float stackThreadChance = 25f;
 
         private bool inSilverAlready = false;
 
@@ -29,8 +31,8 @@ namespace UltitemsCyan.Items.Lunar
             item = CreateItemDef(
                 "SILVERTHREAD",
                 "Silver Thread",
-                "Gain additional items BUT chance of dying upon being attacked. Upon death, this item will be consumed.",
-                "Pick up 1 (+1 per stack) additional item when you gain items BUT you have a chance of dying porptional to damage taken (+100% per stack). Upon death, this item will be consumed.",
+                "Chance to gain additional items... <style=cDeath>BUT chance of dying upon being attacked</style>. Upon death, this item will be consumed.",
+                "<style=cIsUtility>50%</style> <style=cStack>(+25% chance per stack)</style> chance to pick up <style=cIsUtility>1</style> additional item. You have a chance of <style=cDeath>dying</style> equal to <style=cIsUtility>100%</style> <style=cStack>(+100% per stack)</style> health lost. <style=cIsUtility>Upon death</style>, this item will be <style=cIsUtility>consumed</style>.",
                 "The end of the abacus of life. A King's Riches Lays before you, but at the end of a strand which has been snapped intwine.",
                 ItemTier.Lunar,
                 Ultitems.Assets.SilverThreadSprite,
@@ -175,6 +177,7 @@ namespace UltitemsCyan.Items.Lunar
             bool runOrig = true;
             if (NetworkServer.active && self && activator && activator)
             {
+                // If an item cost other than treasure cache cost
                 if (self.costType is
                     CostTypeIndex.WhiteItem or
                     CostTypeIndex.GreenItem or
@@ -184,17 +187,20 @@ namespace UltitemsCyan.Items.Lunar
                     )
                 {
                     Log.Warning("Silver Purchase check");
-                    runOrig = false;
                     CharacterBody player = activator.GetComponent<CharacterBody>();
-                    int grabSilverCount = MaxStack(player.master.inventory);
-                    Log.Debug("Self Cost? " + self.cost + " + " + grabSilverCount);
-                    self.cost *= 1 + grabSilverCount;
-                    Log.Debug("New Self Cost? " + self.cost);
+                    //int grabSilverCount = MaxStack(player.master.inventory);
+                    if (player.master.inventory.GetItemCount(item) > 0)
+                    {
+                        runOrig = false;
+                        Log.Debug("Self Cost? " + self.cost + " * " + doublePickup);
+                        self.cost *= doublePickup;
+                        Log.Debug("New Self Cost? " + self.cost);
 
-                    orig(self, activator);
+                        orig(self, activator);
 
-                    self.cost /= 1 + grabSilverCount;
-                    Log.Debug("Post Self Cost? " + self.cost);
+                        self.cost /= doublePickup;
+                        Log.Debug("Post Self Cost? " + self.cost);
+                    }
                 }
             }
             //
@@ -214,8 +220,8 @@ namespace UltitemsCyan.Items.Lunar
                 CharacterBody player = self.interactor.GetComponent<CharacterBody>();
                 if (player && player.master.inventory)
                 {
-                    int grabSilverCount = MaxStack(player.master.inventory);
-                    if (grabSilverCount > 0)
+                    //int grabSilverCount = MaxStack(player.master.inventory);
+                    if (player.master.inventory.GetItemCount(item) > 0)
                     {
                         Log.Debug("Silver Scrapping custom function");
                         // body has a silver thread in their inventory
@@ -226,8 +232,8 @@ namespace UltitemsCyan.Items.Lunar
                         if (pickupDef != null && self.interactor)
                         {
                             self.lastScrappedItemIndex = pickupDef.itemIndex;
-                            int scrapCount = Mathf.Min(self.maxItemsToScrapAtATime * (1 + grabSilverCount), player.inventory.GetItemCount(pickupDef.itemIndex));
-                            if (scrapCount <= grabSilverCount)
+                            int scrapCount = Mathf.Min(self.maxItemsToScrapAtATime * doublePickup, player.inventory.GetItemCount(pickupDef.itemIndex));
+                            if (scrapCount <= doublePickup)
                             {
                                 // not enough items to convert item, don't return anything
                                 Log.Debug("Silver Scrapper Consume poor items");
@@ -236,9 +242,9 @@ namespace UltitemsCyan.Items.Lunar
                             else
                             {
                                 // return reduced amount
-                                Log.Debug("scrapCount: " + scrapCount + " returnCount: " + (scrapCount / (1 + grabSilverCount)));
+                                Log.Debug("scrapCount: " + scrapCount + " returnCount: " + (scrapCount / doublePickup));
                                 player.inventory.RemoveItem(pickupDef.itemIndex, scrapCount);
-                                self.itemsEaten += scrapCount / (1 + grabSilverCount);
+                                self.itemsEaten += scrapCount / doublePickup;
                                 for (int i = 0; i < scrapCount; i++)
                                 {
                                     ScrapperController.CreateItemTakenOrb(player.corePosition, self.gameObject, pickupDef.itemIndex);
@@ -295,8 +301,13 @@ namespace UltitemsCyan.Items.Lunar
                 int grabCount = MaxStack(self);
                 if (grabCount > 0)
                 {
-                    Log.Debug("Adding " + grabCount + " of " + ItemCatalog.GetItemDef(itemIndex).name + " to " + count);
-                    count += grabCount;
+                    Log.Debug("Thread Chance: " + (baseThreadChance + (stackThreadChance * (grabCount - 1))));
+                    if (Util.CheckRoll(baseThreadChance + (stackThreadChance * (grabCount - 1))))
+                    {
+                        Log.Debug("Extra " + ItemCatalog.GetItemDef(itemIndex).name);
+                        count += 1;
+                    }
+
                 }
                 orig(self, itemIndex, count);
                 inSilverAlready = false;

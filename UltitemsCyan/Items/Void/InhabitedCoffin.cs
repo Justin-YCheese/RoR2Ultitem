@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef transformItem;
 
         private const float noFreeCoffinChance = 88f;
-        private const int minimumInCoffin = 5;
+        private const int minimumInCoffin = 6;
         private const int bonusInCoffin = 0;
 
         public override void Init()
@@ -79,6 +79,7 @@ namespace UltitemsCyan.Items.Void
                     }
                     else
                     {
+
                         // You get a free coffin
                         self.inventory.GiveItem(item);
                         Log.Debug("- Coffin got Coffin");
@@ -91,9 +92,11 @@ namespace UltitemsCyan.Items.Void
                     // Error Message if there aren't enough items somehow
                     if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
 
+                    Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
+
                     for (int i = 0; i < quantityInVault; i++)
                     {
-                        int itemPos = Random.Range(0, length);
+                        int itemPos = rng.RangeInt(0, length);
                         Log.Debug("- random Void found: " + ItemCatalog.GetItemDef(allVoidItems[itemPos]).name);
                         self.inventory.GiveItem(allVoidItems[itemPos]);
                         GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)allVoidItems[itemPos]]);

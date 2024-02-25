@@ -57,9 +57,10 @@ namespace UltitemsCyan.Items.Tier3
                     int length = allWhiteItems.Length;
 
                     //Log.Debug("All White Items Length: " + length);
+                    Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
 
-                    // bonus plus one because rand int not include max
-                    int quantityInVault = minimumInVault + Random.Range(0, bonusInVault + 1);
+                    // bonus plus one because rand int exclude max
+                    int quantityInVault = minimumInVault + rng.RangeInt(0, bonusInVault + 1);
 
                     // Error Message if there aren't enough items somehow
                     if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
@@ -67,12 +68,13 @@ namespace UltitemsCyan.Items.Tier3
                     // Give 16 different white items
                     for (int i = 0; i < quantityInVault; i++)
                     {
-                        int itemPos = Random.Range(0, length);
+                        int itemPos = rng.RangeInt(0, length);
+
                         //Log.Debug("Random Position: " + itemPos);
                         Log.Debug("Random White found: " + ItemCatalog.GetItemDef(allWhiteItems[itemPos]).name);
                         self.inventory.GiveItem(allWhiteItems[itemPos]);
                         GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)allWhiteItems[itemPos]]);
-                        // erase current item and preserve last item
+                        // erase current item with last listed item
                         // setting current item equal to last item and shorten length effectively moving last item to current item
                         allWhiteItems[itemPos] = allWhiteItems[length - 1];
                         length--;
