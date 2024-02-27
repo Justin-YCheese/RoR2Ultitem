@@ -20,11 +20,11 @@ namespace UltitemsCyan.Equipment
                 "POTOFREGOLITH",
                 "Pot of Regolith",
                 "<style=cDeath>Take damage</style> on use.",
-                "Take <style=cIsHealth>5% or 20% of your current health</style> as <style=cIsDamage>damage</style>",
+                "Take <style=cIsHealth>5% or 20% of your health</style> as <style=cIsDamage>damage</style>",
                 "The dust is as sharp as a knife",
                 3f,
                 true,
-                true,
+                false,
                 Ultitems.Assets.PotOfRegolithSprite,
                 Ultitems.Assets.PotOfRegolithPrefab
             );

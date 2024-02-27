@@ -19,7 +19,7 @@ namespace UltitemsCyan.Equipment
             string lore,
             float cooldown,
             bool isLunar,
-            bool enigmaCompatible,
+            bool canBeRandomlyTriggered,
             Sprite sprite,
             GameObject prefab
         )
@@ -45,9 +45,11 @@ namespace UltitemsCyan.Equipment
             if (isLunar)
             {
                 equipment.colorIndex = ColorCatalog.ColorIndex.LunarItem;
+                equipment.canBeRandomlyTriggered = false;
             }
 
-            equipment.enigmaCompatible = enigmaCompatible;
+            //equipment.canBeRandomlyTriggered = true; // By default is true
+            equipment.enigmaCompatible = true;
 
             equipment.pickupIconSprite = sprite;
             equipment.pickupModelPrefab = prefab;

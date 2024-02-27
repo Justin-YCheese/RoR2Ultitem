@@ -1,18 +1,93 @@
 ﻿
+	Possible Changes for v0.7.11:
+-/+	Nerf/Buff	? Question/Problem	]]	Shelved Note
+
+ ** White **
+Toy Robot
++ Increase Range 8 -> 10 meters
+Flea Bag
+]] always 6% drop chance
+Koala Sticker
+- Reduce .12 -> .11
+Crème Brûlée
+- percentHealing and flat healing: 5 and 20 -> 4 and 16
+
+** Green **
+Birthday Candles
+1000 Degree Scissors
+Overclocked GPU
+Xenon Ampoule
++ Decrease normalCooldown threshold from 80 -> 60
+- Add Max multiplier to Xenon Ampoule (5x?)
+
+** Red **
+Corroding Vault
+- decrease items from 16 -> 15 items
+Sue's Mandibles
+Grapevine
+- Decrease maxGrapes from 30 -> 20
+]] Increase max grapes per grapes? (20 +5 per?)
+]] Chance chance stack to 33% + 33%
+]] Decrease grapeBlockChance from 85
+Viral Smog
+]] Decrease 25 -> 20 speed
+Rocky Taffy
+- 50% shield -> 40%
+
+** Equipment **
+Pot of Regolith
+9 Ice Cubes
+
+** Lunar **
+Dream Fuel
+Silver Thread
+? Make any damage taken have a chance of death
+New Bulb
+? Nerf stacks
+? Compare with Light Flux
+Sonorous Pail
+? Server Client differences?
+	- Visual Glitch with Blizzard (I picked up sonorous pail while haveing blizzard up)
+	- Getting Bands may not work?
+
+** Void **
+Dried Ham
+- flatHealing 5 -> 4
+Downloaded RAM
+- damage decrease from 10 -> 8
+- chance decrease from 15 -> 12
+Rotten Bones
+- damage decrease 20 -> 15
+Inhabited Coffin
+- Change items from 6 -> 5
+
+
+
+
+
+
+
+
+
 
 	When Testing:
 - Kill Mythrics with Thread
 
+
 	ToDo Next:
-- Add New Equipments
-- Add New Void Items
+- Fix SonorousPail / Silverthread give item jank
+- Test Balance
+- Add 3d Models
+- Add items
+
 
 	My Item Add Order:
-- Jelly Jail
-- Trebuchet
 - Pet Rock
 - Worm Holes
 - Tungston Rod
+- Jelly Jail
+- Trebuchet
+
 
 	For Future Consideration:
 - Add force to Xenon amploue
@@ -35,6 +110,7 @@
 
 
 	Ask my Friends Questions:
-- Should Scissors count how many craps to give and give all at once?
+- Should Scissors count how many scraps to give and give all at once?
 	(reduced jank and reduced synergy with thread)
 - Should Vault and Coffin only break on next stage and not on death? How about Candles?
+- Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?

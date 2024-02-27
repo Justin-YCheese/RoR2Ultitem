@@ -77,6 +77,8 @@ namespace UltitemsCyan.Items.Tier2
             //Log.Debug("itemTexture::: name - " + itemTexture.name + " string - " + itemTexture.ToString());
 
             // If item picked up is Birthday Candles and there is a character Body
+
+
             if (self && itemIndex == item.itemIndex)
             {
                 //Log.Warning("Give Birthday Candles");

@@ -14,9 +14,9 @@ namespace UltitemsCyan.Items.Lunar
     {
         public static ItemDef item;
 
-        //private const int extraItemsPerStack = 1;
         private const int maxStack = 3;
-        private const int doublePickup = 2;
+        private const int costMultiplier = 2;
+        private const int extraItemAmount = 1;
 
         //private const float percentPerStack = 50f;
         //private const float deathSnapTime = 600f; // 10 minutes
@@ -32,7 +32,7 @@ namespace UltitemsCyan.Items.Lunar
                 "SILVERTHREAD",
                 "Silver Thread",
                 "Chance to gain additional items... <style=cDeath>BUT chance of dying upon being attacked</style>. Upon death, this item will be consumed.",
-                "<style=cIsUtility>50%</style> <style=cStack>(+25% chance per stack)</style> chance to pick up <style=cIsUtility>1</style> additional item. You have a chance of <style=cDeath>dying</style> equal to <style=cIsUtility>100%</style> <style=cStack>(+100% per stack)</style> health lost. <style=cIsUtility>Upon death</style>, this item will be <style=cIsUtility>consumed</style>.",
+                "<style=cIsUtility>50%</style> <style=cStack>(+25% chance per stack)</style> chance to pick up <style=cIsUtility>1</style> additional item. You have a chance of <style=cDeath>dying</style> equal to <style=cIsUtility>100%</style> <style=cStack>(+100% per stack)</style> health lost. <style=cIsUtility>Upon death</style>, this item will be <style=cIsUtility>consumed</style>. <style=cIsUtility>Unaffected by luck</style>.",
                 "The end of the abacus of life. A King's Riches Lays before you, but at the end of a strand which has been snapped intwine.",
                 ItemTier.Lunar,
                 Ultitems.Assets.SilverThreadSprite,
@@ -56,7 +56,7 @@ namespace UltitemsCyan.Items.Lunar
         }
 
         private int MaxStack(Inventory inv)
-        {
+        {//Test This Code
             return Math.Min(inv.GetItemCount(item), maxStack);
         }
 
@@ -192,13 +192,13 @@ namespace UltitemsCyan.Items.Lunar
                     if (player.master.inventory.GetItemCount(item) > 0)
                     {
                         runOrig = false;
-                        Log.Debug("Self Cost? " + self.cost + " * " + doublePickup);
-                        self.cost *= doublePickup;
+                        Log.Debug("Self Cost? " + self.cost + " * " + costMultiplier);
+                        self.cost *= costMultiplier;
                         Log.Debug("New Self Cost? " + self.cost);
 
                         orig(self, activator);
 
-                        self.cost /= doublePickup;
+                        self.cost /= costMultiplier;
                         Log.Debug("Post Self Cost? " + self.cost);
                     }
                 }
@@ -232,8 +232,8 @@ namespace UltitemsCyan.Items.Lunar
                         if (pickupDef != null && self.interactor)
                         {
                             self.lastScrappedItemIndex = pickupDef.itemIndex;
-                            int scrapCount = Mathf.Min(self.maxItemsToScrapAtATime * doublePickup, player.inventory.GetItemCount(pickupDef.itemIndex));
-                            if (scrapCount <= doublePickup)
+                            int scrapCount = Mathf.Min(self.maxItemsToScrapAtATime * costMultiplier, player.inventory.GetItemCount(pickupDef.itemIndex));
+                            if (scrapCount <= costMultiplier)
                             {
                                 // not enough items to convert item, don't return anything
                                 Log.Debug("Silver Scrapper Consume poor items");
@@ -242,9 +242,9 @@ namespace UltitemsCyan.Items.Lunar
                             else
                             {
                                 // return reduced amount
-                                Log.Debug("scrapCount: " + scrapCount + " returnCount: " + (scrapCount / doublePickup));
+                                Log.Debug("scrapCount: " + scrapCount + " returnCount: " + (scrapCount / costMultiplier));
                                 player.inventory.RemoveItem(pickupDef.itemIndex, scrapCount);
-                                self.itemsEaten += scrapCount / doublePickup;
+                                self.itemsEaten += scrapCount / costMultiplier;
                                 for (int i = 0; i < scrapCount; i++)
                                 {
                                     ScrapperController.CreateItemTakenOrb(player.corePosition, self.gameObject, pickupDef.itemIndex);
@@ -294,18 +294,18 @@ namespace UltitemsCyan.Items.Lunar
         // Increase Items gained when given
         public void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            if (NetworkServer.active && !inSilverAlready && self && ItemCatalog.GetItemDef(itemIndex).tier != ItemTier.NoTier && itemIndex != item.itemIndex )
+            if (NetworkServer.active && !inSilverAlready && self && ItemCatalog.GetItemDef(itemIndex).tier != ItemTier.NoTier && itemIndex != item.itemIndex)
             {
                 // Precaution incase something causes an infinity loop of items
                 inSilverAlready = true;
                 int grabCount = MaxStack(self);
                 if (grabCount > 0)
                 {
-                    Log.Debug("Thread Chance: " + (baseThreadChance + (stackThreadChance * (grabCount - 1))));
+                    //Log.Debug("Thread Chance: " + (baseThreadChance + (stackThreadChance * (grabCount - 1))));
                     if (Util.CheckRoll(baseThreadChance + (stackThreadChance * (grabCount - 1))))
                     {
                         Log.Debug("Extra " + ItemCatalog.GetItemDef(itemIndex).name);
-                        count += 1;
+                        count += extraItemAmount;
                     }
 
                 }

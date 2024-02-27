@@ -3,6 +3,41 @@ Current:
 
 [Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
 Stack trace:
+UltitemsCyan.Items.Tier2.BirthdayCandles.Inventory_GiveItem_ItemIndex_int (On.RoR2.Inventory+orig_GiveItem_ItemIndex_int orig, RoR2.Inventory self, RoR2.ItemIndex itemIndex, System.Int32 count) (at <9c2ea7d058614ee6b4a1f0090301e0af>:IL_005C)
+DMD<>?1352866304.Hook<RoR2.Inventory::GiveItem>?586924544 (RoR2.Inventory , RoR2.ItemIndex , System.Int32 ) (at <f5e474ec3f3843eda5fc2c22bda4fd37>:IL_0014)
+DMD<>?1352866304.Trampoline<RoR2.Inventory::GiveItem>?1462524928 (RoR2.Inventory , RoR2.ItemIndex , System.Int32 ) (at <24a1e0a331bb4511b0c7d43306432a5e>:IL_0020)
+UltitemsCyan.Items.Lunar.SilverThread.Inventory_GiveItem_ItemIndex_int (On.RoR2.Inventory+orig_GiveItem_ItemIndex_int orig, RoR2.Inventory self, RoR2.ItemIndex itemIndex, System.Int32 count) (at <9c2ea7d058614ee6b4a1f0090301e0af>:IL_00C6)
+DMD<>?1352866304.Hook<RoR2.Inventory::GiveItem>?2141252480 (RoR2.Inventory , RoR2.ItemIndex , System.Int32 ) (at <24fc4229c3f046de8746360bcf2d47e8>:IL_0014)
+DMD<>?1352866304.Trampoline<RoR2.Inventory::GiveItem>?-2147142656 (RoR2.Inventory , RoR2.ItemIndex , System.Int32 ) (at <0679c4fad394408eac214ca564f4fc67>:IL_0020)
+UltitemsCyan.Items.Lunar.SonorousPail.Inventory_GiveItem_ItemIndex_int (On.RoR2.Inventory+orig_GiveItem_ItemIndex_int orig, RoR2.Inventory self, RoR2.ItemIndex itemIndex, System.Int32 count) (at <9c2ea7d058614ee6b4a1f0090301e0af>:IL_000E)
+DMD<>?1352866304.Hook<RoR2.Inventory::GiveItem>?-2078974976 (RoR2.Inventory , RoR2.ItemIndex , System.Int32 ) (at <1c4fb17c173f4e1cb82dd9af4d6808bc>:IL_0014)
+RoR2.Artifacts.MonsterTeamGainsItemsArtifactManager.GrantMonsterTeamItem () (at <1d532be543be416b9db3594e4b62447d>:IL_0048)
+RoR2.Artifacts.MonsterTeamGainsItemsArtifactManager.EnsureMonsterTeamItemCount (System.Int32 itemCount) (at <1d532be543be416b9db3594e4b62447d>:IL_0002)
+RoR2.Artifacts.MonsterTeamGainsItemsArtifactManager.EnsureMonsterItemCountMatchesStageCount () (at <1d532be543be416b9db3594e4b62447d>:IL_0005)
+RoR2.Artifacts.MonsterTeamGainsItemsArtifactManager.OnRunStartGlobal (RoR2.Run run) (at <1d532be543be416b9db3594e4b62447d>:IL_0050)
+System.Reflection.MonoMethod.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) (at <44afb4564e9347cf99a1865351ea8f4a>:IL_0032)
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+System.Reflection.MonoMethod.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) (at <44afb4564e9347cf99a1865351ea8f4a>:IL_004B)
+System.Reflection.MethodBase.Invoke (System.Object obj, System.Object[] parameters) (at <44afb4564e9347cf99a1865351ea8f4a>:IL_0000)
+ProperSave.SaveData.RunData.LoadData () (at <17bab44460fc46daa9b5930a58323170>:IL_01E8)
+ProperSave.SaveFile.LoadRun () (at <17bab44460fc46daa9b5930a58323170>:IL_0006)
+ProperSave.Loading+<>c.<RunStart>b__19_0 () (at <17bab44460fc46daa9b5930a58323170>:IL_0012)
+RoR2.Run.Start () (at <1d532be543be416b9db3594e4b62447d>:IL_000A)
+RoR2.EclipseRun.Start () (at <1d532be543be416b9db3594e4b62447d>:IL_0000)
+    Beginning of stage, causes stage to not spawn any chest or the teleportor
+    Perhaps something with the give item...
+
+
+
+
+
+
+
+
+Resolved:
+
+[Error  : Unity Log] NullReferenceException: Object reference not set to an instance of an object
+Stack trace:
 UltitemsCyan.Items.Void.RottenBones.ApplyRot (RoR2.CharacterBody player, System.Int32 intervals) (at <1b2227c5deab435f91a45db01e5c2e2f>:IL_0001)
 UltitemsCyan.Items.Void.RottenBones+RottenBonesTimedVoidBehavior.FixedUpdate () (at <1b2227c5deab435f91a45db01e5c2e2f>:IL_006B)
 UltitemsCyan.Items.Void.RottenBones+RottenBonesTimedVoidBehavior.OnEnable () (at <1b2227c5deab435f91a45db01e5c2e2f>:IL_001C)
@@ -30,7 +65,6 @@ RoR2.InteractionDriver:FixedUpdate()
     When Picking up RottenBones Something to do with body no existing on startup?
 
 
-
 [Error  : Unity Log] [RoR2.Items.ContagiousItemManager] System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.NullReferenceException: Object reference not set to an instance of an object
   at RoR2.ItemDef+Pair.GetHashCode () [0x00000] in <1d532be543be416b9db3594e4b62447d>:IL_0000 
   at System.Collections.Generic.GenericEqualityComparer`1[T].GetHashCode (T obj) [0x0000a] in <44afb4564e9347cf99a1865351ea8f4a>:IL_000A 
@@ -51,8 +85,6 @@ RoR2.InteractionDriver:FixedUpdate()
     Cannot Run: ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = voidPairs.Union(Ultitems.ultiCorruptionPairs).ToArray();
     Fails when trying to access new void pair, cannot turn into array
     Kept failing because I added the object to the Ultitems public list outside of Ultitems, So instead added Pairs within Ultitems using public get and set methods for item definitions
-
-Resolved:
 
 [Error  : Unity Log] ArgumentNullException: Value cannot be null.
 Parameter name: key

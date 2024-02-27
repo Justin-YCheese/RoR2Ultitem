@@ -42,6 +42,9 @@ namespace UltitemsCyan
     // For using custom prefabs
     [BepInDependency(PrefabAPI.PluginGUID)]
     // This attribute is required, and lists metadata for your plugin.
+
+    //[BepInDependency(Projectile.PluginGUID)]
+
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 
     // TODO: Check if I need this for my mod specifically 
@@ -66,15 +69,28 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.7.10";
+        public const string PluginVersion = "0.7.12";
 
-        public const string PluginSuffix = "Seed RNG for Vault and Coffin";
-        /* Version Changes     Old Git v7.8
-         * Added Rocky Taffy v7.9
-         * Fixed Rocky Taffy Check inventory bug
-         * Various Item fixes for, Xenon and Sliver Thread rework
-         * Fixed Double cost for thread v7.10
-         * Seed RNG for Vault and Coffin
+        public const string PluginSuffix = "Abunch of stat changes";
+        /* Version Changes     Old Git v7.10
+         * Buffed Grapevine (max 30 stacks, 85% chance to block)
+         * Koala Mininum damage
+         * Addded "unaffected" (or for coffin "affected") by luck description
+         * Added Jelly Jail (Vending Machine prefab) v7.11
+         * v7.12
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
          * 
          * 
          * 
@@ -171,7 +187,9 @@ namespace UltitemsCyan
 
             // Equipments
             ultitemItems.Add(new IceCubes());
+            //ultitemItems.Add(new JellyJail());
             ultitemItems.Add(new PotOfRegolith());
+
 
             // Void Items
             ultitemItems.Add(new DriedHam());

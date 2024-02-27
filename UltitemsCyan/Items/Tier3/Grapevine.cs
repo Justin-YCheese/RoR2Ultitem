@@ -20,8 +20,8 @@ namespace UltitemsCyan.Items.Tier3
         private const float stackGrapeDropChance = 25f;
 
         // For Slippery Buff
-        public const float grapeBlockChance = 50f;
-        public const int maxGrapes = 50;
+        public const float grapeBlockChance = 85f;
+        public const int maxGrapes = 30;
 
         public override void Init()
         {
@@ -30,7 +30,7 @@ namespace UltitemsCyan.Items.Tier3
                 "GRAPEVINE",
                 "Grapevine",
                 "Chance on kill to drop grapes that block damage.",
-                "50% (+25% per stack) chance on kill to grow a grape that blocks damage half the time.",
+                "<style=cIsHealing>50%</style> <style=cStack>(+25% per stack)</style> chance on kill to grow a grape. <style=cIsHealing>85%</style> to <style=cIsHealing>block</style> incomming damage per grape. Block chance is <style=cIsUtility>unaffected by luck</style>.",
                 "If you close your eyes, you can pretend their eyeballs",
                 ItemTier.Tier3,
                 Ultitems.Assets.GrapevineSprite,

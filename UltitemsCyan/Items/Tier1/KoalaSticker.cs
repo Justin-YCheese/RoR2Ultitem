@@ -15,6 +15,7 @@ namespace UltitemsCyan.Items.Tier1
     {
         public static ItemDef item;
         private const float hyperbolicPercent = 12f;
+        private const float minDamage = 5f;
 
         public override void Init()
         {
@@ -22,7 +23,7 @@ namespace UltitemsCyan.Items.Tier1
                 "KOALASTICKER",
                 "Koala Sticker",
                 "Reduce the maximum damage you can take.",
-                "You only take a maxinum of 90% (-12% per stack) of your health from a hit, mininum of 1.",
+                "Only lose a maxinum of <style=cIsHealing>90%</style> <style=cStack>(-12% per stack)</style> of your <style=cIsHealing>health</style> from a hit. Cannot be reduced below <style=cIsHealing>5</style>.",
                 "Like the bear but more consistant...   and more cute",
                 ItemTier.Tier1,
                 Ultitems.Assets.KoalaStickerSprite,
@@ -95,6 +96,10 @@ namespace UltitemsCyan.Items.Tier1
                                 Log.Debug("Koala Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
                                 //Log.Debug("Max Percent: " + ((hyperbolicPercent / 100 * grabCount) + 1) + " of " + hc.fullCombinedHealth);
                                 float maxDamage = hc.fullCombinedHealth / ((hyperbolicPercent / 100 * grabCount) + 1);
+                                if (maxDamage < minDamage)
+                                {
+                                    maxDamage = minDamage;
+                                }
                                 Log.Debug("Is " + td + "\t > " + maxDamage + "?");
                                 if (td > maxDamage)
                                 {
