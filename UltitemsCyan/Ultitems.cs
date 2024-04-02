@@ -71,23 +71,23 @@ namespace UltitemsCyan
         public const string PluginName = "UltitemsCyan";
         public const string PluginVersion = "0.7.12";
 
-        public const string PluginSuffix = "Abunch of stat changes";
+        public const string PluginSuffix = "Abunch of item changes";
         /* Version Changes     Old Git v7.10
          * Buffed Grapevine (max 30 stacks, 85% chance to block)
          * Koala Mininum damage
          * Addded "unaffected" (or for coffin "affected") by luck description
          * Added Jelly Jail (Vending Machine prefab) v7.11
-         * v7.12
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
+         * Toy Robot: Increased range -> 10 and modified pickup chance v7.12
+         * Koala changed percent from 12 -> 11 (3 koalas just above 75%)
+         * Reduced Creme healing by 20%
+         * Xenon now has max cooldownMultiplier of 4 and reduced both cooldown threasholds <=20 | >=60
+         * CorrodingVault gives 16 -> 15 items
+         * Grapevine now stacks to a max of 30 -> 20
+         * Rocky Taffy Shield 50% -> 40%
+         * Reduced Dried Ham healing from 5 -> 4
+         * Downloaded Ram cahnce 15% -> 12%, damage per status 10% -> 8%, time till expiration 3 -> 4
+         * Rotting Bones damage 20% -> 15%
+         * Inhabited Coffin gives 6 -> 5 items, chance for free coffin 12% -> 16%
          * 
          * 
          * 

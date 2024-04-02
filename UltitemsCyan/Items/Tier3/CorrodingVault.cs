@@ -11,7 +11,7 @@ namespace UltitemsCyan.Items.Tier3
     public class CorrodingVault : ItemBase
     {
         public static ItemDef item;
-        private const int minimumInVault = 16;
+        private const int minimumInVault = 15;
         private const int bonusInVault = 0;
 
         public override void Init()
@@ -20,7 +20,7 @@ namespace UltitemsCyan.Items.Tier3
                 "CORRODINGVAULT",
                 "Corroding Vault",
                 "Breaks at the start of the next stage. Contains white items.",
-                "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>16</style> unique white items",
+                "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>15</style> unique white items",
                 "This vault is sturdy, but over time the rust will just crack it open",
                 ItemTier.Tier3,
                 Ultitems.Assets.CorrodingVaultSprite,

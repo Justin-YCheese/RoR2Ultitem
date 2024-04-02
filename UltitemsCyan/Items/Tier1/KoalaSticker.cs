@@ -14,7 +14,7 @@ namespace UltitemsCyan.Items.Tier1
     public class KoalaSticker : ItemBase
     {
         public static ItemDef item;
-        private const float hyperbolicPercent = 12f;
+        private const float hyperbolicPercent = 11f;
         private const float minDamage = 5f;
 
         public override void Init()

@@ -17,8 +17,9 @@ namespace UltitemsCyan.Items.Tier1
     {
         public static ItemDef item;
 
-        private const float basePickupChance = 10f;
-        private const float negativePickupPerStack = 40f;
+        private const float pickupRange = 10f;
+        private const float minPickupChance = 10f;
+        private const float ratioPickupChance = 80f;
 
         public override void Init()
         {
@@ -26,7 +27,7 @@ namespace UltitemsCyan.Items.Tier1
                 "TOYROBOT",
                 "Toy Robot",
                 "Grab pickups from further away",
-                "Pull in pickups from <style=cIsUtility>16m</style> <style=cStack>(+8m per stack)</style> away",
+                "Pull in pickups from <style=cIsUtility>20m</style> <style=cStack>(+10m per stack)</style> away",
                 "They march to you like a song carriers their steps. More robots have a weaker pull",
                 ItemTier.Tier1,
                 Ultitems.Assets.ToyRobotSprite,
@@ -64,7 +65,7 @@ namespace UltitemsCyan.Items.Tier1
 
                 //sphereSearch.center = body.transform.position;
                 sphereSearch.origin = body.transform.position;
-                sphereSearch.radius = stack * 8f;
+                sphereSearch.radius = stack * pickupRange;
 
                 //GravitationControllers have sphere colliders to check whenever a player is in radius no matter what...
                 colliders.Clear();
@@ -77,10 +78,10 @@ namespace UltitemsCyan.Items.Tier1
                     {
                         // If it does not have a gravitation target, then pull in
                         // Chance to pickup, so that one player doesn't pickup all stuff
-                        Log.Warning("Toy Pickup for " + body.GetUserName() + "\t is " + (basePickupChance + (negativePickupPerStack / stack)));
-                        if (Util.CheckRoll(basePickupChance + (negativePickupPerStack / stack)))
+                        Log.Warning("Toy Pickup for " + body.GetUserName() + "\t is " + (minPickupChance + (ratioPickupChance / stack)));
+                        if (Util.CheckRoll(minPickupChance + (ratioPickupChance / stack)))
                         {
-                            Log.Debug("     Got");
+                            //Log.Debug("     Got");
 
                             /*/
                             EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData

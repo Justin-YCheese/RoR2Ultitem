@@ -29,8 +29,9 @@ namespace UltitemsCyan.Items.Tier2
 
         public static float longLaserRadius = 3.2f;
 
-        public static float shortCooldown = 30f;    // Less than this and has half damage
-        public static float normalCooldown = 80f;   // Greater than this, and multiple cooldown by cooldown / 80
+        public static float shortCooldown = 20f;    // Less than or equal, small laser and has half damage
+        public static float longCooldown = 60f;   // Greater than or equal, big laser multiple cooldown by cooldown / 60
+        public static float maxCooldownMultipler = 4f;
 
         public override void Init()
         {
@@ -83,7 +84,7 @@ namespace UltitemsCyan.Items.Tier2
                     // Get Default Cooldown of Item
                     float cooldown = EquipmentCatalog.GetEquipmentDef(self.equipmentIndex).cooldown;
 
-                    if (cooldown < shortCooldown)
+                    if (cooldown <= shortCooldown)
                     {
                         //Log.Debug("Short");
                         Util.PlaySound("Play_railgunner_m2_fire", activator.gameObject);
@@ -91,7 +92,7 @@ namespace UltitemsCyan.Items.Tier2
                         damage = (baseDamage + damagePerStack * (grabCount - 1)) * shortDamagePercent / 100f;//  * (self.cooldownTimer / 45f)
                         radius = shortLaserRadius;
                     }
-                    else if (cooldown < normalCooldown)
+                    else if (cooldown < longCooldown)
                     {
                         //Log.Debug("Normal");
                         Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
@@ -104,11 +105,11 @@ namespace UltitemsCyan.Items.Tier2
                         //Log.Debug("Long");
                         Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
                         tracer = TracerRailgunSuper;
-                        damage = (baseDamage + damagePerStack * (grabCount - 1)) * (cooldown / normalCooldown);
+                        damage = (baseDamage + damagePerStack * (grabCount - 1)) * Mathf.Max(cooldown / longCooldown, maxCooldownMultipler);
                         radius = longLaserRadius;
                     }
 
-                    Log.Debug((baseDamage + damagePerStack * (grabCount - 1)) + " * " + (cooldown / normalCooldown) + " | " + damage);
+                    //Log.Debug((baseDamage + damagePerStack * (grabCount - 1)) + " * " + Mathf.Max(cooldown / longCooldown, maxCooldownMultipler) + " | " + damage);
 
                     // Create and Fire Laser
                     new BulletAttack

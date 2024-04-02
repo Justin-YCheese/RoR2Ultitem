@@ -22,12 +22,12 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        public const float downloadedBuffMultiplier = 10f;
+        public const float downloadedBuffMultiplier = 8f;
         public const int downloadsPerItem = 4;
 
-        private const float downloadChance = 15f;
+        private const float downloadChance = 12f;
 
-        public const float notAttackingDelay = 3f;
+        public const float notAttackingDelay = 4f;
 
         public override void Init()
         {
@@ -35,7 +35,7 @@ namespace UltitemsCyan.Items.Void
                 "DOWNLOADEDRAM",
                 "Downloaded RAM",
                 "Chance on hit to increase damage. Lose stacks when not attacking. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
-                "<style=cIsDamage>15%</style> chance on hit to increase damage by <style=cIsDamage>10%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. Lose stacks 3 seconds after inflicting damage. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
+                "<style=cIsDamage>12%</style> chance on hit to increase damage by <style=cIsDamage>8%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. Lose stacks 4 seconds after inflicting damage. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
                 "The bitter aftertaste is just the spoilage",
                 ItemTier.VoidTier2,
                 Ultitems.Assets.DownloadedRAMSprite,

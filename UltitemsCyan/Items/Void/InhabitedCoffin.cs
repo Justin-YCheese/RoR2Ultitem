@@ -16,8 +16,8 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        private const float noFreeCoffinChance = 88f;
-        private const int minimumInCoffin = 6;
+        private const float freeCoffinChance = 16f;
+        private const int minimumInCoffin = 5;
         private const int bonusInCoffin = 0;
 
         public override void Init()
@@ -26,7 +26,7 @@ namespace UltitemsCyan.Items.Void
                 "INHABITEDCOFFIN",
                 "Inhabited Coffin",
                 "Breaks at the start of the next stage. Contains void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
-                "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>6</style> random void items. <style=cIsUtility>Affected by luck</style>. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
+                "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>5</style> random void items. <style=cIsUtility>Affected by luck</style>. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
                 "Something lives inside this coffin. That coffin is deeper than you think.",
                 ItemTier.VoidTier3,
                 Ultitems.Assets.InhabitedCoffinSprite,
@@ -72,14 +72,13 @@ namespace UltitemsCyan.Items.Void
                     // 14 Vanilla void items
                     // 4 modded void items
                     int quantityInVault;
-                    if (Util.CheckRoll(noFreeCoffinChance, self.master.luck))
+                    if (Util.CheckRoll(100f - freeCoffinChance, self.master.luck))
                     {
                         // No coffin
                         quantityInVault = minimumInCoffin;
                     }
                     else
                     {
-
                         // You get a free coffin
                         self.inventory.GiveItem(item);
                         Log.Debug("- Coffin got Coffin");

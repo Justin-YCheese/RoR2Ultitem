@@ -21,7 +21,7 @@ namespace UltitemsCyan.Items.Tier3
 
         // For Slippery Buff
         public const float grapeBlockChance = 85f;
-        public const int maxGrapes = 30;
+        public const int maxGrapes = 20;
 
         public override void Init()
         {

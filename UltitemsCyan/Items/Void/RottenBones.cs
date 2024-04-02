@@ -18,7 +18,7 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef transformItem;
 
         public const int rotsPerItem = 3;
-        public const float rottingBuffMultiplier = 20;
+        public const float rottingBuffMultiplier = 15;
         public const float rotTimeInterval = 180; // 3 minutes
 
         public override void Init()

@@ -12,8 +12,8 @@ namespace UltitemsCyan.Items.Tier1
     {
         public static ItemDef item;
         private const float threshold = 100f;
-        private const float percentHealing = 5f;
-        private const float flatHealing = 20f;
+        private const float percentHealing = 4f;
+        private const float flatHealing = 16f;
 
         public override void Init()
         {

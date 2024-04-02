@@ -14,7 +14,7 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
         private const float threshold = 35f;
-        private const float flatHealing = 5f;
+        private const float flatHealing = 4f;
 
         public override void Init()
         {

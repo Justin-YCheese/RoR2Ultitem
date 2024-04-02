@@ -56,6 +56,7 @@ Dried Ham
 Downloaded RAM
 - damage decrease from 10 -> 8
 - chance decrease from 15 -> 12
++ time to trigger
 Rotten Bones
 - damage decrease 20 -> 15
 Inhabited Coffin

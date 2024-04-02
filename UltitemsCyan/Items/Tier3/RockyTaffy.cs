@@ -14,7 +14,7 @@ namespace UltitemsCyan.Items.Tier3
     public class RockyTaffy : ItemBase
     {
         public static ItemDef item;
-        private const float shieldPercent = 50f;
+        private const float shieldPercent = 40f;
 
         public static GameObject CaptainBodyArmorBlockEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Captain/CaptainBodyArmorBlockEffect.prefab").WaitForCompletion();
 
@@ -25,7 +25,7 @@ namespace UltitemsCyan.Items.Tier3
                 "Rocky Taffy",
                 // No Barrier Decay without shield
                 "Gain a recharging shield. Gain a stable barrier without your shield.",
-                "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>50%</style> <style=cStack>(+50% per stack)</style> of your maximum health. On losing your shield, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield.",
+                "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>40%</style> <style=cStack>(+40% per stack)</style> of your maximum health. On losing your shield, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield.",
                 "This vault is sturdy, but over time the rust will just crack it open",
                 ItemTier.Tier3,
                 Ultitems.Assets.PetRockSprite,
