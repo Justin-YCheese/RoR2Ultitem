@@ -24,7 +24,7 @@ namespace UltitemsCyan.Items.Lunar
         private const float baseThreadChance = 50f;
         private const float stackThreadChance = 25f;
 
-        private bool inSilverAlready = false;
+        //private bool inSilverAlready = false;
 
         public override void Init()
         {
@@ -286,7 +286,9 @@ namespace UltitemsCyan.Items.Lunar
             // If checks failed, run original function
             if (runOrig)
             {
+                Log.Debug("runOrig in SilverThread");
                 orig(self, intPickupIndex);
+                Log.Debug("runOrig out SilverThread");
             }
             
         }
@@ -294,10 +296,11 @@ namespace UltitemsCyan.Items.Lunar
         // Increase Items gained when given
         public void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            if (NetworkServer.active && !inSilverAlready && self && ItemCatalog.GetItemDef(itemIndex).tier != ItemTier.NoTier && itemIndex != item.itemIndex)
+            // && !inSilverAlready
+            if (NetworkServer.active && count == 1 && self && ItemCatalog.GetItemDef(itemIndex).tier != ItemTier.NoTier && itemIndex != item.itemIndex)
             {
                 // Precaution incase something causes an infinity loop of items
-                inSilverAlready = true;
+                //inSilverAlready = true;
                 int grabCount = MaxStack(self);
                 if (grabCount > 0)
                 {
@@ -309,19 +312,10 @@ namespace UltitemsCyan.Items.Lunar
                     }
 
                 }
-                orig(self, itemIndex, count);
-                inSilverAlready = false;
             }
-            else if (inSilverAlready)
-            {
-                Log.Warning(" * * * IN SILVER GIVE ITEM: LOOP DETECTED * * * good thing there's a inSilverAlready check");
-                orig(self, itemIndex, count);
-            }
-            else
-            {
-                //Log.Debug("   passing silver give item");
-                orig(self, itemIndex, count);
-            }
+            Log.Debug("SPECIAL in orig SilverThread");
+            orig(self, itemIndex, count);
+            Log.Debug("SPECIAL out orig SilverThread");
         }
     }
 }

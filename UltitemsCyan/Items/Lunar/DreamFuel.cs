@@ -32,7 +32,6 @@ namespace UltitemsCyan.Items.Lunar
 
         protected override void Hooks()
         {
-
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
 
             //RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;

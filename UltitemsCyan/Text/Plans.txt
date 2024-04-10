@@ -1,38 +1,75 @@
 ﻿
-	Possible Changes for v0.7.11:
+	When Testing:
+- Test Frisbee (2nd Player)
+- Test HMT double pot explosion
+
+	ToDo Next:
+- Test Balance
+- Add Equipments
+- Add 3d Models
+
+	My Item Add Order:
+- Seismograph
+- Tipped Arrow
+- Tungston Rod
+- Trebuchet
+- Worm Holes
+- Pet Rock
+- Jelly Jail
+
+	For Future Consideration:
+- Univeersal Solute doesn't dissolve dead players
+- Add force to Xenon amploue
+- Actually fix Silver Thread and Sonorous Pail Problem (doesn't work if player has the same or fewer number of an item compared to silver)
+- Add VFX:
+	- Ultraviolet Bulb
+	- Ice Cubes
+	- Pot of Regolith
+	- Koala Sticker (Damage Color, VFX)
+	- Sues Mandibles (Warning Effect)
+	- RAM
+	- CremeBrulee
+	- RottenBones
+- Change Fleabag and Grape orb color
+- Add Support for Simulacrum
+- Change vault items use run instance instead of Item Catalog (for if items are banned in a run)
+- Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
+- Add actual proc chain accountability for items?
+- HMT with Shared Design (Perfect Elite) causes infinte loop?
+
+
+	Ask my Friends Questions:
+- Should Scissors count how many scraps to give and give all at once?
+	(reduced jank and reduced synergy with thread)
+- Should Scissors cut Tonic Affliction
+- Should Vault and Coffin only break on next stage and not on death? How about Candles?
+- Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
+
+
+	Possible Changes for v0.7.12:
 -/+	Nerf/Buff	? Question/Problem	]]	Shelved Note
 
  ** White **
 Toy Robot
-+ Increase Range 8 -> 10 meters
 Flea Bag
-]] always 6% drop chance
+? Change color of orb
 Koala Sticker
-- Reduce .12 -> .11
 Crème Brûlée
-- percentHealing and flat healing: 5 and 20 -> 4 and 16
 
 ** Green **
 Birthday Candles
 1000 Degree Scissors
 Overclocked GPU
 Xenon Ampoule
-+ Decrease normalCooldown threshold from 80 -> 60
-- Add Max multiplier to Xenon Ampoule (5x?)
 
 ** Red **
 Corroding Vault
-- decrease items from 16 -> 15 items
 Sue's Mandibles
+? Indicate Sue's Mandibles is ending
 Grapevine
-- Decrease maxGrapes from 30 -> 20
-]] Increase max grapes per grapes? (20 +5 per?)
-]] Chance chance stack to 33% + 33%
-]] Decrease grapeBlockChance from 85
+? Change color of orb
 Viral Smog
-]] Decrease 25 -> 20 speed
 Rocky Taffy
-- 50% shield -> 40%
 
 ** Equipment **
 Pot of Regolith
@@ -52,66 +89,6 @@ Sonorous Pail
 
 ** Void **
 Dried Ham
-- flatHealing 5 -> 4
 Downloaded RAM
-- damage decrease from 10 -> 8
-- chance decrease from 15 -> 12
-+ time to trigger
 Rotten Bones
-- damage decrease 20 -> 15
 Inhabited Coffin
-- Change items from 6 -> 5
-
-
-
-
-
-
-
-
-
-
-	When Testing:
-- Kill Mythrics with Thread
-
-
-	ToDo Next:
-- Fix SonorousPail / Silverthread give item jank
-- Test Balance
-- Add 3d Models
-- Add items
-
-
-	My Item Add Order:
-- Pet Rock
-- Worm Holes
-- Tungston Rod
-- Jelly Jail
-- Trebuchet
-
-
-	For Future Consideration:
-- Add force to Xenon amploue
-- Add VFX:
-	- Ultraviolet Bulb
-	- Ice Cubes
-	- Pot of Regolith
-	- Koala Sticker (Damage Color, VFX)
-	- Sues Mandibles (Warning Effect)
-	- RAM
-	- CremeBrulee
-	- RottenBones
-- Actually fix Silver Thread and Sonorous Pail Problem (doesn't work if player has the same or fewer number of an item compared to silver)
-- doesn't remove tonic allfiction with scissors
-- Change Fleabag orb color
-- Add Support for Simulacrum
-- Change vault items use run instance instead of Item Catalog (for if items are banned in a run)
-- Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
-
-
-
-	Ask my Friends Questions:
-- Should Scissors count how many scraps to give and give all at once?
-	(reduced jank and reduced synergy with thread)
-- Should Vault and Coffin only break on next stage and not on death? How about Candles?
-- Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?

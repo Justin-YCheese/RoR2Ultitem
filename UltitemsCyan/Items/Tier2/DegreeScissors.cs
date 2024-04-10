@@ -67,12 +67,14 @@ namespace UltitemsCyan.Items.Tier2
                             consumedItems.Add(definition);
                         }
                     }
-                    // Print consumeable items
+
+                    /*/ Print consumeable items
                     Log.Debug("List of consumeable items:");
                     foreach (ItemDef item in consumedItems)
                     {
                         Log.Debug(" - " + item.name + " (" + self.inventory.GetItemCount(item) + ")");
-                    }
+                    
+                    }//*/
 
                     // Get length of list
                     int length = consumedItems.Count;
@@ -80,18 +82,20 @@ namespace UltitemsCyan.Items.Tier2
                     // for each scissors in inventory remove a random consumed item
                     if (length > 0)
                     {
-                        
+                        int scrapsCounted = 0;
+
                         while (grabCount > 0)
                         {
                             grabCount--; // Reduce usage first incase of break
                             int itemPos = Random.Range(0, length);
-                            ItemDef selectedItem = consumedItems[itemPos]; // Don't need to subtract 1 from length because it excludes the max
+                            ItemDef selectedItem = consumedItems[itemPos]; // Don't need to subtract 1 from length because random excludes the max
                             // Remove 1 consumed item
-                            Log.Debug("Removing " + selectedItem.name); // + " at " + itemPos);
+                            //Log.Debug("Removing " + selectedItem.name); // + " at " + itemPos);
                             self.inventory.RemoveItem(selectedItem);
 
                             // Give 2 white scraps
-                            self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerConsumed);
+                            //self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsPerConsumed);
+                            scrapsCounted += scrapsPerConsumed;
                             CharacterMasterNotificationQueue.SendTransformNotification(
                                 self.master,
                                 selectedItem.itemIndex,
@@ -99,7 +103,7 @@ namespace UltitemsCyan.Items.Tier2
                                 CharacterMasterNotificationQueue.TransformationType.Default);
 
                             // If ran out of that consumable item in player's inventory
-                            if (self.inventory.GetItemCount(selectedItem) < 1)
+                            if (self.inventory.GetItemCount(selectedItem) <= 0)
                             {
                                 Log.Debug("Out of " + selectedItem.name);
                                 //Log.Debug("New length of " + (length - 1));
@@ -113,6 +117,7 @@ namespace UltitemsCyan.Items.Tier2
                                 }
                             }
                         }
+                        self.inventory.GiveItem(ItemCatalog.FindItemIndex("ScrapWhite"), scrapsCounted);
                     }
                     else
                     {

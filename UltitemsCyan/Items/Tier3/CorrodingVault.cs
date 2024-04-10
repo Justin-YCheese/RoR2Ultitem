@@ -3,6 +3,7 @@ using RoR2;
 using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering;
 
 namespace UltitemsCyan.Items.Tier3
 {
@@ -11,8 +12,8 @@ namespace UltitemsCyan.Items.Tier3
     public class CorrodingVault : ItemBase
     {
         public static ItemDef item;
-        private const int minimumInVault = 15;
-        private const int bonusInVault = 0;
+        private const int quantityInVault = 15;
+        //private const int bonusInVault = 0;
 
         public override void Init()
         {
@@ -50,43 +51,65 @@ namespace UltitemsCyan.Items.Tier3
                     self.inventory.GiveItem(CorrodingVaultConsumed.item);
 
                     // Get all white items
-                    ;
-                    ItemIndex[] allWhiteItems = new ItemIndex[ItemCatalog.tier1ItemList.Count];
+                    
+                    PickupIndex[] allWhiteItems = new PickupIndex[Run.instance.availableTier1DropList.Count];
+
+                    Run.instance.availableTier1DropList.CopyTo(allWhiteItems);
+                    
                     //ItemIndex[] allWhiteItems = Run.instance.availableTier1DropList.ToArray();
-                    ItemCatalog.tier1ItemList.CopyTo(allWhiteItems);
+                    //ItemCatalog.tier1ItemList.CopyTo(allWhiteItems);
                     int length = allWhiteItems.Length;
 
                     //Log.Debug("All White Items Length: " + length);
                     Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
 
                     // bonus plus one because rand int exclude max
-                    int quantityInVault = minimumInVault + rng.RangeInt(0, bonusInVault + 1);
+                    //int quantityInVault = minimumInVault; // + rng.RangeInt(0, bonusInVault + 1);
 
-                    // Error Message if there aren't enough items somehow
-                    if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
+                    // Error Message if there aren't enough items somehow (Universal Solute)
+                    //if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
 
                     // Give 16 different white items
                     for (int i = 0; i < quantityInVault; i++)
                     {
-                        int itemPos = rng.RangeInt(0, length);
+                        int randItemPos = rng.RangeInt(0, length);
 
-                        //Log.Debug("Random Position: " + itemPos);
-                        Log.Debug("Random White found: " + ItemCatalog.GetItemDef(allWhiteItems[itemPos]).name);
-                        self.inventory.GiveItem(allWhiteItems[itemPos]);
-                        GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)allWhiteItems[itemPos]]);
+                        //Log.Debug("Random Position: " + randItemPos + " / " + length);
+                        //printArray(allWhiteItems);
+                        ItemIndex foundItem = PickupCatalog.GetPickupDef(allWhiteItems[randItemPos]).itemIndex;
+                        //ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(allWhiteItems[i]).itemIndex).name;
+                        //Log.Debug(allWhiteItems[i] + " | " + PickupCatalog.GetPickupDef(allWhiteItems[itemPos]).itemIndex + " | " + ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(allWhiteItems[itemPos]).itemIndex) + " | " + ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(allWhiteItems[itemPos]).itemIndex).name);
+
+                        //Log.Debug("Random White found: " + foundItem + " | " + ItemCatalog.GetItemDef(foundItem).name);
+                        self.inventory.GiveItem(foundItem);
+                        GenericPickupController.SendPickupMessage(self.master, allWhiteItems[randItemPos]);
                         // erase current item with last listed item
                         // setting current item equal to last item and shorten length effectively moving last item to current item
-                        allWhiteItems[itemPos] = allWhiteItems[length - 1];
+                        allWhiteItems[randItemPos] = allWhiteItems[length - 1];
                         length--;
+                        // Ran out of white items, reset pool
+                        if (length == 0)
+                        {
+                            Log.Debug("Ran out of white items...   Reseting Pool");
+                            length = allWhiteItems.Length;
+                            Run.instance.availableTier1DropList.CopyTo(allWhiteItems);
+                        }
+                        
                     }
-                    Log.Debug(quantityInVault + " white items from vault");
-
-
-                    Chat.AddMessage("You got " + quantityInVault + " items from their vault");
-
+                    //Log.Debug(quantityInVault + " white items from vault");
+                    //Chat.AddMessage("You got " + quantityInVault + " items from their vault");
                     //TODO Add message for number of items in vault
                     //Util.PlaySound("Play_UI_podBlastDoorOpen", self.gameObject);
                 }
+            }
+        }
+
+        private void printArray(PickupIndex[] array)
+        {
+            int length = array.Length;
+            for (int i = 0; i < length; i++)
+            {
+                Log.Debug(i + ": " + PickupCatalog.GetPickupDef(array[i]).itemIndex);
             }
         }
     }

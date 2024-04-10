@@ -22,8 +22,10 @@ namespace UltitemsCyan.Items
                 "",
                 "",
                 ItemTier.Lunar,
-                Ultitems.Assets.PowerChipsSprite,
-                Ultitems.Assets.PowerChipsPrefab,
+                Ultitems.mysterySprite,
+                Ultitems.mysteryPrefab,
+                //Ultitems.Assets.PowerChipsSprite,
+                //Ultitems.Assets.PowerChipsPrefab,
                 [ItemTag.Utility]
             );
         }

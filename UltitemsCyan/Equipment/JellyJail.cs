@@ -37,8 +37,10 @@ namespace UltitemsCyan.Equipment
                 60f,
                 false,
                 true,
-                Ultitems.Assets.GoopyCageSprite,
-                Ultitems.Assets.GoopyCagePrefab
+                Ultitems.mysterySprite,
+                Ultitems.mysteryPrefab
+                //Ultitems.Assets.JellyJailSprite,
+                //Ultitems.Assets.JellyJailPrefab
             );
 
             

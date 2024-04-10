@@ -15,7 +15,7 @@ namespace UltitemsCyan.Items.Lunar
     {
         public static ItemDef item;
 
-        private const float attackPerWhite = 2f;
+        private const float attackPerWhite = 2.5f;
         private const float regenPerGreen = 0.05f;
         private const float speedPerRed = 10f;
         private const float critPerBoss = 10f;
@@ -34,7 +34,7 @@ namespace UltitemsCyan.Items.Lunar
                 "SONOROUSPAIL",
                 "Sonorous Pail",
                 "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>",
-                "Gain <style=cIsDamage>2% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
+                "Gain <style=cIsDamage>2.5% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
                 "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.",
                 ItemTier.Lunar,
                 Ultitems.Assets.SandPailSprite,
@@ -135,7 +135,9 @@ namespace UltitemsCyan.Items.Lunar
         //
         private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
+            Log.Debug("orig IN Sonorous Pail");
             orig(self, itemIndex, count);
+            Log.Debug("orig OUT Sonorous Pail");
             if (NetworkServer.active && !inSonorousAlready && self) // Hopefully fix multiple triggers and visual bug?
             {
                 ItemDef iDef = ItemCatalog.GetItemDef(itemIndex);
@@ -203,7 +205,7 @@ namespace UltitemsCyan.Items.Lunar
                     if (list.Count > 0)
                     {
                         // Add items minus silver treads (will be countered by silver thead it self
-                        inventory.GiveItem(rng.NextElementUniform(list), num - inventory.GetItemCount(SilverThread.item));
+                        inventory.GiveItem(rng.NextElementUniform(list), num); // - inventory.GetItemCount(SilverThread.item)
                         flag = true;
                     }
                 }

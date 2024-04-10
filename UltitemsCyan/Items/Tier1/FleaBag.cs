@@ -119,8 +119,9 @@ namespace UltitemsCyan.Items.Tier1
                 // If the victum has an inventory
                 // and damage isn't rejected?
                 if (NetworkServer.active && self && victim && damageInfo.attacker && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory
-                    && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT && damageInfo.procCoefficient > 0f && !damageInfo.procChainMask.HasProc(ProcType.LoaderLightning))
+                    && !damageInfo.rejected && damageInfo.procCoefficient > 0f)// && !damageInfo.procChainMask.HasProc(ProcType.LoaderLightning)
                 {
+                    
                     CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
 
                     int grabCount = inflictor.inventory.GetItemCount(item);

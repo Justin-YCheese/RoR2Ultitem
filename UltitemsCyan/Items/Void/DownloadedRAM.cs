@@ -155,7 +155,7 @@ namespace UltitemsCyan.Items.Void
                     if (_attacking != value)
                     {
                         _attacking = value;
-                        Log.Warning(body.name + " attack ram toggeled!: " + _attacking);
+                        //Log.Warning(body.name + " attack ram toggeled!: " + _attacking);
                         // If not attacking
                         if (!_attacking)
                         {
@@ -176,7 +176,7 @@ namespace UltitemsCyan.Items.Void
             private void OnDisable()
             {
                 attackingStopwatch = 0;
-                _attacking = false;
+                DealingDamage = false;
             }
 
             private void FixedUpdate()

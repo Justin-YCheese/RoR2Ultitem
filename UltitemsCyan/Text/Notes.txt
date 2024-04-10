@@ -16,6 +16,8 @@ CombinedHealthFraction = Current: Hp + Shield + Barrier / Hp + Shield
 
 	Other notes
 
+EntityStates.GenericCharacterMain.AddRecoil()
+
 Util.FindNetworkObject() // Get Object from Network Instance ID
 
 Item Behavior Order:

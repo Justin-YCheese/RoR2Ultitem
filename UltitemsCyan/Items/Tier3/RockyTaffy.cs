@@ -28,8 +28,8 @@ namespace UltitemsCyan.Items.Tier3
                 "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>40%</style> <style=cStack>(+40% per stack)</style> of your maximum health. On losing your shield, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield.",
                 "This vault is sturdy, but over time the rust will just crack it open",
                 ItemTier.Tier3,
-                Ultitems.Assets.PetRockSprite,
-                Ultitems.Assets.PetRockPrefab,
+                Ultitems.Assets.RockyTaffySprite,
+                Ultitems.Assets.RockyTaffyPrefab,
                 [ItemTag.Utility, ItemTag.Healing]
             );
         }

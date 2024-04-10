@@ -22,8 +22,8 @@ namespace UltitemsCyan.Items.Lunar
                 "Have a <style=cIsUtility>50%</style> <style=cStack>(+50% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style> and <style=cDeath>triple all cooldowns</style> <style=cStack>(per stack)</style>",
                 "Voilent Stacks exponetially. Clover is like another bulb",
                 ItemTier.Lunar,
-                Ultitems.Assets.NewBulbSprite,
-                Ultitems.Assets.NewBulbPrefab,
+                Ultitems.Assets.UltravioletBulbSprite,
+                Ultitems.Assets.UltravioletBulbPrefab,
                 [ItemTag.Utility]
             );
         }

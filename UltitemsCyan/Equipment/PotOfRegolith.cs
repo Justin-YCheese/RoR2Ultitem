@@ -11,6 +11,8 @@ namespace UltitemsCyan.Equipment
     {
         public static EquipmentDef equipment;
 
+        private const float cooldown = 3f;
+
         private const float basePercentDamage = 5f;
         private const float maxPercentDamage = 20f;
 
@@ -22,7 +24,7 @@ namespace UltitemsCyan.Equipment
                 "<style=cDeath>Take damage</style> on use.",
                 "Take <style=cIsHealth>5% or 20% of your health</style> as <style=cIsDamage>damage</style>",
                 "The dust is as sharp as a knife",
-                3f,
+                cooldown,
                 true,
                 false,
                 Ultitems.Assets.PotOfRegolithSprite,
