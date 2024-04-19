@@ -33,83 +33,61 @@ namespace UltitemsCyan.Items.Tier3
 
         protected override void Hooks()
         {
-            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+            On.RoR2.Run.BeginStage += Run_BeginStage;
+            //CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
         }
 
-        protected void CharacterBody_onBodyStartGlobal(CharacterBody self)
+        private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
         {
-            if (NetworkServer.active && self && self.inventory)
+            orig(self);
+            if (!NetworkServer.active)
             {
-                // Get number of vaults
-                int grabCount = self.inventory.GetItemCount(item.itemIndex);
-                if (grabCount > 0)
-                {
-                    Log.Warning("Rusted Vault on body start global..." + self.GetUserName());
-                    // Remove a vault
-                    self.inventory.RemoveItem(item);
-                    // Give Consumed vault
-                    self.inventory.GiveItem(CorrodingVaultConsumed.item);
-
-                    // Get all white items
-                    
-                    PickupIndex[] allWhiteItems = new PickupIndex[Run.instance.availableTier1DropList.Count];
-
-                    Run.instance.availableTier1DropList.CopyTo(allWhiteItems);
-                    
-                    //ItemIndex[] allWhiteItems = Run.instance.availableTier1DropList.ToArray();
-                    //ItemCatalog.tier1ItemList.CopyTo(allWhiteItems);
-                    int length = allWhiteItems.Length;
-
-                    //Log.Debug("All White Items Length: " + length);
-                    Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
-
-                    // bonus plus one because rand int exclude max
-                    //int quantityInVault = minimumInVault; // + rng.RangeInt(0, bonusInVault + 1);
-
-                    // Error Message if there aren't enough items somehow (Universal Solute)
-                    //if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
-
-                    // Give 16 different white items
-                    for (int i = 0; i < quantityInVault; i++)
-                    {
-                        int randItemPos = rng.RangeInt(0, length);
-
-                        //Log.Debug("Random Position: " + randItemPos + " / " + length);
-                        //printArray(allWhiteItems);
-                        ItemIndex foundItem = PickupCatalog.GetPickupDef(allWhiteItems[randItemPos]).itemIndex;
-                        //ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(allWhiteItems[i]).itemIndex).name;
-                        //Log.Debug(allWhiteItems[i] + " | " + PickupCatalog.GetPickupDef(allWhiteItems[itemPos]).itemIndex + " | " + ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(allWhiteItems[itemPos]).itemIndex) + " | " + ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(allWhiteItems[itemPos]).itemIndex).name);
-
-                        //Log.Debug("Random White found: " + foundItem + " | " + ItemCatalog.GetItemDef(foundItem).name);
-                        self.inventory.GiveItem(foundItem);
-                        GenericPickupController.SendPickupMessage(self.master, allWhiteItems[randItemPos]);
-                        // erase current item with last listed item
-                        // setting current item equal to last item and shorten length effectively moving last item to current item
-                        allWhiteItems[randItemPos] = allWhiteItems[length - 1];
-                        length--;
-                        // Ran out of white items, reset pool
-                        if (length == 0)
-                        {
-                            Log.Debug("Ran out of white items...   Reseting Pool");
-                            length = allWhiteItems.Length;
-                            Run.instance.availableTier1DropList.CopyTo(allWhiteItems);
-                        }
-                        
-                    }
-                    //Log.Debug(quantityInVault + " white items from vault");
-                    //Chat.AddMessage("You got " + quantityInVault + " items from their vault");
-                    //TODO Add message for number of items in vault
-                    //Util.PlaySound("Play_UI_podBlastDoorOpen", self.gameObject);
-                }
+                Log.Debug("Running on Client... return...");
+                return;
             }
-        }
 
-        private void printArray(PickupIndex[] array)
-        {
-            int length = array.Length;
-            for (int i = 0; i < length; i++)
+            foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)
             {
-                Log.Debug(i + ": " + PickupCatalog.GetPickupDef(array[i]).itemIndex);
+                if (master.inventory)
+                {
+                    // Get number of vaults
+                    int grabCount = master.inventory.GetItemCount(item.itemIndex);
+                    if (grabCount > 0)
+                    {
+                        //Log.Warning("Rusted Vault on body start global..." + master.name);
+                        // Remove a vault
+                        master.inventory.RemoveItem(item);
+                        // Give Consumed vault
+                        master.inventory.GiveItem(CorrodingVaultConsumed.item);
+
+                        // Get all white items
+                        PickupIndex[] allWhiteItems = new PickupIndex[Run.instance.availableTier1DropList.Count];
+                        Run.instance.availableTier1DropList.CopyTo(allWhiteItems);
+                        int length = allWhiteItems.Length;
+
+                        Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
+
+                        // Give 15 different white items
+                        for (int i = 0; i < quantityInVault; i++)
+                        {
+                            int randItemPos = rng.RangeInt(0, length);
+
+                            ItemIndex foundItem = PickupCatalog.GetPickupDef(allWhiteItems[randItemPos]).itemIndex;
+                            master.inventory.GiveItem(foundItem);
+                            GenericPickupController.SendPickupMessage(master, allWhiteItems[randItemPos]);
+
+                            allWhiteItems[randItemPos] = allWhiteItems[length - 1];
+                            length--;
+
+                            if (length == 0)
+                            {
+                                Log.Debug("Ran out of white items...   Reseting Pool");
+                                length = allWhiteItems.Length;
+                                Run.instance.availableTier1DropList.CopyTo(allWhiteItems);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

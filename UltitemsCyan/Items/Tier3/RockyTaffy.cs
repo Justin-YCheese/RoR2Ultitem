@@ -83,6 +83,7 @@ namespace UltitemsCyan.Items.Tier3
                     if (initialShield && !newShield)
                     {
                         Log.Debug("Taffy Shield lost! Gain Barrier");
+                        Util.PlaySound("Play_voidDevastator_m2_chargeUp", self.body.gameObject);
                         self.AddBarrier(self.fullShield);
                         //self.body.statsDirty = true;
                         //self.body.RecalculateStats();

@@ -15,8 +15,8 @@ namespace UltitemsCyan.Items.Lunar
         public static ItemDef item;
 
         private const int maxStack = 3;
-        private const int costMultiplier = 2;
         private const int extraItemAmount = 1;
+        private const int costMultiplier = extraItemAmount + 1; // 2
 
         //private const float percentPerStack = 50f;
         //private const float deathSnapTime = 600f; // 10 minutes
@@ -45,12 +45,12 @@ namespace UltitemsCyan.Items.Lunar
         {
             // Gain additional items
             On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
+            // Chance of Death
+            IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             // Increase cauldron and 3D printer cost
             On.RoR2.PurchaseInteraction.OnInteractionBegin += PurchaseInteraction_OnInteractionBegin;
             // Increase scrapper cost
             On.RoR2.ScrapperController.BeginScrapping += ScrapperController_BeginScrapping;
-            // Chance of Death
-            IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             // Remove Item on Death
             On.RoR2.CharacterBody.OnDeathStart += CharacterBody_OnDeathStart;
         }
@@ -233,7 +233,9 @@ namespace UltitemsCyan.Items.Lunar
                         {
                             self.lastScrappedItemIndex = pickupDef.itemIndex;
                             int scrapCount = Mathf.Min(self.maxItemsToScrapAtATime * costMultiplier, player.inventory.GetItemCount(pickupDef.itemIndex));
-                            if (scrapCount <= costMultiplier)
+                            Log.Debug("Scrap Count: " + scrapCount);
+                            //Log.Debug(player.master.inventory.GetItemCount((ItemIndex)intPickupIndex) + " =? " + player.inventory.GetItemCount(pickupDef.itemIndex));
+                            if (scrapCount < costMultiplier)
                             {
                                 // not enough items to convert item, don't return anything
                                 Log.Debug("Silver Scrapper Consume poor items");
@@ -286,9 +288,9 @@ namespace UltitemsCyan.Items.Lunar
             // If checks failed, run original function
             if (runOrig)
             {
-                Log.Debug("runOrig in SilverThread");
+                //Log.Debug("runOrig in SilverThread");
                 orig(self, intPickupIndex);
-                Log.Debug("runOrig out SilverThread");
+                //Log.Debug("runOrig out SilverThread");
             }
             
         }
@@ -296,14 +298,21 @@ namespace UltitemsCyan.Items.Lunar
         // Increase Items gained when given
         public void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
+            Log.Debug("SilverThread please start give item");
             // && !inSilverAlready
+            if (!ItemCatalog.GetItemDef(itemIndex))
+            {
+                Log.Debug("SilverThread found impossible item? Index: " + itemIndex);
+            }
             if (NetworkServer.active && count == 1 && self && ItemCatalog.GetItemDef(itemIndex).tier != ItemTier.NoTier && itemIndex != item.itemIndex)
             {
                 // Precaution incase something causes an infinity loop of items
                 //inSilverAlready = true;
+                Log.Debug("Do you have silver? ");
                 int grabCount = MaxStack(self);
                 if (grabCount > 0)
                 {
+                    Log.Debug("yes I do");
                     //Log.Debug("Thread Chance: " + (baseThreadChance + (stackThreadChance * (grabCount - 1))));
                     if (Util.CheckRoll(baseThreadChance + (stackThreadChance * (grabCount - 1))))
                     {
@@ -313,9 +322,9 @@ namespace UltitemsCyan.Items.Lunar
 
                 }
             }
-            Log.Debug("SPECIAL in orig SilverThread");
+            Log.Debug("GiveItem_ItemIndex in orig SilverThread");
             orig(self, itemIndex, count);
-            Log.Debug("SPECIAL out orig SilverThread");
+            Log.Debug("GiveItem_ItemIndex out orig SilverThread");
         }
     }
 }

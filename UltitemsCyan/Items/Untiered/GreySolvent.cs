@@ -4,15 +4,15 @@ namespace UltitemsCyan.Items.Untiered
 {
 
     // TODO: check if Item classes needs to be public
-    public class UniversalSolvent : ItemBase
+    public class GreySolvent : ItemBase
     {
         public static ItemDef item;
 
         public override void Init()
         {
             item = CreateItemDef(
-                "UNIVERSALSOLVENT",
-                "Universal Solvent",
+                "GREYSOLVENT",
+                "Grey Solvent",
                 "Everything returns...",
                 "DESCRIPTION Everything returns...",
                 "So a Universal Solute just turns other things into Universal Solvents?\n" +

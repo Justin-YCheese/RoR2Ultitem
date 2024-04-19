@@ -1,15 +1,14 @@
-﻿
-	When Testing:
-- Test Frisbee (2nd Player)
-- Test HMT double pot explosion
+﻿	When Testing:
+
 
 	ToDo Next:
-- Test Balance
-- Add Equipments
-- Add 3d Models
+- Add delay to Macrograph
+- Add Items
+- Add 3D models
+
 
 	My Item Add Order:
-- Seismograph
+- Zorse Pill
 - Tipped Arrow
 - Tungston Rod
 - Trebuchet
@@ -17,10 +16,15 @@
 - Pet Rock
 - Jelly Jail
 
+
 	For Future Consideration:
-- Univeersal Solute doesn't dissolve dead players
+- Universal Solute
+	- When disolving all available red items, doesn't replace with solvent (because of Microbots?)
 - Add force to Xenon amploue
-- Actually fix Silver Thread and Sonorous Pail Problem (doesn't work if player has the same or fewer number of an item compared to silver)
+- Sonorous Server Client differences?
+	- Visual Glitch with Blizzard (I picked up sonorous pail while haveing blizzard up)
+	- Getting Bands may not work?
+- Should I add a subcooldown to Pot of Regolith (mininum cooldown)
 - Add VFX:
 	- Ultraviolet Bulb
 	- Ice Cubes
@@ -32,18 +36,16 @@
 	- RottenBones
 - Change Fleabag and Grape orb color
 - Add Support for Simulacrum
-- Change vault items use run instance instead of Item Catalog (for if items are banned in a run)
 - Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
 - Add actual proc chain accountability for items?
 - HMT with Shared Design (Perfect Elite) causes infinte loop?
 
 
 	Ask my Friends Questions:
-- Should Scissors count how many scraps to give and give all at once?
-	(reduced jank and reduced synergy with thread)
-- Should Scissors cut Tonic Affliction
-- Should Vault and Coffin only break on next stage and not on death? How about Candles?
+- Should Candles only trigger on next stage and pickup but not on death?
 - Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
+- Should Scissors cut Tonic Affliction
+- Add transform notification will picking up a dissolved item?
 
 
 	Possible Changes for v0.7.12:
@@ -80,12 +82,7 @@ Dream Fuel
 Silver Thread
 ? Make any damage taken have a chance of death
 New Bulb
-? Nerf stacks
-? Compare with Light Flux
 Sonorous Pail
-? Server Client differences?
-	- Visual Glitch with Blizzard (I picked up sonorous pail while haveing blizzard up)
-	- Getting Bands may not work?
 
 ** Void **
 Dried Ham

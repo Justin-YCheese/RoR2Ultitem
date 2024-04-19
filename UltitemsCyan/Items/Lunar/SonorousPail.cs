@@ -26,7 +26,7 @@ namespace UltitemsCyan.Items.Lunar
 
         public bool inSonorousAlready = false;
 
-        public static GameObject ShrineUseEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
+        public static readonly GameObject ShrineUseEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
 
         public override void Init()
         {
@@ -136,6 +136,10 @@ namespace UltitemsCyan.Items.Lunar
         private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             Log.Debug("orig IN Sonorous Pail");
+            if (!ItemCatalog.GetItemDef(itemIndex))
+            {
+                Log.Debug("Sonorous found impossible item? Index: " + itemIndex);
+            }
             orig(self, itemIndex, count);
             Log.Debug("orig OUT Sonorous Pail");
             if (NetworkServer.active && !inSonorousAlready && self) // Hopefully fix multiple triggers and visual bug?

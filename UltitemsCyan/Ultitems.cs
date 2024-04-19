@@ -76,22 +76,18 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.8.3";
+        public const string PluginVersion = "0.8.5";
 
-        public const string PluginSuffix = "Frisbee works my god";
-        /* Version Changes     Old Git v7.12
-         * Completed HMT
-         * Completed Frisbee v0.8.0
-         * Mitigated Pail and Thread problem
-         * Added Universal Solute 0.8.1
-         * Fixed HMT immortal object bug? v0.8.2
-         * Fixed Corroding Vault random item, and using run items v0.8.3
-         * Actually fixed immortal jar
-         * Got Frisbee to work for clients
-         * 
-         * 
-         * 
-         * 
+        public const string PluginSuffix = "Macro works? . . .";
+        /* Version Changes     Old Git v0.8.3
+         * Added print statments? v0.8.4
+         * Solute
+         *      item transform notification
+         *      Fixed between runs
+         *      Short cooldown in bazzar
+         *      Updates most shops and chest
+         * Changed onBodyStartGlobal to BeginStage for Scissors, Vault, and Coffin
+         * Added Macroseismograph v0.8.5
          * 
          * 
          * 
@@ -159,7 +155,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new InhabitedCoffinConsumed());
             ultitemItems.Add(new SuesMandiblesConsumed());
             ultitemItems.Add(new SilverThreadConsumed());
-            ultitemItems.Add(new UniversalSolvent());
+            ultitemItems.Add(new GreySolvent());
 
             // White
             ultitemItems.Add(new CremeBrulee());
@@ -192,6 +188,10 @@ namespace UltitemsCyan
             // Equipments
             ultitemItems.Add(new IceCubes());
             //ultitemItems.Add(new JellyJail());
+
+            // Lunar Equipment
+            ultitemItems.Add(new Macroseismograph());
+            ultitemItems.Add(new MacroseismographConsumed());
             ultitemItems.Add(new PotOfRegolith());
             ultitemItems.Add(new UniversalSolute());
 
@@ -335,13 +335,11 @@ namespace UltitemsCyan
             //public static Sprite CreatureDeckSprite;
             public static Sprite DreamFuelSprite;
             public static Sprite UltravioletBulbSprite;
-            public static Sprite UniversalSoluteSprite;
             //public static Sprite PowerChipsSprite;
             public static Sprite SandPailSprite;
             public static Sprite SilverThreadSprite;
             //public static GameObject CreatureDeckPrefab;
             public static GameObject UltravioletBulbPrefab;
-            public static GameObject UniversalSolutePrefab;
             public static GameObject DreamFuelPrefab;
             //public static GameObject PowerChipsPrefab;
             public static GameObject SandPailPrefab;
@@ -362,14 +360,22 @@ namespace UltitemsCyan
             // Equipment
             //public static Sprite JellyJailSprite;
             public static Sprite IceCubesSprite;
-            public static Sprite PetRockSprite;
-            public static Sprite PotOfRegolithSprite;
+            //public static Sprite PetRockSprite;
             //public static Sprite TrebuchetSprite;
             //public static GameObject JellyJailPrefab;
             public static GameObject IceCubesPrefab;
             //public static GameObject PetRockPrefab;
-            public static GameObject PotOfRegolithPrefab;
             //public static GameObject TrebuchetPrefab;
+
+            // Lunar Equipment
+            public static Sprite MacroseismographSprite;
+            public static Sprite MacroseismographConsumedSprite;
+            public static Sprite PotOfRegolithSprite;
+            public static Sprite UniversalSoluteSprite;
+            public static GameObject MacroseismographPrefab;
+            public static GameObject MacroseismographConsumedPrefab;
+            public static GameObject PotOfRegolithPrefab;
+            public static GameObject UniversalSolutePrefab;
 
             // Buffs
             public static Sprite BirthdaySprite;
@@ -492,14 +498,12 @@ namespace UltitemsCyan
                 //CreatureDeckSprite = mainBundle.LoadAsset<Sprite>("CreatureDeck.png");
                 DreamFuelSprite = mainBundle.LoadAsset<Sprite>("DreamFuel.png");
                 UltravioletBulbSprite = mainBundle.LoadAsset<Sprite>("UltravioletBulb.png");
-                UniversalSoluteSprite = mainBundle.LoadAsset<Sprite>("UniversalSolute.png");
                 //PowerChipsSprite = mainBundle.LoadAsset<Sprite>("PowerChips.png");
                 SandPailSprite = mainBundle.LoadAsset<Sprite>("SandPail.png");
                 SilverThreadSprite = mainBundle.LoadAsset<Sprite>("SilverThread.png");
                 //CreatureDeckPrefab = mainBundle.LoadAsset<GameObject>("CreatureDeck.prefab");
                 DreamFuelPrefab = mainBundle.LoadAsset<GameObject>("DreamFuel.prefab");
                 UltravioletBulbPrefab = mainBundle.LoadAsset<GameObject>("UltravioletBulb.prefab");
-                UniversalSolutePrefab = mainBundle.LoadAsset<GameObject>("UniversalSolute.prefab");
                 //PowerChipsPrefab = mainBundle.LoadAsset<GameObject>("PowerChips.prefab");
                 SandPailPrefab = mainBundle.LoadAsset<GameObject>("SandPail.prefab");
                 SilverThreadPrefab = mainBundle.LoadAsset<GameObject>("SilverThread.prefab");
@@ -507,7 +511,6 @@ namespace UltitemsCyan
                 //CreatureDeckPrefab.transform.localScale = Vector3.up * localScale;
                 DreamFuelPrefab.transform.localScale = Vector3.up * localScale;
                 UltravioletBulbPrefab.transform.localScale = Vector3.up * localScale;
-                UniversalSolutePrefab.transform.localScale = Vector3.up * localScale;
                 //PowerChipsPrefab.transform.localScale = Vector3.up * localScale;
                 SandPailPrefab.transform.localScale = Vector3.up * localScale;
                 SilverThreadPrefab.transform.localScale = Vector3.up * localScale;
@@ -531,22 +534,35 @@ namespace UltitemsCyan
                 UniversalSolventPrefab.transform.localScale = Vector3.up * localScale;
 
                 // * * * Equipment * * * 
+
                 //JellyJailSprite = mainBundle.LoadAsset<Sprite>("JellyJail.png");
                 IceCubesSprite = mainBundle.LoadAsset<Sprite>("IceCubes.png");
                 //PetRockSprite = mainBundle.LoadAsset<Sprite>("PetRock.png");
-                PotOfRegolithSprite = mainBundle.LoadAsset<Sprite>("PotOfRegolith.png");
                 //TrebuchetSprite = mainBundle.LoadAsset<Sprite>("Trebuchet.png");
                 //JellyJailPrefab = mainBundle.LoadAsset<GameObject>("JellyJail.prefab");
                 IceCubesPrefab = mainBundle.LoadAsset<GameObject>("IceCubes.prefab");
                 //PetRockPrefab = mainBundle.LoadAsset<GameObject>("PetRock.prefab");
-                PotOfRegolithPrefab = mainBundle.LoadAsset<GameObject>("PotOfRegolith.prefab");
                 //TrebuchetPrefab = mainBundle.LoadAsset<GameObject>("Trebuchet.prefab");
 
                 //JellyJailPrefab.transform.localScale = Vector3.up * localScale;
                 IceCubesPrefab.transform.localScale = Vector3.up * localScale;
                 //PetRockPrefab.transform.localScale = Vector3.up * localScale;
-                PotOfRegolithPrefab.transform.localScale = Vector3.up * localScale;
                 //TrebuchetPrefab.transform.localScale = Vector3.up * localScale;
+
+                // * * * Lunar Equipment * * *
+                MacroseismographSprite = mainBundle.LoadAsset<Sprite>("Macroseismograph.png");
+                MacroseismographConsumedSprite = mainBundle.LoadAsset<Sprite>("MacroseismographConsumed.png");
+                PotOfRegolithSprite = mainBundle.LoadAsset<Sprite>("PotOfRegolith.png");
+                UniversalSoluteSprite = mainBundle.LoadAsset<Sprite>("UniversalSolute.png");
+                MacroseismographPrefab = mainBundle.LoadAsset<GameObject>("Macroseismograph.prefab");
+                MacroseismographConsumedPrefab = mainBundle.LoadAsset<GameObject>("MacroseismographConsumed.prefab");
+                PotOfRegolithPrefab = mainBundle.LoadAsset<GameObject>("PotOfRegolith.prefab");
+                UniversalSolutePrefab = mainBundle.LoadAsset<GameObject>("UniversalSolute.prefab");
+
+                MacroseismographPrefab.transform.localScale = Vector3.up * localScale;
+                MacroseismographConsumedPrefab.transform.localScale = Vector3.up * localScale;
+                PotOfRegolithPrefab.transform.localScale = Vector3.up * localScale;
+                UniversalSolutePrefab.transform.localScale = Vector3.up * localScale;
 
                 // * * * Buffs * * * 
                 BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");

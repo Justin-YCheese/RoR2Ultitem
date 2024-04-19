@@ -154,6 +154,7 @@ namespace UltitemsCyan.Items.Void
             {
                 float currentTime = Run.instance.time;
                 // If more intervals have passed than currently recorded
+                // not actually a while loop, the increment is IntervalsPassed
                 while (currentTime > Ultitems.stageStartTime + (rotTimeInterval * (_intervalsPassed + 1)) && _intervalsPassed < rotsPerItem)
                 {
                     //Log.Warning("Rot Math: " + (currentTime - stageStartTime) + "\t/ " + rotTimeInterval + "\t = " + (int)((currentTime - stageStartTime) / rotTimeInterval));

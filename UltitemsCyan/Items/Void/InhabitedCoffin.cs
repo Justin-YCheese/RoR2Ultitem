@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UltitemsCyan.Items.Tier3;
 using UltitemsCyan.Items.Untiered;
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.Rendering;
 using UnityEngine.Timeline;
 
 namespace UltitemsCyan.Items.Void
@@ -16,9 +18,8 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        private const float freeCoffinChance = 16f;
+        private const float freeCoffinChance = 20f;
         private const int minimumInCoffin = 5;
-        private const int bonusInCoffin = 0;
 
         public override void Init()
         {
@@ -38,86 +39,92 @@ namespace UltitemsCyan.Items.Void
 
         protected override void Hooks()
         {
-            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+            On.RoR2.Run.BeginStage += Run_BeginStage;
+            //CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
         }
 
-        protected void CharacterBody_onBodyStartGlobal(CharacterBody self)
+        private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
         {
-            if (self && self.inventory)
+            orig(self);
+            if (!NetworkServer.active)
             {
-                // Get number of vaults
-                int grabCount = self.inventory.GetItemCount(item.itemIndex);
-                if (grabCount > 0)
+                Log.Debug("Running on Client... return...");
+                return;
+            }
+
+            foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)
+            {
+                if (master.inventory)
                 {
-                    Log.Warning("Inhabited Coffin on body start global..." + self.GetUserName());
-                    // Remove a vault
-                    self.inventory.RemoveItem(item);
-                    // Give Consumed vault
-                    self.inventory.GiveItem(InhabitedCoffinConsumed.item);
-
-                    // Get Void Items
-                    List<ItemIndex> voidItemsList = new List<ItemIndex>();
-                    ItemDef.Pair[] voidCorruptions = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem];
-                    foreach (ItemDef.Pair pair in voidCorruptions)
+                    // Get number of vaults
+                    int grabCount = master.inventory.GetItemCount(item.itemIndex);
+                    if (grabCount > 0)
                     {
-                        bool added = voidItemsList.AddDistinct(pair.itemDef2.itemIndex);
-                        //Log.Debug(". Adding " + pair.itemDef2.name + "? " + added);
+                        //Log.Warning("Inhabited Coffin on body start global..." + master.name);
+                        // Remove a vault
+                        master.inventory.RemoveItem(item);
+                        // Give Consumed vault
+                        master.inventory.GiveItem(InhabitedCoffinConsumed.item);
+
+                        // All Void Items
+                        List<PickupIndex>[] allVoidDropList = [
+                            Run.instance.availableVoidTier1DropList,
+                            Run.instance.availableVoidTier2DropList,
+                            Run.instance.availableVoidTier3DropList,
+                            Run.instance.availableVoidBossDropList
+                            ];
+
+                        int length = allVoidDropList[0].Count + allVoidDropList[1].Count + allVoidDropList[2].Count + allVoidDropList[3].Count;
+                        Log.Debug("All Void Items Length: " + length);
+
+                        // 14 Vanilla void items
+                        // 4 modded void items
+                        int quantityInVault;
+                        if (Util.CheckRoll(100f - freeCoffinChance, master.luck))
+                        {
+                            // No coffin
+                            quantityInVault = minimumInCoffin;
+                        }
+                        else
+                        {
+                            // You get a free coffin
+                            master.inventory.GiveItem(item);
+                            //Log.Debug("- Coffin got Coffin");
+                            GenericPickupController.SendPickupMessage(master, PickupCatalog.itemIndexToPickupIndex[(int)item.itemIndex]);
+                            quantityInVault = minimumInCoffin - 1;
+                        }
+
+                        Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
+
+                        for (int i = 0; i < quantityInVault; i++)
+                        {
+                            int randItemPos = rng.RangeInt(0, length);
+                            PickupIndex foundItem = getVoidItem(allVoidDropList, randItemPos);
+
+                            master.inventory.GiveItem(PickupCatalog.GetPickupDef(foundItem).itemIndex);
+                            GenericPickupController.SendPickupMessage(master, foundItem);
+                        }
                     }
-
-                    // All Void Items
-                    ItemIndex[] allVoidItems = voidItemsList.ToArray();
-                    int length = allVoidItems.Length;
-                    Log.Debug("All Void Items Length: " + length);
-
-                    // 14 Vanilla void items
-                    // 4 modded void items
-                    int quantityInVault;
-                    if (Util.CheckRoll(100f - freeCoffinChance, self.master.luck))
-                    {
-                        // No coffin
-                        quantityInVault = minimumInCoffin;
-                    }
-                    else
-                    {
-                        // You get a free coffin
-                        self.inventory.GiveItem(item);
-                        Log.Debug("- Coffin got Coffin");
-                        GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)item.itemIndex]);
-                        quantityInVault = minimumInCoffin - 1;
-                    }
-
-                    ;// + Random.Range(0, bonusInCoffin + 1); // bonus plus one because rand int not include max
-
-                    // Error Message if there aren't enough items somehow
-                    if (length < quantityInVault) { Log.Warning(" ! ! ! There aren't enough white items for Rusted Vault ! ! !"); }
-
-                    Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
-
-                    for (int i = 0; i < quantityInVault; i++)
-                    {
-                        int itemPos = rng.RangeInt(0, length);
-                        Log.Debug("- random Void found: " + ItemCatalog.GetItemDef(allVoidItems[itemPos]).name);
-                        self.inventory.GiveItem(allVoidItems[itemPos]);
-                        GenericPickupController.SendPickupMessage(self.master, PickupCatalog.itemIndexToPickupIndex[(int)allVoidItems[itemPos]]);
-                    }
-
-                    /*/ Give void items
-                    for (int i = 0; i < quantityInVault; i++)
-                    {
-                        int itemPos = Random.Range(0, length);
-                        //Log.Debug("Random Position: " + itemPos);
-                        Log.Debug("Random White found: " + ItemCatalog.GetItemDef(allWhiteItems[itemPos]).name);
-                        self.inventory.GiveItem(allWhiteItems[itemPos]);
-                        // erase current item and preserve last item
-                        // setting current item equal to last item and shorten length effectively moving last item to current item
-                        allWhiteItems[itemPos] = allWhiteItems[length - 1];
-                        length--;
-                    }
-                    Log.Debug(quantityInVault + " white items from vault");
-                    //*/
-                    //TODO Add message for number of items in vault
                 }
             }
+        }
+
+        private PickupIndex getVoidItem(List<PickupIndex>[] items, int index)
+        {
+            // Iterate the different tiers
+            for(int i = 0; i < items.Length; i++)
+            {
+                // If index greater than current tier, subract count and iterate to next tier
+                if (index >= items[i].Count)
+                {
+                    index -= items[i].Count;
+                }
+                else
+                {
+                    return items[i][index];
+                }
+            }
+            return PickupIndex.none;
         }
     }
 }

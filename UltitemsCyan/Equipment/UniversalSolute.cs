@@ -1,17 +1,34 @@
 ﻿using RoR2;
 using UltitemsCyan.Items.Untiered;
 using System.Collections.Generic;
+using UnityEngine.Networking;
+using System.Linq;
 
 namespace UltitemsCyan.Equipment
 {
+    /* NOTES
+     * 
+     * Removing normal
+     * 
+     * When dissolving a boss item, the item will still be dropped by the boss for teleporter and tricorn
+     *      removing from available items will only effect command
+     * If you dissolve void items, then Larva won't corrupt thoes pairs upon dying
+     * 
+     * 
+     * 
+     * 
+     */
 
     // TODO: check if Item classes needs to be public
     public class UniversalSolute : EquipmentBase
     {
         public static EquipmentDef equipment;
+        
+        private const float shortCooldown = 6f;
+        private const float cooldown = 60f;
 
-        private const float cooldown = 1f;
-        private List<ItemIndex> dissolvedItems = [];
+        // Keeps track of the dissolved items of the current stage
+        private List<ItemIndex> dissolvedList = [];
 
         public override void Init()
         {
@@ -20,10 +37,10 @@ namespace UltitemsCyan.Equipment
                 "Universal Solute",
                 "<style=cDeath>Remove</style> your last item from existence on use.",
                 "<style=cDeath>Remove</style> the last item in your inventory from the run. It will no longer appear, and any instances of the items will break.",
-                "Everything returns to Water",
+                "Everything returns to grey",
                 cooldown,
                 true,
-                false,
+                true,
                 Ultitems.Assets.UniversalSoluteSprite,
                 Ultitems.Assets.UniversalSolutePrefab
             );
@@ -31,34 +48,68 @@ namespace UltitemsCyan.Equipment
 
         protected override void Hooks()
         {
-            // Erase Items
+            // Clear dissolved so refresh between runs and stages
+            // Only really need dissolved for grabing items that were already dropped but dissolved.
+            //      dissolved items update by the next stage
+            On.RoR2.Run.BeginStage += Run_BeginStage;
+            // * * * Erase Items
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
-            // Maintain removal
-            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int; ;
+            // * * * Maintain removal
+            // When getting a dissolved item
+            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
+            // When a chest tries dropping a dissolved item
+            On.RoR2.ChestBehavior.ItemDrop += ChestBehavior_ItemDrop;
+            On.RoR2.OptionChestBehavior.ItemDrop += OptionChestBehavior_ItemDrop;
+
+            //public void UpdateHologramContent(GameObject hologramContentObject)
+
+
+
+
+
+
+
+
+
+            // Print message
+            On.RoR2.ChestBehavior.Roll += ChestBehavior_Roll;
+
+
             //On.RoR2.ShopTerminalBehavior.ctor += ShopTerminalBehavior_ctor;
         }
 
-        private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
-        {
-            Log.Debug("Test Solute...");
-            if (dissolvedItems.Contains(itemIndex))
-            {
-                Log.Debug("Grabbed a disolved item...");
-                Util.PlaySound("Play_minimushroom_spore_shoot", self.gameObject);
-                orig(self, UniversalSolvent.item.itemIndex, count);
-            }
-            else
-            {
-                orig(self, itemIndex, count);
-            }
-        }
 
+
+        private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
+        {
+            Log.Debug("Universal Dissolved cleared");
+
+            dissolvedList.Clear();
+
+
+            orig(self);
+        }
 
         // Delete Existing instances of the item, and remove from drops
         private bool EquipmentSlot_PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
         {
             if (equipmentDef == equipment)
             {
+                if (NetworkServer.active)
+                {
+                    Log.Debug("Running Solute on Server");
+                }
+                else
+                {
+                    Log.Debug("Running Solute on Client");
+                }
+
+                /*/
+                if (self.gameObject && self.gameObject.name.Contains("EquipmentDrone"))
+                {
+                    return false;
+                }//*/
+
                 CharacterBody activator = self.characterBody;
                 List<ItemIndex> itemList = activator.inventory.itemAcquisitionOrder;
 
@@ -67,25 +118,61 @@ namespace UltitemsCyan.Equipment
                 {
                     // Null if player has only untiered items, or no items
                     ItemDef lastItem = getLastItem(itemList);
-                    
+
                     if (lastItem)
                     {
+                        if (Run.instance.isRunStopwatchPaused)
+                        {
+                            Log.Debug("In time paused");
+                            equipment.cooldown = shortCooldown;
+                        }
+                        else
+                        {
+                            Log.Debug("Outside time paused");
+                            equipment.cooldown = cooldown;
+                        }
+
                         Log.Debug("Last Item: " + lastItem.name);
 
                         // * * * For Every player and monster remove the item
-                        foreach (CharacterBody body in CharacterBody.readOnlyInstancesList)
+                        foreach (CharacterMaster body in CharacterMaster.readOnlyInstancesList)
                         {
                             Log.Debug("who? " + body.name);
-                            dissolveItem(body.inventory, lastItem);
+                            // Checks inventory in function
+                            dissolveItem(body, lastItem);
                         }
 
                         // * * * Remove item from pools
                         Run.instance.DisableItemDrop(lastItem.itemIndex);
+                        //Run.instance.DisablePickupDrop(PickupCatalog.itemIndexToPickupIndex[(int)lastItem.itemIndex]);
                         Run.instance.availableItems.Remove(lastItem.itemIndex);
-                        // check if empty, if so then add solute to item tier
-                        checkEmptyItemTier(lastItem);
+                        checkEmptyTierList(lastItem); // also check if empty, if so then add solute to item tier
+                        dissolvedList.Add(lastItem.itemIndex);
+                        Run.instance.RefreshLunarCombinedDropList();
 
-                        dissolvedItems.Add(lastItem.itemIndex);
+                        /*/ Refresh chest and lunar pools
+                        Log.Warning("Refresing ALL ! ! !");
+                        foreach (var dropTable in PickupDropTable.instancesList)
+                        {
+                            Log.Debug(" . " + dropTable.GetType().ToString() + " | " + dropTable.GetPickupCount());
+                        }
+                        //*/
+
+
+
+                        //Run.instance.BuildDropTable();
+                        //PickupDropTable.RegenerateAll(Run.instance);
+
+
+
+
+                        //foreach (var test in PickupDropTable.instancesList)
+                        //{
+
+                        //}
+
+                        //PickupDropTable.instancesList
+
                         //Log.Debug(dissolvedItems.Contains(lastItem.itemIndex) + " in dessolved items");
                         Util.PlaySound("Play_minimushroom_spore_shoot", self.gameObject);
 
@@ -111,7 +198,6 @@ namespace UltitemsCyan.Equipment
                         //UpdatePickupDisplayAndAnimations()
                         //PickupIndex pickupIndex = PickupCatalog.FindPickupIndex(itemIndex);
 
-
                         //DisableItemDisplay(ItemIndex itemIndex)
 
                         return true;
@@ -125,33 +211,116 @@ namespace UltitemsCyan.Equipment
             }
         }
 
+        private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+        {
+            Log.Debug("Test Solute for item index " + itemIndex);
+            if (dissolvedList.Contains(itemIndex) && self)
+            {
+                Log.Debug("Grabbed a disolved item...");
+                Util.PlaySound("Play_minimushroom_spore_shoot", self.gameObject);
+                itemIndex = GreySolvent.item.itemIndex;
+
+            }
+            Log.Warning(" ] ] ] ] ] ORIG into the Universal");
+            orig(self, itemIndex, count);
+            Log.Warning("  [ [ [ ORIG out to the Universal");
+        }
+
+        private void ChestBehavior_ItemDrop(On.RoR2.ChestBehavior.orig_ItemDrop orig, ChestBehavior self)
+        {
+            // If item in chest is in dissolved list then reroll untill it isn't
+            if (dissolvedList.Count > 0 && dissolvedList.Contains(PickupCatalog.GetPickupDef(self.dropPickup).itemIndex))
+            {
+                Log.Debug(" // Chest Universal has a dissolved item: " + PickupCatalog.GetPickupDef(self.dropPickup).nameToken);
+                // When rerolled will use updated avaialbe items list
+                self.Roll();
+                //Log.Debug("Is still dissolved?.. " + PickupCatalog.GetPickupDef(self.dropPickup).nameToken + " | " + dissolvedList.Contains(PickupCatalog.GetPickupDef(self.dropPickup).itemIndex));
+            }
+            orig(self);
+        }
+
+        private void OptionChestBehavior_ItemDrop(On.RoR2.OptionChestBehavior.orig_ItemDrop orig, OptionChestBehavior self)
+        {
+            // If item in chest is in dissolved list then reroll untill it isn't
+            if (dissolvedList.Count > 0)
+            {
+                // May be more efficent to just reroll if there are dissolved items
+                self.Roll();
+
+                /*/ If any of the items in the potential are dissolved
+                foreach (PickupIndex pickup in self.generatedDrops)
+                {
+                    if (dissolvedList.Contains(PickupCatalog.GetPickupDef(pickup).itemIndex))
+                    {
+                        // Contains a dissolved item
+                        self.Roll();
+                        break;
+                    }
+                }
+                //*/
+                // When rerolled will use updated avaialbe items list
+
+                //Log.Debug("Is still dissolved?.. " + PickupCatalog.GetPickupDef(self.dropPickup).nameToken + " | " + dissolvedList.Contains(PickupCatalog.GetPickupDef(self.dropPickup).itemIndex));
+            }
+            orig(self);
+        }
+
+        private void ChestBehavior_Roll(On.RoR2.ChestBehavior.orig_Roll orig, ChestBehavior self)
+        {
+            if (self)
+            {
+                Log.Debug("Rolling chest's Universe for " + self.name);
+            }
+            else
+            {
+                Log.Warning("Chest Behavior can be null ?!?!?!");
+            }
+
+            orig(self);
+        }
+
         private ItemDef getLastItem(List<ItemIndex> list)
         {
-            for(int i = list.Count - 1; i >= 0; i--)
+            // Go through inventory in reverse order
+            for (int i = list.Count - 1; i >= 0; i--)
             {
                 ItemDef item = ItemCatalog.GetItemDef(list[i]);
-                if (item.tier != ItemTier.NoTier)
+                if (item.tier != ItemTier.NoTier && item.tier != ItemTier.Boss)
                 {
-                    return item;
+                    // Don't dissolve world unique items
+                    var tagList = item.tags.ToList();
+                    if (!tagList.Contains(ItemTag.WorldUnique))
+                    {
+                        // return last non untiered non unique item
+                        return item;
+                    }
                 }
             }
+            // Found nothing
             return null;
         }
 
-        private void dissolveItem(Inventory inventory, ItemDef item)
+        private void dissolveItem(CharacterMaster body, ItemDef item)
         {
+            Inventory inventory = body.inventory;
             if (inventory)
             {
                 int grabCount = inventory.GetItemCount(item);
                 if (inventory.GetItemCount(item) > 0)
                 {
+                    Log.Debug("Dissolving item into grey mush...");
                     inventory.RemoveItem(item, grabCount);
-                    inventory.GiveItem(UniversalSolvent.item, grabCount);
+                    inventory.GiveItem(GreySolvent.item, grabCount);
+                    CharacterMasterNotificationQueue.SendTransformNotification(
+                        body,
+                        item.itemIndex,
+                        GreySolvent.item.itemIndex,
+                        CharacterMasterNotificationQueue.TransformationType.Default);
                 }
             }
         }
 
-        private void checkEmptyItemTier(ItemDef item)
+        private void checkEmptyTierList(ItemDef item)
         {
             List<PickupIndex> list = null;
             switch (item.tier)
@@ -189,7 +358,7 @@ namespace UltitemsCyan.Equipment
             if (list.Count == 0)
             {
                 Log.Debug(list.ToString() + " | replace with Solute");
-                list.Add(PickupCatalog.itemIndexToPickupIndex[(int)UniversalSolvent.item.itemIndex]);
+                list.Add(PickupCatalog.itemIndexToPickupIndex[(int)GreySolvent.item.itemIndex]);
             }
         }
     }

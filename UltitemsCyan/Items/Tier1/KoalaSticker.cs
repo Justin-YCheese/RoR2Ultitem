@@ -103,7 +103,7 @@ namespace UltitemsCyan.Items.Tier1
                                 Log.Debug("Is " + td + "\t > " + maxDamage + "?");
                                 if (td > maxDamage)
                                 {
-                                    Log.Debug("Yes");
+                                    Log.Warning("Koala BLOCK ! ! ");
                                     EffectManager.SpawnEffect(HealthComponent.AssetReferences.bearEffectPrefab, new EffectData
                                     {
                                         origin = di.position,

@@ -136,6 +136,9 @@ namespace UltitemsCyan.Items.Tier2
                         smartCollision = true,
                         stopperMask = LayerIndex.noDraw.mask
                     }.Fire();
+
+                    // Mostly prevent gester of drown cheese, and flashing and sounds
+                    self.subcooldownTimer = 0.5f;
                 }
             }
             else

@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace UltitemsCyan.Equipment
 {
-
     // TODO: check if Item classes needs to be public
     public class PotOfRegolith : EquipmentBase
     {
@@ -13,6 +12,7 @@ namespace UltitemsCyan.Equipment
 
         private const float cooldown = 3f;
 
+        private const float baseDamageChance = 80f;
         private const float basePercentDamage = 5f;
         private const float maxPercentDamage = 20f;
 
@@ -26,7 +26,7 @@ namespace UltitemsCyan.Equipment
                 "The dust is as sharp as a knife",
                 cooldown,
                 true,
-                false,
+                true,
                 Ultitems.Assets.PotOfRegolithSprite,
                 Ultitems.Assets.PotOfRegolithPrefab
             );
@@ -45,7 +45,7 @@ namespace UltitemsCyan.Equipment
                 //UnityEngine.Random.Range(basePercentDamage, maxPercentDamage);
 
                 float percentDamage = maxPercentDamage;
-                if (Util.CheckRoll(80f, activator.master.luck))
+                if (Util.CheckRoll(baseDamageChance, activator.master.luck))
                 {
                     percentDamage = basePercentDamage;
                 }

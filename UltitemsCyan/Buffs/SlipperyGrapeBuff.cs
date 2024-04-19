@@ -85,7 +85,7 @@ namespace UltitemsCyan.Buffs
                             {
                                 //Log.Debug(" - " + i);
                                 cb.RemoveBuff(buff);
-                                if (Util.CheckRoll(50f, 0))
+                                if (Util.CheckRoll(grapeBlockChance, 0))
                                 {
                                     Log.Debug("Slip Grape !");
                                     di.rejected = true;     // Can set value here because it's a reference. Cannot do the same for primative types?

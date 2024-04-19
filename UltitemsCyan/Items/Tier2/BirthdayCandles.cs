@@ -67,6 +67,12 @@ namespace UltitemsCyan.Items.Tier2
         protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             Log.Debug("Into orig Birthday Candles");
+
+            // * * * SAVE Error ?
+            //if (!ItemCatalog.GetItemDef(itemIndex))
+            //{
+            //    Log.Debug("Birthday found impossible item? Index: " + itemIndex);
+            //}
             orig(self, itemIndex, count);
             Log.Debug("Out orig Birthday Candles");
             /*/
@@ -83,12 +89,19 @@ namespace UltitemsCyan.Items.Tier2
 
             if (self && itemIndex == item.itemIndex)
             {
-                Log.Warning("Give Birthday Candles");
+                Log.Debug("Give Birthday Candles");
                 // Log.Debug("Count Birthday Candles on Pickup: " + count);
 
                 CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body) => body.inventory == self);
+
+                if (player) { }
+                else
+                {
+                    Log.Warning("Null Player has Birthday");
+                }
+
                 // If you don't have any Rotten Bones
-                if (player && player.inventory.GetItemCount(Void.RottenBones.item) <= 0)
+                if (player && player.inventory && player.inventory.GetItemCount(Void.RottenBones.item) <= 0)
                 {
                     ApplyBirthday(player, count, self.GetItemCount(item.itemIndex));
                 }

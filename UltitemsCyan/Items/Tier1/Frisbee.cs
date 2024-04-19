@@ -51,6 +51,13 @@ namespace UltitemsCyan.Items.Tier1
                 self.AddItemBehavior<FrisbeeBehavior>(self.inventory.GetItemCount(item));
             }
         }
+
+        // * * * Why was this so hard...
+        // GenericCharacterMain_ProcessJump Runs only on client side, but can't run buff functions on client
+        // Can't use AddBuffTimedAuthority because no server function to properly remove a timed function
+        // Must use SetBuffCount which works on client side
+        // Must use my own function to time the buff
+
         private void GenericCharacterMain_ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump orig, EntityStates.GenericCharacterMain self)
         {
             if (self.characterBody && self.characterBody.inventory)

@@ -16,7 +16,7 @@ namespace UltitemsCyan.Items.Tier3
         private static GameObject GrapeOrbPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
         private static GameObject GrapeEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/HealthOrbEffect.prefab").WaitForCompletion();
 
-        private const float baseGrapeDropChance = 25f;
+        private const float baseGrapeDropChance = 50f;
         private const float stackGrapeDropChance = 25f;
 
         // For Slippery Buff
@@ -55,7 +55,7 @@ namespace UltitemsCyan.Items.Tier3
                 //int buffCount = killer.GetBuffCount(Buffs.OverclockedBuff.buff);
                 if (grabCount > 0)
                 {
-                    if (Util.CheckRoll(baseGrapeDropChance + (stackGrapeDropChance * grabCount), killer.master.luck))
+                    if (Util.CheckRoll(baseGrapeDropChance + ((stackGrapeDropChance - 1) * grabCount), killer.master.luck))
                     {
                         Log.Warning("Dropping grape from " + victim.name);
                         //RoR2.BuffPickup.Instantiate(item);

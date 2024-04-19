@@ -19,7 +19,7 @@ namespace UltitemsCyan.Equipment
             string lore,
             float cooldown,
             bool isLunar,
-            bool canBeRandomlyTriggered,
+            bool canDrop,
             Sprite sprite,
             GameObject prefab
         )
@@ -56,8 +56,8 @@ namespace UltitemsCyan.Equipment
 
             equipment.appearsInSinglePlayer = true;
             equipment.appearsInMultiPlayer = true;
-            equipment.canDrop = true;
 
+            equipment.canDrop = canDrop;
             equipment.isBoss = false;
 
             ItemDisplayRuleDict displayRules = new(null);
