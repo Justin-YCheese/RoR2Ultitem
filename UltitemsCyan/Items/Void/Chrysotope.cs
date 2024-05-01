@@ -1,40 +1,40 @@
 ﻿using RoR2;
 using System;
 using UltitemsCyan.Buffs;
-using UltitemsCyan.Items.Void;
-using UnityEngine.Networking;
-using static UltitemsCyan.Items.Void.DownloadedRAM;
+using UltitemsCyan.Items.Tier1;
 //using static RoR2.GenericPickupController;
 
-namespace UltitemsCyan.Items.Tier1
+namespace UltitemsCyan.Items.Void
 {
 
     // TODO: check if Item classes needs to be public
-    public class Frisbee : ItemBase
+    public class Chrysotope : ItemBase
     {
         public static ItemDef item;
+        public static ItemDef transformItem;
 
-        public const float airSpeed = 10f;
+        //public const float airSpeed = 10f;
 
-        public const float dampeningForce = 0.4f;
-        public const float riseSpeed = 3f;
-        // Constant rise of 2.667
+        public const float dampeningForce = 0.9f;
+        public const float riseSpeed = 18f;
+        // Constant rise of 13.5 speed?
 
-        public const float baseDuration = 1.2f;
-        public const float durationPerStack = 0.6f;
+        public const float baseDuration = 0.6f;
+        public const float durationPerStack = 0.4f;
 
         public override void Init()
         {
             item = CreateItemDef(
-                "FRISBEE",
-                "Frisbee",
-                "Rise and move faster after jumping. Hold jump to keep hovering.",
-                "Rise slowly and move <style=cIsUtility>10%</style> <style=cStack>(+10% per stack)</style> faster after jumping for <style=cIsUtility>1.2</style> <style=cStack>(+0.6 per stack)</style> seconds. Hold jump to keep hovering.",
-                "Folding Flyers Falling Futher Faster For Five Far Fields",
-                ItemTier.Tier1,
-                Ultitems.Assets.FrisbeeSprite,
-                Ultitems.Assets.FrisbeePrefab,
-                [ItemTag.Utility]
+                "CHRYSOTOPE",
+                "Chrysotope",
+                "Rise after jumping. Hold jump to continue flying. <style=cIsVoid>Corrupts all Frisbees</style>.",
+                "Rise after jumping for <style=cIsUtility>0.6</style> <style=cStack>(+0.4 per stack)</style> seconds. Hold jump to keep flying. <style=cIsVoid>Corrupts all Frisbees</style>.",
+                "An eyeless crystal snake capbable of flying 100 meters",
+                ItemTier.VoidTier1,
+                Ultitems.Assets.ChrysotopeSprite,
+                Ultitems.Assets.ChrysotopePrefab,
+                [ItemTag.Utility],
+                Frisbee.item
             );
         }
 
@@ -49,7 +49,7 @@ namespace UltitemsCyan.Items.Tier1
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<FrisbeeBehavior>(self.inventory.GetItemCount(item));
+                self.AddItemBehavior<ChrysotopeBehavior>(self.inventory.GetItemCount(item));
             }
         }
 
@@ -65,7 +65,7 @@ namespace UltitemsCyan.Items.Tier1
             {
                 CharacterBody body = self.characterBody;
                 int grabCount = body.inventory.GetItemCount(item);
-                
+
                 if (grabCount > 0 && self.hasCharacterMotor && self.jumpInputReceived)
                 {
                     //Log.Warning("Is Authority? " + self.isAuthority + " Is Local? " + self.isLocalPlayer + " Is Local Authority? " + self.localPlayerAuthority + " is? " + self.rigidbody);
@@ -78,29 +78,29 @@ namespace UltitemsCyan.Items.Tier1
                     {
                         //   *   *   *   ADD EFFECT   *   *   *   //
 
-                        Log.Debug("Frisbee Jump ? ? ? adding buff for " + (baseDuration + (durationPerStack * (grabCount - 1))) + " seconds");
+                        Log.Debug("Chrysotope Jump ? ? ? adding buff for " + (baseDuration + (durationPerStack * (grabCount - 1))) + " seconds");
                         //self.characterBody.AddTimedBuffAuthority(FrisbeeFlyingBuff.buff.buffIndex, baseDuration + (durationPerStack * (grabCount - 1)));
-                        
-                        var behavior = self.characterBody.GetComponent<FrisbeeBehavior>();
+
+                        var behavior = self.characterBody.GetComponent<ChrysotopeBehavior>();
                         behavior.enabled = true;
                         behavior.UpdateStopwatch(Run.instance.time);
-                        body.SetBuffCount(FrisbeeGlidingBuff.buff.buffIndex, 1);
+                        body.SetBuffCount(ChrysotopeFlyingBuff.buff.buffIndex, 1);
 
-                        Log.Debug("Has Timed def Buff? " + self.HasBuff(FrisbeeGlidingBuff.buff));
+                        Log.Debug("Has Timed def Buff? " + self.HasBuff(ChrysotopeFlyingBuff.buff));
                     }
                 }
             }
             orig(self);
         }
 
-        
 
 
-        public class FrisbeeBehavior : CharacterBody.ItemBehavior
+
+        public class ChrysotopeBehavior : CharacterBody.ItemBehavior
         {
             private CharacterMotor characterMotor;
-            private const float baseDuration = Frisbee.baseDuration;
-            private const float durationPerStack = Frisbee.durationPerStack;
+            private const float baseDuration = Chrysotope.baseDuration;
+            private const float durationPerStack = Chrysotope.durationPerStack;
             public float flyingStopwatch = 0;
             private bool _canHaveBuff = false;
 
@@ -109,7 +109,7 @@ namespace UltitemsCyan.Items.Tier1
                 //Log.Debug("New attack at " + newTime);
                 flyingStopwatch = newTime;
             }
-            
+
             public bool CanHaveBuff
             {
                 get { return _canHaveBuff; }
@@ -119,24 +119,14 @@ namespace UltitemsCyan.Items.Tier1
                     if (_canHaveBuff != value)
                     {
                         _canHaveBuff = value;
-                        // If if air and holding jump
-                        /*
-                        if (_canHaveBuff)
-                        {
-                            Log.Debug(" * * * Lift Off ! !");
-                            // Add Buff if running of edge?
-                            //self.characterBody.AddTimedBuff(FrisbeeFlyingBuff.buff, durationPerStack * grabCount);
-                        }
-                        else
-                        {
-                            Log.Debug("Fell? / / /");
-                            //body.ClearTimedBuffs(FrisbeeFlyingBuff.buff);
-                            body.SetBuffCount(FrisbeeFlyingBuff.buff.buffIndex, 0);
-                        }
-                        //*/
                         if (!_canHaveBuff)
                         {
-                            body.SetBuffCount(FrisbeeGlidingBuff.buff.buffIndex, 0);
+                            //Log.Debug("y = " + body.characterMotor.velocity.y + " | x = " + body.characterMotor.velocity.x);
+                            //body.characterMotor.velocity.y = Math.Min(body.characterMotor.velocity.y, 2f);
+                            //body.characterMotor.velocity *= 2f;
+                            //body.characterMotor.velocity.x *= 1.2f;
+                            //Log.Debug(" + new y = " + body.characterMotor.velocity.y + " | x = " + body.characterMotor.velocity.x + " | z = " + body.characterMotor.velocity.z);
+                            body.SetBuffCount(ChrysotopeFlyingBuff.buff.buffIndex, 0);
                         }
                     }
                 }
@@ -149,7 +139,7 @@ namespace UltitemsCyan.Items.Tier1
                 {
                     CanHaveBuff = !characterMotor.isGrounded && body.inputBank.jump.down
                         && Run.instance.time <= flyingStopwatch + baseDuration + (durationPerStack * (stack - 1));
-                    if (body.HasBuff(FrisbeeGlidingBuff.buff))
+                    if (body.HasBuff(ChrysotopeFlyingBuff.buff))
                     {
                         // Player is rising
                         if (body.characterMotor.velocity.y < riseSpeed)

@@ -33,11 +33,12 @@ namespace UltitemsCyan.Items.Tier3
 
         protected override void Hooks()
         {
-            On.RoR2.Run.BeginStage += Run_BeginStage;
+            On.RoR2.Stage.BeginServer += Stage_BeginServer;
+            //On.RoR2.Run.BeginStage += Run_BeginStage;
             //CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
         }
 
-        private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
+        private void Stage_BeginServer(On.RoR2.Stage.orig_BeginServer orig, Stage self)
         {
             orig(self);
             if (!NetworkServer.active)
@@ -45,7 +46,6 @@ namespace UltitemsCyan.Items.Tier3
                 Log.Debug("Running on Client... return...");
                 return;
             }
-
             foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)
             {
                 if (master.inventory)

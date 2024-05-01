@@ -37,7 +37,7 @@ namespace UltitemsCyan.Items.Lunar
                 ItemTier.Lunar,
                 Ultitems.Assets.SilverThreadSprite,
                 Ultitems.Assets.SilverThreadPrefab,
-                [ItemTag.Utility, ItemTag.OnStageBeginEffect]
+                [ItemTag.Utility]
             );
         }
 

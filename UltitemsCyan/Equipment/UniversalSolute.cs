@@ -35,8 +35,8 @@ namespace UltitemsCyan.Equipment
             equipment = CreateItemDef(
                 "UNIVERSALSOLUTE",
                 "Universal Solute",
-                "<style=cDeath>Remove</style> your last item from existence on use.",
-                "<style=cDeath>Remove</style> the last item in your inventory from the run. It will no longer appear, and any instances of the items will break.",
+                "<style=cDeath>Erase</style> your last item from existence.",
+                "<style=cDeath>Erase</style> the last item in your inventory from the run. It will no longer appear, and any instances of the items will <style=cDeath>break</style>.",
                 "Everything returns to grey",
                 cooldown,
                 true,

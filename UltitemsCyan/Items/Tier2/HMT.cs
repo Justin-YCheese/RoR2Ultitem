@@ -29,7 +29,7 @@ namespace UltitemsCyan.Items.Tier2
                 "HMT",
                 "H.M.T",
                 "Chance to ignite enemies when you inflict something else",
-                "<style=cIsDamage>10%</style> <style=cStack>(+10% per stack)</style> chance to ignite enemies when inflicting a diferent status effect. Enemies burn for <style=cIsDamage>400%</style> <style=cStack>(+125% per stack)</style> base damage.",
+                "<style=cIsDamage>10%</style> <style=cStack>(+10% per stack)</style> chance to ignite enemies when inflicting something other than burning. Enemies burn for <style=cIsDamage>400%</style> <style=cStack>(+125% per stack)</style> base damage.",
                 "Fiery Compilation\r\nSizzling Playlist\r\nBlazing Tracklist\r\nScorching Mix\r\nTorrid Tunes\r\nSweltering Sounds\r\nBoiling Beats\r\nBurning Medley\r\nHeated Harmony\r\nIncandescent Melodies\r\nFlaming Rhythms\r\nSultry Selections\r\nPiping Hot Hits\r\nFervent Fusion\r\nArdent Anthology\r\nWarm Jams\r\nHot-blooded Mixdown\r\nThermal Tracks\r\nCaliente Collection\r\nFeverish Features\r\nToasty Tapes\r\nIgnited Arrangement\r\nGlowing Grooves\r\nLava-like Lineup\r\nSmoldering Series\r\nSteamy Set\r\nInfernal Playlist\r\nRadiant Recordings\r\nBlistering Bangers\r\nSearing Serenade",
                 ItemTier.Tier2,
                 Ultitems.Assets.HMTSprite,

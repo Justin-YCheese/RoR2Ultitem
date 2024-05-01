@@ -26,7 +26,7 @@ namespace UltitemsCyan.Items.Lunar
 
         public bool inSonorousAlready = false;
 
-        public static readonly GameObject ShrineUseEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
+        public readonly GameObject ShrineUseEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
 
         public override void Init()
         {

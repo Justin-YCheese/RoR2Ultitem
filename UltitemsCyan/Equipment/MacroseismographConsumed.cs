@@ -19,7 +19,7 @@ namespace UltitemsCyan.Equipment
         {
             equipment = CreateItemDef(
                 "MACROSEISMOGRAPHCONSUMED",
-                "MacroseismographConsumed",
+                "Macro Friend",
                 "It's broken something inside you...   but it'll never leave you",
                 "And now it will never leave you",
                 "Broken soul, and forever buddy",
@@ -32,6 +32,8 @@ namespace UltitemsCyan.Equipment
             LanguageAPI.Add("EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_ACTION", "together...  forever...");
             LanguageAPI.Add("EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_ONE", "i...  won't...  let...  you...");
             LanguageAPI.Add("EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_TWO", "we...  are...  friends...");
+            LanguageAPI.Add("EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_THREE", "I'm...  always...  here...  for...  you...");
+            LanguageAPI.Add("EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_FOUR", "forever...  is...  a...  long...  time...");
         }
 
         protected override void Hooks()
@@ -49,14 +51,23 @@ namespace UltitemsCyan.Equipment
             if (context.body && context.body.inventory.currentEquipmentIndex == equipment.equipmentIndex)
             {
 
-                string token;
-                if (Util.CheckRoll(50f, 0))
+                string token = "EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_ONE";
+                Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
+                switch (rng.RangeInt(1, 4))
                 {
-                    token = "EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_ONE";
-                }
-                else
-                {
-                    token = "EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_TWO";
+                    case 0:
+                        break;
+                    case 1:
+                        token = "EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_TWO";
+                        break;
+                    case 2:
+                        token = "EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_THREE";
+                        break;
+                    case 3:
+                        token = "EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_FOUR";
+                        break;
+                    default:
+                        break;
                 }
                 Chat.SendBroadcastChat(new Chat.BodyChatMessage
                 {

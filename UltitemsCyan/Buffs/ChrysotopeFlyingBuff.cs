@@ -6,18 +6,19 @@ using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
-    public class FrisbeeFlyingBuff : BuffBase
+    public class ChrysotopeFlyingBuff : BuffBase
     {
         public static BuffDef buff;
-        private const float airSpeed = Frisbee.airSpeed;
+        //private const float airSpeed = Chrysotope.airSpeed;
 
         public override void Init()
         {
-            buff = DefineBuff("Frisbee Flying Buff", false, false, Color.white, Ultitems.Assets.FrisbeeSprite, false, false);
+            buff = DefineBuff("Chrysotope Flying Buff", false, false, Color.white, Ultitems.Assets.ChrysotopeFlySprite, false, false);
 
-            Hooks();
+            //Hooks();
         }
 
+        /*
         protected void Hooks()
         {
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
@@ -31,5 +32,6 @@ namespace UltitemsCyan.Buffs
                 args.moveSpeedMultAdd += airSpeed / 100f * grabCount;
             }
         }
+        //*/
     }
 }

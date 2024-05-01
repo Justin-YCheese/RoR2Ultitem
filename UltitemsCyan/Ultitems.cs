@@ -41,10 +41,9 @@ namespace UltitemsCyan
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
     // For using custom prefabs
     [BepInDependency(PrefabAPI.PluginGUID)]
+
+    //[BepInDependency(PrefabAPI.PluginGUID)]
     // This attribute is required, and lists metadata for your plugin.
-
-    //[BepInDependency(Projectile.PluginGUID)]
-
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 
     // TODO: Check if I need this for my mod specifically 
@@ -76,21 +75,18 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.8.5";
+        public const string PluginVersion = "0.8.6";
 
-        public const string PluginSuffix = "Macro works? . . .";
-        /* Version Changes     Old Git v0.8.3
-         * Added print statments? v0.8.4
-         * Solute
-         *      item transform notification
-         *      Fixed between runs
-         *      Short cooldown in bazzar
-         *      Updates most shops and chest
-         * Changed onBodyStartGlobal to BeginStage for Scissors, Vault, and Coffin
-         * Added Macroseismograph v0.8.5
-         * 
-         * 
-         * 
+        public const string PluginSuffix = "Yield Yee ! ! !";
+        /* Version Changes     Old Git v0.8.5
+         * Added Chrysotope and Jubilant Foe v0.8.6
+         * Frisbee duration increased by 20%
+         * Reduced Pot cooldown 3 -> 2 but added sub cooldown of .2
+         * Added simple buff sprites for frisbee and chrysotope
+         * Correctly adjusted Macroseismograph damage
+         * Changed Scissors, Vault, and Coffin to use BeginServer instead of BeginStage (Scissors and Regenerative scrap wrong order)
+         * Added Yield Sign
+         * Heavily nerfed Macroseismograph
          * 
          */
 
@@ -127,9 +123,10 @@ namespace UltitemsCyan
             // Add buffs to the game
             List<BuffBase> ultitemBuffs = [];
             ultitemBuffs.Add(new BirthdayBuff());
+            ultitemBuffs.Add(new ChrysotopeFlyingBuff());
             ultitemBuffs.Add(new DreamSpeedBuff());
             ultitemBuffs.Add(new DownloadedBuff());
-            ultitemBuffs.Add(new FrisbeeFlyingBuff());
+            ultitemBuffs.Add(new FrisbeeGlidingBuff());
             ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new RottingBuff());
             ultitemBuffs.Add(new SlipperyGrape());
@@ -188,6 +185,8 @@ namespace UltitemsCyan
             // Equipments
             ultitemItems.Add(new IceCubes());
             //ultitemItems.Add(new JellyJail());
+            ultitemItems.Add(new YieldSign());
+            ultitemItems.Add(new YieldSignStop());
 
             // Lunar Equipment
             ultitemItems.Add(new Macroseismograph());
@@ -197,9 +196,11 @@ namespace UltitemsCyan
 
 
             // Void Items
+            ultitemItems.Add(new Chrysotope());
             ultitemItems.Add(new DriedHam());
             ultitemItems.Add(new RottenBones());
             ultitemItems.Add(new DownloadedRAM());
+            //ultitemItems.Add(new JubilantFoe());
             ultitemItems.Add(new InhabitedCoffin());
             //ultitemItems.Add(new InhabitedCoffinConsumed()); // Untiered
 
@@ -318,18 +319,24 @@ namespace UltitemsCyan
             
 
             // Void
+            public static Sprite ChrysotopeSprite;
             public static Sprite DownloadedRAMSprite;
             public static Sprite DriedHamSprite;
             public static Sprite InhabitedCoffinSprite;
+            public static Sprite JubilantFoeSprite;
             public static Sprite RottenBonesSprite;
             //public static Sprite TungstenRodSprite;
             //public static Sprite WormHolesSprite;
+            public static Sprite ZorsePillSprite;
             public static GameObject DownloadedRAMPrefab;
+            public static GameObject ChrysotopePrefab;
             public static GameObject DriedHamPrefab;
             public static GameObject InhabitedCoffinPrefab;
+            public static GameObject JubilantFoePrefab;
             public static GameObject RottenBonesPrefab;
             //public static GameObject TungstenRodPrefab;
             //public static GameObject WormHolesPrefab;
+            public static GameObject ZorsePillPrefab;
 
             // Lunar
             //public static Sprite CreatureDeckSprite;
@@ -360,12 +367,14 @@ namespace UltitemsCyan
             // Equipment
             //public static Sprite JellyJailSprite;
             public static Sprite IceCubesSprite;
+            public static Sprite YieldSignSprite;
+            public static Sprite YieldSignStopSprite;
             //public static Sprite PetRockSprite;
             //public static Sprite TrebuchetSprite;
             //public static GameObject JellyJailPrefab;
             public static GameObject IceCubesPrefab;
-            //public static GameObject PetRockPrefab;
-            //public static GameObject TrebuchetPrefab;
+            public static GameObject YieldSignPrefab;
+            public static GameObject YieldSignStopPrefab;
 
             // Lunar Equipment
             public static Sprite MacroseismographSprite;
@@ -379,8 +388,10 @@ namespace UltitemsCyan
 
             // Buffs
             public static Sprite BirthdaySprite;
+            public static Sprite ChrysotopeFlySprite;
             public static Sprite DownloadedSprite;
             public static Sprite DreamSpeedSprite;
+            public static Sprite FrisbeeGlideSprite;
             public static Sprite GrapeSprite;
             public static Sprite OverclockedSprite;
             public static Sprite RottingSprite;
@@ -474,25 +485,34 @@ namespace UltitemsCyan
                 ViralSmogPrefab.transform.localScale = Vector3.up * localScale;
 
                 // * * * Void * * * 
+                ChrysotopeSprite = mainBundle.LoadAsset<Sprite>("Chrysotope.png");
                 DownloadedRAMSprite = mainBundle.LoadAsset<Sprite>("DownloadedRAM.png");
                 DriedHamSprite = mainBundle.LoadAsset<Sprite>("DriedHam.png");
                 InhabitedCoffinSprite = mainBundle.LoadAsset<Sprite>("InhabitedCoffin.png");
+                JubilantFoeSprite = mainBundle.LoadAsset<Sprite>("JubilantFoe.png");
                 RottenBonesSprite = mainBundle.LoadAsset<Sprite>("RottenBones.png");
                 //TungstenRodSprite = mainBundle.LoadAsset<Sprite>("TungstenRod.png");
                 //WormHolesSprite = mainBundle.LoadAsset<Sprite>("WormHoles.png");
+                ZorsePillSprite = mainBundle.LoadAsset<Sprite>("ZorsePill.png");
+                ChrysotopePrefab = mainBundle.LoadAsset<GameObject>("Chrysotope.prefab");
                 DownloadedRAMPrefab = mainBundle.LoadAsset<GameObject>("DownloadedRAM.prefab");
                 DriedHamPrefab = mainBundle.LoadAsset<GameObject>("DriedHam.prefab");
                 InhabitedCoffinPrefab = mainBundle.LoadAsset<GameObject>("InhabitedCoffin.prefab");
+                JubilantFoePrefab = mainBundle.LoadAsset<GameObject>("JubilantFoe.prefab");
                 RottenBonesPrefab = mainBundle.LoadAsset<GameObject>("RottenBones.prefab");
                 //TungstenRodPrefab = mainBundle.LoadAsset<GameObject>("TungstenRod.prefab");
                 //WormHolesPrefab = mainBundle.LoadAsset<GameObject>("WormHoles.prefab");
+                ZorsePillPrefab = mainBundle.LoadAsset<GameObject>("ZorsePill.prefab");
 
+                ChrysotopePrefab.transform.localScale = Vector3.up * localScale;
                 DownloadedRAMPrefab.transform.localScale = Vector3.up * localScale;
                 DriedHamPrefab.transform.localScale = Vector3.up * localScale;
                 InhabitedCoffinPrefab.transform.localScale = Vector3.up * localScale;
+                JubilantFoePrefab.transform.localScale = Vector3.up * localScale;
                 RottenBonesPrefab.transform.localScale = Vector3.up * localScale;
                 //TungstenRodPrefab.transform.localScale = Vector3.up * localScale;
                 //WormHolesPrefab.transform.localScale = Vector3.up * localScale;
+                ZorsePillPrefab.transform.localScale = Vector3.up * localScale;
 
                 // * * * Lunar * * * 
                 //CreatureDeckSprite = mainBundle.LoadAsset<Sprite>("CreatureDeck.png");
@@ -539,10 +559,14 @@ namespace UltitemsCyan
                 IceCubesSprite = mainBundle.LoadAsset<Sprite>("IceCubes.png");
                 //PetRockSprite = mainBundle.LoadAsset<Sprite>("PetRock.png");
                 //TrebuchetSprite = mainBundle.LoadAsset<Sprite>("Trebuchet.png");
+                YieldSignSprite = mainBundle.LoadAsset<Sprite>("YieldSign.png");
+                YieldSignStopSprite = mainBundle.LoadAsset<Sprite>("YieldSignStop.png");
                 //JellyJailPrefab = mainBundle.LoadAsset<GameObject>("JellyJail.prefab");
                 IceCubesPrefab = mainBundle.LoadAsset<GameObject>("IceCubes.prefab");
                 //PetRockPrefab = mainBundle.LoadAsset<GameObject>("PetRock.prefab");
                 //TrebuchetPrefab = mainBundle.LoadAsset<GameObject>("Trebuchet.prefab");
+                YieldSignPrefab = mainBundle.LoadAsset<GameObject>("YieldSign.prefab");
+                YieldSignStopPrefab = mainBundle.LoadAsset<GameObject>("YieldSignStop.prefab");
 
                 //JellyJailPrefab.transform.localScale = Vector3.up * localScale;
                 IceCubesPrefab.transform.localScale = Vector3.up * localScale;
@@ -566,8 +590,10 @@ namespace UltitemsCyan
 
                 // * * * Buffs * * * 
                 BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");
+                ChrysotopeFlySprite = mainBundle.LoadAsset<Sprite>("ChrysotopeFly");
                 DownloadedSprite = mainBundle.LoadAsset<Sprite>("Downloaded");
                 DreamSpeedSprite = mainBundle.LoadAsset<Sprite>("DreamSpeed");
+                FrisbeeGlideSprite = mainBundle.LoadAsset<Sprite>("FrisbeeGlide");
                 GrapeSprite = mainBundle.LoadAsset<Sprite>("Grape");
                 OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
                 RottingSprite = mainBundle.LoadAsset<Sprite>("Rotting");

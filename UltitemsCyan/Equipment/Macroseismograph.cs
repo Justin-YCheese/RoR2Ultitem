@@ -1,16 +1,7 @@
 ﻿using RoR2;
-using UltitemsCyan.Items.Untiered;
-using System.Collections.Generic;
-using HG;
-using System;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static RoR2.BlastAttack;
 using UnityEngine.Networking;
 using UnityEngine.AddressableAssets;
-using static RoR2.BulletAttack;
-using Rewired;
-using static Newtonsoft.Json.Converters.DiscriminatedUnionConverter;
 
 namespace UltitemsCyan.Equipment
 {
@@ -22,17 +13,17 @@ namespace UltitemsCyan.Equipment
 
         private const float cooldown = 300f;
 
-        private const int radius = 180;
-        private const float delay = 1.2f;
-        private const float force = 7400;
-        private const float earthquakeDamage = 100000;
+        private const int radius = 100;
+        private const float delay = 1.25f;
+        private const float force = 7450f;
+        private const float earthquakeDamage = 10000f; // 1,000,000% = 1000
 
         private static GameObject willOWisp = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ExplodeOnDeath/WilloWispDelay.prefab").WaitForCompletion();
-
+        private static GameObject explosionEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/FallBoots/BootShockwave.prefab").WaitForCompletion();
         //private static readonly GameObject warningEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Meteor/MeteorStrikePredictionEffect.prefab").WaitForCompletion();
-        private static readonly GameObject warningEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/GenericDelayBlast.prefab").WaitForCompletion();
-        private static readonly GameObject explostionEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/MajorAndMinorConstruct/OmniExplosionVFXMajorConstruct.prefab").WaitForCompletion();
-        
+        //private static readonly GameObject warningEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/GenericDelayBlast.prefab").WaitForCompletion();
+        //private static readonly GameObject explostionEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/MajorAndMinorConstruct/OmniExplosionVFXMajorConstruct.prefab").WaitForCompletion();
+
         //RoR2/DLC1/VendingMachine/matVendingMachineRadiusWarning.mat
         //RoR2/Base/Meteor/matMeteorStrikeImpactIndicator.mat
         //RoR2/Base/Meteor/mdlMeteor.fbx
@@ -48,8 +39,8 @@ namespace UltitemsCyan.Equipment
             equipment = CreateItemDef(
                 "MACROSEISMOGRAPH",
                 "Macroseismograph",
-                "While on the ground, summons a tremendious power...  But forgo all equipments",
-                "Deal 100000% damage to all enemies within 180m. But lose the ability to use equipments.",
+                "While on the ground, summons a tremendious power...  <style=cDeath>BUT forgo all equipments</style>",
+                "Deal <style=cIsDamage>1000000%</style> damage to all enemies within <style=cIsDamage>180m</style>. On use the equipment is <style=cIsDamage>consumed</style> and <style=cIsHealth>cannot be dropped</style>.",
                 "This seismograph must be broken, it always reads at least 10. But there's no way that's true, I don't feel anything, yet I always try to avoid looking at it. It seems ominous, almost alive...",
                 cooldown,
                 true,
@@ -114,7 +105,10 @@ namespace UltitemsCyan.Equipment
                     blast.damageColorIndex = DamageColorIndex.Fragile;
                     blast.damageType = DamageType.AOE | DamageType.BypassBlock;
                     blast.procCoefficient = 0f;
-                    //blast.delayEffect
+
+                    blast.explosionEffect = explosionEffect;
+                    blast.hasSpawnedDelayEffect = true;
+
                     blast.teamFilter = new TeamFilter()
                     {
                         teamIndexInternal = (int)activator.teamComponent.teamIndex,
@@ -139,6 +133,9 @@ namespace UltitemsCyan.Equipment
                     forceBlast.damageType = DamageType.AOE | DamageType.BypassBlock;
                     forceBlast.procCoefficient = 0f;
                     //blast.delayEffect
+                    forceBlast.explosionEffect = explosionEffect;
+                    forceBlast.hasSpawnedDelayEffect = true;
+
                     forceBlast.teamFilter = new TeamFilter()
                     {
                         teamIndexInternal = 0,

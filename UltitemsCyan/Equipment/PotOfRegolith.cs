@@ -10,7 +10,8 @@ namespace UltitemsCyan.Equipment
     {
         public static EquipmentDef equipment;
 
-        private const float cooldown = 3f;
+        private const float cooldown = 2f;
+        private const float subCooldown = .2f;
 
         private const float baseDamageChance = 80f;
         private const float basePercentDamage = 5f;
@@ -71,6 +72,7 @@ namespace UltitemsCyan.Equipment
                 //self.subcooldownTimer += 5f;
                 //Log.Debug("Sub cooldown");
                 Util.PlaySound("Play_imp_attack", activator.gameObject);
+                self.subcooldownTimer = subCooldown;
 
                 return true;
             }

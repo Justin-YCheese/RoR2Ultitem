@@ -35,12 +35,15 @@ namespace UltitemsCyan.Items.Tier2
         protected override void Hooks()
         {
             //CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
-            On.RoR2.Run.BeginStage += Run_BeginStage;
+            //On.RoR2.Run.BeginStage += Run_BeginStage;
+            On.RoR2.Stage.BeginServer += Stage_BeginServer;
         }
 
-        private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
+        private void Stage_BeginServer(On.RoR2.Stage.orig_BeginServer orig, Stage self)
         {
+            Log.Debug(" / / / Into Server Begin");
             orig(self);
+            Log.Debug(" / / / Out the Server Begin");
             if (!NetworkServer.active)
             {
                 Log.Debug("Running on Client... return...");
@@ -65,6 +68,13 @@ namespace UltitemsCyan.Items.Tier2
                     }
                 }
             }
+        }
+
+        private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
+        {
+            Log.Debug(" . . . In Beginin Stage");
+            orig(self);
+            Log.Debug(" . . . Outing the Begin Stage");
         }
 
         private List<ItemDef> getUntieredItems(List<ItemIndex> list)

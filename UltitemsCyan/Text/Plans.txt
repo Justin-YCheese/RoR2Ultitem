@@ -1,8 +1,8 @@
 ﻿	When Testing:
-
+- Test DamageType for Macrosiesmograph
 
 	ToDo Next:
-- Add delay to Macrograph
+- Yield Sign local scale?
 - Add Items
 - Add 3D models
 
@@ -18,6 +18,8 @@
 
 
 	For Future Consideration:
+- If jumping with Chrysotope the frame of landing? then infinite buff? with frisbee too?
+- Void items don't use transformed item parameter
 - Universal Solute
 	- When disolving all available red items, doesn't replace with solvent (because of Microbots?)
 - Add force to Xenon amploue
