@@ -12,7 +12,7 @@ namespace UltitemsCyan.Items.Void
 {
 
     // TODO: check if Item classes needs to be public
-    public class JubilantFoe : ItemBase
+    public class JealousFoe : ItemBase
     {
         public static ItemDef item;
         public static ItemDef transformItem;
@@ -23,8 +23,8 @@ namespace UltitemsCyan.Items.Void
         public override void Init()
         {
             item = CreateItemDef(
-                "JUBILANTFOE",
-                "JubilantFoe",
+                "JEALOUSFOE",
+                "JealousFoe",
                 "Chance of On-Kill effects upon grabbing pickups. <style=cIsVoid>Corrupts all Toy Robots</style>.",
                 "<style=cIsDamage>5%</style> <style=cStack>(+5% per stack)</style> chance of triggering <style=cIsDamage>On-Kill</style> effects when <style=cIsDamage>grabbing pickups</style>. <style=cIsVoid>Corrupts all Toy Robots</style>.",
                 "Look at it Jubilat. It just jubilant like jello jelly.",
@@ -75,7 +75,7 @@ namespace UltitemsCyan.Items.Void
             if (body && body.inventory)
             {
                 int grabCount = body.inventory.GetItemCount(item);
-                if (grabCount > 0)
+                if (grabCount > 0 && NetworkServer.active && Util.CheckRoll(chancePerStack * grabCount, body.master.luck))
                 {
                     // Spawn on kill effect
                     Log.Debug("got Chance");
@@ -95,22 +95,20 @@ namespace UltitemsCyan.Items.Void
                     Log.Debug("removing 2 ?");
                     eyeball.transform.position = body.footPosition;
                     HealthComponent health = eyeball.GetComponent<HealthComponent>();
-                    if (NetworkServer.active && Util.CheckRoll(chancePerStack * grabCount, body.master.luck))
+
+                    DamageInfo damageInfo = new()
                     {
-                        DamageInfo damageInfo = new()
-                        {
-                            attacker = body.gameObject,
-                            crit = body.RollCrit(),
-                            damage = body.baseDamage,
-                            position = body.footPosition,
-                            procCoefficient = 0f,
-                            damageType = DamageType.Generic,
-                            damageColorIndex = DamageColorIndex.Item
-                        };
-                        DamageReport damageReport = new DamageReport(damageInfo, health, damageInfo.damage, health.combinedHealth);
-                        //GlobalEventManager.instance.OnCharacterDeath(val3);
-                        GlobalEventManager.instance.OnCharacterDeath(damageReport);
-                    }
+                        attacker = body.gameObject,
+                        crit = body.RollCrit(),
+                        damage = body.baseDamage,
+                        position = body.footPosition,
+                        procCoefficient = 0f,
+                        damageType = DamageType.Generic,
+                        damageColorIndex = DamageColorIndex.Item
+                    };
+                    DamageReport damageReport = new DamageReport(damageInfo, health, damageInfo.damage, health.combinedHealth);
+                    //GlobalEventManager.instance.OnCharacterDeath(val3);
+                    GlobalEventManager.instance.OnCharacterDeath(damageReport);
                     //*/
                 }
             }

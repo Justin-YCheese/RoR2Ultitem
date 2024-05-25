@@ -42,6 +42,8 @@ namespace UltitemsCyan
     // For using custom prefabs
     [BepInDependency(PrefabAPI.PluginGUID)]
 
+    [BepInDependency(DotAPI.PluginGUID)]
+
     //[BepInDependency(PrefabAPI.PluginGUID)]
     // This attribute is required, and lists metadata for your plugin.
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
@@ -75,9 +77,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.8.6";
+        public const string PluginVersion = "0.8.8";
 
-        public const string PluginSuffix = "Yield Yee ! ! !";
+        public const string PluginSuffix = "Final Yield...";
         /* Version Changes     Old Git v0.8.5
          * Added Chrysotope and Jubilant Foe v0.8.6
          * Frisbee duration increased by 20%
@@ -87,6 +89,12 @@ namespace UltitemsCyan
          * Changed Scissors, Vault, and Coffin to use BeginServer instead of BeginStage (Scissors and Regenerative scrap wrong order)
          * Added Yield Sign
          * Heavily nerfed Macroseismograph
+         * Added Zorse Pill v0.8.7
+         * Added force to Xenon Ampoule, lowered subCooldown
+         * Added barrier gain to toy robot
+         * Fixed Yield Sign for Multiplayer
+         * 
+         * 
          * 
          */
 
@@ -131,6 +139,9 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new RottingBuff());
             ultitemBuffs.Add(new SlipperyGrape());
             ultitemBuffs.Add(new TickCritBuff());
+            ultitemBuffs.Add(new YieldsBoostBuff());
+            ultitemBuffs.Add(new YieldsStopBuff());
+            ultitemBuffs.Add(new ZorseStarvingBuff());
             //ultitemBuffs.Add(new ());
             foreach (BuffBase newBuff in ultitemBuffs)
             {
@@ -202,6 +213,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new DownloadedRAM());
             //ultitemItems.Add(new JubilantFoe());
             ultitemItems.Add(new InhabitedCoffin());
+            ultitemItems.Add(new ZorsePill());
             //ultitemItems.Add(new InhabitedCoffinConsumed()); // Untiered
 
             // Last Priority
@@ -396,6 +408,7 @@ namespace UltitemsCyan
             public static Sprite OverclockedSprite;
             public static Sprite RottingSprite;
             public static Sprite TickCritSprite;
+            public static Sprite ZorseStarveSprite;
 
             //A constant of the AssetBundle's name.
             public const string bundleName = "ultitembundle";
@@ -598,6 +611,7 @@ namespace UltitemsCyan
                 OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
                 RottingSprite = mainBundle.LoadAsset<Sprite>("Rotting");
                 TickCritSprite = mainBundle.LoadAsset<Sprite>("TickCrit");
+                ZorseStarveSprite = mainBundle.LoadAsset<Sprite>("ZorseStarve");
 
                 /*/
                 DegreeScissorsSprite = mainBundle.LoadAsset<Sprite>("DegreeScissors");

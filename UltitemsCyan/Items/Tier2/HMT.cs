@@ -130,7 +130,7 @@ namespace UltitemsCyan.Items.Tier2
                 attackerObject = attackerObject,
                 //totalDamage = 0,
                 dotIndex = DotController.DotIndex.Burn,
-                duration = baseBurnDuration + durationPerItem * (grabCount - 1),
+                duration = baseBurnDuration + (durationPerItem * (grabCount - 1)),
                 damageMultiplier = 1,
                 maxStacksFromAttacker = null
             };

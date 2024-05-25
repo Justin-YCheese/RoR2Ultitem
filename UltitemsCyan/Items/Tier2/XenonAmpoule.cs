@@ -19,19 +19,41 @@ namespace UltitemsCyan.Items.Tier2
         //public static GameObject Tracer4 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Mage/TracerMageIceLaser.prefab").WaitForCompletion();
         //public static GameObject Tracer5 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Commando/TracerBarrage2.prefab").WaitForCompletion();
 
-        public static float damagePerStack = 4f;
         public static float baseDamage = 16f;
+        public static float damagePerStack = 4f;
+        public static float shortDamagePercent = 50f; // Percent of normal damage
 
+        public static float shortLaserRadius = 1.5f;
         public static float laserRadius = 2.5f;
-
-        public static float shortLaserRadius = 1f;
-        public static float shortDamagePercent = 50f;
-
         public static float longLaserRadius = 3.2f;
+
+        public static float forceFromCooldown = 550f;
 
         public static float shortCooldown = 20f;    // Less than or equal, small laser and has half damage
         public static float longCooldown = 60f;   // Greater than or equal, big laser multiple cooldown by cooldown / 60
         public static float maxCooldownMultipler = 4f;
+
+        public static float subCooldown = .4f;
+
+        /* Use muzzle location?
+        	Vector3 position = base.transform.position;
+			Ray aimRay = this.GetAimRay();
+			Transform transform = this.FindActiveEquipmentDisplay();
+			if (transform)
+			{
+				ChildLocator componentInChildren = transform.GetComponentInChildren<ChildLocator>();
+				if (componentInChildren)
+				{
+					Transform transform2 = componentInChildren.FindChild("Muzzle");
+					if (transform2)
+					{
+						aimRay.origin = transform2.position;
+					}
+				}
+			}
+         */
+
+
 
         public override void Init()
         {
@@ -77,8 +99,7 @@ namespace UltitemsCyan.Items.Tier2
 
                     Ray aimRay = activator.inputBank.GetAimRay();
                     //float damage = activator.damage * (baseDamage + (damagePerStack * (grabCount - 1)));
-                    float damage;
-                    float radius;
+                    float damage, radius, force;
                     GameObject tracer;
 
                     // Get Default Cooldown of Item
@@ -91,6 +112,7 @@ namespace UltitemsCyan.Items.Tier2
                         tracer = TracerRailgun;
                         damage = (baseDamage + damagePerStack * (grabCount - 1)) * shortDamagePercent / 100f;//  * (self.cooldownTimer / 45f)
                         radius = shortLaserRadius;
+                        force = forceFromCooldown;
                     }
                     else if (cooldown < longCooldown)
                     {
@@ -99,6 +121,7 @@ namespace UltitemsCyan.Items.Tier2
                         tracer = TracerRailgunCryo;
                         damage = baseDamage + damagePerStack * (grabCount - 1);
                         radius = laserRadius;
+                        force = forceFromCooldown * 2;
                     }
                     else
                     {
@@ -107,6 +130,7 @@ namespace UltitemsCyan.Items.Tier2
                         tracer = TracerRailgunSuper;
                         damage = (baseDamage + damagePerStack * (grabCount - 1)) * Mathf.Max(cooldown / longCooldown, maxCooldownMultipler);
                         radius = longLaserRadius;
+                        force = forceFromCooldown * 3;
                     }
 
                     //Log.Debug((baseDamage + damagePerStack * (grabCount - 1)) + " * " + Mathf.Max(cooldown / longCooldown, maxCooldownMultipler) + " | " + damage);
@@ -138,7 +162,12 @@ namespace UltitemsCyan.Items.Tier2
                     }.Fire();
 
                     // Mostly prevent gester of drown cheese, and flashing and sounds
-                    self.subcooldownTimer = 0.5f;
+                    if (self.subcooldownTimer < subCooldown)
+                    {
+                        self.subcooldownTimer = subCooldown;
+                    }
+                    
+                    activator.healthComponent.TakeDamageForce(aimRay.direction * -force, true, false);
                 }
             }
             else

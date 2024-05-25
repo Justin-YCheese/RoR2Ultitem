@@ -1,8 +1,15 @@
 ﻿	When Testing:
 - Test DamageType for Macrosiesmograph
+- Test if Recycle works with Solute
+- Test Toy Robot Barrier
+- Test Zorse with deathmark
+- Multiplayer
+	- Toy Robot
+	- Yield Sign
+	- Jealous Foe
+- Vault / Coffin with content removed items
 
 	ToDo Next:
-- Yield Sign local scale?
 - Add Items
 - Add 3D models
 
@@ -18,6 +25,9 @@
 
 
 	For Future Consideration:
+- Add DLC required to void items
+- Yield Sign can reduce your speed when using speed mode (because displacement greater than max speed)
+- change Yield Attack from will o' wisp to blast attack
 - If jumping with Chrysotope the frame of landing? then infinite buff? with frisbee too?
 - Void items don't use transformed item parameter
 - Universal Solute
@@ -36,18 +46,19 @@
 	- RAM
 	- CremeBrulee
 	- RottenBones
+- Zorse Pill dosen't account for damage falloff
 - Change Fleabag and Grape orb color
 - Add Support for Simulacrum
 - Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
 - Add actual proc chain accountability for items?
 - HMT with Shared Design (Perfect Elite) causes infinte loop?
-
+- Use muzzle location for Xenon ampoule?
 
 	Ask my Friends Questions:
 - Should Candles only trigger on next stage and pickup but not on death?
 - Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
 - Should Scissors cut Tonic Affliction
-- Add transform notification will picking up a dissolved item?
+- Add transform notification when picking up a dissolved item?
 
 
 	Possible Changes for v0.7.12:

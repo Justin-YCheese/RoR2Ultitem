@@ -1,16 +1,16 @@
-﻿using R2API;
+﻿using IL.RoR2.Items;
+using On.RoR2.Items;
+using R2API;
 using RoR2;
+using UltitemsCyan.Buffs;
 using UnityEngine;
+using static UltitemsCyan.Equipment.YieldSign;
 
 namespace UltitemsCyan.Equipment
 {
-
-    // TODO: check if Item classes needs to be public
     public class YieldSignStop : EquipmentBase
     {
-        // Inflict Slowdown on self?
         public static EquipmentDef equipment;
-        //private const float speedMultiplier = 4f;
 
         public override void Init()
         {
@@ -20,7 +20,7 @@ namespace UltitemsCyan.Equipment
                 "Alternate between multiplying speed and canceling it. Hit nearby enemies each time.",
                 "Alternate between multipling speed by 400%, or setting it to zero. Damage nearby enemies for 300% damage.",
                 "Just Stop",
-                YieldSign.cooldown,
+                cooldown,
                 false,
                 false,
                 Ultitems.Assets.YieldSignStopSprite,
@@ -30,6 +30,7 @@ namespace UltitemsCyan.Equipment
 
         protected override void Hooks()
         {
+
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
         }
 
@@ -37,10 +38,10 @@ namespace UltitemsCyan.Equipment
         {
             if (equipmentDef == equipment)
             {
-                CharacterBody activator = self.characterBody;
-                activator.inventory.SetEquipmentIndex(YieldSign.equipment.equipmentIndex);
-                //self.subcooldownTimer = YieldSign.subCooldown;
-                return YieldSign.YieldActivated(activator, 0f);
+                self.characterBody.AddTimedBuff(YieldsStopBuff.buff.buffIndex, 0.01f);
+                self.characterBody.inventory.SetEquipmentIndex(YieldSign.equipment.equipmentIndex);
+                Log.Debug("Yields Stop");
+                return true;
             }
             else
             {

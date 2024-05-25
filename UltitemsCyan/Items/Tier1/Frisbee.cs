@@ -17,8 +17,8 @@ namespace UltitemsCyan.Items.Tier1
         public const float airSpeed = 10f;
 
         public const float dampeningForce = 0.4f;
-        public const float riseSpeed = 3f;
-        // Constant rise of 2.667
+        public const float riseSpeed = 4f;
+        // Constant rise of 2.0667
 
         public const float baseDuration = 1.2f;
         public const float durationPerStack = 0.6f;
@@ -98,7 +98,7 @@ namespace UltitemsCyan.Items.Tier1
 
         public class FrisbeeBehavior : CharacterBody.ItemBehavior
         {
-            private CharacterMotor characterMotor;
+            private CharacterMotor motor;
             private const float baseDuration = Frisbee.baseDuration;
             private const float durationPerStack = Frisbee.durationPerStack;
             public float flyingStopwatch = 0;
@@ -142,21 +142,21 @@ namespace UltitemsCyan.Items.Tier1
                 }
             }
 
-            // If player is at full health
             public void FixedUpdate()
             {
-                if (characterMotor)
+                if (motor)
                 {
-                    CanHaveBuff = !characterMotor.isGrounded && body.inputBank.jump.down
+                    CanHaveBuff = !motor.isGrounded && body.inputBank.jump.down
                         && Run.instance.time <= flyingStopwatch + baseDuration + (durationPerStack * (stack - 1));
                     if (body.HasBuff(FrisbeeGlidingBuff.buff))
                     {
                         // Player is rising
-                        if (body.characterMotor.velocity.y < riseSpeed)
+                        if (motor.velocity.y < riseSpeed)
                         {
-                            //Log.Debug("Falling?: \t" + body.characterMotor.velocity.y + " = " + ((body.characterMotor.velocity.y * dampeningForce) + (riseSpeed * dampeningForce)));
+                            Log.Warning("Is on server? " + NetworkServer.active + "  Or enabled? " + motor.enabled + "last velocity: " + motor.lastVelocity);
+                            //Log.Debug("Falling?: \t" + motor.velocity.y + " = " + ((body.characterMotor.velocity.y * dampeningForce) + (riseSpeed * dampeningForce)));
                             //body.characterMotor.velocity.y -= Time.fixedDeltaTime * Physics.gravity.y * fallReducedGravity;
-                            body.characterMotor.velocity.y = ((body.characterMotor.velocity.y - riseSpeed) * dampeningForce) + riseSpeed;
+                            motor.velocity.y = ((motor.velocity.y - riseSpeed) * dampeningForce) + riseSpeed;
                         }
                     }
                 }
@@ -164,7 +164,7 @@ namespace UltitemsCyan.Items.Tier1
 
             public void Start()
             {
-                characterMotor = body.characterMotor;
+                motor = body.characterMotor;
                 enabled = false;
             }
 

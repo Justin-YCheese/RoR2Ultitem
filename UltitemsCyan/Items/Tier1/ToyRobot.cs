@@ -21,13 +21,15 @@ namespace UltitemsCyan.Items.Tier1
         private const float minPickupChance = 10f;
         private const float ratioPickupChance = 80f;
 
+        private const float barrierGained = 5f;
+
         public override void Init()
         {
             item = CreateItemDef(
                 "TOYROBOT",
                 "Toy Robot",
-                "Grab pickups from further away",
-                "Pull in pickups from <style=cIsUtility>20m</style> <style=cStack>(+10m per stack)</style> away",
+                "Grab pickups from further away. Gain temporary barrier from pickups.",
+                "Pull in pickups from <style=cIsUtility>20m</style> <style=cStack>(+10m per stack)</style> away. Gain <style=cIsHealing>5</style> <style=cStack>(+5 per stack)</style> <style=cIsHealing>temporary barrier</style> from pickups.",
                 "They march to you like a song carriers their steps. More robots have a weaker pull",
                 ItemTier.Tier1,
                 Ultitems.Assets.ToyRobotSprite,
@@ -39,7 +41,52 @@ namespace UltitemsCyan.Items.Tier1
 
         protected override void Hooks()
         {
+            // Barrier from pickups
+            On.RoR2.HealthPickup.OnTriggerStay += HealthPickup_OnTriggerStay;
+            On.RoR2.MoneyPickup.OnTriggerStay += MoneyPickup_OnTriggerStay;
+            On.RoR2.BuffPickup.OnTriggerStay += BuffPickup_OnTriggerStay;
+            On.RoR2.AmmoPickup.OnTriggerStay += AmmoPickup_OnTriggerStay;
+            // ToyRobot Behaviour
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
+        }
+
+        //https://github.com/TheMysticSword/MysticsItems/blob/main/Items/Tier2/ExplosivePickups.cs
+        private void HealthPickup_OnTriggerStay(On.RoR2.HealthPickup.orig_OnTriggerStay orig, HealthPickup self, Collider other)
+        {
+            orig(self, other);
+            CheckBarrier(other);
+        }
+
+        private void MoneyPickup_OnTriggerStay(On.RoR2.MoneyPickup.orig_OnTriggerStay orig, MoneyPickup self, Collider other)
+        {
+            orig(self, other);
+            CheckBarrier(other);
+        }
+
+        private void BuffPickup_OnTriggerStay(On.RoR2.BuffPickup.orig_OnTriggerStay orig, BuffPickup self, Collider other)
+        {
+            orig(self, other);
+            CheckBarrier(other);
+        }
+
+        private void AmmoPickup_OnTriggerStay(On.RoR2.AmmoPickup.orig_OnTriggerStay orig, AmmoPickup self, Collider other)
+        {
+            orig(self, other);
+            CheckBarrier(other);
+        }
+
+        private void CheckBarrier(Collider grabber)
+        {
+            CharacterBody body = grabber.GetComponent<CharacterBody>();
+            if (body && body.healthComponent && body.inventory)
+            {
+                int grabCount = body.inventory.GetItemCount(item);
+                if (grabCount > 0)
+                {
+                    Log.Debug("staying toy barrier...");
+                    body.healthComponent.AddBarrier(barrierGained * grabCount);
+                }
+            }
         }
 
         private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)

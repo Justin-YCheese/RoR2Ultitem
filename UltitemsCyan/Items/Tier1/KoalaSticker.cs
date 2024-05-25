@@ -77,9 +77,9 @@ namespace UltitemsCyan.Items.Tier1
                 //IL_0e15: ble.un.s IL_0e21
 
 
-                c.Emit(OpCodes.Ldarg, 0);       // Load Health Component
+                c.Emit(OpCodes.Ldarg, 0);     // Load Health Component
                 c.Emit(OpCodes.Ldarg, 1);     // Load Damage Info (If Damage rejected, returned earlier)
-                c.Emit(OpCodes.Ldloc, num);     // Load Total Damage
+                c.Emit(OpCodes.Ldloc, num);   // Load Total Damage
 
                 // Run custom code
                 c.EmitDelegate<Func<HealthComponent, DamageInfo, float, float>>((hc, di, td) =>
