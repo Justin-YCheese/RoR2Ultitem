@@ -19,13 +19,13 @@ namespace UltitemsCyan.Equipment
 
         public const float boostMultiplier = 3f;
         public const float boostHorizontalMultiplier = 1.75f;
-        public const float boostMinMultiplier = 4f;
+        public const float boostMinMultiplier = 3f;
         public const float boostMaxMultiplier = 8f;
 
-        public const float stopMultiplier = -.4f;
+        public const float stopMultiplier = -.3f;
         public const float stopHorizontalMultiplier = 1.5f;
         public const float stopMaxMultiplier = 0.8f;
-        public const float stopMinMultiplier = 0.15f;
+        public const float stopMinMultiplier = 0.4f;
 
         private const float yieldDamage = 3.5f; //350%
         private const float hitForce = 2500f;
@@ -60,21 +60,19 @@ namespace UltitemsCyan.Equipment
         private void EquipmentSlot_RpcOnClientEquipmentActivationRecieved(On.RoR2.EquipmentSlot.orig_RpcOnClientEquipmentActivationRecieved orig, EquipmentSlot self)
         {
             orig(self);
-            Log.Debug("On Client?");
-            if (self.equipmentIndex == equipment.equipmentIndex)
+            if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
             {
-                Log.Debug("Oh my God!");
+                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
+                YieldAttack(self.characterBody);
+                self.characterBody.inventory.SetEquipmentIndex(YieldSignStop.equipment.equipmentIndex);
             }
         }
 
+        //
         private bool EquipmentSlot_PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
         {
             if (equipmentDef == equipment)
             {
-                Log.Debug("Yields qBoost");
-                self.characterBody.AddTimedBuff(YieldsBoostBuff.buff.buffIndex, 0.01f);
-                self.characterBody.inventory.SetEquipmentIndex(YieldSignStop.equipment.equipmentIndex);
-                Log.Debug("Yields wBoost");
                 return true;
             }
             else
@@ -82,9 +80,15 @@ namespace UltitemsCyan.Equipment
                 return orig(self, equipmentDef);
             }
         }
+        //*/
 
         public static void VelocityMultiplier(ref Vector3 velocity, float multiplier, float horizontalMultiplier, float maxMultiplier, float minMultiplier, float moveSpeed)
         {
+            if (velocity == Vector3.zero)
+            {
+                velocity = Vector3.up;
+            }
+
             velocity *= multiplier;
             velocity.x *= horizontalMultiplier;
             velocity.z *= horizontalMultiplier;
@@ -107,6 +111,7 @@ namespace UltitemsCyan.Equipment
         public static void YieldAttack(CharacterBody body)
         {
             body.characterMotor.disableAirControlUntilCollision = false;
+            body.characterMotor.Motor.ForceUnground();
 
             GameObject explostionObject = Object.Instantiate(willOWisp, body.transform.position, Quaternion.identity);
             DelayBlast blast = explostionObject.GetComponent<DelayBlast>();
@@ -160,4 +165,5 @@ namespace UltitemsCyan.Equipment
  *      Sucess
  * 
  * OnBuffFinalStackLost     (Runs on client after timed buff ends)
+ * EquipmentSlot_RpcOnClientEquipmentActivationRecieved (It was so simple...)
  */

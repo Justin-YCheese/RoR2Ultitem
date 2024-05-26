@@ -79,7 +79,7 @@ namespace UltitemsCyan
         public const string PluginName = "UltitemsCyan";
         public const string PluginVersion = "0.8.8";
 
-        public const string PluginSuffix = "Final Yield...";
+        public const string PluginSuffix = "Bundling...";
         /* Version Changes     Old Git v0.8.5
          * Added Chrysotope and Jubilant Foe v0.8.6
          * Frisbee duration increased by 20%
@@ -139,8 +139,6 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new RottingBuff());
             ultitemBuffs.Add(new SlipperyGrape());
             ultitemBuffs.Add(new TickCritBuff());
-            ultitemBuffs.Add(new YieldsBoostBuff());
-            ultitemBuffs.Add(new YieldsStopBuff());
             ultitemBuffs.Add(new ZorseStarvingBuff());
             //ultitemBuffs.Add(new ());
             foreach (BuffBase newBuff in ultitemBuffs)
@@ -429,13 +427,21 @@ namespace UltitemsCyan
             public static void Init()
             {
                 //Loads the assetBundle from the Path, and stores it in the static field.
-                mainBundle = AssetBundle.LoadFromFile(AssetBundlePath);
+                Log.Warning("Asset Bundle is starting the fire (This is Good)");
+
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UltitemsCyan.ultitembundle"))
+                {
+                    mainBundle = AssetBundle.LoadFromStream(stream);
+                }
+
                 if (mainBundle == null)
                 {
                     Log.Warning("Null mainBundle");
                 }
 
-                float localScale = 0.1f;
+                float localScale = 0.01f;
+
+                Log.Warning("Asset Bundle is starting the fire (This is Good)");
 
                 // * * * White * * * 
                 CremeBruleeSprite = mainBundle.LoadAsset<Sprite>("CremeBrulee.png");

@@ -30,17 +30,27 @@ namespace UltitemsCyan.Equipment
 
         protected override void Hooks()
         {
-
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
+            On.RoR2.EquipmentSlot.RpcOnClientEquipmentActivationRecieved += EquipmentSlot_RpcOnClientEquipmentActivationRecieved;
         }
 
+        private void EquipmentSlot_RpcOnClientEquipmentActivationRecieved(On.RoR2.EquipmentSlot.orig_RpcOnClientEquipmentActivationRecieved orig, EquipmentSlot self)
+        {
+            orig(self);
+            if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
+            {
+                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
+                YieldAttack(self.characterBody);
+                self.characterBody.inventory.SetEquipmentIndex(YieldSign.equipment.equipmentIndex);
+            }
+        }
+
+        //
         private bool EquipmentSlot_PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
         {
             if (equipmentDef == equipment)
             {
-                self.characterBody.AddTimedBuff(YieldsStopBuff.buff.buffIndex, 0.01f);
-                self.characterBody.inventory.SetEquipmentIndex(YieldSign.equipment.equipmentIndex);
-                Log.Debug("Yields Stop");
+                Log.Debug("Yields qStop");
                 return true;
             }
             else
@@ -48,5 +58,6 @@ namespace UltitemsCyan.Equipment
                 return orig(self, equipmentDef);
             }
         }
+        //*/
     }
 }
