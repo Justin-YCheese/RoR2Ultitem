@@ -37,8 +37,8 @@ namespace UltitemsCyan.Items.Lunar
                 "Gain <style=cIsDamage>2.5% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
                 "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.",
                 ItemTier.Lunar,
-                Ultitems.Assets.SandPailSprite,
-                Ultitems.Assets.SandPailPrefab,
+                UltAssets.SandPailSprite,
+                UltAssets.SandPailPrefab,
                 [ItemTag.Utility]
             );
         }

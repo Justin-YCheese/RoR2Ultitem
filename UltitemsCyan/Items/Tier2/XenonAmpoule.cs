@@ -69,8 +69,8 @@ namespace UltitemsCyan.Items.Tier2
                 "Activating your Equipment also fires a <style=cIsDamage>critting laser</style> for <style=cIsDamage>1600%</style> <style=cStack>(+400% per stack)</style> base damage. The damage scales with an equipment's cooldown.",
                 "It's Purple because I messed up. Xenon is supposed to be more blue than hyrdogen, but I wanted an X name. Sorry.",
                 ItemTier.Tier2,
-                Ultitems.Assets.XenonAmpouleSprite,
-                Ultitems.Assets.XenonAmpoulePrefab,
+                UltAssets.XenonAmpouleSprite,
+                UltAssets.XenonAmpoulePrefab,
                 [ItemTag.Damage, ItemTag.EquipmentRelated]
             );
         }

@@ -26,7 +26,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Zorse Starving Buff", false, true, Color.white, Ultitems.Assets.ZorseStarveSprite, false, false);
+            buff = DefineBuff("Zorse Starving Buff", false, true, Color.white, UltAssets.ZorseStarveSprite, false, false);
 
             var dotDef = new DotDef()
             {

@@ -24,8 +24,8 @@ namespace UltitemsCyan.Items.Lunar
                 "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>120%</style> <style=cStack>(+120% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.",
                 "More like Nightmare fuel",
                 ItemTier.Lunar,
-                Ultitems.Assets.DreamFuelSprite,
-                Ultitems.Assets.DreamFuelPrefab,
+                UltAssets.DreamFuelSprite,
+                UltAssets.DreamFuelPrefab,
                 [ItemTag.Utility]
             );
         }

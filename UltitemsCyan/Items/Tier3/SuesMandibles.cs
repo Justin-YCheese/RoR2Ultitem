@@ -22,8 +22,8 @@ namespace UltitemsCyan.Items.Tier3
                 "<style=cIsUtility>Upon a killing blow</style>, this item will be <style=cIsUtility>consumed</style> and you'll <style=cIsHealing>live on 1 health</style> with <style=cIsHealing>30 seconds</style> of <style=cIsHealing>invulnerability</style> and <style=cIsHealth>disabled healing</style>.",
                 "Last Stand",
                 ItemTier.Tier3,
-                Ultitems.Assets.SuesMandiblesSprite,
-                Ultitems.Assets.SuesMandiblesPrefab,
+                UltAssets.SuesMandiblesSprite,
+                UltAssets.SuesMandiblesPrefab,
                 [ItemTag.Utility, ItemTag.LowHealth]
             );
         }

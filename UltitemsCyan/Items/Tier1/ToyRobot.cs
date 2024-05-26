@@ -32,8 +32,8 @@ namespace UltitemsCyan.Items.Tier1
                 "Pull in pickups from <style=cIsUtility>20m</style> <style=cStack>(+10m per stack)</style> away. Gain <style=cIsHealing>5</style> <style=cStack>(+5 per stack)</style> <style=cIsHealing>temporary barrier</style> from pickups.",
                 "They march to you like a song carriers their steps. More robots have a weaker pull",
                 ItemTier.Tier1,
-                Ultitems.Assets.ToyRobotSprite,
-                Ultitems.Assets.ToyRobotPrefab,
+                UltAssets.ToyRobotSprite,
+                UltAssets.ToyRobotPrefab,
                 [ItemTag.Utility]
             );
         }

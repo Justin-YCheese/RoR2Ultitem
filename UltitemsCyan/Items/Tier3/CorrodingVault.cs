@@ -24,8 +24,8 @@ namespace UltitemsCyan.Items.Tier3
                 "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>15</style> unique white items",
                 "This vault is sturdy, but over time the rust will just crack it open",
                 ItemTier.Tier3,
-                Ultitems.Assets.CorrodingVaultSprite,
-                Ultitems.Assets.CorrodingVaultPrefab,
+                UltAssets.CorrodingVaultSprite,
+                UltAssets.CorrodingVaultPrefab,
                 [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist]
             );
         }

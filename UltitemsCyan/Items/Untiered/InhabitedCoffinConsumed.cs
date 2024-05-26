@@ -19,8 +19,8 @@ namespace UltitemsCyan.Items.Untiered
                 "DESCRIPTION It has been let loose...",
                 "Watch Out!",
                 ItemTier.NoTier,
-                Ultitems.Assets.InhabitedCoffinConsumedSprite,
-                Ultitems.Assets.InhabitedCoffinConsumedPrefab,
+                UltAssets.InhabitedCoffinConsumedSprite,
+                UltAssets.InhabitedCoffinConsumedPrefab,
                 [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist]
             );
         }

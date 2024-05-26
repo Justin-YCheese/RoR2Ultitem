@@ -35,8 +35,8 @@ namespace UltitemsCyan.Items.Lunar
                 "<style=cIsUtility>50%</style> <style=cStack>(+25% chance per stack)</style> chance to pick up <style=cIsUtility>1</style> additional item. You have a chance of <style=cDeath>dying</style> equal to <style=cIsUtility>100%</style> <style=cStack>(+100% per stack)</style> health lost. <style=cIsUtility>Upon death</style>, this item will be <style=cIsUtility>consumed</style>. <style=cIsUtility>Unaffected by luck</style>.",
                 "The end of the abacus of life. A King's Riches Lays before you, but at the end of a strand which has been snapped intwine.",
                 ItemTier.Lunar,
-                Ultitems.Assets.SilverThreadSprite,
-                Ultitems.Assets.SilverThreadPrefab,
+                UltAssets.SilverThreadSprite,
+                UltAssets.SilverThreadPrefab,
                 [ItemTag.Utility]
             );
         }

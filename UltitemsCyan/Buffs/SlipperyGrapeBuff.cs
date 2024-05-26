@@ -20,7 +20,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Slippery Grape Buff", true, false, Color.white, Ultitems.Assets.GrapeSprite, false, false);
+            buff = DefineBuff("Slippery Grape Buff", true, false, Color.white, UltAssets.GrapeSprite, false, false);
             //Log.Info(buff.name + " Initialized");
             Hooks();
         }
@@ -35,7 +35,7 @@ namespace UltitemsCyan.Buffs
         {
             ILCursor c = new(il); // Make new ILContext
 
-            int num12 = -1;
+            //int num12 = -1;
 
             Log.Warning("Slippery Grape Take Damage");
 

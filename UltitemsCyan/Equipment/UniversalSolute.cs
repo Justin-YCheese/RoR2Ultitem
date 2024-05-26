@@ -41,8 +41,8 @@ namespace UltitemsCyan.Equipment
                 cooldown,
                 true,
                 true,
-                Ultitems.Assets.UniversalSoluteSprite,
-                Ultitems.Assets.UniversalSolutePrefab
+                UltAssets.UniversalSoluteSprite,
+                UltAssets.UniversalSolutePrefab
             );
         }
 

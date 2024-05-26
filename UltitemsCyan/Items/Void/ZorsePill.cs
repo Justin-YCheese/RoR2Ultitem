@@ -41,8 +41,8 @@ namespace UltitemsCyan.Items.Void
                 "Starve an enemy for 15% (+15% per stack) of TOTAL damage. Status duration resets when reapplied. Corrupts all HMTs",
                 "Get this diet pill now! Eat one and it cut's your weight down. Disclaimer: the microbes inside are definitly not eating you from the inside out.",
                 ItemTier.VoidTier2,
-                Ultitems.Assets.ZorsePillSprite,
-                Ultitems.Assets.ZorsePillPrefab,
+                UltAssets.ZorsePillSprite,
+                UltAssets.ZorsePillPrefab,
                 [ItemTag.Damage],
                 HMT.item
             );

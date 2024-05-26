@@ -30,8 +30,8 @@ namespace UltitemsCyan.Items.Void
                 "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>5</style> random void items. <style=cIsUtility>Affected by luck</style>. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
                 "Something lives inside this coffin. That coffin is deeper than you think.",
                 ItemTier.VoidTier3,
-                Ultitems.Assets.InhabitedCoffinSprite,
-                Ultitems.Assets.InhabitedCoffinPrefab,
+                UltAssets.InhabitedCoffinSprite,
+                UltAssets.InhabitedCoffinPrefab,
                 [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist],
                 CorrodingVault.item
             );

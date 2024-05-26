@@ -26,8 +26,8 @@ namespace UltitemsCyan.Items.Tier1
                 "Only lose a maxinum of <style=cIsHealing>90%</style> <style=cStack>(-12% per stack)</style> of your <style=cIsHealing>health</style> from a hit. Cannot be reduced below <style=cIsHealing>5</style>.",
                 "Like the bear but more consistant...   and more cute",
                 ItemTier.Tier1,
-                Ultitems.Assets.KoalaStickerSprite,
-                Ultitems.Assets.KoalaStickerPrefab,
+                UltAssets.KoalaStickerSprite,
+                UltAssets.KoalaStickerPrefab,
                 [ItemTag.Utility]
             );
         }

@@ -25,8 +25,8 @@ namespace UltitemsCyan.Items.Void
                 "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> <style=cStack>(+5 per stack)</style> when dealing damage to enemies below <style=cIsDamage>35% health</style>. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
                 "The bitter aftertaste is just the spoilage",
                 ItemTier.VoidTier1,
-                Ultitems.Assets.DriedHamSprite,
-                Ultitems.Assets.DriedHamPrefab,
+                UltAssets.DriedHamSprite,
+                UltAssets.DriedHamPrefab,
                 [ItemTag.Healing],
                 CremeBrulee.item
             );

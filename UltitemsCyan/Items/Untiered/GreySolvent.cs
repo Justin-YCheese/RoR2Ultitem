@@ -19,8 +19,8 @@ namespace UltitemsCyan.Items.Untiered
                 "I guess that makes sense... becasue if there is a universal solute, then everything else desolves it.\n" +
                 "So then everything else is a universal solvent for the universal solute",
                 ItemTier.NoTier,
-                Ultitems.Assets.UniversalSolventSprite,
-                Ultitems.Assets.UniversalSolventPrefab,
+                UltAssets.UniversalSolventSprite,
+                UltAssets.UniversalSolventPrefab,
                 [ItemTag.Utility, ItemTag.AIBlacklist]
             );
         }

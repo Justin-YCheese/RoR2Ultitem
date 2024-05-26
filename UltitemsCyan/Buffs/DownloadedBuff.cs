@@ -11,7 +11,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Rotting Buff", true, false, Color.white, Ultitems.Assets.DownloadedSprite, false, false);
+            buff = DefineBuff("Rotting Buff", true, false, Color.white, UltAssets.DownloadedSprite, false, false);
             Hooks();
         }
 

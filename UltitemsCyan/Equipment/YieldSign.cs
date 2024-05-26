@@ -46,8 +46,8 @@ namespace UltitemsCyan.Equipment
                 cooldown,
                 false,
                 true,
-                Ultitems.Assets.YieldSignSprite,
-                Ultitems.Assets.YieldSignPrefab
+                UltAssets.YieldSignSprite,
+                UltAssets.YieldSignPrefab
             );
         }
 

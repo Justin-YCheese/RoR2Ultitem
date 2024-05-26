@@ -38,8 +38,8 @@ namespace UltitemsCyan.Items.Tier1
                 "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> <style=cIsDamage>critical chance</style> for 18 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.",
                 "Is this movie popcorn?",
                 ItemTier.Tier1,
-                Ultitems.Assets.FleaBagSprite,
-                Ultitems.Assets.FleaBagPrefab,
+                UltAssets.FleaBagSprite,
+                UltAssets.FleaBagPrefab,
                 [ItemTag.Damage]
             );
         }

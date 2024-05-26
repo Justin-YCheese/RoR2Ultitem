@@ -19,8 +19,8 @@ namespace UltitemsCyan.Items.Untiered
                 "DESCRIPTION It can't protect anything anymore...",
                 "Rusted Rusted Rusted",
                 ItemTier.NoTier,
-                Ultitems.Assets.CorrodingVaultConsumedSprite,
-                Ultitems.Assets.CorrodingVaultConsumedPrefab,
+                UltAssets.CorrodingVaultConsumedSprite,
+                UltAssets.CorrodingVaultConsumedPrefab,
                 [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist]
             );
         }

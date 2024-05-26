@@ -23,8 +23,8 @@ namespace UltitemsCyan.Equipment
                 cooldown,
                 false,
                 false,
-                Ultitems.Assets.YieldSignStopSprite,
-                Ultitems.Assets.YieldSignStopPrefab
+                UltAssets.YieldSignStopSprite,
+                UltAssets.YieldSignStopPrefab
             );
         }
 

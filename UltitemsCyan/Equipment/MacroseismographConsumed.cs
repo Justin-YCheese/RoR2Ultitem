@@ -26,8 +26,8 @@ namespace UltitemsCyan.Equipment
                 cooldown,
                 true,
                 false,
-                Ultitems.Assets.MacroseismographConsumedSprite,
-                Ultitems.Assets.MacroseismographConsumedPrefab
+                UltAssets.MacroseismographConsumedSprite,
+                UltAssets.MacroseismographConsumedPrefab
             );
             LanguageAPI.Add("EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_ACTION", "together...  forever...");
             LanguageAPI.Add("EQUIPMENT_MACROSEISMOGRAPHCONSUMED_CHAT_GRANT_ONE", "i...  won't...  let...  you...");

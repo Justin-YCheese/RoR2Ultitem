@@ -12,7 +12,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("GPU Buff", true, false, Color.white, Ultitems.Assets.OverclockedSprite, false, false);
+            buff = DefineBuff("GPU Buff", true, false, Color.white, UltAssets.OverclockedSprite, false, false);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();

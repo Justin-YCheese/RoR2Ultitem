@@ -24,8 +24,8 @@ namespace UltitemsCyan.Items.Tier1
                 "<style=cIsHealing>Heal</style> for <style=cIsHealing>20</style> plus an additional <style=cIsHealing>5%</style> <style=cStack>(+5% per stack)</style> when dealing damage to <style=cIsDamage>full health</style> enemies",
                 "Super Sugar Crust!",
                 ItemTier.Tier1,
-                Ultitems.Assets.CremeBruleeSprite,
-                Ultitems.Assets.CremeBruleePrefab,
+                UltAssets.CremeBruleeSprite,
+                UltAssets.CremeBruleePrefab,
                 [ItemTag.Healing]
             );
         }

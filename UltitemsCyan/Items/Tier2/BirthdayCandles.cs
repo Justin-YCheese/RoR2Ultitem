@@ -27,8 +27,8 @@ namespace UltitemsCyan.Items.Tier2
                 "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for<style=cIsUtility>5 minutes</style>after pickup and after the start of each stage.",
                 "I don't know what to get you for your birthday...",
                 ItemTier.Tier2,
-                Ultitems.Assets.BirthdayCandleSprite,
-                Ultitems.Assets.BirthdayCandlePrefab,
+                UltAssets.BirthdayCandleSprite,
+                UltAssets.BirthdayCandlePrefab,
                 [ItemTag.Damage, ItemTag.OnStageBeginEffect]
             );
         }

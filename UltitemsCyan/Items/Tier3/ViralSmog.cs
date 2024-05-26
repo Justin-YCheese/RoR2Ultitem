@@ -20,8 +20,8 @@ namespace UltitemsCyan.Items.Tier3
                 "Increases <style=cIsUtility>movement speed</style> by <style=cIsUtility>25%</style> <style=cStack>(+25% per stack)</style> per <style=cIsDamage>unique status</style> you have.",
                 "Illness",
                 ItemTier.Tier3,
-                Ultitems.Assets.ViralSmogSprite,
-                Ultitems.Assets.ViralSmogPrefab,
+                UltAssets.ViralSmogSprite,
+                UltAssets.ViralSmogPrefab,
                 [ItemTag.Utility]
             );
         }

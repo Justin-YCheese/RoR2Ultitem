@@ -33,8 +33,8 @@ namespace UltitemsCyan.Items.Tier3
                 "<style=cIsHealing>50%</style> <style=cStack>(+25% per stack)</style> chance on kill to grow a grape. <style=cIsHealing>85%</style> to <style=cIsHealing>block</style> incomming damage per grape. Block chance is <style=cIsUtility>unaffected by luck</style>.",
                 "If you close your eyes, you can pretend their eyeballs",
                 ItemTier.Tier3,
-                Ultitems.Assets.GrapevineSprite,
-                Ultitems.Assets.GrapevinePrefab,
+                UltAssets.GrapevineSprite,
+                UltAssets.GrapevinePrefab,
                 [ItemTag.Damage]
             );
         }

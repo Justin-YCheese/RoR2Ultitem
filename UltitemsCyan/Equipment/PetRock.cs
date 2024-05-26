@@ -25,8 +25,8 @@ namespace UltitemsCyan.Equipment
                 20f,
                 false,
                 true,
-                Ultitems.Assets.IceCubesSprite,
-                Ultitems.Assets.IceCubesPrefab
+                UltAssets.IceCubesSprite,
+                UltAssets.IceCubesPrefab
             );
         }
 

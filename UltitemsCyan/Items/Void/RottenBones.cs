@@ -30,8 +30,8 @@ namespace UltitemsCyan.Items.Void
                 "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
                 "The bitter aftertaste is just the spoilage",
                 ItemTier.VoidTier2,
-                Ultitems.Assets.RottenBonesSprite,
-                Ultitems.Assets.RottenBonesPrefab,
+                UltAssets.RottenBonesSprite,
+                UltAssets.RottenBonesPrefab,
                 [ItemTag.Utility, ItemTag.OnStageBeginEffect],
                 BirthdayCandles.item
             );

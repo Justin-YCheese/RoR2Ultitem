@@ -31,8 +31,8 @@ namespace UltitemsCyan.Items.Void
                 "Rise after jumping for <style=cIsUtility>0.6</style> <style=cStack>(+0.4 per stack)</style> seconds. Hold jump to keep flying. <style=cIsVoid>Corrupts all Frisbees</style>.",
                 "An eyeless crystal snake capbable of flying 100 meters",
                 ItemTier.VoidTier1,
-                Ultitems.Assets.ChrysotopeSprite,
-                Ultitems.Assets.ChrysotopePrefab,
+                UltAssets.ChrysotopeSprite,
+                UltAssets.ChrysotopePrefab,
                 [ItemTag.Utility],
                 Frisbee.item
             );

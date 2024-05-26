@@ -13,7 +13,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Frisbee Gliding Buff", false, false, Color.white, Ultitems.Assets.FrisbeeGlideSprite, false, false);
+            buff = DefineBuff("Frisbee Gliding Buff", false, false, Color.white, UltAssets.FrisbeeGlideSprite, false, false);
 
             Hooks();
         }

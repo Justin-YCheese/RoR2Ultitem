@@ -28,8 +28,8 @@ namespace UltitemsCyan.Items.Tier2
                 "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.",
                 "GPU GPU",
                 ItemTier.Tier2,
-                Ultitems.Assets.OverclockedGPUSprite,
-                Ultitems.Assets.OverclockedGPUPrefab,
+                UltAssets.OverclockedGPUSprite,
+                UltAssets.OverclockedGPUPrefab,
                 [ItemTag.Damage, ItemTag.OnKillEffect]
             );
         }

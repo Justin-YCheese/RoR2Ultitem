@@ -19,8 +19,8 @@ namespace UltitemsCyan.Items.Untiered
                 "DESCRIPTION Resting in pieces",
                 "I don't know sue",
                 ItemTier.NoTier,
-                Ultitems.Assets.SuesMandiblesConsumedSprite,
-                Ultitems.Assets.SuesMandiblesConsumedPrefab,
+                UltAssets.SuesMandiblesConsumedSprite,
+                UltAssets.SuesMandiblesConsumedPrefab,
                 [ItemTag.Utility, ItemTag.LowHealth, ItemTag.AIBlacklist]
             );
         }

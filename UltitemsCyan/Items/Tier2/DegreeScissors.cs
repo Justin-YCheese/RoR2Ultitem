@@ -25,8 +25,8 @@ namespace UltitemsCyan.Items.Tier2
                 "At the start of each stage, <style=cIsUtility>melts</style> two <style=cIsUtility>consumed</style> items into <style=cIsUtility>2 common scraps</style> each. If no scissor is used, then it <style=cIsUtility>melts</style> itself.",
                 "What's Youtube?",
                 ItemTier.Tier2,
-                Ultitems.Assets.DegreeScissorsSprite,
-                Ultitems.Assets.DegreeScissorsPrefab,
+                UltAssets.DegreeScissorsSprite,
+                UltAssets.DegreeScissorsPrefab,
                 [ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist]
             );
         }

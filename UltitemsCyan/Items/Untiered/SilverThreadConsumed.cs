@@ -19,8 +19,8 @@ namespace UltitemsCyan.Items.Untiered
                 "DESCRIPTION Proof of death",
                 "This is a garbage death zone. How did you get here?",
                 ItemTier.NoTier,
-                Ultitems.Assets.SilverThreadConsumedSprite,
-                Ultitems.Assets.SilverThreadConsumedPrefab,
+                UltAssets.SilverThreadConsumedSprite,
+                UltAssets.SilverThreadConsumedPrefab,
                 [ItemTag.Utility, ItemTag.AIBlacklist]
             );
         }

@@ -29,8 +29,8 @@ namespace UltitemsCyan.Items.Void
                 "<style=cIsDamage>5%</style> <style=cStack>(+5% per stack)</style> chance of triggering <style=cIsDamage>On-Kill</style> effects when <style=cIsDamage>grabbing pickups</style>. <style=cIsVoid>Corrupts all Toy Robots</style>.",
                 "Look at it Jubilat. It just jubilant like jello jelly.",
                 ItemTier.VoidTier1,
-                Ultitems.Assets.JubilantFoeSprite,
-                Ultitems.Assets.JubilantFoePrefab,
+                UltAssets.JubilantFoeSprite,
+                UltAssets.JubilantFoePrefab,
                 [ItemTag.Utility, ItemTag.OnKillEffect],
                 ToyRobot.item
             );

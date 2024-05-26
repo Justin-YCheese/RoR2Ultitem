@@ -28,8 +28,8 @@ namespace UltitemsCyan.Equipment
                 cooldown,
                 true,
                 true,
-                Ultitems.Assets.PotOfRegolithSprite,
-                Ultitems.Assets.PotOfRegolithPrefab
+                UltAssets.PotOfRegolithSprite,
+                UltAssets.PotOfRegolithPrefab
             );
         }
 

@@ -13,7 +13,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Chrysotope Flying Buff", false, false, Color.white, Ultitems.Assets.ChrysotopeFlySprite, false, false);
+            buff = DefineBuff("Chrysotope Flying Buff", false, false, Color.white, UltAssets.ChrysotopeFlySprite, false, false);
 
             //Hooks();
         }
