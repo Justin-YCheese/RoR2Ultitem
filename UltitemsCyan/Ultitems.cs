@@ -29,6 +29,7 @@ using R2API.Utils;
 using BepInEx.Configuration;
 using System;
 using UltitemsCyan.Items;
+using RoR2.ExpansionManagement;
 
 namespace UltitemsCyan
 {
@@ -99,6 +100,7 @@ namespace UltitemsCyan
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
+        public static ExpansionDef sotvDLC;
 
         public static Sprite mysterySprite = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
         public static GameObject mysteryPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Mystery/PickupMystery.prefab").WaitForCompletion();

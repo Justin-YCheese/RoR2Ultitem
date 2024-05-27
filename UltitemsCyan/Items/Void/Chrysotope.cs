@@ -1,8 +1,7 @@
 ﻿using RoR2;
-using System;
 using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier1;
-//using static RoR2.GenericPickupController;
+using System.Linq;
 
 namespace UltitemsCyan.Items.Void
 {
