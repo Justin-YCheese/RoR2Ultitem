@@ -34,7 +34,7 @@ namespace UltitemsCyan.Items.Tier1
                 ItemTier.Tier1,
                 UltAssets.ToyRobotSprite,
                 UltAssets.ToyRobotPrefab,
-                [ItemTag.Utility]
+                [ItemTag.Utility, ItemTag.Healing]
             );
         }
 

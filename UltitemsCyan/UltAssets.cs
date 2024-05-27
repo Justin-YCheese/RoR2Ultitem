@@ -137,15 +137,12 @@ namespace UltitemsCyan
             //string path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Ultitems.PInfo.Location)), "assetbundle", "ultitembundle");
             Log.Debug("Path of bundle: " + path);
             mainBundle = AssetBundle.LoadFromFile(path);
+            // For Local Testing
             if (mainBundle == null)
             {
                 Log.Warning("Null Bundle");
                 path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Ultitems.PInfo.Location)), "assetbundle", "ultitembundle");
                 mainBundle = AssetBundle.LoadFromFile(path);
-                if(mainBundle == null)
-                {
-                    Log.Warning("Still Null");
-                }
             }
 
             float localScale = 0.1f;

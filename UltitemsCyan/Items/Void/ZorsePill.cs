@@ -37,8 +37,8 @@ namespace UltitemsCyan.Items.Void
             item = CreateItemDef(
                 "ZORSEPILL",
                 "ZorsePill",
-                "Starve enemies on hit dealing percent TOTAL damage. Corrupts all HMTs",
-                "Starve an enemy for 15% (+15% per stack) of TOTAL damage. Status duration resets when reapplied. Corrupts all HMTs",
+                "Starve enemies on hit dealing percent TOTAL damage. <style=cIsVoid>Corrupts all HMTs</style>.",
+                "Starve an enemy for <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> of TOTAL damage. Status duration <style=cIsDamage>resets</style> when reapplied. <style=cIsVoid>Corrupts all HMTs</style>.",
                 "Get this diet pill now! Eat one and it cut's your weight down. Disclaimer: the microbes inside are definitly not eating you from the inside out.",
                 ItemTier.VoidTier2,
                 UltAssets.ZorsePillSprite,

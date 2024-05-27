@@ -77,9 +77,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.9.1";
+        public const string PluginVersion = "0.9.2";
 
-        public const string PluginSuffix = "Good Upload Version!";
+        public const string PluginSuffix = "Slight quality fixes...";
         /* Version Changes     Old Git v0.8.5
          * Added Chrysotope and Jubilant Foe v0.8.6
          * Frisbee duration increased by 20%

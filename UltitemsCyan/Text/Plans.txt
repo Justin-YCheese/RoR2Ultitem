@@ -15,7 +15,6 @@
 
 
 	My Item Add Order:
-- Zorse Pill
 - Tipped Arrow
 - Tungston Rod
 - Trebuchet

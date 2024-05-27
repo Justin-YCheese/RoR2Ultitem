@@ -28,7 +28,7 @@ namespace UltitemsCyan.Items.Tier1
             item = CreateItemDef(
                 "FRISBEE",
                 "Frisbee",
-                "Rise and move faster after jumping. Hold jump to keep hovering.",
+                "Rise and move faster after jumping. Hold jump to continue gliding.",
                 "Rise slowly and move <style=cIsUtility>10%</style> <style=cStack>(+10% per stack)</style> faster after jumping for <style=cIsUtility>1.2</style> <style=cStack>(+0.6 per stack)</style> seconds. Hold jump to keep hovering.",
                 "Folding Flyers Falling Futher Faster For Five Far Fields",
                 ItemTier.Tier1,
