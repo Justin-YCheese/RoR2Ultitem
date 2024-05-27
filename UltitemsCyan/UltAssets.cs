@@ -133,13 +133,19 @@ namespace UltitemsCyan
 
         public static void Init()
         {
-            //Loads the assetBundle from the Path, and stores it in the static field.
-            //mainBundle = AssetBundle.LoadFromFile(AssetBundlePath);
             string path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Ultitems.PInfo.Location), "ultitembundle");
-            mainBundle = AssetBundle.LoadFromFile(System.IO.Path.Combine(path, "ultitembundle"));
+            //string path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Ultitems.PInfo.Location)), "assetbundle", "ultitembundle");
+            Log.Debug("Path of bundle: " + path);
+            mainBundle = AssetBundle.LoadFromFile(path);
             if (mainBundle == null)
             {
-                Log.Warning("Null mainBundle");
+                Log.Warning("Null Bundle");
+                path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Ultitems.PInfo.Location)), "assetbundle", "ultitembundle");
+                mainBundle = AssetBundle.LoadFromFile(path);
+                if(mainBundle == null)
+                {
+                    Log.Warning("Still Null");
+                }
             }
 
             float localScale = 0.1f;
