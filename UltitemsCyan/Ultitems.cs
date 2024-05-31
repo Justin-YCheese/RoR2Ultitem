@@ -80,7 +80,7 @@ namespace UltitemsCyan
         public const string PluginName = "UltitemsCyan";
         public const string PluginVersion = "0.9.3";
 
-        public const string PluginSuffix = "Fixed Zorse!";
+        public const string PluginSuffix = "Fixed Zorse and Pail!";
         /* Version Changes     Old Git v0.9.2
          * Toy Robot Barrier 5 -> 6 v0.9.3
          * Fixed Zorse Pill to deal proper Total damage
@@ -88,11 +88,6 @@ namespace UltitemsCyan
          * Sonorous Pail now gives jump height per Lunar
          * Sonorous Pail no longer disables Bands nor VoidBear (this was acutally a problem with vanilla restacking, so I just wrote a better restack method)
          * New restack method no longer re gives items, therefore nolonger synergizes with silver thread (used to be an immortality build with Sue's Mandables)
-         * 
-         * 
-         * 
-         * 
-         * 
          */
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
