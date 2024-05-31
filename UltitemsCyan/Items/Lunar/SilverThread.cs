@@ -128,7 +128,7 @@ namespace UltitemsCyan.Items.Lunar
                             Log.Debug("Chance of Snapping: " + deathChance);
                             if (Util.CheckRoll(deathChance, 0))
                             {
-                                snapBody(cb, aCb, grabCount);
+                                snapBody(cb, aCb);
                             }
                         }
                     }
@@ -141,7 +141,7 @@ namespace UltitemsCyan.Items.Lunar
         }
 
         // Kill character body
-        private static void snapBody(CharacterBody body, CharacterBody killer, int grabCount)
+        private static void snapBody(CharacterBody body, CharacterBody killer)
         {
             Log.Warning(body.GetUserName() + "'s thread snapped");
             // If has item

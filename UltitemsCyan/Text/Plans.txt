@@ -1,13 +1,11 @@
 ﻿	When Testing:
+- Test Sonorous Pail Jump Height
+- Test Zorse Pill
 - Test DamageType for Macrosiesmograph
-- Test if Recycle works with Solute
-- Test Toy Robot Barrier
-- Test Zorse with deathmark
 - Multiplayer
-	- Toy Robot
-	- Yield Sign
 	- Jealous Foe
-- Vault / Coffin with content removed items
+- Figure out which part of clense returns bands
+
 
 	ToDo Next:
 - Add Items
@@ -25,10 +23,12 @@
 
 	For Future Consideration:
 - remove public static ExpansionDef sotvDLC;
+- Optimize SonorousPail by using indexing arrays
 - Add DLC required to void items (Void items can still be obtained with dlc disabled?)
 - Yield Sign can reduce your speed when using speed mode (because displacement greater than max speed)
 - change Yield Attack from will o' wisp to blast attack
 - If jumping with Chrysotope the frame of landing? then infinite buff? with frisbee too?
+- RockyTaffy's Shield doesn't contribute to Transcendence
 - Universal Solute
 	- When disolving all available red items, doesn't replace with solvent (because of Microbots?)
 	- Add transform notification when picking up a dissolved item?
@@ -49,6 +49,7 @@
 - Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
 - Add actual proc chain accountability for items?
 - HMT with Shared Design (Perfect Elite) causes infinte loop?
+- 
 
 	Ask my Friends Questions:
 - Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
@@ -89,6 +90,7 @@ Silver Thread
 ? Make any damage taken have a chance of death
 New Bulb
 Sonorous Pail
++ Increase Speed per red item
 
 ** Void **
 Dried Ham
