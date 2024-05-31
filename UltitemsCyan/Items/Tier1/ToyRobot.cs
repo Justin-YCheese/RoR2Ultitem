@@ -83,7 +83,7 @@ namespace UltitemsCyan.Items.Tier1
                 int grabCount = body.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Debug("staying toy barrier...");
+                    //Log.Debug("staying toy barrier...");
                     body.healthComponent.AddBarrier(barrierGained * grabCount);
                 }
             }
@@ -125,7 +125,7 @@ namespace UltitemsCyan.Items.Tier1
                     {
                         // If it does not have a gravitation target, then pull in
                         // Chance to pickup, so that one player doesn't pickup all stuff
-                        Log.Warning("Toy Pickup for " + body.GetUserName() + "\t is " + (minPickupChance + (ratioPickupChance / stack)));
+                        // Log.Warning("Toy Pickup for " + body.GetUserName() + "\t is " + (minPickupChance + (ratioPickupChance / stack)));
                         if (Util.CheckRoll(minPickupChance + (ratioPickupChance / stack)))
                         {
                             //Log.Debug("     Got");

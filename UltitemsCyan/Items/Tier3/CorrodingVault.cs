@@ -81,7 +81,7 @@ namespace UltitemsCyan.Items.Tier3
 
                             if (length == 0)
                             {
-                                Log.Debug("Ran out of white items...   Reseting Pool");
+                                Log.Debug("Ran out of white items...   Resetting Pool");
                                 length = allWhiteItems.Length;
                                 Run.instance.availableTier1DropList.CopyTo(allWhiteItems);
                             }

@@ -139,7 +139,7 @@ namespace UltitemsCyan.Items.Tier1
                         }
                         if (drop)
                         {
-                            Log.Warning("Dropping flea from " + victim.name);
+                            //Log.Warning("Dropping flea from " + victim.name);
                             //RoR2.BuffPickup.Instantiate(item);
                             Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
                             Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
@@ -174,7 +174,7 @@ namespace UltitemsCyan.Items.Tier1
             GameObject orb = UnityEngine.Object.Instantiate(FleaOrb);
             if (orb)
             {
-                Log.Debug("Flea Orb is loaded");
+                //Log.Debug("Flea Orb is loaded");
             }
 
             orb.transform.position = position;
@@ -216,7 +216,7 @@ namespace UltitemsCyan.Items.Tier1
             orb.transform.localScale = Vector3.one * (0.8f + (itemCount / 12f));
             //orb.transform.localScale = Vector3.one * (.5f + itemCount / 20);
 
-            Log.Debug("Spawning orb at: " + orb.transform.position);
+            //Log.Debug("Spawning orb at: " + orb.transform.position);
             NetworkServer.Spawn(orb);
         }
         //*/

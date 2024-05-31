@@ -177,7 +177,7 @@ namespace UltitemsCyan.Items.Lunar
 
         public void SporkRestackInventory(Inventory inventory, Vector3 pos, Xoroshiro128Plus rng)
         {
-            Log.Debug("Restock my sporks!");
+            //Log.Debug("Restock my sporks!");
             if (!NetworkServer.active)
             {
                 Debug.LogWarning("[Server] function 'System.Void RoR2.Inventory::ShrineRestackInventory(Xoroshiro128Plus)' called on client");

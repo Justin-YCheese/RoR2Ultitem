@@ -49,7 +49,7 @@ namespace UltitemsCyan.Items.Tier2
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
-            Log.Debug("HMT Health Take Damage!");
+            //Log.Debug("HMT Health Take Damage!");
             if (damageInfo.attacker)
             {
                 onHitAttacker = damageInfo.attacker;
@@ -58,7 +58,7 @@ namespace UltitemsCyan.Items.Tier2
             orig(self, damageInfo);
 
             onHitAttacker = null;
-            Log.Debug(" ! HMT Health Off Damage...");
+            //Log.Debug(" ! HMT Health Off Damage...");
         }
 
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
@@ -105,7 +105,7 @@ namespace UltitemsCyan.Items.Tier2
         private void DotController_InflictDot_GameObject(On.RoR2.DotController.orig_InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 orig, GameObject victimObject, GameObject attackerObject, DotController.DotIndex dotIndex, float duration, float damageMultiplier, uint? maxStacksFromAttacker)
         {
             orig(victimObject, attackerObject, dotIndex, duration, damageMultiplier, maxStacksFromAttacker);
-            Log.Debug(" * * * DotController HMT Inflicting burn?");
+            //Log.Debug(" * * * DotController HMT Inflicting burn?");
             if (victimObject && attackerObject
                 && dotIndex != DotController.DotIndex.Burn && dotIndex != DotController.DotIndex.Helfire && dotIndex != DotController.DotIndex.StrongerBurn
                      && NetworkServer.active)

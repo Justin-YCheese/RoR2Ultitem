@@ -88,7 +88,7 @@ namespace UltitemsCyan.Items.Tier3
 
 
             HealthPickup healthComponent = orb.GetComponentInChildren<HealthPickup>();
-            Log.Debug("health Component? " + healthComponent.alive);
+            //Log.Debug("health Component? " + healthComponent.alive);
             healthComponent.alive = false;
 
             //BuffPickup
@@ -100,7 +100,7 @@ namespace UltitemsCyan.Items.Tier3
             orb.GetComponent<Rigidbody>().useGravity = true;
             orb.transform.localScale = Vector3.one * 2.5f;
 
-            Log.Debug("Spawning orb at: " + orb.transform.position);
+            //Log.Debug("Spawning orb at: " + orb.transform.position);
             NetworkServer.Spawn(orb);
         }
         //*/

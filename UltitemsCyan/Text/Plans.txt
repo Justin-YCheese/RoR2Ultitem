@@ -1,10 +1,7 @@
 ﻿	When Testing:
-- Test Sonorous Pail Jump Height
-- Test Zorse Pill
 - Test DamageType for Macrosiesmograph
 - Multiplayer
 	- Jealous Foe
-- Figure out which part of clense returns bands
 
 
 	ToDo Next:
@@ -19,6 +16,7 @@
 - Worm Holes
 - Pet Rock
 - Jelly Jail
+- Power Chips
 
 
 	For Future Consideration:
@@ -29,6 +27,7 @@
 - change Yield Attack from will o' wisp to blast attack
 - If jumping with Chrysotope the frame of landing? then infinite buff? with frisbee too?
 - RockyTaffy's Shield doesn't contribute to Transcendence
+- What happens with pickups if you die after gravitating pickup?
 - Universal Solute
 	- When disolving all available red items, doesn't replace with solvent (because of Microbots?)
 	- Add transform notification when picking up a dissolved item?
@@ -94,6 +93,8 @@ Sonorous Pail
 
 ** Void **
 Dried Ham
++ Change threshold to 40%
+- Change heals from 4 -> 3
 Downloaded RAM
 Rotten Bones
 Inhabited Coffin

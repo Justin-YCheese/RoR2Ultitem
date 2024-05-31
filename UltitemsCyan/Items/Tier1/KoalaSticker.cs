@@ -48,7 +48,7 @@ namespace UltitemsCyan.Items.Tier1
             // Inject code just before damage is subtracted from health
             // Go just before the "if (num12 > 0f && this.barrier > 0f)" line, which is equal to the following instructions
 
-            Log.Warning("Koala Sticker Take Damage");
+            //Log.Warning("Koala Sticker Take Damage");
 
             if (c.TryGotoNext(MoveType.Before,                              // TODO make cursor search more robust
                 x => x.MatchLdloc(out num),                                 // 1130 ldloc.s V_6 (6)
@@ -62,7 +62,7 @@ namespace UltitemsCyan.Items.Tier1
             ))
             {
 
-                Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
+                //Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
                 //[Warning:UltitemsCyan] * **Start C Index: 1129 > // ILCursor: System.Void DMD<RoR2.HealthComponent::TakeDamage>?-456176384::RoR2.HealthComponent::TakeDamage(RoR2.HealthComponent,RoR2.DamageInfo), 1129, Next
                 //IL_0e05: stfld System.Single RoR2.HealthComponent::adaptiveArmorValue
                 //IL_0e0a: ldloc.s V_6
@@ -71,7 +71,7 @@ namespace UltitemsCyan.Items.Tier1
 
                 c.Index += 4;
 
-                Log.Debug(" * * * +4 Working Index: " + c.Index + " > " + c.ToString());
+                //Log.Debug(" * * * +4 Working Index: " + c.Index + " > " + c.ToString());
                 //[Debug  :UltitemsCyan] * **+4 Working Index: 1133 > // ILCursor: System.Void DMD<RoR2.HealthComponent::TakeDamage>?-771449600::RoR2.HealthComponent::TakeDamage(RoR2.HealthComponent,RoR2.DamageInfo), 1133, None
                 //IL_0e10: ldc.r4 0
                 //IL_0e15: ble.un.s IL_0e21
@@ -93,17 +93,17 @@ namespace UltitemsCyan.Items.Tier1
                             int grabCount = cb.master.inventory.GetItemCount(item);
                             if (grabCount > 0)
                             {
-                                Log.Debug("Koala Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
+                                //Log.Debug("Koala Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
                                 //Log.Debug("Max Percent: " + ((hyperbolicPercent / 100 * grabCount) + 1) + " of " + hc.fullCombinedHealth);
                                 float maxDamage = hc.fullCombinedHealth / ((hyperbolicPercent / 100 * grabCount) + 1);
                                 if (maxDamage < minDamage)
                                 {
                                     maxDamage = minDamage;
                                 }
-                                Log.Debug("Is " + td + "\t > " + maxDamage + "?");
+                                //Log.Debug("Is " + td + "\t > " + maxDamage + "?");
                                 if (td > maxDamage)
                                 {
-                                    Log.Warning("Koala BLOCK ! ! ");
+                                    Log.Warning("Koala BLOCK ! ! for " + cb.name);
                                     EffectManager.SpawnEffect(HealthComponent.AssetReferences.bearEffectPrefab, new EffectData
                                     {
                                         origin = di.position,

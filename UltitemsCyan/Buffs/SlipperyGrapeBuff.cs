@@ -37,7 +37,7 @@ namespace UltitemsCyan.Buffs
 
             //int num12 = -1;
 
-            Log.Warning("Slippery Grape Take Damage");
+            //Log.Warning("Slippery Grape Take Damage");
 
             // Inject code just before damage is subtracted from health
             // Go just before the "if (num12 > 0f && this.barrier > 0f)" line, which is equal to the following instructions
@@ -87,7 +87,7 @@ namespace UltitemsCyan.Buffs
                                 cb.RemoveBuff(buff);
                                 if (Util.CheckRoll(grapeBlockChance, 0))
                                 {
-                                    Log.Debug("Slip Grape !");
+                                    Log.Debug("Slip Grape Avoidance!");
                                     di.rejected = true;     // Can set value here because it's a reference. Cannot do the same for primative types?
 
                                     //EffectManager.SpawnEffect(HealthComponent.AssetReferences.damageRejectedPrefab, new EffectData

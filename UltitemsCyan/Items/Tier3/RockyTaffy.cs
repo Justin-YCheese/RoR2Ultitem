@@ -54,7 +54,7 @@ namespace UltitemsCyan.Items.Tier3
                 int grabCount = sender.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
-                    Log.Debug("Taffy On the rocks | Health: " + sender.healthComponent.fullHealth);
+                    //Log.Debug("Taffy On the rocks | Health: " + sender.healthComponent.fullHealth);
                     args.baseShieldAdd += sender.healthComponent.fullHealth * (shieldPercent / 100f * grabCount);
                 }
             }

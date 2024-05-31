@@ -27,7 +27,7 @@ namespace UltitemsCyan.Items.Void
                 "ROTTENBONES",
                 "Rotten Bones",
                 "Deal more damage over time. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
-                "Increase damage by <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>4</style> stacks. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
+                "Increase damage by <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>3</style> stacks. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
                 "The bitter aftertaste is just the spoilage",
                 ItemTier.VoidTier2,
                 UltAssets.RottenBonesSprite,

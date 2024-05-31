@@ -67,7 +67,7 @@ namespace UltitemsCyan.Items.Void
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
-                        Log.Debug("  ...Starving enemy with reports...");
+                        //Log.Debug("  ...Starving enemy with reports...");
                         // If you have fewer than the max number of downloads, then grant buff
 
                         //float damageMultiplier = (basePercentHealth + (percentHealthPerStack * (grabCount - 1))) / 100f;

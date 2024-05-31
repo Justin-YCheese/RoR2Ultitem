@@ -215,7 +215,7 @@ namespace UltitemsCyan.Equipment
 
         private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            Log.Debug("Test Solute for item index " + itemIndex);
+            //Log.Debug("Test Solute for item index " + itemIndex);
             if (dissolvedList.Contains(itemIndex) && self)
             {
                 Log.Debug("Grabbed a disolved item...");
