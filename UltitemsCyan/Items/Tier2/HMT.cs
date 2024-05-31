@@ -63,7 +63,7 @@ namespace UltitemsCyan.Items.Tier2
 
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
-            Log.Debug("On Hit! HMT");
+            //Log.Debug("On Hit! HMT");
             if (damageInfo.attacker)
             {
                 if (onHitAttacker && onHitAttacker != damageInfo.attacker)
@@ -76,7 +76,7 @@ namespace UltitemsCyan.Items.Tier2
             orig(self, damageInfo, victim);
 
             onHitAttacker = null;
-            Log.Debug(" ! HMT Off Hit...");
+            //Log.Debug(" ! HMT Off Hit...");
         }
 
 
@@ -86,7 +86,7 @@ namespace UltitemsCyan.Items.Tier2
             // Use external variables to see if was from either TakeDamage or OnHitEnemy and not something else
             if (self && onHitAttacker && buffDef.isDebuff)
             {
-                Log.Debug("Yes ! onhitAttacker !");
+                //Log.Debug("Yes ! onhitAttacker !");
                 CharacterBody inflictor = onHitAttacker.GetComponent<CharacterBody>();
                 if (inflictor && inflictor.inventory && inflictor.master && self.gameObject)
                 {

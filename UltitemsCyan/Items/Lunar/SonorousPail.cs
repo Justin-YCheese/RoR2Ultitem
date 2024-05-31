@@ -3,6 +3,7 @@ using RoR2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -21,7 +22,7 @@ namespace UltitemsCyan.Items.Lunar
         private const float critPerBoss = 10f;
         //private const float armourPerMisc = 2f;
         //private const float healthPerLunar = 5f;
-        //private const float jumpPerLunar = 5f;
+        private const float jumpPerLunar = 1f;
         private const float stackPercent = 20f;
 
         public bool inSonorousAlready = false;
@@ -34,7 +35,7 @@ namespace UltitemsCyan.Items.Lunar
                 "SONOROUSPAIL",
                 "Sonorous Pail",
                 "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>",
-                "Gain <style=cIsDamage>2.5% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, and <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
+                "Gain <style=cIsDamage>2.5% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item, and <style=cIsUtility>1% jump height</style> per <style=cIsUtility>lunar</style> <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
                 "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.",
                 ItemTier.Lunar,
                 UltAssets.SandPailSprite,
@@ -90,7 +91,7 @@ namespace UltitemsCyan.Items.Lunar
                     // Untiered - Armor?
                     // Armor, Attack Speed, Health,
                     // Jump Power, Shield, Cooldowns
-                    int[] statTiers = new int[5]; // 0:Misc  1:Damage  2:Healing  3:Speed  4:Crits
+                    int[] statTiers = new int[6]; // 0:Misc  1:Damage  2:Healing  3:Speed  4:Crits  5:Jump Height
 
                     ItemIndex itemIndex = 0;
                     ItemIndex itemCount = (ItemIndex)ItemCatalog.itemCount;
@@ -99,21 +100,25 @@ namespace UltitemsCyan.Items.Lunar
                     {
                         int tier = 0; // Misc
                         ItemTier itemTier = ItemCatalog.GetItemDef(itemIndex).tier;
-                        if (itemTier is ItemTier.Tier1 or ItemTier.VoidTier1)
+                        if (itemTier is ItemTier.Lunar)
                         {
-                            tier = 1; // Damage
+                            tier = 1; // Jump Height
+                        }
+                        else if(itemTier is ItemTier.Tier1 or ItemTier.VoidTier1)
+                        {
+                            tier = 2; // Damage
                         }
                         else if (itemTier is ItemTier.Tier2 or ItemTier.VoidTier2)
                         {
-                            tier = 2; // Healing
+                            tier = 3; // Healing
                         }
                         else if (itemTier is ItemTier.Tier3 or ItemTier.VoidTier3)
                         {
-                            tier = 3; // Speed
+                            tier = 4; // Speed
                         }
                         else if (itemTier is ItemTier.Boss or ItemTier.VoidBoss)
                         {
-                            tier = 4; // Crits
+                            tier = 5; // Crits
                         }
                         statTiers[tier] += inventory.GetItemCount(itemIndex);
                         // Check next Item
@@ -121,13 +126,14 @@ namespace UltitemsCyan.Items.Lunar
                     }
                     float statMultiplier = 1f + ((grabCount - 1) * stackPercent / 100f);
                     //Log.Debug("stat Multiplier: " + statMultiplier);
-                    Log.Debug("Pail Damage is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite * statMultiplier) + "%");
-                    args.damageMultAdd += statTiers[1] * attackPerWhite / 100f * statMultiplier;
+                    args.jumpPowerMultAdd += statTiers[1] * jumpPerLunar / 100f * statMultiplier;
+                    //Log.Debug("Pail Damage is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite * statMultiplier) + "%");
+                    args.damageMultAdd += statTiers[2] * attackPerWhite / 100f * statMultiplier;
                     // Regen increases per level
-                    Log.Debug("Pail Regen is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
-                    args.regenMultAdd += statTiers[2] * regenPerGreen * (1f + 0.2f * sender.level) * statMultiplier;
-                    args.moveSpeedMultAdd += statTiers[3] * speedPerRed / 100f * statMultiplier;
-                    args.critAdd += statTiers[4] * critPerBoss * statMultiplier;
+                    //Log.Debug("Pail Regen is: " + sender.baseRegen + " + " + (statTiers[2] * (regenPerGreen + (regenPerGreen / 5 * sender.level)) * statMultiplier));
+                    args.regenMultAdd += statTiers[3] * regenPerGreen * (1f + 0.2f * sender.level) * statMultiplier;
+                    args.moveSpeedMultAdd += statTiers[4] * speedPerRed / 100f * statMultiplier;
+                    args.critAdd += statTiers[5] * critPerBoss * statMultiplier;
                 }
             }
         }
@@ -182,7 +188,7 @@ namespace UltitemsCyan.Items.Lunar
             foreach (ItemTierDef itemTierDef in ItemTierCatalog.allItemTierDefs)
             {
                 // In each tier
-                Log.Debug("Which Shelf?: " + itemTierDef.tier);
+                //Log.Debug("Which Shelf?: " + itemTierDef.tier);
                 if (itemTierDef.canRestack && itemTierDef.tier != ItemTier.Lunar)
                 {
                     // Record what items exist and how many items in total
@@ -193,23 +199,32 @@ namespace UltitemsCyan.Items.Lunar
                         if (inventory.itemStacks[i] > 0)
                         {
                             ItemIndex itemIndex = (ItemIndex)i;
-                            ItemDef itemDef = ItemCatalog.GetItemDef(itemIndex);
-                            if (itemTierDef.tier == itemDef.tier)
+                            //ItemDef itemDef = ItemCatalog.GetItemDef(itemIndex);
+                            if (itemTierDef.tier == ItemCatalog.GetItemDef(itemIndex).tier)
                             {
                                 // Add to total items
                                 num += inventory.itemStacks[i];
                                 // Add to list
                                 list.Add(itemIndex);
                                 // Remove from inventory
-                                inventory.itemAcquisitionOrder.Remove(itemIndex);
-                                inventory.ResetItem(itemIndex);
+                                //inventory.itemAcquisitionOrder.Remove(itemIndex);
                             }
                         }
                     }
                     if (list.Count > 0)
                     {
-                        // Add items minus silver treads (will be countered by silver thead it self
-                        inventory.GiveItem(rng.NextElementUniform(list), num); // - inventory.GetItemCount(SilverThread.item)
+                        // Adjust count of ket item
+                        ItemIndex keptItem = rng.NextElementUniform(list);
+                        SetItemCount(inventory, keptItem, num);
+                        list.Remove(keptItem);
+                        // Remove all other items
+                        foreach (ItemIndex index in list)
+                        {
+                            //inventory.itemAcquisitionOrder.Remove(index);
+                            SetItemCount(inventory, index, 0);
+                            inventory.ResetItem(index);
+                        }
+
                         flag = true;
                     }
                 }
@@ -218,6 +233,12 @@ namespace UltitemsCyan.Items.Lunar
             {
                 inventory.SetDirtyBit(8U);
             }
+        }
+
+        private void SetItemCount(Inventory inventory, ItemIndex item, int count)
+        {
+            //var currentCount = inventory.GetItemCount(item);
+            inventory.GiveItem(item, count - inventory.GetItemCount(item));
         }
     }
 }

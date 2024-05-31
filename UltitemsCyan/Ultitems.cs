@@ -78,22 +78,19 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.9.2";
+        public const string PluginVersion = "0.9.3";
 
-        public const string PluginSuffix = "Slight quality fixes...";
-        /* Version Changes     Old Git v0.8.5
-         * Added Chrysotope and Jubilant Foe v0.8.6
-         * Frisbee duration increased by 20%
-         * Reduced Pot cooldown 3 -> 2 but added sub cooldown of .2
-         * Added simple buff sprites for frisbee and chrysotope
-         * Correctly adjusted Macroseismograph damage
-         * Changed Scissors, Vault, and Coffin to use BeginServer instead of BeginStage (Scissors and Regenerative scrap wrong order)
-         * Added Yield Sign
-         * Heavily nerfed Macroseismograph
-         * Added Zorse Pill v0.8.7
-         * Added force to Xenon Ampoule, lowered subCooldown
-         * Added barrier gain to toy robot
-         * Fixed Yield Sign for Multiplayer
+        public const string PluginSuffix = "Fixed Zorse!";
+        /* Version Changes     Old Git v0.9.2
+         * Toy Robot Barrier 5 -> 6 v0.9.3
+         * Fixed Zorse Pill to deal proper Total damage
+         * Fixed Starving Buff Effect spawning when dealing any DoTs
+         * Sonorous Pail now gives jump height per Lunar
+         * Sonorous Pail no longer disables Bands nor VoidBear (this was acutally a problem with vanilla restacking, so I just wrote a better restack method)
+         * New restack method no longer re gives items, therefore nolonger synergizes with silver thread (used to be an immortality build with Sue's Mandables)
+         * 
+         * 
+         * 
          * 
          * 
          */

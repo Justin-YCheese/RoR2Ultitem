@@ -3,6 +3,8 @@ using UltitemsCyan.Items.Untiered;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Linq;
+using UltitemsCyan.Items.Lunar;
+using System;
 
 namespace UltitemsCyan.Equipment
 {
@@ -13,9 +15,6 @@ namespace UltitemsCyan.Equipment
      * When dissolving a boss item, the item will still be dropped by the boss for teleporter and tricorn
      *      removing from available items will only effect command
      * If you dissolve void items, then Larva won't corrupt thoes pairs upon dying
-     * 
-     * 
-     * 
      * 
      */
 
@@ -50,7 +49,7 @@ namespace UltitemsCyan.Equipment
         {
             // Clear dissolved so refresh between runs and stages
             // Only really need dissolved for grabing items that were already dropped but dissolved.
-            //      dissolved items update by the next stage
+            // Dissolved items update by the next stage, so can clear list
             On.RoR2.Run.BeginStage += Run_BeginStage;
             // * * * Erase Items
             On.RoR2.EquipmentSlot.PerformEquipmentAction += EquipmentSlot_PerformEquipmentAction;
@@ -60,32 +59,27 @@ namespace UltitemsCyan.Equipment
             // When a chest tries dropping a dissolved item
             On.RoR2.ChestBehavior.ItemDrop += ChestBehavior_ItemDrop;
             On.RoR2.OptionChestBehavior.ItemDrop += OptionChestBehavior_ItemDrop;
-
-            //public void UpdateHologramContent(GameObject hologramContentObject)
-
-
-
-
-
-
-
-
-
-            // Print message
-            On.RoR2.ChestBehavior.Roll += ChestBehavior_Roll;
-
-
-            //On.RoR2.ShopTerminalBehavior.ctor += ShopTerminalBehavior_ctor;
+            //On.RoR2.PickupDropTable.GenerateDrop += PickupDropTable_GenerateDrop;
         }
 
-
+        private PickupIndex PickupDropTable_GenerateDrop(On.RoR2.PickupDropTable.orig_GenerateDrop orig, PickupDropTable self, Xoroshiro128Plus rng)
+        {
+            PickupIndex pickup = orig(self, rng);
+            if (dissolvedList.Contains(PickupCatalog.GetPickupDef(pickup).itemIndex))
+            {
+                Log.Debug("Pickup " + PickupCatalog.GetPickupDef(pickup).nameToken + " was dissolved...");
+                return pickup;
+            }
+            else
+            {
+                return pickup;
+            }
+        }
 
         private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
         {
             Log.Debug("Universal Dissolved cleared");
-
             dissolvedList.Clear();
-
 
             orig(self);
         }
@@ -121,7 +115,9 @@ namespace UltitemsCyan.Equipment
 
                     if (lastItem)
                     {
-                        if (Run.instance.isRunStopwatchPaused)
+                        Run thisRun = Run.instance;
+
+                        if (thisRun.isRunStopwatchPaused)
                         {
                             Log.Debug("In time paused");
                             equipment.cooldown = shortCooldown;
@@ -142,13 +138,19 @@ namespace UltitemsCyan.Equipment
                             dissolveItem(body, lastItem);
                         }
 
+                        Log.Warning(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex] + " is in? "
+                            + thisRun.availableLunarCombinedDropList.Contains(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex]));
+
                         // * * * Remove item from pools
-                        Run.instance.DisableItemDrop(lastItem.itemIndex);
+                        thisRun.DisableItemDrop(lastItem.itemIndex);
                         //Run.instance.DisablePickupDrop(PickupCatalog.itemIndexToPickupIndex[(int)lastItem.itemIndex]);
-                        Run.instance.availableItems.Remove(lastItem.itemIndex);
+                        thisRun.availableItems.Remove(lastItem.itemIndex);
                         checkEmptyTierList(lastItem); // also check if empty, if so then add solute to item tier
                         dissolvedList.Add(lastItem.itemIndex);
-                        Run.instance.RefreshLunarCombinedDropList();
+                        thisRun.RefreshLunarCombinedDropList();
+
+                        Log.Debug(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex] + " is in? "
+                            + thisRun.availableLunarCombinedDropList.Contains(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex]));
 
                         /*/ Refresh chest and lunar pools
                         Log.Warning("Refresing ALL ! ! !");
@@ -265,6 +267,7 @@ namespace UltitemsCyan.Equipment
             orig(self);
         }
 
+        /*/
         private void ChestBehavior_Roll(On.RoR2.ChestBehavior.orig_Roll orig, ChestBehavior self)
         {
             if (self)
@@ -278,6 +281,7 @@ namespace UltitemsCyan.Equipment
 
             orig(self);
         }
+        //*/
 
         private ItemDef getLastItem(List<ItemIndex> list)
         {

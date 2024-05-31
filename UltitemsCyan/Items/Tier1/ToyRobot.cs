@@ -21,7 +21,7 @@ namespace UltitemsCyan.Items.Tier1
         private const float minPickupChance = 10f;
         private const float ratioPickupChance = 80f;
 
-        private const float barrierGained = 5f;
+        private const float barrierGained = 6f;
 
         public override void Init()
         {
