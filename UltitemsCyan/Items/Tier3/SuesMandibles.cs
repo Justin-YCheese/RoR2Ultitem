@@ -37,7 +37,7 @@ namespace UltitemsCyan.Items.Tier3
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
             orig(self, damageInfo);
-            CharacterBody victim = self.GetComponent<CharacterBody>();
+            CharacterBody victim = self.body;
             // If dead after damage
             if (victim && victim.inventory && self && !self.alive && self.health <= 0)
             {

@@ -28,6 +28,7 @@ namespace UltitemsCyan.Equipment
                 cooldown,
                 true,
                 true,
+                false,
                 UltAssets.PotOfRegolithSprite,
                 UltAssets.PotOfRegolithPrefab
             );

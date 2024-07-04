@@ -27,7 +27,7 @@ namespace UltitemsCyan.Equipment
         public const float stopMaxMultiplier = 0.8f;
         public const float stopMinMultiplier = 0.4f;
 
-        private const float yieldDamage = 3.5f; //350%
+        private const float yieldDamage = 3f; //300%
         private const float hitForce = 2500f;
         private const int radius = 8;
 
@@ -41,11 +41,12 @@ namespace UltitemsCyan.Equipment
                 "YIELDSIGN",
                 "Yield Sign",
                 "Alternate between multiplying speed and canceling it. Hit nearby enemies each time.",
-                "Alternate between multiplying current speed by 300% and zeroing it. Stun nearby enemies for 350% damage.",
+                "Alternate between multiplying current speed by 300% and zeroing it. Stun nearby enemies for 300% damage.",
                 "Stop and go, the best of both worlds right?",
                 cooldown,
                 false,
                 true,
+                false,
                 UltAssets.YieldSignSprite,
                 UltAssets.YieldSignPrefab
             );
@@ -62,6 +63,7 @@ namespace UltitemsCyan.Equipment
             orig(self);
             if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
             {
+                Log.Debug("RPC Equipment");
                 VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
                 YieldAttack(self.characterBody);
                 self.characterBody.inventory.SetEquipmentIndex(YieldSignStop.equipment.equipmentIndex);
@@ -73,6 +75,7 @@ namespace UltitemsCyan.Equipment
         {
             if (equipmentDef == equipment)
             {
+                Log.Warning("YIELD! Preform Equipment");
                 return true;
             }
             else

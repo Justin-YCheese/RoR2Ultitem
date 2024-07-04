@@ -1,6 +1,6 @@
 # Ultitems Cyan
 
-Through my experiance from making vanilla modded items in Minecraft, this pack contains various items which try to complement vanilla items.
+Through my experiance from making vanilla modded items in Minecraft, this pack contains various items which try to complement the vanilla game.
 
 There are still alot of print messages in the logs because I'm still debugging stuff...
 
@@ -18,6 +18,7 @@ There are still alot of print messages in the logs because I'm still debugging s
 | ![Imgur](https://i.imgur.com/7nCsVaj.png) | Xenon Ampoule       | Activating your Equipment also fires a laser                                                                            |      Green      |
 | ![Imgur](https://i.imgur.com/4DFayZF.png) | Corroding Vault     | Breaks at the start of the next stage. Contains white items.                                                            |       Red       |
 | ![Imgur](https://i.imgur.com/t7YNoVY.png) | Grapevine           | Chance on kill to drop grapes that block damage.                                                                        |       Red       |
+| ![Imgur](https://i.imgur.com/9MdlVQW.png) | Pig's Spork         | Bleeds heal you. Gain 100% chance to bleed enemies at low health                                                        |       Red       |
 | ![Imgur](https://i.imgur.com/fMenqmv.png) | Sue's Mandibles     | Endure a killing blow then gain invulnerability and disable healing for 30s. Consumed on use.                           |       Red       |
 | ![Imgur](https://i.imgur.com/85CkaFY.png) | Viral Smog          | Increase speed per unique status effect.                                                                                |       Red       |
 | ![Imgur](https://i.imgur.com/70oQsj7.png) | Rocky Taffy         | Gain a recharging shield. Gain a stable barrier without your shield.                                                    |       Red       |
@@ -25,7 +26,7 @@ There are still alot of print messages in the logs because I'm still debugging s
 | ![Imgur](https://i.imgur.com/ASsZX2z.png) | Silver Thread       | Chance to gain additional items... **BUT chance of dying upon being attacked**. Upon death, this item will be consumed. |      Lunar      |
 | ![Imgur](https://i.imgur.com/OM2CjLT.png) | Sonorous Pail       | Gain stats for each item held... **BUT picking up an item triggers a restack.**                                         |      Lunar      |
 | ![Imgur](https://i.imgur.com/wYLzvng.png) | Ultraviolet Bulb    | Chance to instantly reset a skill after it's used... **BUT triples all cooldown**                                       |      Lunar      |
-| ![Imgur](https://i.imgur.com/XnoYzTk.png) | Chrysotope          | Rise after jumping. Hold jump to continue flying. **Corrupts all Frisbees**.                                            |    Void White   |
+| ![Imgur](https://i.imgur.com/XnoYzTk.png) | Crysotope           | Rise after jumping. Hold jump to continue flying. **Corrupts all Frisbees**.                                            |    Void White   |
 | ![Imgur](https://i.imgur.com/5fZqteh.png) | Dried Ham           | Heal when hitting enemies below 35% health. **Corrupts all Crème Brûlées**.                                             |    Void White   |
 | ![Imgur](https://i.imgur.com/DZCT32L.png) | Downloaded RAM      | Chance on hit to increase damage. Lose stacks when not attacking. **Corrupts all Overclocked GPUs**.                    |    Void Green   |
 | ![Imgur](https://i.imgur.com/rNTV1Tx.png) | Rotten Bones        | Deal more damage over time. **Corrupts all Birthday Candles**.                                                          |    Void Green   |

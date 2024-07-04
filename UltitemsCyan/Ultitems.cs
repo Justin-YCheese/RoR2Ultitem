@@ -80,19 +80,11 @@ namespace UltitemsCyan
         public const string PluginName = "UltitemsCyan";
         public const string PluginVersion = "0.10.0";
 
-        public const string PluginSuffix = "Spork...";
-        /* Version Changes     Old Git v0.9.3
-         * Rotten Bones Description is now accurate
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
+        public const string PluginSuffix = "Sharp Spork?";
+
+        private static ConfigFile UltitemsConfigFile { get; set; }
+        public static ConfigEntry<bool> EnableCremeBruleeEntry { get; set; }
+
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
@@ -114,11 +106,14 @@ namespace UltitemsCyan
         private static ConfigFile cfgFile;
         //*/
 
+
         public void Awake()
         {
             // Init our logging class so that we can properly log for debugging
             Log.Init(Logger);
             PInfo = Info;
+
+            //ConfigInit();
 
             // Load assets TODO when making a final version
             //Log.Debug("Populating Assets...");
@@ -128,13 +123,14 @@ namespace UltitemsCyan
             // Add buffs to the game
             List<BuffBase> ultitemBuffs = [];
             ultitemBuffs.Add(new BirthdayBuff());
-            ultitemBuffs.Add(new ChrysotopeFlyingBuff());
+            ultitemBuffs.Add(new CrysotopeFlyingBuff());
             ultitemBuffs.Add(new DreamSpeedBuff());
             ultitemBuffs.Add(new DownloadedBuff());
             ultitemBuffs.Add(new FrisbeeGlidingBuff());
             ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new RottingBuff());
-            ultitemBuffs.Add(new SlipperyGrape());
+            ultitemBuffs.Add(new SlipperyGrapeBuff());
+            ultitemBuffs.Add(new SporkBleedBuff());
             ultitemBuffs.Add(new TickCritBuff());
             ultitemBuffs.Add(new ZorseStarvingBuff());
             //ultitemBuffs.Add(new ());
@@ -175,11 +171,12 @@ namespace UltitemsCyan
             ultitemItems.Add(new XenonAmpoule());
 
             // Red
-            ultitemItems.Add(new ViralSmog());
-            ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new CorrodingVault());
-            ultitemItems.Add(new RockyTaffy());
             ultitemItems.Add(new Grapevine());
+            ultitemItems.Add(new PigsSpork());
+            ultitemItems.Add(new RockyTaffy());
+            ultitemItems.Add(new SuesMandibles());
+            ultitemItems.Add(new ViralSmog());
 
             // Lunar Items
             ultitemItems.Add(new DreamFuel());
@@ -202,7 +199,7 @@ namespace UltitemsCyan
 
 
             // Void Items
-            ultitemItems.Add(new Chrysotope());
+            ultitemItems.Add(new Crysotope());
             ultitemItems.Add(new DriedHam());
             ultitemItems.Add(new RottenBones());
             ultitemItems.Add(new DownloadedRAM());
@@ -241,6 +238,17 @@ namespace UltitemsCyan
             Log.Warning("Ultitems Cyan Done: " + PluginVersion + " <- " + PluginSuffix);
         }
 
+        /*//
+        private void ConfigInit()
+        {
+            UltitemsConfigFile = new ConfigFile(Paths.ConfigPath + "\\CustomNamedFile.cfg", true);
+            EnableCremeBruleeEntry = Config.Bind(
+                "Enable",
+                "Enable Crème Brûlée",
+                true,
+            );
+        }
+        //*/
 
         private void Stage_onStageStartGlobal(Stage obj)
         {

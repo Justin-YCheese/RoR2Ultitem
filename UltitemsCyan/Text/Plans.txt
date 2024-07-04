@@ -1,31 +1,39 @@
-﻿	When Testing:
+﻿	
+	When Testing:
 - Test DamageType for Macrosiesmograph
 - Multiplayer
 	- Jealous Foe
-
-
-	ToDo Next:
-- Add Items
-- Add 3D models
+- Test Sues Mandibles
 
 
 	My Item Add Order:
+- Power Chips
+- Trebuchet
+- Jelly Jail
+- Worm Holes
+- Pig's Spork
 - Tipped Arrow
 - Tungston Rod
-- Trebuchet
-- Worm Holes
-- Pet Rock
-- Jelly Jail
-- Power Chips
+
+	When updating mod check:
+- Bugs / Tests
+- Version number
+- Readme
+- Change Log
+- Has the tags: Mods | Items | Survivors of the Void
+
 
 
 	For Future Consideration:
+- Use heal fraction for percent heals
+- Flask activates before Spork does
+- Sue's Mandibles Low Health Tag makes the 25% health line appear despite it being at 0% health
 - remove public static ExpansionDef sotvDLC;
 - Optimize SonorousPail by using indexing arrays
 - Add DLC required to void items (Void items can still be obtained with dlc disabled?)
 - Yield Sign can reduce your speed when using speed mode (because displacement greater than max speed)
 - change Yield Attack from will o' wisp to blast attack
-- If jumping with Chrysotope the frame of landing? then infinite buff? with frisbee too?
+- If jumping with Crysotope the frame of landing? then infinite buff? with frisbee too?
 - RockyTaffy's Shield doesn't contribute to Transcendence
 - What happens with pickups if you die after gravitating pickup?
 - Universal Solute
@@ -48,11 +56,13 @@
 - Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
 - Add actual proc chain accountability for items?
 - HMT with Shared Design (Perfect Elite) causes infinte loop?
-- 
 
 	Ask my Friends Questions:
 - Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
 - Should Scissors cut Tonic Affliction?
+- Should Yield Sign activate with Bottled Choas?
+- What should I do with Dried Ham?
+
 
 	Possible Changes for v0.7.12:
 -/+	Nerf/Buff	? Question/Problem	]]	Shelved Note
@@ -95,6 +105,7 @@ Sonorous Pail
 Dried Ham
 + Change threshold to 40%
 - Change heals from 4 -> 3
+Crysotope
 Downloaded RAM
 Rotten Bones
 Inhabited Coffin

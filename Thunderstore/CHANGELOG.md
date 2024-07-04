@@ -1,3 +1,14 @@
+## 10.0.0
+
+- Added Pig's Spork
+- Rotten Bones Description is now accurate
+- Renamed Chrysotope -> Crysotope
+- HMT base damage 400% -> 300%
+    - damage per stack 125% -> 100%
+- Yield Sign damage 350% -> 300%
+    - Nolonger can either version can be triggered by Bottled Chaos (Didn't do anything in the first place)
+- Removed a few frequent log print messages
+
 ## 0.9.3
 
 - Toy Robot Barrier 5 -> 6

@@ -20,6 +20,8 @@ namespace UltitemsCyan.Equipment
             float cooldown,
             bool isLunar,
             bool canDrop,
+            bool randomlyTriggered,
+            //bool enigmaCompatible,
             Sprite sprite,
             GameObject prefab
         )
@@ -48,7 +50,7 @@ namespace UltitemsCyan.Equipment
                 equipment.canBeRandomlyTriggered = false;
             }
 
-            //equipment.canBeRandomlyTriggered = true; // By default is true
+            equipment.canBeRandomlyTriggered = randomlyTriggered; // By default is true
             equipment.enigmaCompatible = true;
 
             equipment.pickupIconSprite = sprite;

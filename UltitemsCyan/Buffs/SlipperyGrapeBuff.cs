@@ -11,7 +11,7 @@ using Rewired.Utils;
 
 namespace UltitemsCyan.Buffs
 {
-    public class SlipperyGrape : BuffBase
+    public class SlipperyGrapeBuff : BuffBase
     {
         public static BuffDef buff;
         private const float grapeBlockChance = Items.Tier3.Grapevine.grapeBlockChance;

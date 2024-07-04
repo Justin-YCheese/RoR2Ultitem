@@ -37,6 +37,7 @@ namespace UltitemsCyan.Equipment
                 60f,
                 false,
                 true,
+                true,
                 Ultitems.mysterySprite,
                 Ultitems.mysteryPrefab
                 //Ultitems.Assets.JellyJailSprite,

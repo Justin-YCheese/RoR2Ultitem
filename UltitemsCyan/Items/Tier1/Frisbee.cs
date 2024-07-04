@@ -153,7 +153,7 @@ namespace UltitemsCyan.Items.Tier1
                         // Player is rising
                         if (motor.velocity.y < riseSpeed)
                         {
-                            Log.Warning("Is on server? " + NetworkServer.active + "  Or enabled? " + motor.enabled + "last velocity: " + motor.lastVelocity);
+                            //Log.Warning("Is on server? " + NetworkServer.active + "  Or enabled? " + motor.enabled + "last velocity: " + motor.lastVelocity);
                             //Log.Debug("Falling?: \t" + motor.velocity.y + " = " + ((body.characterMotor.velocity.y * dampeningForce) + (riseSpeed * dampeningForce)));
                             //body.characterMotor.velocity.y -= Time.fixedDeltaTime * Physics.gravity.y * fallReducedGravity;
                             motor.velocity.y = ((motor.velocity.y - riseSpeed) * dampeningForce) + riseSpeed;

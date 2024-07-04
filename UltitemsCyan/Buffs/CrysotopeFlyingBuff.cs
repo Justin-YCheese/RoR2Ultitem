@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
-    public class ChrysotopeFlyingBuff : BuffBase
+    public class CrysotopeFlyingBuff : BuffBase
     {
         public static BuffDef buff;
         //private const float airSpeed = Chrysotope.airSpeed;
 
         public override void Init()
         {
-            buff = DefineBuff("Chrysotope Flying Buff", false, false, Color.white, UltAssets.ChrysotopeFlySprite, false, false);
+            buff = DefineBuff("Crysotope Flying Buff", false, false, Color.white, UltAssets.CrysotopeFlySprite, false, false);
 
             //Hooks();
         }

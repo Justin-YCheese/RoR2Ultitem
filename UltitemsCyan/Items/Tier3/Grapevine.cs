@@ -124,7 +124,7 @@ namespace UltitemsCyan.Items.Tier3
         }
 
         //private BuffDef buffDef = JunkContent.Buffs.BodyArmor;
-        private BuffDef buffDef = Buffs.SlipperyGrape.buff;
+        private BuffDef buffDef = Buffs.SlipperyGrapeBuff.buff;
 
         public GameObject baseObject;
         public TeamFilter teamFilter;

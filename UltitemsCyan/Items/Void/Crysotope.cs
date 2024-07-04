@@ -7,7 +7,7 @@ namespace UltitemsCyan.Items.Void
 {
 
     // TODO: check if Item classes needs to be public
-    public class Chrysotope : ItemBase
+    public class Crysotope : ItemBase
     {
         public static ItemDef item;
         public static ItemDef transformItem;
@@ -24,14 +24,14 @@ namespace UltitemsCyan.Items.Void
         public override void Init()
         {
             item = CreateItemDef(
-                "CHRYSOTOPE",
-                "Chrysotope",
+                "CRYSOTOPE",
+                "Crysotope",
                 "Rise after jumping. Hold jump to continue flying. <style=cIsVoid>Corrupts all Frisbees</style>.",
                 "Rise after jumping for <style=cIsUtility>0.6</style> <style=cStack>(+0.4 per stack)</style> seconds. Hold jump to keep flying. <style=cIsVoid>Corrupts all Frisbees</style>.",
                 "An eyeless crystal snake capbable of flying 100 meters",
                 ItemTier.VoidTier1,
-                UltAssets.ChrysotopeSprite,
-                UltAssets.ChrysotopePrefab,
+                UltAssets.CrysotopeSprite,
+                UltAssets.CrysotopePrefab,
                 [ItemTag.Utility],
                 Frisbee.item
             );
@@ -48,7 +48,7 @@ namespace UltitemsCyan.Items.Void
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<ChrysotopeBehavior>(self.inventory.GetItemCount(item));
+                self.AddItemBehavior<CrysotopeBehavior>(self.inventory.GetItemCount(item));
             }
         }
 
@@ -77,15 +77,15 @@ namespace UltitemsCyan.Items.Void
                     {
                         //   *   *   *   ADD EFFECT   *   *   *   //
 
-                        Log.Debug("Chrysotope Jump ? ? ? adding buff for " + (baseDuration + (durationPerStack * (grabCount - 1))) + " seconds");
+                        Log.Debug("Crysotope Jump ? ? ? adding buff for " + (baseDuration + (durationPerStack * (grabCount - 1))) + " seconds");
                         //self.characterBody.AddTimedBuffAuthority(FrisbeeFlyingBuff.buff.buffIndex, baseDuration + (durationPerStack * (grabCount - 1)));
 
-                        var behavior = self.characterBody.GetComponent<ChrysotopeBehavior>();
+                        var behavior = self.characterBody.GetComponent<CrysotopeBehavior>();
                         behavior.enabled = true;
                         behavior.UpdateStopwatch(Run.instance.time);
-                        body.SetBuffCount(ChrysotopeFlyingBuff.buff.buffIndex, 1);
+                        body.SetBuffCount(CrysotopeFlyingBuff.buff.buffIndex, 1);
 
-                        Log.Debug("Has Timed def Buff? " + self.HasBuff(ChrysotopeFlyingBuff.buff));
+                        Log.Debug("Has Timed def Buff? " + self.HasBuff(CrysotopeFlyingBuff.buff));
                     }
                 }
             }
@@ -95,11 +95,11 @@ namespace UltitemsCyan.Items.Void
 
 
 
-        public class ChrysotopeBehavior : CharacterBody.ItemBehavior
+        public class CrysotopeBehavior : CharacterBody.ItemBehavior
         {
             private CharacterMotor characterMotor;
-            private const float baseDuration = Chrysotope.baseDuration;
-            private const float durationPerStack = Chrysotope.durationPerStack;
+            private const float baseDuration = Crysotope.baseDuration;
+            private const float durationPerStack = Crysotope.durationPerStack;
             public float flyingStopwatch = 0;
             private bool _canHaveBuff = false;
 
@@ -125,7 +125,7 @@ namespace UltitemsCyan.Items.Void
                             //body.characterMotor.velocity *= 2f;
                             //body.characterMotor.velocity.x *= 1.2f;
                             //Log.Debug(" + new y = " + body.characterMotor.velocity.y + " | x = " + body.characterMotor.velocity.x + " | z = " + body.characterMotor.velocity.z);
-                            body.SetBuffCount(ChrysotopeFlyingBuff.buff.buffIndex, 0);
+                            body.SetBuffCount(CrysotopeFlyingBuff.buff.buffIndex, 0);
                         }
                     }
                 }
@@ -138,7 +138,7 @@ namespace UltitemsCyan.Items.Void
                 {
                     CanHaveBuff = !characterMotor.isGrounded && body.inputBank.jump.down
                         && Run.instance.time <= flyingStopwatch + baseDuration + (durationPerStack * (stack - 1));
-                    if (body.HasBuff(ChrysotopeFlyingBuff.buff))
+                    if (body.HasBuff(CrysotopeFlyingBuff.buff))
                     {
                         // Player is rising
                         if (body.characterMotor.velocity.y < riseSpeed)

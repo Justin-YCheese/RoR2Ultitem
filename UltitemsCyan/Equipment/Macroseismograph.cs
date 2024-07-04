@@ -45,6 +45,7 @@ namespace UltitemsCyan.Equipment
                 cooldown,
                 true,
                 true,
+                false,
                 UltAssets.MacroseismographSprite,
                 UltAssets.MacroseismographPrefab
             );
