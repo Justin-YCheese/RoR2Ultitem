@@ -1,13 +1,9 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using System;
-using System.Linq;
 using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier2;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using static UltitemsCyan.Items.Lunar.DreamFuel;
-//using static RoR2.GenericPickupController;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -29,11 +25,16 @@ namespace UltitemsCyan.Items.Void
 
         public const float notAttackingDelay = 4f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Downloaded RAM";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "DOWNLOADEDRAM",
-                "Downloaded RAM",
+                itemName,
                 "Chance on hit to increase damage. Lose stacks when not attacking. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
                 "<style=cIsDamage>12%</style> chance on hit to increase damage by <style=cIsDamage>8%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. Lose stacks 4 seconds after inflicting damage. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
                 "Wow I can't belive it worked! I though for sure it was a scam!",

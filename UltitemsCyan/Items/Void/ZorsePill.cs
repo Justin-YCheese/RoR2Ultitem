@@ -1,14 +1,11 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using System;
-using System.Linq;
 using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier2;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
+using BepInEx.Configuration;
 
 using static RoR2.DotController;
-
 
 //using static RoR2.GenericPickupController;
 
@@ -32,11 +29,16 @@ namespace UltitemsCyan.Items.Void
         private const float percentPerStack = 20f;
         public const float duration = 3f; // Any greater than 3 and the health bar visual dissapears before inflicting damage
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "ZorsePill";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "ZORSEPILL",
-                "ZorsePill",
+                itemName,
                 "Starve enemies on hit to deal delayed damage. <style=cIsVoid>Corrupts all HMTs</style>.",
                 "Starve an enemy for <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> of TOTAL damage. Status duration <style=cIsDamage>resets</style> when reapplied. <style=cIsVoid>Corrupts all HMTs</style>.",
                 "Get this diet pill now! Eat one and it cut's your weight down. Disclaimer: the microbes inside are definitly not eating you from the inside out.",

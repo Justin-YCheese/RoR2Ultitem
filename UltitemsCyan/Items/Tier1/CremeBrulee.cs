@@ -1,7 +1,6 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
 using RoR2;
 using System;
-using UnityEngine;
 //using static RoR2.GenericPickupController;
 
 namespace UltitemsCyan.Items.Tier1
@@ -15,11 +14,16 @@ namespace UltitemsCyan.Items.Tier1
         private const float percentHealing = 4f;
         private const float flatHealing = 16f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Crème Brûlée";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "CREMEBRULEE",
-                "Crème Brûlée",
+                itemName,
                 "Heal when hitting full health enemies.",
                 "<style=cIsHealing>Heal</style> for <style=cIsHealing>20</style> plus an additional <style=cIsHealing>5%</style> <style=cStack>(+5% per stack)</style> when dealing damage to <style=cIsDamage>full health</style> enemies",
                 "Super Sugar Crust!",

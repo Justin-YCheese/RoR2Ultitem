@@ -1,10 +1,10 @@
-﻿using Mono.Cecil.Cil;
+﻿using BepInEx.Configuration;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
-//using static RoR2.GenericPickupController;
 
 namespace UltitemsCyan.Items.Lunar
 {
@@ -26,11 +26,16 @@ namespace UltitemsCyan.Items.Lunar
 
         //private bool inSilverAlready = false;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Silver Thread";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "SILVERTHREAD",
-                "Silver Thread",
+                itemName,
                 "Chance to gain additional items... <style=cDeath>BUT chance of dying upon being attacked</style>. Upon death, this item will be consumed.",
                 "<style=cIsUtility>50%</style> <style=cStack>(+25% chance per stack)</style> chance to pick up <style=cIsUtility>1</style> additional item. You have a chance of <style=cDeath>dying</style> equal to <style=cIsUtility>100%</style> <style=cStack>(+100% per stack)</style> health lost. <style=cIsUtility>Upon death</style>, this item will be <style=cIsUtility>consumed</style>. <style=cIsUtility>Unaffected by luck</style>.",
                 "The end of the abacus of life. A King's Riches Lays before you, but at the end of a strand which has been snapped intwine.",

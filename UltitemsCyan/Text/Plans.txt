@@ -4,6 +4,7 @@
 - Multiplayer
 	- Jealous Foe
 - Test Sues Mandibles
+- Does Chaos use band equipments?
 
 
 	My Item Add Order:
@@ -20,6 +21,9 @@
 - Version number
 - Readme
 - Change Log
+- manifest has the right version
+- Update DLL
+- Update Bundle
 - Has the tags: Mods | Items | Survivors of the Void
 
 
@@ -27,6 +31,7 @@
 	For Future Consideration:
 - Use heal fraction for percent heals
 - Flask activates before Spork does
+- Sue's Mandibles has no warning
 - Sue's Mandibles Low Health Tag makes the 25% health line appear despite it being at 0% health
 - remove public static ExpansionDef sotvDLC;
 - Optimize SonorousPail by using indexing arrays

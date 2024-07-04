@@ -1,6 +1,6 @@
 ﻿using R2API;
 using RoR2;
-using UnityEngine;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier3
 {
@@ -11,11 +11,16 @@ namespace UltitemsCyan.Items.Tier3
         public static ItemDef item;
         private const float speedPerStackStatus = 25f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Viral Smog";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "VIRALSMOG",
-                "Viral Smog",
+                itemName,
                 "Increase speed per unique status effect.",
                 "Increases <style=cIsUtility>movement speed</style> by <style=cIsUtility>25%</style> <style=cStack>(+25% per stack)</style> per <style=cIsDamage>unique status</style> you have.",
                 "Illness",

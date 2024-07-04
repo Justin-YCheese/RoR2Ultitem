@@ -1,10 +1,8 @@
-﻿using R2API;
-using RoR2;
-using System.Linq;
+﻿using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -16,11 +14,16 @@ namespace UltitemsCyan.Items.Tier2
         private const int consumedPerScissor = 2;
         private const int scrapsPerConsumed = 2;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "1000 Degree Scissors";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "DEGREESCISSORS",
-                "1000 Degree Scissors",
+                itemName,
                 "Melts two consumed items into scraps. Otherwise melts itself.",
                 "At the start of each stage, <style=cIsUtility>melts</style> two <style=cIsUtility>consumed</style> items into <style=cIsUtility>2 common scraps</style> each. If no scissor is used, then it <style=cIsUtility>melts</style> itself.",
                 "What's Youtube?",

@@ -1,4 +1,5 @@
-﻿using IL.RoR2.Items;
+﻿using BepInEx.Configuration;
+using IL.RoR2.Items;
 using On.RoR2.Items;
 using R2API;
 using RoR2;
@@ -12,11 +13,16 @@ namespace UltitemsCyan.Equipment
     {
         public static EquipmentDef equipment;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Yield Sign";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             equipment = CreateItemDef(
                 "YIELDSIGNSTOP",
-                "Yield Sign",
+                itemName,
                 "Alternate between multiplying speed and canceling it. Hit nearby enemies each time.",
                 "Alternate between multipling speed by 400%, or setting it to zero. Damage nearby enemies for 300% damage.",
                 "Just Stop",

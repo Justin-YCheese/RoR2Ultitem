@@ -1,6 +1,5 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
 using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Items.Untiered
 {
@@ -10,7 +9,7 @@ namespace UltitemsCyan.Items.Untiered
     {
         public static ItemDef item;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
             item = CreateItemDef(
                 "CORRODINGVAULTCONSUMED",

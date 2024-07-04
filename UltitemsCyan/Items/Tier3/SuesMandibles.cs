@@ -1,7 +1,6 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UltitemsCyan.Items.Untiered;
-using UnityEngine;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier3
 {
@@ -10,11 +9,15 @@ namespace UltitemsCyan.Items.Tier3
     public class SuesMandibles : ItemBase
     {
         public static ItemDef item;
-        private const float warningDelay = 25f;
+        //private const float warningDelay = 25f;
         private const float effectDuration = 30f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			if (!CheckItemEnabledConfig("Sues Mandibles", configs)) // Can't have apostrophes
+            {
+				return;
+			}
             item = CreateItemDef(
                 "SUESMANDIBLES",
                 "Sue's Mandibles",

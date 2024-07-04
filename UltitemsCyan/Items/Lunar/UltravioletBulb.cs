@@ -1,7 +1,6 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
-using System;
-using System.Linq;
 using UnityEngine;
 
 namespace UltitemsCyan.Items.Lunar
@@ -13,11 +12,16 @@ namespace UltitemsCyan.Items.Lunar
         public static ItemDef item;
         private const float dontResetChance = 50f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Ultraviolet Bulb";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "ULTRAVIOLETBULB",
-                "Ultraviolet Bulb",
+                itemName,
                 "Chance to instantly reset a skill after it's used... <style=cDeath>BUT triples all cooldown</style>",
                 "Have a <style=cIsUtility>50%</style> <style=cStack>(+50% per stack)</style> chance to <style=cIsUtility>reset a skill cooldown</style> and <style=cDeath>triple all cooldowns</style> <style=cStack>(per stack)</style>",
                 "Voilent Stacks exponetially. Clover is like another bulb",

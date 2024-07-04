@@ -1,12 +1,10 @@
 ﻿using RoR2;
 using RoR2.Projectile;
-using System.ComponentModel;
-using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier1;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-//using static RoR2.GenericPickupController;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -20,11 +18,16 @@ namespace UltitemsCyan.Items.Void
         public const float chancePerStack = 5f;
         public readonly GameObject EyeballProjectile = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/DeathProjectile/DeathProjectile.prefab").WaitForCompletion();
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "JealousFoe";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "JEALOUSFOE",
-                "JealousFoe",
+                itemName,
                 "Chance of On-Kill effects upon grabbing pickups. <style=cIsVoid>Corrupts all Toy Robots</style>.",
                 "<style=cIsDamage>5%</style> <style=cStack>(+5% per stack)</style> chance of triggering <style=cIsDamage>On-Kill</style> effects when <style=cIsDamage>grabbing pickups</style>. <style=cIsVoid>Corrupts all Toy Robots</style>.",
                 "Look at it Jubilat. It just jubilant like jello jelly.",

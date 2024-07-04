@@ -1,4 +1,5 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using System;
 using System.Linq;
@@ -13,11 +14,16 @@ namespace UltitemsCyan.Items
         public static ItemDef item;
         private const float dontResetFraction = 0.50f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Power Chips";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "POWERCHIPS",
-                "Power Chips",
+                itemName,
                 "",
                 "",
                 "",

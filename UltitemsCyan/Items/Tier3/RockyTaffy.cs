@@ -1,11 +1,8 @@
 ﻿using R2API;
 using RoR2;
-using UltitemsCyan.Buffs;
-using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using static UltitemsCyan.Items.Lunar.DreamFuel;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier3
 {
@@ -18,12 +15,16 @@ namespace UltitemsCyan.Items.Tier3
 
         public static GameObject CaptainBodyArmorBlockEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Captain/CaptainBodyArmorBlockEffect.prefab").WaitForCompletion();
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Rocky Taffy";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "ROCKYTAFFY",
-                "Rocky Taffy",
-                // No Barrier Decay without shield
+                itemName,
                 "Gain a recharging shield. Gain a stable barrier without your shield.",
                 "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>40%</style> <style=cStack>(+40% per stack)</style> of your maximum health. On losing your shield, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield.",
                 "This vault is sturdy, but over time the rust will just crack it open",

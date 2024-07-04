@@ -115,11 +115,11 @@ namespace UltitemsCyan
         public static Sprite MacroseismographSprite;
         public static Sprite MacroseismographConsumedSprite;
         public static Sprite PotOfRegolithSprite;
-        public static Sprite UniversalSoluteSprite;
+        public static Sprite ObsoluteSprite;
         public static GameObject MacroseismographPrefab;
         public static GameObject MacroseismographConsumedPrefab;
         public static GameObject PotOfRegolithPrefab;
-        public static GameObject UniversalSolutePrefab;
+        public static GameObject ObsolutePrefab;
 
         // Buffs
         public static Sprite BirthdaySprite;
@@ -306,11 +306,11 @@ namespace UltitemsCyan
             MacroseismographSprite = mainBundle.LoadAsset<Sprite>("Macroseismograph.png");
             MacroseismographConsumedSprite = mainBundle.LoadAsset<Sprite>("MacroseismographConsumed.png");
             PotOfRegolithSprite = mainBundle.LoadAsset<Sprite>("PotOfRegolith.png");
-            UniversalSoluteSprite = mainBundle.LoadAsset<Sprite>("UniversalSolute.png");
+            ObsoluteSprite = mainBundle.LoadAsset<Sprite>("UniversalSolute.png");
             MacroseismographPrefab = mainBundle.LoadAsset<GameObject>("Macroseismograph.prefab");
             MacroseismographConsumedPrefab = mainBundle.LoadAsset<GameObject>("MacroseismographConsumed.prefab");
             PotOfRegolithPrefab = mainBundle.LoadAsset<GameObject>("PotOfRegolith.prefab");
-            UniversalSolutePrefab = mainBundle.LoadAsset<GameObject>("UniversalSolute.prefab");
+            ObsolutePrefab = mainBundle.LoadAsset<GameObject>("UniversalSolute.prefab");
 
             //MacroseismographPrefab.transform.localScale = Vector3.up * localScale;
             //MacroseismographConsumedPrefab.transform.localScale = Vector3.up * localScale;

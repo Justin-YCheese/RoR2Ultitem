@@ -1,9 +1,8 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using System.Linq;
-using UnityEngine;
 using UnityEngine.Networking;
 using UltitemsCyan.Buffs;
+using BepInEx.Configuration;
 
 
 namespace UltitemsCyan.Items.Tier2
@@ -18,11 +17,16 @@ namespace UltitemsCyan.Items.Tier2
         // For Birthday Buff
         public const float birthdayBuffMultiplier = 32f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Birthday Candles";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "BIRTHDAYCANDLES",
-                "Birthday Candles",
+                itemName,
                 "Temporarily deal extra damage after pickup and at the start of each stage.",
                 "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for<style=cIsUtility>5 minutes</style>after pickup and after the start of each stage.",
                 "I don't know what to get you for your birthday...",

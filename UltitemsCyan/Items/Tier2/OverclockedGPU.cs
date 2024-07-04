@@ -1,6 +1,6 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -19,11 +19,16 @@ namespace UltitemsCyan.Items.Tier2
         // For Overclocked Buff
         public const float buffAttackSpeedPerItem = 3f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Overclocked GPU";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "OVERCLOCKEDGPU",
-                "Overclocked GPU",
+                itemName,
                 "Increase attack speed on kill. Stacks 10 times. Resets after getting hurt.",
                 "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.",
                 "GPU GPU",

@@ -1,4 +1,5 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using System;
 using UnityEngine;
@@ -28,12 +29,16 @@ namespace UltitemsCyan.Items.Tier1
         public const float baseTickMultiplier = 0f;
         public const float tickPerStack = 15f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
-            //loadPrefab();
+            string itemName = "Flea Bag";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "FLEABAG",
-                "Flea Bag",
+                itemName,
                 "Chance on hit to drop a tick which gives critical chance. Critical Strikes drop more ticks.",
                 "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> <style=cIsDamage>critical chance</style> for 18 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.",
                 "Is this movie popcorn?",

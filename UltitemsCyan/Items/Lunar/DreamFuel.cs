@@ -1,4 +1,4 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
 using RoR2;
 using System;
 using UltitemsCyan.Buffs;
@@ -15,11 +15,16 @@ namespace UltitemsCyan.Items.Lunar
         // For Dream Speed Buff
         public const float dreamSpeed = 120f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Dream Fuel";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "DREAMFUEL",
-                "Dream Fuel",
+                itemName,
                 "Increase speed at full health... <style=cDeath>BUT get rooted when hit.</style>",
                 "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>120%</style> <style=cStack>(+120% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.",
                 "More like Nightmare fuel",

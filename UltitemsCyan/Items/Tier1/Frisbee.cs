@@ -1,9 +1,6 @@
-﻿using RoR2;
-using System;
+﻿using BepInEx.Configuration;
+using RoR2;
 using UltitemsCyan.Buffs;
-using UltitemsCyan.Items.Void;
-using UnityEngine.Networking;
-using static UltitemsCyan.Items.Void.DownloadedRAM;
 //using static RoR2.GenericPickupController;
 
 namespace UltitemsCyan.Items.Tier1
@@ -23,11 +20,16 @@ namespace UltitemsCyan.Items.Tier1
         public const float baseDuration = 1.2f;
         public const float durationPerStack = 0.6f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Frisbee";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "FRISBEE",
-                "Frisbee",
+                itemName,
                 "Rise and move faster after jumping. Hold jump to continue gliding.",
                 "Rise slowly and move <style=cIsUtility>10%</style> <style=cStack>(+10% per stack)</style> faster after jumping for <style=cIsUtility>1.2</style> <style=cStack>(+0.6 per stack)</style> seconds. Hold jump to keep hovering.",
                 "Folding Flyers Falling Futher Faster For Five Far Fields",

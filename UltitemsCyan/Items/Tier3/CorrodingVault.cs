@@ -1,9 +1,7 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UltitemsCyan.Items.Untiered;
-using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Rendering;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier3
 {
@@ -15,11 +13,16 @@ namespace UltitemsCyan.Items.Tier3
         private const int quantityInVault = 15;
         //private const int bonusInVault = 0;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Corroding Vault";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "CORRODINGVAULT",
-                "Corroding Vault",
+                itemName,
                 "Breaks at the start of the next stage. Contains white items.",
                 "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>15</style> unique white items",
                 "This vault is sturdy, but over time the rust will just crack it open",

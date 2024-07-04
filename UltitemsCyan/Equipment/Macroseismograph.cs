@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.AddressableAssets;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Equipment
 {
@@ -34,11 +35,16 @@ namespace UltitemsCyan.Equipment
 
         //RoR2/Base/Meteor/MeteorStrikePredictionEffect.prefab
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Macroseismograph";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             equipment = CreateItemDef(
                 "MACROSEISMOGRAPH",
-                "Macroseismograph",
+                itemName,
                 "While on the ground, summons a tremendious power...  <style=cDeath>BUT forgo all equipments</style>",
                 "Deal <style=cIsDamage>1000000%</style> damage to all enemies within <style=cIsDamage>180m</style>. On use the equipment is <style=cIsDamage>consumed</style> and <style=cIsHealth>cannot be dropped</style>.",
                 "This seismograph must be broken, it always reads at least 10. But there's no way that's true, I don't feel anything, yet I always try to avoid looking at it. It seems ominous, almost alive...",

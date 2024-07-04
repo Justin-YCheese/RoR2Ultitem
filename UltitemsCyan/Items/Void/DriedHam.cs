@@ -1,9 +1,7 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using System;
 using UltitemsCyan.Items.Tier1;
-using UnityEngine;
-//using static RoR2.GenericPickupController;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -16,11 +14,16 @@ namespace UltitemsCyan.Items.Void
         private const float threshold = 35f;
         private const float flatHealing = 4f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Dried Ham";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "DRIEDHAM",
-                "Dried Ham",
+                itemName,
                 "Heal when hitting enemies below 35% health. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
                 "<style=cIsHealing>Heal</style> for <style=cIsHealing>4</style> <style=cStack>(+5 per stack)</style> when dealing damage to enemies below <style=cIsDamage>35% health</style>. <style=cIsVoid>Corrupts all Crème Brûlées</style>.",
                 "The bitter aftertaste is just the spoilage",

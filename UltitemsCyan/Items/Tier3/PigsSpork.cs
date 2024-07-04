@@ -1,16 +1,13 @@
-﻿using R2API;
-using RoR2;
-using System.Linq;
+﻿using RoR2;
 using UnityEngine;
-using UnityEngine.Networking;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 using UltitemsCyan.Buffs;
-using System;
-using HG;
-using static Rewired.ComponentControls.Effects.RotateAroundAxis;
+using BepInEx.Configuration;
+using UnityEngine.Networking;
+using System.Collections;
+using System.Net.NetworkInformation;
 
-namespace UltitemsCyan.Items.Tier2
+namespace UltitemsCyan.Items.Tier3
 {
     // TODO: check if Item classes needs to be public
     public class PigsSpork : ItemBase
@@ -24,8 +21,12 @@ namespace UltitemsCyan.Items.Tier2
 
         private const float bleedHealing = 3f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            if (!CheckItemEnabledConfig("Pigs Spork", configs)) // Can't have apostrophes
+            {
+                return;
+            }
             item = CreateItemDef(
                 "PIGSSPORK",
                 "Pig's Spork",
@@ -41,14 +42,31 @@ namespace UltitemsCyan.Items.Tier2
 
         protected override void Hooks()
         {
-            On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
+            //On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
             //On.RoR2.HealthComponent.UpdateLastHitTime += HealthComponent_UpdateLastHitTime;
             //On.RoR2.DotController.AddPendingDamageEntry += DotController_AddPendingDamageEntry;
 
             On.RoR2.DotController.EvaluateDotStacksForType += DotController_EvaluateDotStacksForType;
             On.RoR2.DotController.InflictDot_refInflictDotInfo += DotController_InflictDot_refInflictDotInfo;
             On.RoR2.DotController.OnDotStackRemovedServer += DotController_OnDotStackRemovedServer;
-            On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy; ;
+            On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
+
+            On.RoR2.HealthComponent.UpdateLastHitTime += HealthComponent_UpdateLastHitTime; ;
+        }
+
+        private void HealthComponent_UpdateLastHitTime(On.RoR2.HealthComponent.orig_UpdateLastHitTime orig, HealthComponent self, float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker)
+        {
+            if (NetworkServer.active && self.body && self.isHealthLow)
+            {
+                CharacterBody body = self.body;
+                int grabCount = body.inventory.GetItemCount(item);
+                if (grabCount > 0) // && !body.HasBuff(SporkBleedBuff.buff.buffIndex)
+                {
+                    body.AddTimedBuff(SporkBleedBuff.buff, sporkBaseDuration * grabCount);
+                    _ = Util.PlaySound("Play_item_void_bleedOnHit_start", body.gameObject);
+                }
+            }
+            orig(self, damageValue, damagePosition, damageIsSilent, attacker);
         }
 
         private void DotController_OnDotStackRemovedServer(On.RoR2.DotController.orig_OnDotStackRemovedServer orig, DotController self, object dotStack)
@@ -162,7 +180,7 @@ namespace UltitemsCyan.Items.Tier2
             orig(pendingDamages, attackerObject, damage, damageType);
         }//*/
 
-        // Add item behavior for low health
+        /*// Add item behavior for low health
         private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
         {
             orig(self);
@@ -172,7 +190,7 @@ namespace UltitemsCyan.Items.Tier2
             }
         }
 
-        // Low health behavior
+        /// Low health behavior
         public class PigsSporkBehavior : CharacterBody.ItemBehavior
         {
             public HealthComponent healthComponent;
@@ -198,7 +216,7 @@ namespace UltitemsCyan.Items.Tier2
                 }
             }
 
-            // If player is at full health
+            /// If player is at full health
             public void FixedUpdate()
             {
                 if (healthComponent)
@@ -206,6 +224,7 @@ namespace UltitemsCyan.Items.Tier2
                     InLowHealth = healthComponent.isHealthLow;
                 }
             }
+            ///
 
             public void Start()
             {
@@ -217,6 +236,7 @@ namespace UltitemsCyan.Items.Tier2
                 InLowHealth = false;
             }
         }
+        //*/
 
         // Used to keep track of who heals from bleed damage
         public class SporkBleedBehavior : CharacterBody.ItemBehavior

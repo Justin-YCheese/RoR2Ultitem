@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using BepInEx.Configuration;
+using RoR2;
 using UltitemsCyan.Buffs;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -35,11 +36,16 @@ namespace UltitemsCyan.Equipment
         private static readonly GameObject explosionGolem = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Golem/ExplosionGolem.prefab").WaitForCompletion();
         //AncientWispPillar ?
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Yield Sign";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             equipment = CreateItemDef(
                 "YIELDSIGN",
-                "Yield Sign",
+                itemName,
                 "Alternate between multiplying speed and canceling it. Hit nearby enemies each time.",
                 "Alternate between multiplying current speed by 300% and zeroing it. Stun nearby enemies for 300% damage.",
                 "Stop and go, the best of both worlds right?",

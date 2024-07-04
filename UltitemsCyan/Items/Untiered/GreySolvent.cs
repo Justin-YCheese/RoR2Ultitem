@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using BepInEx.Configuration;
+using RoR2;
 
 namespace UltitemsCyan.Items.Untiered
 {
@@ -8,7 +9,7 @@ namespace UltitemsCyan.Items.Untiered
     {
         public static ItemDef item;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
             item = CreateItemDef(
                 "GREYSOLVENT",

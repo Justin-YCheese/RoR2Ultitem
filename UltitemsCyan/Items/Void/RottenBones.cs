@@ -1,12 +1,8 @@
-﻿using R2API;
-using RoR2;
-using System.Linq;
+﻿using RoR2;
 using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier2;
-using UnityEngine;
 using UnityEngine.Networking;
-using static UltitemsCyan.Items.Lunar.DreamFuel;
-//using static RoR2.GenericPickupController;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -21,11 +17,16 @@ namespace UltitemsCyan.Items.Void
         public const float rottingBuffMultiplier = 15;
         public const float rotTimeInterval = 180; // 3 minutes
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Rotten Bones";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "ROTTENBONES",
-                "Rotten Bones",
+                itemName,
                 "Deal more damage over time. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
                 "Increase damage by <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> damage for every 3 minutes</style> passed in a stage, up to a max of <style=cIsDamage>3</style> stacks. <style=cIsVoid>Corrupts all Birthday Candles</style>.",
                 "The bitter aftertaste is just the spoilage",

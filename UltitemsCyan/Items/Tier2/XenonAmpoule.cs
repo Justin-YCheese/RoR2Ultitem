@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.AddressableAssets;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -55,16 +56,20 @@ namespace UltitemsCyan.Items.Tier2
 
 
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Xenon Ampoule";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
+			
             damagePerStack /= 3f;   // Counter WeakPointHit and Crit bonus
             baseDamage /= 3f;       // Counter WeakPointHit and Crit bonus
-
-            //TracerRailgunSuper
-
+			
             item = CreateItemDef(
                 "XENONAMPOULE",
-                "Xenon Ampoule",
+                itemName,
                 "Activating your Equipment also fires a laser",
                 "Activating your Equipment also fires a <style=cIsDamage>critting laser</style> for <style=cIsDamage>1600%</style> <style=cStack>(+400% per stack)</style> base damage. The damage scales with an equipment's cooldown.",
                 "It's Purple because I messed up. Xenon is supposed to be more blue than hyrdogen, but I wanted an X name. Sorry.",

@@ -1,4 +1,5 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using UnityEngine;
 
@@ -12,11 +13,16 @@ namespace UltitemsCyan.Equipment
         public static EquipmentDef equipment;
         private const float percentOfBarrier = 80f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "9 Ice Cubes";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             equipment = CreateItemDef(
                 "ICECUBES",
-                "9 Ice Cubes",
+                itemName,
                 "Gain barrier on use",
                 "Instantly gain <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>80% of your maximum health</style>",
                 "Alice that freezes forever",

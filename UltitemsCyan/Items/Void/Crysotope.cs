@@ -1,7 +1,7 @@
 ﻿using RoR2;
 using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier1;
-using System.Linq;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -21,11 +21,16 @@ namespace UltitemsCyan.Items.Void
         public const float baseDuration = 0.6f;
         public const float durationPerStack = 0.4f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Crysotope";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "CRYSOTOPE",
-                "Crysotope",
+                itemName,
                 "Rise after jumping. Hold jump to continue flying. <style=cIsVoid>Corrupts all Frisbees</style>.",
                 "Rise after jumping for <style=cIsUtility>0.6</style> <style=cStack>(+0.4 per stack)</style> seconds. Hold jump to keep flying. <style=cIsVoid>Corrupts all Frisbees</style>.",
                 "An eyeless crystal snake capbable of flying 100 meters",

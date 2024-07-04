@@ -1,4 +1,5 @@
-﻿using Epic.OnlineServices.Auth;
+﻿using BepInEx.Configuration;
+using Epic.OnlineServices.Auth;
 using Generics.Dynamics;
 using R2API;
 using RoR2;
@@ -15,7 +16,7 @@ namespace UltitemsCyan.Equipment
 
         private const float cooldown = 300f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
             equipment = CreateItemDef(
                 "MACROSEISMOGRAPHCONSUMED",

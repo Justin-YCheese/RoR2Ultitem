@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json.Utilities;
-using R2API;
-using RoR2;
+﻿using RoR2;
 using System.Collections.Generic;
 using UltitemsCyan.Items.Tier3;
 using UltitemsCyan.Items.Untiered;
-using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Rendering;
-using UnityEngine.Timeline;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -21,11 +17,16 @@ namespace UltitemsCyan.Items.Void
         private const float freeCoffinChance = 20f;
         private const int minimumInCoffin = 5;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+			string itemName = "Inhabited Coffin";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "INHABITEDCOFFIN",
-                "Inhabited Coffin",
+                itemName,
                 "Breaks at the start of the next stage. Contains void items. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
                 "At the start of each stage, this item will <style=cIsUtility>break</style> and gives <style=cIsUtility>5</style> random void items. <style=cIsUtility>Affected by luck</style>. <style=cIsVoid>Corrupts all Corroding Vaults</style>.",
                 "Something lives inside this coffin. That coffin is deeper than you think.",

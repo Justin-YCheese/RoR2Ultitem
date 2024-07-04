@@ -1,4 +1,5 @@
-﻿using KinematicCharacterController;
+﻿using BepInEx.Configuration;
+using KinematicCharacterController;
 using R2API;
 using RoR2;
 using System;
@@ -24,13 +25,19 @@ namespace UltitemsCyan.Equipment
         public static int jailMaxDeployed = 1;
         public static int jailMaxJails = 4;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Jelly Jail";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
+
             CreatePrefab();
 
             equipment = CreateItemDef(
                 "JELLYJAIL",
-                "Jelly Jail",
+                itemName,
                 "Spawn 5 gups",
                 "Spawn 5 gups",
                 "Alice that freezes forever",

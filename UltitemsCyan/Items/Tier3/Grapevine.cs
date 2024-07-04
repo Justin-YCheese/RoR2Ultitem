@@ -1,10 +1,8 @@
-﻿using R2API;
-using RoR2;
-using System;
+﻿using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-//using static RoR2.GenericPickupController;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier3
 {
@@ -23,12 +21,16 @@ namespace UltitemsCyan.Items.Tier3
         public const float grapeBlockChance = 85f;
         public const int maxGrapes = 20;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
-            //loadPrefab();
+			string itemName = "Grapevine";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "GRAPEVINE",
-                "Grapevine",
+                itemName,
                 "Chance on kill to drop grapes that block damage.",
                 "<style=cIsHealing>50%</style> <style=cStack>(+25% per stack)</style> chance on kill to grow a grape. <style=cIsHealing>85%</style> to <style=cIsHealing>block</style> incomming damage per grape. Block chance is <style=cIsUtility>unaffected by luck</style>.",
                 "If you close your eyes, you can pretend their eyeballs",

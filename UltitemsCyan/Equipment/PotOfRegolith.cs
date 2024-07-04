@@ -1,4 +1,5 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using System;
 using UnityEngine;
@@ -17,11 +18,16 @@ namespace UltitemsCyan.Equipment
         private const float basePercentDamage = 5f;
         private const float maxPercentDamage = 20f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Pot of Regolith";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             equipment = CreateItemDef(
                 "POTOFREGOLITH",
-                "Pot of Regolith",
+                itemName,
                 "<style=cDeath>Take damage</style> on use.",
                 "Take <style=cIsHealth>5% or 20% of your health</style> as <style=cIsDamage>damage</style>",
                 "The dust is as sharp as a knife",

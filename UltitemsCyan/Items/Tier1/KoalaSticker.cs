@@ -1,10 +1,8 @@
-﻿using Mono.Cecil.Cil;
+﻿using BepInEx.Configuration;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using R2API;
-using R2API.Utils;
 using RoR2;
 using System;
-using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 
 namespace UltitemsCyan.Items.Tier1
@@ -17,11 +15,16 @@ namespace UltitemsCyan.Items.Tier1
         private const float hyperbolicPercent = 11f;
         private const float minDamage = 5f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Koala Sticker";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "KOALASTICKER",
-                "Koala Sticker",
+                itemName,
                 "Reduce the maximum damage you can take.",
                 "Only lose a maxinum of <style=cIsHealing>90%</style> <style=cStack>(-12% per stack)</style> of your <style=cIsHealing>health</style> from a hit. Cannot be reduced below <style=cIsHealing>5</style>.",
                 "Like the bear but more consistant...   and more cute",

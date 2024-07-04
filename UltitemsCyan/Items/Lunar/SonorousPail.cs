@@ -1,9 +1,8 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UltitemsCyan.Items.Untiered;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -29,11 +28,16 @@ namespace UltitemsCyan.Items.Lunar
 
         public readonly GameObject ShrineUseEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Sonorous Pail";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "SONOROUSPAIL",
-                "Sonorous Pail",
+                itemName,
                 "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>",
                 "Gain <style=cIsDamage>2.5% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item, and <style=cIsUtility>1% jump height</style> per <style=cIsUtility>lunar</style> <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
                 "It's a tuning fork? no it's just a sand pail. The sand in the pail shifts with a sound which hums through it. Like a melody of waves, or to be less romantic, like a restless static.",

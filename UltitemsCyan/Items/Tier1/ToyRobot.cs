@@ -1,13 +1,8 @@
-﻿using Generics.Dynamics;
-using R2API;
+﻿using BepInEx.Configuration;
 using Rewired.Utils;
 using RoR2;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using UnityEngine;
-using static Mono.Security.X509.X520;
 
 namespace UltitemsCyan.Items.Tier1
 {
@@ -23,11 +18,16 @@ namespace UltitemsCyan.Items.Tier1
 
         private const float barrierGained = 6f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Toy Robot";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "TOYROBOT",
-                "Toy Robot",
+                itemName,
                 "Grab pickups from further away. Gain temporary barrier from pickups.",
                 "Pull in pickups from <style=cIsUtility>20m</style> <style=cStack>(+10m per stack)</style> away. Gain <style=cIsHealing>6</style> <style=cStack>(+6 per stack)</style> <style=cIsHealing>temporary barrier</style> from pickups.",
                 "They march to you like a song carriers their steps. More robots have a weaker pull",

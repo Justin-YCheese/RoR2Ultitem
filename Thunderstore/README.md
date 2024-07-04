@@ -4,6 +4,8 @@ Through my experiance from making vanilla modded items in Minecraft, this pack c
 
 There are still alot of print messages in the logs because I'm still debugging stuff...
 
+There is a config file to enable or disable specific items.
+
 | Icon | Item | Description | Tier |
 |:--:|--|--|:--:|
 | ![Imgur](https://i.imgur.com/j0V4Qt8.png) | Crème Brûlée        | Heal when hitting full health enemies.                                                                                  |      White      |
@@ -18,7 +20,7 @@ There are still alot of print messages in the logs because I'm still debugging s
 | ![Imgur](https://i.imgur.com/7nCsVaj.png) | Xenon Ampoule       | Activating your Equipment also fires a laser                                                                            |      Green      |
 | ![Imgur](https://i.imgur.com/4DFayZF.png) | Corroding Vault     | Breaks at the start of the next stage. Contains white items.                                                            |       Red       |
 | ![Imgur](https://i.imgur.com/t7YNoVY.png) | Grapevine           | Chance on kill to drop grapes that block damage.                                                                        |       Red       |
-| ![Imgur](https://i.imgur.com/9MdlVQW.png) | Pig's Spork         | Bleeds heal you. Gain 100% chance to bleed enemies at low health                                                        |       Red       |
+| ![Imgur](https://i.imgur.com/ChJnX9C.png) | Pig's Spork         | Bleeds heal you. Gain 100% chance to bleed enemies at low health                                                        |       Red       |
 | ![Imgur](https://i.imgur.com/fMenqmv.png) | Sue's Mandibles     | Endure a killing blow then gain invulnerability and disable healing for 30s. Consumed on use.                           |       Red       |
 | ![Imgur](https://i.imgur.com/85CkaFY.png) | Viral Smog          | Increase speed per unique status effect.                                                                                |       Red       |
 | ![Imgur](https://i.imgur.com/70oQsj7.png) | Rocky Taffy         | Gain a recharging shield. Gain a stable barrier without your shield.                                                    |       Red       |

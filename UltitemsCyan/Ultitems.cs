@@ -80,11 +80,9 @@ namespace UltitemsCyan
         public const string PluginName = "UltitemsCyan";
         public const string PluginVersion = "0.10.0";
 
-        public const string PluginSuffix = "Sharp Spork?";
+        public const string PluginSuffix = "Reset Optional Spork?";
 
-        private static ConfigFile UltitemsConfigFile { get; set; }
-        public static ConfigEntry<bool> EnableCremeBruleeEntry { get; set; }
-
+        private static ConfigFile UltitemsConfig { get; set; }
 
         public static List<ItemDef.Pair> CorruptionPairs = [];
         public static PluginInfo PInfo { get; private set; }
@@ -114,6 +112,7 @@ namespace UltitemsCyan
             PInfo = Info;
 
             //ConfigInit();
+            UltitemsConfig = new ConfigFile(Paths.ConfigPath + "\\Ultitems_ConfigFile.cfg", true);
 
             // Load assets TODO when making a final version
             //Log.Debug("Populating Assets...");
@@ -195,7 +194,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new Macroseismograph());
             ultitemItems.Add(new MacroseismographConsumed());
             ultitemItems.Add(new PotOfRegolith());
-            ultitemItems.Add(new UniversalSolute());
+            ultitemItems.Add(new Obsolute());
 
 
             // Void Items
@@ -216,7 +215,7 @@ namespace UltitemsCyan
 
             foreach (ItemBase newItem in ultitemItems)
             {
-                newItem.Init();
+                newItem.Init(UltitemsConfig);
                 // If a void item (which always transforms other items) then add to corruption pair list
                 if (newItem.GetTransformItem)
                 {
@@ -237,18 +236,6 @@ namespace UltitemsCyan
 
             Log.Warning("Ultitems Cyan Done: " + PluginVersion + " <- " + PluginSuffix);
         }
-
-        /*//
-        private void ConfigInit()
-        {
-            UltitemsConfigFile = new ConfigFile(Paths.ConfigPath + "\\CustomNamedFile.cfg", true);
-            EnableCremeBruleeEntry = Config.Bind(
-                "Enable",
-                "Enable Crème Brûlée",
-                true,
-            );
-        }
-        //*/
 
         private void Stage_onStageStartGlobal(Stage obj)
         {

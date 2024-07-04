@@ -1,8 +1,11 @@
 ## 10.0.0
 
+- Added Config File
 - Added Pig's Spork
 - Rotten Bones Description is now accurate
+- Inflated Frisbee
 - Renamed Chrysotope -> Crysotope
+- Renamed Universal Solute -> Obsolute
 - HMT base damage 400% -> 300%
     - damage per stack 125% -> 100%
 - Yield Sign damage 350% -> 300%

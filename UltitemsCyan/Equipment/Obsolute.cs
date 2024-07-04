@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using UltitemsCyan.Items.Lunar;
 using System;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Equipment
 {
@@ -19,7 +20,7 @@ namespace UltitemsCyan.Equipment
      */
 
     // TODO: check if Item classes needs to be public
-    public class UniversalSolute : EquipmentBase
+    public class Obsolute : EquipmentBase
     {
         public static EquipmentDef equipment;
         
@@ -29,20 +30,25 @@ namespace UltitemsCyan.Equipment
         // Keeps track of the dissolved items of the current stage
         private List<ItemIndex> dissolvedList = [];
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
+            string itemName = "Obsolute";
+            if (!CheckItemEnabledConfig(itemName, configs))
+            {
+                return;
+            }
             equipment = CreateItemDef(
-                "UNIVERSALSOLUTE",
-                "Universal Solute",
+                "OBSOLUTE",
+                itemName,
                 "<style=cDeath>Erase</style> your last item from existence.",
-                "<style=cDeath>Erase</style> the last item in your inventory from the run. It will no longer appear, and any instances of the items will <style=cDeath>break</style>.",
+                "<style=cDeath>Erase</style> the last item in your inventory from the run. It will no longer appear, and any instances of the items will <style=cDeath>dissolve</style>.",
                 "Everything returns to grey",
                 cooldown,
                 true,
                 true,
                 false,
-                UltAssets.UniversalSoluteSprite,
-                UltAssets.UniversalSolutePrefab
+                UltAssets.ObsoluteSprite,
+                UltAssets.ObsolutePrefab
             );
         }
 

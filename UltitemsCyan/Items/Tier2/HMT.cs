@@ -1,11 +1,7 @@
-﻿using R2API;
-using Rewired;
-using RoR2;
-using System;
+﻿using RoR2;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-//using static RoR2.GenericPickupController;
+using BepInEx.Configuration;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -22,12 +18,16 @@ namespace UltitemsCyan.Items.Tier2
         public const float baseBurnDuration = 6f;
         public const float durationPerItem = 2f;
 
-        public override void Init()
+        public override void Init(ConfigFile configs)
         {
-            //loadPrefab();
+			string itemName = "H.M.T";
+			if (!CheckItemEnabledConfig(itemName, configs))
+			{
+				return;
+			}
             item = CreateItemDef(
                 "HMT",
-                "H.M.T",
+                itemName,
                 "Chance to ignite enemies when you inflict something else",
                 "<style=cIsDamage>10%</style> <style=cStack>(+10% per stack)</style> chance to ignite enemies when inflicting something other than burning. Enemies burn for <style=cIsDamage>300%</style> <style=cStack>(+100% per stack)</style> base damage.",
                 "Fiery Compilation\r\nSizzling Playlist\r\nBlazing Tracklist\r\nScorching Mix\r\nTorrid Tunes\r\nSweltering Sounds\r\nBoiling Beats\r\nBurning Medley\r\nHeated Harmony\r\nIncandescent Melodies\r\nFlaming Rhythms\r\nSultry Selections\r\nPiping Hot Hits\r\nFervent Fusion\r\nArdent Anthology\r\nWarm Jams\r\nHot-blooded Mixdown\r\nThermal Tracks\r\nCaliente Collection\r\nFeverish Features\r\nToasty Tapes\r\nIgnited Arrangement\r\nGlowing Grooves\r\nLava-like Lineup\r\nSmoldering Series\r\nSteamy Set\r\nInfernal Playlist\r\nRadiant Recordings\r\nBlistering Bangers\r\nSearing Serenade",

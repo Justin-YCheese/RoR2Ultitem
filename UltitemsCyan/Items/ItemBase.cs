@@ -1,9 +1,9 @@
-﻿using R2API;
+﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using RoR2.ExpansionManagement;
 using System.Linq;
 using UnityEngine;
-using static Rewired.Controller;
 
 namespace UltitemsCyan.Items
 {
@@ -12,9 +12,9 @@ namespace UltitemsCyan.Items
     public abstract class ItemBase
     {
         private readonly ExpansionDef Sovt = ExpansionCatalog.expansionDefs.FirstOrDefault(expansion => expansion.nameToken == "DLC1_NAME");
-        public abstract void Init();
+        public abstract void Init(ConfigFile configs);
         public ItemDef CreateItemDef(
-        string tokenPrefix,
+            string tokenPrefix,
             string name,
             string pick,
             string desc,
@@ -23,8 +23,7 @@ namespace UltitemsCyan.Items
             Sprite sprite,
             GameObject prefab,
             ItemTag[] tags,
-            ItemDef transformItem = null
-         )
+            ItemDef transformItem = null)
         {
             ItemDef item = ScriptableObject.CreateInstance<ItemDef>();
 
@@ -38,6 +37,7 @@ namespace UltitemsCyan.Items
             item.pickupToken = tokenPrefix + "_PICK";
             item.descriptionToken = tokenPrefix + "_DESC";
             item.loreToken = tokenPrefix + "_LORE";
+
 
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
@@ -71,6 +71,15 @@ namespace UltitemsCyan.Items
             }
             //Log.Warning(" Initialized: " + item.name);
             return item;
+        }
+
+        public bool CheckItemEnabledConfig(string name, ConfigFile configs)
+        {
+            return configs.Bind(
+                "Enable Items",
+                "Enable " + name + "?",
+                true
+            ).Value;
         }
 
         protected abstract void Hooks();
