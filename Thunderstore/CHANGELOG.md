@@ -1,3 +1,8 @@
+## 10.0.1
+
+- Inflated Silver Thread
+- Added colors to Pig's Spork description
+
 ## 10.0.0
 
 - Added Config File
@@ -20,7 +25,7 @@
     - Deals proper TOTAL damage
 - Sonorous Pail
     - Now gives jump height per Lunar
-    - Sonorous Pail no longer disables Bands nor VoidBear (this was actually happens with vanilla restacking, so I made my own method)
+    - Sonorous Pail no longer disables Bands nor VoidBear (this actually happens with vanilla restacking, so I made my own method)
     - New restack doesn't regives items, therefore no longer synergizes with silver thread (used to be an immortality build with Sue's Mandables)
 
 ## 0.9.2

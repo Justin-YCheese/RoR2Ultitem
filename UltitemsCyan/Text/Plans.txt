@@ -15,6 +15,7 @@
 - Pig's Spork
 - Tipped Arrow
 - Tungston Rod
+adfasdf
 
 	When updating mod check:
 - Bugs / Tests
@@ -25,7 +26,7 @@
 - Update DLL
 - Update Bundle
 - Has the tags: Mods | Items | Survivors of the Void
-
+- Check directory of zip so that manifest is the first thing
 
 
 	For Future Consideration:

@@ -30,8 +30,8 @@ namespace UltitemsCyan.Items.Tier3
             item = CreateItemDef(
                 "PIGSSPORK",
                 "Pig's Spork",
-                "Bleeds heal you. Gain 100% chance to bleed enemies at low health",
-                "Bleeds heal for 3 (+3 per stack) health. Gain 100% chance to bleed when taking damage to below 25% health for 12 seconds (+12 per stack).",
+                "Bleeds heal you. Gain 100% chance to bleed enemies when at low health",
+                "Bleeds <style=cIsHealing>heal</style> for <style=cIsHealing>3</style> <style=cStack>(+3 per stack)</style> <style=cIsHealing>health</style>. Gain <style=cIsDamage>100%</style> chance to <style=cIsDamage>bleed</style> when taking damage to below <style=cIsHealth>25% health</style> for <style=cIsDamage>12s</style> <style=cStack>(+12 per stack)</style>.",
                 "There once was a pet named porky\nA cute and chubby pig\n\nBut the farmer broke his fork\nAnd used the spoon to dig\n\nSo he made a Sporky Spig\n",
                 ItemTier.Tier3,
                 UltAssets.PigsSporkSprite,
