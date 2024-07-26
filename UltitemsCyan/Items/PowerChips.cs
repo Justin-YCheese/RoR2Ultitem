@@ -17,16 +17,16 @@ namespace UltitemsCyan.Items
         public override void Init(ConfigFile configs)
         {
             string itemName = "Power Chips";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
             }
             item = CreateItemDef(
                 "POWERCHIPS",
                 itemName,
-                "",
-                "",
-                "",
+                "a",
+                "b",
+                "c",
                 ItemTier.Lunar,
                 Ultitems.mysterySprite,
                 Ultitems.mysteryPrefab,

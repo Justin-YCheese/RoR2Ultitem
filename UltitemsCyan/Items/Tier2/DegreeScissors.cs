@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Tier2
         public override void Init(ConfigFile configs)
         {
 			string itemName = "1000 Degree Scissors";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			if (!CheckItemEnabledConfig(itemName, "Green", configs))
 			{
 				return;
 			}

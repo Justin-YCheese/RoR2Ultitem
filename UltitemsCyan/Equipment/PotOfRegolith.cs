@@ -21,7 +21,7 @@ namespace UltitemsCyan.Equipment
         public override void Init(ConfigFile configs)
         {
             string itemName = "Pot of Regolith";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
             }

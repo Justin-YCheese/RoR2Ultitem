@@ -28,7 +28,7 @@ namespace UltitemsCyan.Items.Void
         public override void Init(ConfigFile configs)
         {
 			string itemName = "Downloaded RAM";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			if (!CheckItemEnabledConfig(itemName, "Void", configs))
 			{
 				return;
 			}
@@ -134,7 +134,7 @@ namespace UltitemsCyan.Items.Void
         //
         public class DownloadedVoidBehavior : CharacterBody.ItemBehavior
         {
-            public const float notAttackingDelay = DownloadedRAM.notAttackingDelay;
+            //public const float notAttackingDelay = DownloadedRAM.notAttackingDelay;
             public float attackingStopwatch = 0;
             private bool _attacking = false;
 

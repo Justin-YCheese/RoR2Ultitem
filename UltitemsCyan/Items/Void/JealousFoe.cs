@@ -5,6 +5,13 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using BepInEx.Configuration;
+using UltitemsCyan.Buffs;
+using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.ProBuilder.MeshOperations;
+using UnityEngine.XR;
+using static UltitemsCyan.Items.Void.DownloadedRAM;
+using static UltitemsCyan.Items.Tier3.PigsSpork;
+using EntityStates.VagrantMonster.Weapon;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -15,22 +22,37 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        public const float chancePerStack = 5f;
-        public readonly GameObject EyeballProjectile = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/DeathProjectile/DeathProjectile.prefab").WaitForCompletion();
+        public const float collectTime = 6f;
+        public const float consumeBaseTime = 4f;
+        public const float consumeMinTime = 0f;
+        public const float cooldownTime = 6f;
+
+        public const float maxBuffsPerStack = 3f;
+
+        public static readonly GameObject fmpEffectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/DeathProjectile/DeathProjectileTickEffect.prefab").WaitForCompletion();
+        public static readonly GameObject fmpPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/DeathProjectile/DeathProjectile.prefab").WaitForCompletion();
+
+        public enum EyePhase
+        {
+            collecting,
+            consuming,
+            cooldown
+        }
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "JealousFoe";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			string itemName = "Jealous Foe";
+			if (!CheckItemEnabledConfig(itemName, "Void", configs))
 			{
 				return;
 			}
             item = CreateItemDef(
                 "JEALOUSFOE",
                 itemName,
-                "Chance of On-Kill effects upon grabbing pickups. <style=cIsVoid>Corrupts all Toy Robots</style>.",
-                "<style=cIsDamage>5%</style> <style=cStack>(+5% per stack)</style> chance of triggering <style=cIsDamage>On-Kill</style> effects when <style=cIsDamage>grabbing pickups</style>. <style=cIsVoid>Corrupts all Toy Robots</style>.",
-                "Look at it Jubilat. It just jubilant like jello jelly.",
+                "Trigger On-Kill effects after grabbing pickups. <style=cIsVoid>Corrupts all Toy Robots</style>.",
+                "Gain stacks upon grabbing pickups</style>. Maximum cap of 3</style> (+3 per stack)</style>. Trigger an <style=cIsDamage>On-Kill</style> effect per stack every <style=cIsUtility>4s</style> (-30% per stack)</style>. Recharges every <style=cIsUtility>6</style> seconds. <style=cIsVoid>Corrupts all Toy Robots</style>.",
+                //"<style=cIsDamage>5%</style> <style=cStack>(+5% per stack)</style> chance of triggering <style=cIsDamage>On-Kill</style> effects when <style=cIsDamage>grabbing pickups</style>. <style=cIsVoid>Corrupts all Toy Robots</style>.",
+                "Look at it Jubilat. It just jubilant like some jealous jello jelly.",
                 ItemTier.VoidTier1,
                 UltAssets.JubilantFoeSprite,
                 UltAssets.JubilantFoePrefab,
@@ -45,6 +67,7 @@ namespace UltitemsCyan.Items.Void
             On.RoR2.AmmoPickup.OnTriggerStay += AmmoPickup_OnTriggerStay;
             On.RoR2.BuffPickup.OnTriggerStay += BuffPickup_OnTriggerStay;
             On.RoR2.MoneyPickup.OnTriggerStay += MoneyPickup_OnTriggerStay;
+            On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
         }
 
         private void HealthPickup_OnTriggerStay(On.RoR2.HealthPickup.orig_OnTriggerStay orig, HealthPickup self, UnityEngine.Collider other)
@@ -71,199 +94,223 @@ namespace UltitemsCyan.Items.Void
             GotPickup(other);
         }
 
-        private void GotPickup(UnityEngine.Collider other)
+        private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
         {
-            Log.Debug("Foe Got Pickup?");
+            orig(self);
+            if (self && self.inventory)
+            {
+                self.AddItemBehavior<JealousFoeBehaviour>(self.inventory.GetItemCount(item));
+            }
+        }
+
+        private void GotPickup(Collider other)
+        {
+            //Log.Debug("Foe Got Pickup?");
             CharacterBody body = other.GetComponent<CharacterBody>();
             if (body && body.inventory)
             {
                 int grabCount = body.inventory.GetItemCount(item);
-                if (grabCount > 0 && NetworkServer.active && Util.CheckRoll(chancePerStack * grabCount, body.master.luck))
+                if (grabCount > 0 && NetworkServer.active)// && Util.CheckRoll(chancePerStack * grabCount, body.master.luck)
                 {
-                    // Spawn on kill effect
-                    Log.Debug("got Chance");
-                    GameObject eyeball = Object.Instantiate(EyeballProjectile, body.footPosition, Quaternion.identity);
-                    eyeball.transform.localScale = new Vector3(0f, 0f, 0f);
-                    eyeball.GetComponent<DeathProjectile>().baseDuration = grabCount;
-                    //eyeball.GetComponent<DeathProjectile>().removalTime = grabCount;
-                    Object.Destroy(eyeball.GetComponent<DestroyOnTimer>());
-                    Object.Destroy(eyeball.GetComponent<DeathProjectile>());
-                    Log.Debug("removing?");
-                    Object.Destroy(eyeball.GetComponent<ApplyTorqueOnStart>());
-                    Object.Destroy(eyeball.GetComponent<ProjectileDeployToOwner>());
-                    Object.Destroy(eyeball.GetComponent<Deployable>());
-                    Object.Destroy(eyeball.GetComponent<ProjectileStickOnImpact>());
-                    Object.Destroy(eyeball.GetComponent<ProjectileController>());
-
-                    Log.Debug("removing 2 ?");
-                    eyeball.transform.position = body.footPosition;
-                    HealthComponent health = eyeball.GetComponent<HealthComponent>();
-
-                    DamageInfo damageInfo = new()
-                    {
-                        attacker = body.gameObject,
-                        crit = body.RollCrit(),
-                        damage = body.baseDamage,
-                        position = body.footPosition,
-                        procCoefficient = 0f,
-                        damageType = DamageType.Generic,
-                        damageColorIndex = DamageColorIndex.Item
-                    };
-                    DamageReport damageReport = new DamageReport(damageInfo, health, damageInfo.damage, health.combinedHealth);
-                    //GlobalEventManager.instance.OnCharacterDeath(val3);
-                    GlobalEventManager.instance.OnCharacterDeath(damageReport);
-                    //*/
+                    body.GetComponent<JealousFoeBehaviour>().GotPickup();
                 }
             }
         }
 
-        public class DeathProjectile : MonoBehaviour
-	{
-		// Token: 0x060042DD RID: 17117 RVA: 0x00115938 File Offset: 0x00113B38
-		private void Awake()
-		{
-			//this.projectileStickOnImpactController = base.GetComponent<ProjectileStickOnImpact>();
-			this.projectileController = base.GetComponent<ProjectileController>();
-			this.projectileDamage = base.GetComponent<ProjectileDamage>();
-			this.healthComponent = base.GetComponent<HealthComponent>();
-			this.duration = this.baseDuration;
-			this.fixedAge = 0f;
-		}
+        //Play_affix_void_bug_infect (awakening)
+        //Play_voidman_idle_twitch (activation kills)
+        //Play_UI_arenaMode_voidCollapse_select (collecting)
+        //Play_voidDevastator_spawn_open (collecting ready)
+        public class JealousFoeBehaviour : CharacterBody.ItemBehavior
+        {
+            private EyePhase _currentPhase = EyePhase.collecting;
+            public float eyePhaseStopwatch = float.PositiveInfinity;
+            public float currentTimer = collectTime;
+            private GameObject FakeFoe;
 
-		// Token: 0x060042DE RID: 17118 RVA: 0x0011598C File Offset: 0x00113B8C
-		private void FixedUpdate()
-		{
-			this.fixedAge += Time.deltaTime;
-			if (this.duration > 0f)
-			{
-				if (this.fixedAge >= 1f)
-				{
-					if (this.projectileStickOnImpactController.stuck)
-					{
-						if (this.projectileController.owner)
-						{
-							this.RotateDoll(UnityEngine.Random.Range(90f, 180f));
-							this.SpawnTickEffect();
-							if (NetworkServer.active)
-							{
-								DamageInfo damageInfo = new DamageInfo
-								{
-									attacker = this.projectileController.owner,
-									crit = this.projectileDamage.crit,
-									damage = this.projectileDamage.damage,
-									position = base.transform.position,
-									procCoefficient = this.projectileController.procCoefficient,
-									damageType = this.projectileDamage.damageType,
-									damageColorIndex = this.projectileDamage.damageColorIndex
-								};
-								HealthComponent victim = this.healthComponent;
-								DamageReport damageReport = new DamageReport(damageInfo, victim, damageInfo.damage, this.healthComponent.combinedHealth);
-								GlobalEventManager.instance.OnCharacterDeath(damageReport);
-							}
-						}
-						this.duration -= 1f;
-					}
-					this.fixedAge = 0f;
-					return;
-				}
-			}
-			else
-			{
-				if (!this.doneWithRemovalEvents)
-				{
-					this.doneWithRemovalEvents = true;
-					this.rotateObject.GetComponent<ObjectScaleCurve>().enabled = true;
-				}
-				if (this.fixedAge >= this.removalTime)
-				{
-					Util.PlaySound(this.exitSoundString, base.gameObject);
-					this.shouldStopSound = false;
-					UnityEngine.Object.Destroy(base.gameObject);
-				}
-			}
-		}
+            // Remove Sleepy cooldown
+            public void SetCollectingPhase()
+            {
+                if (_currentPhase == EyePhase.cooldown)
+                {
+                    Log.Debug(" ! ! ! ! ! ! Phase Set ! ! Coll Lecting");
+                    // There should already be no Cooldown Buff
+                    _currentPhase = EyePhase.collecting;
+                    //_ = Util.PlaySound("Play_UI_arenaMode_voidCollapse_select", body.gameObject);
+                }
+            }
 
-		// Token: 0x060042DF RID: 17119 RVA: 0x00115B2D File Offset: 0x00113D2D
-		private void OnDisable()
-		{
-			if (this.shouldStopSound)
-			{
-				Util.PlaySound(this.exitSoundString, base.gameObject);
-				this.shouldStopSound = false;
-			}
-		}
+            // Convert Drowsy buffs to Awake buffs
+            public void SetConsumingPhase()
+            {
+                if (_currentPhase == EyePhase.collecting)
+                {
+                    Log.Debug(" ! ! ! ! ! ! Phase Set ! ! conSUME");
+                    _currentPhase = EyePhase.consuming;
+                    // Convert Drowsy buffs to awake buffs
+                    int buffCount = body.GetBuffCount(EyeDrowsyBuff.buff);
+                    body.SetBuffCount(EyeDrowsyBuff.buff.buffIndex, 0);
+                    body.SetBuffCount(EyeAwakeBuff.buff.buffIndex, buffCount);
 
-		// Token: 0x060042E0 RID: 17120 RVA: 0x00115B50 File Offset: 0x00113D50
-		public void SpawnTickEffect()
-		{
-			EffectData effectData = new EffectData
-			{
-				origin = base.transform.position,
-				rotation = Quaternion.identity
-			};
-			EffectManager.SpawnEffect(this.OnKillTickEffect, effectData, false);
-		}
+                    _ = Util.PlaySound("Play_affix_void_bug_infect", body.gameObject);
+                }
+            }
 
-		// Token: 0x060042E1 RID: 17121 RVA: 0x00115B8C File Offset: 0x00113D8C
-		public void PlayStickSoundLoop()
-		{
-			Util.PlaySound(this.activeSoundLoopString, base.gameObject);
-			this.shouldStopSound = true;
-		}
+            // Remove Awake buffs and add Sleepy cooldown buff
+            public void SetCooldownPhase()
+            {
+                if (_currentPhase == EyePhase.consuming)
+                {
+                    Log.Debug(" ! ! ! ! ! ! Phase Set ! ! c o o l down");
+                    // There should already be no Awake Buffs
+                    _currentPhase = EyePhase.cooldown;
+                    body.AddTimedBuff(EyeSleepyBuff.buff, cooldownTime);
+                }
+            }
 
-		// Token: 0x060042E2 RID: 17122 RVA: 0x00115BA7 File Offset: 0x00113DA7
-		public void RotateDoll(float rotationAmount)
-		{
-			this.rotateObject.transform.Rotate(new Vector3(0f, 0f, rotationAmount));
-		}
+            public void GotPickup()
+            {
+                if (_currentPhase == EyePhase.collecting)
+                {
+                    // If timer hasn't started
+                    if (eyePhaseStopwatch == float.PositiveInfinity)
+                    {
+                        eyePhaseStopwatch = Run.instance.time;
+                        currentTimer = collectTime;
+                        //Log.Debug(" | | | TIME | | | Collecting ! New timer is " + currentTimer);
+                        // next is CheckTimer
+                    }
+                    // Give buff if below max
+                    if (body.GetBuffCount(EyeDrowsyBuff.buff) < stack * maxBuffsPerStack)
+                    {
+                        body.AddBuff(EyeDrowsyBuff.buff);
+                        _ = Util.PlaySound("Play_UI_arenaMode_voidCollapse_select", body.gameObject);
+                    }
+                }
+            }
 
-		// Token: 0x040040D1 RID: 16593
-		private ProjectileStickOnImpact projectileStickOnImpactController;
+            // If player is at full health
+            public void FixedUpdate()
+            {
+                // If enough time passed...
+                //Log.Debug(" | | | TIME | | | " + _currentPhase + " : " + Run.instance.time + " > " + eyePhaseStopwatch + " + " + currentTimer);
+                if (Run.instance.time > eyePhaseStopwatch + currentTimer)
+                {
+                    CheckTimer();
+                }
+            }
 
-		// Token: 0x040040D2 RID: 16594
-		private ProjectileController projectileController;
+            // If timer in collecting then switch to consuming
+            // If timer in consuming then consume another stack
+            // (Awake Buff: stack empty then switch to cooldown)
+            // (Sleepy Buff: switch to collecting when stack is lost)
+            private void CheckTimer()
+            {
+                //Log.Debug(" | | | TIME | | | check run: " + Run.instance.time);
+                // ...while in collecting then switch to consuming
+                if (_currentPhase == EyePhase.collecting)
+                {
+                    eyePhaseStopwatch = Run.instance.time;
+                    // Quadratic equation with mininum
+                    // (t - m) * 2 / (n + 1) + m
+                    currentTimer = ((consumeBaseTime - consumeMinTime) * 2 / (stack + 1)) + consumeMinTime;
+                    //Log.Debug(" | | | TIME | | | Eating! New timer is " + currentTimer);
 
-		// Token: 0x040040D3 RID: 16595
-		private ProjectileDamage projectileDamage;
+                    SetConsumingPhase();
 
-		// Token: 0x040040D4 RID: 16596
-		private HealthComponent healthComponent;
+                    // An instant activation
+                    body.RemoveBuff(EyeAwakeBuff.buff);
+                    ActivateDeath();
+                }
+                // ...while in consuming then consume
+                else if (_currentPhase == EyePhase.consuming)
+                {
+                    eyePhaseStopwatch = Run.instance.time;
 
-		// Token: 0x040040D5 RID: 16597
-		public GameObject OnKillTickEffect;
+                    // Consume buff and trigger onKillEffects
+                    body.RemoveBuff(EyeAwakeBuff.buff);
+                    ActivateDeath();
+                    // next is Awake LastStackRemoved
 
-		// Token: 0x040040D6 RID: 16598
-		public TeamIndex teamIndex;
 
-		// Token: 0x040040D7 RID: 16599
-		public string activeSoundLoopString;
+                    /*// If no stacks left switch to cooldown
+                    if (body.GetBuffCount(EyeAwakeBuff.buff) == 0)
+                    {
+                        // currentTimer doesn't need to account for Cooldown duration because can use buff timer for that
 
-		// Token: 0x040040D8 RID: 16600
-		public string exitSoundString;
+                        //Log.Debug(" | | | TIME | | | Cooldown! New timer is " + currentTimer);
+                        SetCooldownPhase();
+                    }
+                    //*/
+                }
+                else
+                {
+                    Log.Warning("##########  Uh oh, Jealous Foe is not supposed to be here...");
+                }
+            }
 
-		// Token: 0x040040D9 RID: 16601
-		private float duration;
+            private void ActivateDeath()
+            {
+                if (!FakeFoe)
+                {
+                    FakeFoe = Instantiate(fmpPrefab, body.footPosition, Quaternion.identity);
+                    FakeFoe.transform.localScale = new Vector3(0f, 0f, 0f);
+                    Destroy(FakeFoe.GetComponent<DestroyOnTimer>());
+                    Destroy(FakeFoe.GetComponent<DeathProjectile>());
+                    Destroy(FakeFoe.GetComponent<ApplyTorqueOnStart>());
+                    Destroy(FakeFoe.GetComponent<ProjectileDeployToOwner>());
+                    Destroy(FakeFoe.GetComponent<Deployable>());
+                    Destroy(FakeFoe.GetComponent<ProjectileStickOnImpact>());
+                    Destroy(FakeFoe.GetComponent<ProjectileController>());
+                }
+                FakeFoe.transform.position = body.footPosition;
 
-		// Token: 0x040040DA RID: 16602
-		private float fixedAge;
+                HealthComponent health = FakeFoe.GetComponent<HealthComponent>();
 
-		// Token: 0x040040DB RID: 16603
-		public float baseDuration = 8f;
+                DamageInfo damageInfo = new()
+                {
+                    attacker = body.gameObject,
+                    crit = body.RollCrit(),
+                    damage = body.baseDamage,
+                    position = body.footPosition,
+                    procCoefficient = 0f,
+                    damageType = DamageType.Generic,
+                    damageColorIndex = DamageColorIndex.Item
+                };
+                DamageReport damageReport = new DamageReport(damageInfo, health, damageInfo.damage, health.combinedHealth);
+                //GlobalEventManager.instance.OnCharacterDeath(val3);
+                GlobalEventManager.instance.OnCharacterDeath(damageReport);
+                
+                EffectData effectData = new()
+                {
+                    origin = body.corePosition,
+                    rotation = Quaternion.identity
+                };
+                EffectManager.SpawnEffect(fmpEffectPrefab, effectData, false);
 
-		// Token: 0x040040DC RID: 16604
-		public float radius = 500f;
+                _ = Util.PlaySound("Play_voidman_idle_twitch", body.gameObject);
+            }
 
-		// Token: 0x040040DD RID: 16605
-		public GameObject rotateObject;
+            public void OnAwake()
+            {
+            }
 
-		// Token: 0x040040DE RID: 16606
-		private bool doneWithRemovalEvents;
+            public void OnDisable()
+            {
+                //Log.Debug("Take my Eye!   -   or you know just disable it");
+                if (body)
+                {
+                    body.SetBuffCount(EyeDrowsyBuff.buff.buffIndex, 0);
+                    body.SetBuffCount(EyeAwakeBuff.buff.buffIndex, 0);
+                    body.SetBuffCount(EyeSleepyBuff.buff.buffIndex, 0);
+                }
+            }
 
-		// Token: 0x040040DF RID: 16607
-		public float removalTime = 1f;
-
-		// Token: 0x040040E0 RID: 16608
-		private bool shouldStopSound;
-	}
+            public void OnDestroy()
+            {
+                //Log.Debug("Take my Eye! set it aside!");
+                Destroy(FakeFoe);
+            }
+        }
     }
 }

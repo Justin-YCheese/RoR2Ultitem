@@ -73,10 +73,10 @@ namespace UltitemsCyan.Items
             return item;
         }
 
-        public bool CheckItemEnabledConfig(string name, ConfigFile configs)
+        public bool CheckItemEnabledConfig(string name, string tier, ConfigFile configs)
         {
             return configs.Bind(
-                "Enable Items",
+                "Enable " + tier + " Items",
                 "Enable " + name + "?",
                 true
             ).Value;

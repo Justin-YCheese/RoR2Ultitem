@@ -28,7 +28,7 @@ namespace UltitemsCyan.Equipment
         public override void Init(ConfigFile configs)
         {
             string itemName = "Jelly Jail";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
             }

@@ -33,7 +33,7 @@ namespace UltitemsCyan.Equipment
         public override void Init(ConfigFile configs)
         {
             string itemName = "Obsolute";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
             }
@@ -183,7 +183,7 @@ namespace UltitemsCyan.Equipment
                         //PickupDropTable.instancesList
 
                         //Log.Debug(dissolvedItems.Contains(lastItem.itemIndex) + " in dessolved items");
-                        Util.PlaySound("Play_minimushroom_spore_shoot", self.gameObject);
+                        _ = Util.PlaySound("Play_minimushroom_spore_shoot", self.gameObject);
 
                         // * * * Remove items from shops and item pickups? Turn into solvent?
 
@@ -230,9 +230,9 @@ namespace UltitemsCyan.Equipment
                 itemIndex = GreySolvent.item.itemIndex;
 
             }
-            Log.Warning(" ] ] ] ] ] ORIG into the Universal");
+            //Log.Warning(" ] ] ] ] ] ORIG into the Universal");
             orig(self, itemIndex, count);
-            Log.Warning("  [ [ [ ORIG out to the Universal");
+            //Log.Warning("  [ [ [ ORIG out to the Universal");
         }
 
         private void ChestBehavior_ItemDrop(On.RoR2.ChestBehavior.orig_ItemDrop orig, ChestBehavior self)

@@ -38,7 +38,7 @@ namespace UltitemsCyan.Equipment
         public override void Init(ConfigFile configs)
         {
             string itemName = "Macroseismograph";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
             }

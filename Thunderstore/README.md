@@ -20,7 +20,7 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/7nCsVaj.png) | Xenon Ampoule       | Activating your Equipment also fires a laser                                                                            |      Green      |
 | ![Imgur](https://i.imgur.com/4DFayZF.png) | Corroding Vault     | Breaks at the start of the next stage. Contains white items.                                                            |       Red       |
 | ![Imgur](https://i.imgur.com/t7YNoVY.png) | Grapevine           | Chance on kill to drop grapes that block damage.                                                                        |       Red       |
-| ![Imgur](https://i.imgur.com/ChJnX9C.png) | Pig's Spork         | Bleeds heal you. Gain 100% chance to bleed enemies at low health                                                        |       Red       |
+| ![Imgur](https://i.imgur.com/ChJnX9C.png) | Pig's Spork         | Bleeds heal you. Gain 200% chance to bleed enemies at low health                                                        |       Red       |
 | ![Imgur](https://i.imgur.com/fMenqmv.png) | Sue's Mandibles     | Endure a killing blow then gain invulnerability and disable healing for 30s. Consumed on use.                           |       Red       |
 | ![Imgur](https://i.imgur.com/85CkaFY.png) | Viral Smog          | Increase speed per unique status effect.                                                                                |       Red       |
 | ![Imgur](https://i.imgur.com/70oQsj7.png) | Rocky Taffy         | Gain a recharging shield. Gain a stable barrier without your shield.                                                    |       Red       |
@@ -30,10 +30,12 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/wYLzvng.png) | Ultraviolet Bulb    | Chance to instantly reset a skill after it's used... **BUT triples all cooldown**                                       |      Lunar      |
 | ![Imgur](https://i.imgur.com/XnoYzTk.png) | Crysotope           | Rise after jumping. Hold jump to continue flying. **Corrupts all Frisbees**.                                            |    Void White   |
 | ![Imgur](https://i.imgur.com/5fZqteh.png) | Dried Ham           | Heal when hitting enemies below 35% health. **Corrupts all Crème Brûlées**.                                             |    Void White   |
+| ![Imgur](https://i.imgur.com/gwlWtJd.png) | Jealous Foe         | Trigger On-Kill effects after grabbing pickups. **Corrupts all Toy Robots**.                                            |    Void White   |
 | ![Imgur](https://i.imgur.com/DZCT32L.png) | Downloaded RAM      | Chance on hit to increase damage. Lose stacks when not attacking. **Corrupts all Overclocked GPUs**.                    |    Void Green   |
 | ![Imgur](https://i.imgur.com/rNTV1Tx.png) | Rotten Bones        | Deal more damage over time. **Corrupts all Birthday Candles**.                                                          |    Void Green   |
 | ![Imgur](https://i.imgur.com/pkuZxAg.png) | Zorse Pill          | Starve enemies on hit dealing percent TOTAL damage. **Corrupts all HMTs**.                                              |    Void Green   |
 | ![Imgur](https://i.imgur.com/D8sAljB.png) | Inhabited Coffin    | Breaks at the start of the next stage. Contains void items. **Corrupts all Corroding Vaults**.                          |     Void Red    |
+| ![Imgur](https://i.imgur.com/ESyUfae.png) | Quantum Peel        | Gain speed and jump power when damaged. **Corrupts all Viral Smogs**.                                                   |     Void Red    |
 
 | Icon | Equipment| Cooldown | Description | Type |
 |:--:|--|:--:|--|:--:|
