@@ -20,21 +20,21 @@ namespace UltitemsCyan.Items.Tier2
         //public static GameObject Tracer4 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Mage/TracerMageIceLaser.prefab").WaitForCompletion();
         //public static GameObject Tracer5 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Commando/TracerBarrage2.prefab").WaitForCompletion();
 
-        public static float baseDamage = 16f;
-        public static float damagePerStack = 4f;
-        public static float shortDamagePercent = 50f; // Percent of normal damage
+        public const float baseDamage = 16f / 3f; // div 3f to account for weak point and crit
+        public const float damagePerStack = 4f / 3f; // div 3f to account for weak point and crit
+        public const float shortDamagePercent = 50f; // Percent of normal damage
 
-        public static float shortLaserRadius = 1.5f;
-        public static float laserRadius = 2.5f;
-        public static float longLaserRadius = 3.2f;
+        public const float shortLaserRadius = 1.5f;
+        public const float laserRadius = 2.5f;
+        public const float longLaserRadius = 3.2f;
 
-        public static float forceFromCooldown = 550f;
+        public const float forceFromCooldown = 550f;
 
-        public static float shortCooldown = 20f;    // Less than or equal, small laser and has half damage
-        public static float longCooldown = 60f;   // Greater than or equal, big laser multiple cooldown by cooldown / 60
-        public static float maxCooldownMultipler = 4f;
+        public const float shortCooldown = 20f;    // Less than or equal, small laser and has half damage
+        public const float longCooldown = 60f;   // Greater than or equal, big laser multiple cooldown by cooldown / 60
+        public const float maxCooldownMultipler = 4f;
 
-        public static float subCooldown = .4f;
+        public const float subCooldown = .4f;
 
         /* Use muzzle location?
         	Vector3 position = base.transform.position;
@@ -59,13 +59,13 @@ namespace UltitemsCyan.Items.Tier2
         public override void Init(ConfigFile configs)
         {
 			string itemName = "Xenon Ampoule";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			if (!CheckItemEnabledConfig(itemName, "Green", configs))
 			{
 				return;
 			}
 			
-            damagePerStack /= 3f;   // Counter WeakPointHit and Crit bonus
-            baseDamage /= 3f;       // Counter WeakPointHit and Crit bonus
+            //damagePerStack /= 3f;   // Counter WeakPointHit and Crit bonus
+            //baseDamage /= 3f;       // Counter WeakPointHit and Crit bonus
 			
             item = CreateItemDef(
                 "XENONAMPOULE",

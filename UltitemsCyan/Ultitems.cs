@@ -78,9 +78,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.10.0";
+        public const string PluginVersion = "0.10.1";
 
-        public const string PluginSuffix = "Reset Optional Spork?";
+        public const string PluginSuffix = "See my bloody spork build FOR REAL";
 
         private static ConfigFile UltitemsConfig { get; set; }
 
@@ -104,7 +104,6 @@ namespace UltitemsCyan
         private static ConfigFile cfgFile;
         //*/
 
-
         public void Awake()
         {
             // Init our logging class so that we can properly log for debugging
@@ -123,12 +122,16 @@ namespace UltitemsCyan
             List<BuffBase> ultitemBuffs = [];
             ultitemBuffs.Add(new BirthdayBuff());
             ultitemBuffs.Add(new CrysotopeFlyingBuff());
+            ultitemBuffs.Add(new EyeAwakeBuff());
+            ultitemBuffs.Add(new EyeDrowsyBuff());
+            ultitemBuffs.Add(new EyeSleepyBuff());
             ultitemBuffs.Add(new DreamSpeedBuff());
             ultitemBuffs.Add(new DownloadedBuff());
             ultitemBuffs.Add(new FrisbeeGlidingBuff());
             ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new RottingBuff());
             ultitemBuffs.Add(new SlipperyGrapeBuff());
+            //ultitemBuffs.Add(new PeelBuff());
             ultitemBuffs.Add(new SporkBleedBuff());
             ultitemBuffs.Add(new TickCritBuff());
             ultitemBuffs.Add(new ZorseStarvingBuff());
@@ -201,8 +204,9 @@ namespace UltitemsCyan
             ultitemItems.Add(new Crysotope());
             ultitemItems.Add(new DriedHam());
             ultitemItems.Add(new RottenBones());
+            ultitemItems.Add(new QuantumPeel());
             ultitemItems.Add(new DownloadedRAM());
-            //ultitemItems.Add(new JubilantFoe());
+            ultitemItems.Add(new JealousFoe());
             ultitemItems.Add(new InhabitedCoffin());
             ultitemItems.Add(new ZorsePill());
             //ultitemItems.Add(new InhabitedCoffinConsumed()); // Untiered

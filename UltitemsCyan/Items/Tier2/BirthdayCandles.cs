@@ -20,7 +20,7 @@ namespace UltitemsCyan.Items.Tier2
         public override void Init(ConfigFile configs)
         {
 			string itemName = "Birthday Candles";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			if (!CheckItemEnabledConfig(itemName, "Green", configs))
 			{
 				return;
 			}
@@ -70,7 +70,7 @@ namespace UltitemsCyan.Items.Tier2
 
         protected void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            Log.Debug("Into orig Birthday Candles");
+            //Log.Debug("Into orig Birthday Candles");
 
             // * * * SAVE Error ?
             //if (!ItemCatalog.GetItemDef(itemIndex))
@@ -78,7 +78,7 @@ namespace UltitemsCyan.Items.Tier2
             //    Log.Debug("Birthday found impossible item? Index: " + itemIndex);
             //}
             orig(self, itemIndex, count);
-            Log.Debug("Out orig Birthday Candles");
+            //Log.Debug("Out orig Birthday Candles");
             /*/
             ItemDef defineItem = ItemCatalog.GetItemDef(itemIndex);
             Sprite itemSprite = defineItem.pickupIconSprite;

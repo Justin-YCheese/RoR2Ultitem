@@ -20,7 +20,7 @@ namespace UltitemsCyan.Items.Void
         public override void Init(ConfigFile configs)
         {
 			string itemName = "Inhabited Coffin";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			if (!CheckItemEnabledConfig(itemName, "Void", configs))
 			{
 				return;
 			}

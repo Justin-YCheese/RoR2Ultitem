@@ -22,7 +22,7 @@ namespace UltitemsCyan.Items.Tier2
         public override void Init(ConfigFile configs)
         {
 			string itemName = "Overclocked GPU";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			if (!CheckItemEnabledConfig(itemName, "Green", configs))
 			{
 				return;
 			}

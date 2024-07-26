@@ -1,28 +1,23 @@
 ﻿	
 	When Testing:
 - Test DamageType for Macrosiesmograph
-- Multiplayer
-	- Jealous Foe
-- Test Sues Mandibles
-- Does Chaos use band equipments?
-
+- Test if Birthday Candles and Rotten Bones works when time is frozen...
+	- Because using Run.instance.time
+- Test healing removing stacks of Peel
 
 	My Item Add Order:
 - Power Chips
 - Trebuchet
 - Jelly Jail
 - Worm Holes
-- Pig's Spork
 - Tipped Arrow
 - Tungston Rod
-adfasdf
 
 	When updating mod check:
 - Bugs / Tests
-- Version number
+- Version number (Ultitems Main / Manifest)
 - Readme
 - Change Log
-- manifest has the right version
 - Update DLL
 - Update Bundle
 - Has the tags: Mods | Items | Survivors of the Void
@@ -30,10 +25,10 @@ adfasdf
 
 
 	For Future Consideration:
+- Crysotope and Frisbee are disabled when gaining certain buffs (i.e. hunter's harpoon)
 - Use heal fraction for percent heals
-- Flask activates before Spork does
+- Koala does nothing if player doesn't have one shot protection enabled?
 - Sue's Mandibles has no warning
-- Sue's Mandibles Low Health Tag makes the 25% health line appear despite it being at 0% health
 - remove public static ExpansionDef sotvDLC;
 - Optimize SonorousPail by using indexing arrays
 - Add DLC required to void items (Void items can still be obtained with dlc disabled?)
@@ -62,6 +57,8 @@ adfasdf
 - Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
 - Add actual proc chain accountability for items?
 - HMT with Shared Design (Perfect Elite) causes infinte loop?
+- Downloaded RAM and Jealous Foe will not synergize with buff duration increase as they don't use addTimedBuff
+
 
 	Ask my Friends Questions:
 - Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
@@ -70,7 +67,7 @@ adfasdf
 - What should I do with Dried Ham?
 
 
-	Possible Changes for v0.7.12:
+	Possible Changes for v0.10.1:
 -/+	Nerf/Buff	? Question/Problem	]]	Shelved Note
 
  ** White **
@@ -94,6 +91,10 @@ Grapevine
 ? Change color of orb
 Viral Smog
 Rocky Taffy
+- Reduce Shield to 32%
+Pig's Spork
+- Pig's spork no longer heals from hemerage
++ Wave is doubled in radius
 
 ** Equipment **
 Pot of Regolith

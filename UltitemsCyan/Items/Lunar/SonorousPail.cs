@@ -31,7 +31,7 @@ namespace UltitemsCyan.Items.Lunar
         public override void Init(ConfigFile configs)
         {
             string itemName = "Sonorous Pail";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
             }
@@ -145,13 +145,13 @@ namespace UltitemsCyan.Items.Lunar
         //
         private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            Log.Debug("orig IN Sonorous Pail");
+            //Log.Debug("orig IN Sonorous Pail");
             if (!ItemCatalog.GetItemDef(itemIndex))
             {
                 Log.Debug("Sonorous found impossible item? Index: " + itemIndex);
             }
             orig(self, itemIndex, count);
-            Log.Debug("orig OUT Sonorous Pail");
+            //Log.Debug("orig OUT Sonorous Pail");
             if (NetworkServer.active && !inSonorousAlready && self) // Hopefully fix multiple triggers and visual bug?
             {
                 ItemDef iDef = ItemCatalog.GetItemDef(itemIndex);

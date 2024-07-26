@@ -59,6 +59,7 @@ namespace UltitemsCyan
         public static Sprite DriedHamSprite;
         public static Sprite InhabitedCoffinSprite;
         public static Sprite JubilantFoeSprite;
+        public static Sprite QuantumPeelSprite;
         public static Sprite RottenBonesSprite;
         //public static Sprite TungstenRodSprite;
         //public static Sprite WormHolesSprite;
@@ -68,6 +69,7 @@ namespace UltitemsCyan
         public static GameObject DriedHamPrefab;
         public static GameObject InhabitedCoffinPrefab;
         public static GameObject JubilantFoePrefab;
+        public static GameObject QuantumPeelPrefab;
         public static GameObject RottenBonesPrefab;
         //public static GameObject TungstenRodPrefab;
         //public static GameObject WormHolesPrefab;
@@ -126,9 +128,13 @@ namespace UltitemsCyan
         public static Sprite CrysotopeFlySprite;
         public static Sprite DownloadedSprite;
         public static Sprite DreamSpeedSprite;
+        public static Sprite EyeAwakeSprite;
+        public static Sprite EyeDrowsySprite;
+        public static Sprite EyeSleepySprite;
         public static Sprite FrisbeeGlideSprite;
         public static Sprite GrapeSprite;
         public static Sprite OverclockedSprite;
+        public static Sprite PeelSprite;
         public static Sprite RottingSprite;
         public static Sprite SporkBleedSprite;
         public static Sprite TickCritSprite;
@@ -219,6 +225,7 @@ namespace UltitemsCyan
             DriedHamSprite = mainBundle.LoadAsset<Sprite>("DriedHam.png");
             InhabitedCoffinSprite = mainBundle.LoadAsset<Sprite>("InhabitedCoffin.png");
             JubilantFoeSprite = mainBundle.LoadAsset<Sprite>("JubilantFoe.png");
+            QuantumPeelSprite = mainBundle.LoadAsset<Sprite>("QuantumPeel.png");
             RottenBonesSprite = mainBundle.LoadAsset<Sprite>("RottenBones.png");
             //TungstenRodSprite = mainBundle.LoadAsset<Sprite>("TungstenRod.png");
             //WormHolesSprite = mainBundle.LoadAsset<Sprite>("WormHoles.png");
@@ -228,6 +235,7 @@ namespace UltitemsCyan
             DriedHamPrefab = mainBundle.LoadAsset<GameObject>("DriedHam.prefab");
             InhabitedCoffinPrefab = mainBundle.LoadAsset<GameObject>("InhabitedCoffin.prefab");
             JubilantFoePrefab = mainBundle.LoadAsset<GameObject>("JubilantFoe.prefab");
+            QuantumPeelPrefab = mainBundle.LoadAsset<GameObject>("QuantumPeel.prefab");
             RottenBonesPrefab = mainBundle.LoadAsset<GameObject>("RottenBones.prefab");
             //TungstenRodPrefab = mainBundle.LoadAsset<GameObject>("TungstenRod.prefab");
             //WormHolesPrefab = mainBundle.LoadAsset<GameObject>("WormHoles.prefab");
@@ -319,12 +327,16 @@ namespace UltitemsCyan
 
             // * * * Buffs * * * 
             BirthdaySprite = mainBundle.LoadAsset<Sprite>("Birthday");
-            CrysotopeFlySprite = mainBundle.LoadAsset<Sprite>("ChrysotopeFly");
+            CrysotopeFlySprite = mainBundle.LoadAsset<Sprite>("CrysotopeFly");
             DownloadedSprite = mainBundle.LoadAsset<Sprite>("Downloaded");
             DreamSpeedSprite = mainBundle.LoadAsset<Sprite>("DreamSpeed");
+            EyeDrowsySprite = mainBundle.LoadAsset<Sprite>("EyeDrowsy");
+            EyeAwakeSprite = mainBundle.LoadAsset<Sprite>("EyeAwake");
+            EyeSleepySprite = mainBundle.LoadAsset<Sprite>("EyeSleepy");
             FrisbeeGlideSprite = mainBundle.LoadAsset<Sprite>("FrisbeeGlide");
             GrapeSprite = mainBundle.LoadAsset<Sprite>("Grape");
             OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
+            PeelSprite = mainBundle.LoadAsset<Sprite>("Peel");
             RottingSprite = mainBundle.LoadAsset<Sprite>("Rotting");
             SporkBleedSprite = mainBundle.LoadAsset<Sprite>("SporkBleed");
             TickCritSprite = mainBundle.LoadAsset<Sprite>("TickCrit");

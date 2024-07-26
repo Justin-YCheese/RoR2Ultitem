@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Tier1
         public override void Init(ConfigFile configs)
         {
             string itemName = "Crème Brûlée";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "White", configs))
             {
                 return;
             }

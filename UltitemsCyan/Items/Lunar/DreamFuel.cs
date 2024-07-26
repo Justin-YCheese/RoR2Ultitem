@@ -18,7 +18,7 @@ namespace UltitemsCyan.Items.Lunar
         public override void Init(ConfigFile configs)
         {
             string itemName = "Dream Fuel";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
             }

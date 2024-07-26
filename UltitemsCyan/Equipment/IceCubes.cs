@@ -16,7 +16,7 @@ namespace UltitemsCyan.Equipment
         public override void Init(ConfigFile configs)
         {
             string itemName = "9 Ice Cubes";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
             }

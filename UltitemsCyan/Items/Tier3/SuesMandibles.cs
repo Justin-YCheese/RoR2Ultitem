@@ -14,10 +14,10 @@ namespace UltitemsCyan.Items.Tier3
 
         public override void Init(ConfigFile configs)
         {
-			if (!CheckItemEnabledConfig("Sues Mandibles", configs)) // Can't have apostrophes
+            if (!CheckItemEnabledConfig("Sues Mandibles", "Red", configs)) // Can't have apostrophes
             {
-				return;
-			}
+                return;
+            }
             item = CreateItemDef(
                 "SUESMANDIBLES",
                 "Sue's Mandibles",
@@ -27,7 +27,7 @@ namespace UltitemsCyan.Items.Tier3
                 ItemTier.Tier3,
                 UltAssets.SuesMandiblesSprite,
                 UltAssets.SuesMandiblesPrefab,
-                [ItemTag.Utility, ItemTag.LowHealth]
+                [ItemTag.Utility]
             );
         }
 

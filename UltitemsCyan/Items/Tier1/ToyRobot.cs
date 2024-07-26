@@ -21,7 +21,7 @@ namespace UltitemsCyan.Items.Tier1
         public override void Init(ConfigFile configs)
         {
             string itemName = "Toy Robot";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "White", configs))
             {
                 return;
             }

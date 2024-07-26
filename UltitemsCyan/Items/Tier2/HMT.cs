@@ -21,7 +21,7 @@ namespace UltitemsCyan.Items.Tier2
         public override void Init(ConfigFile configs)
         {
 			string itemName = "H.M.T";
-			if (!CheckItemEnabledConfig(itemName, configs))
+			if (!CheckItemEnabledConfig(itemName, "Green", configs))
 			{
 				return;
 			}

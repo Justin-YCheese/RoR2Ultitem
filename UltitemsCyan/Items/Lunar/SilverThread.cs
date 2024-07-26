@@ -29,7 +29,7 @@ namespace UltitemsCyan.Items.Lunar
         public override void Init(ConfigFile configs)
         {
             string itemName = "Silver Thread";
-            if (!CheckItemEnabledConfig(itemName, configs))
+            if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
             }
@@ -303,7 +303,7 @@ namespace UltitemsCyan.Items.Lunar
         // Increase Items gained when given
         public void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            Log.Debug("SilverThread please start give item");
+            //Log.Debug("SilverThread please start give item");
             // && !inSilverAlready
             if (!ItemCatalog.GetItemDef(itemIndex))
             {
@@ -327,9 +327,9 @@ namespace UltitemsCyan.Items.Lunar
 
                 }
             }
-            Log.Debug("GiveItem_ItemIndex in orig SilverThread");
+            //Log.Debug("GiveItem_ItemIndex in orig SilverThread");
             orig(self, itemIndex, count);
-            Log.Debug("GiveItem_ItemIndex out orig SilverThread");
+            //Log.Debug("GiveItem_ItemIndex out orig SilverThread");
         }
     }
 }
