@@ -17,8 +17,8 @@
 - Bugs / Tests
 - Version number (Ultitems Main / Manifest)
 - Readme
-- Change Log
-- Update DLL and Bundle
+- Update DLL
+- Update Bundle
 - Update Manifest dependencies
 - Has the tags: Mods | Items | Survivors of the Void
 - Check directory of zip so that manifest is the first thing
