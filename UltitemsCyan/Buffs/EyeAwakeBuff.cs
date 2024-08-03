@@ -28,11 +28,11 @@ namespace UltitemsCyan.Buffs
             if (self && buffDef == buff && self.inventory) // && list.Count > 0
             {
                 var behavior = self.GetComponent<JealousFoeBehaviour>();
+                Log.Warning("   ?   Do you have a Jelly Foe   ?");
                 if (behavior)
                 {
+                    Log.Debug("Oh ! !!! ! you just lost it...");
                     behavior.SetCooldownPhase();
-                    behavior.eyePhaseStopwatch = float.PositiveInfinity;
-                    self.AddTimedBuff(EyeSleepyBuff.buff.buffIndex, cooldownTime);
                     // next is Sleepy LastStackRemoved
                 }
             }
