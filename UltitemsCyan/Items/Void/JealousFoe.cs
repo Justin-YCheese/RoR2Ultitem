@@ -184,7 +184,7 @@ namespace UltitemsCyan.Items.Void
                     // Give buff if below max
                     if (body.GetBuffCount(EyeDrowsyBuff.buff) < stack * maxBuffsPerStack)
                     {
-                        body.AddTimedBuff(EyeDrowsyBuff.buff, collectTime);
+                        body.AddBuff(EyeDrowsyBuff.buff);
                         _ = Util.PlaySound("Play_UI_arenaMode_voidCollapse_select", body.gameObject);
                     }
                 }
@@ -294,13 +294,6 @@ namespace UltitemsCyan.Items.Void
 
             public void OnAwake()
             {
-            }
-            public void OnEnable()
-            {
-                Log.Debug(" 1 Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
-                _currentPhase = EyePhase.collecting;
-                eyePhaseStopwatch = float.PositiveInfinity;
-                currentTimer = collectTime;
             }
 
             public void OnDisable()
