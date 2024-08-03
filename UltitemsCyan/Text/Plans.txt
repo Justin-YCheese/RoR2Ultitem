@@ -22,7 +22,7 @@
 - Update DLL and Bundle
 - Update Manifest dependencies
 - Has the tags: Mods | Items | Survivors of the Void
-- Check directory of zip so that manifest is the first thing
+
 
 
 	For Future Consideration:

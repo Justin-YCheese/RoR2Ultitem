@@ -10,7 +10,7 @@ There is a config file to enable or disable specific items.
 |:--:|--|--|:--:|
 | ![Imgur](https://i.imgur.com/j0V4Qt8.png) | Crème Brûlée        | Heal when hitting full health enemies.                                                                                  |      White      |
 | ![Imgur](https://i.imgur.com/zhJ2uBz.png) | Flea Bag            | Chance on hit to drop a tick which gives critical chance. Critical Strikes drop more ticks.                             |      White      |
-| ![Imgur](https://i.imgur.com/wGZdQAr.png) | Frisbee             | Rise and move faster after jumping. Hold jump to continue gliding.                                                      |      White      |
+| ![Imgur](https://i.imgur.com/wYJeWQy.png) | Frisbee             | Rise and move faster after jumping. Hold jump to continue gliding.                                                      |      White      |
 | ![Imgur](https://i.imgur.com/ys2hQtb.png) | Koala Sticker       | Reduce the maximum damage you can take.                                                                                 |      White      |
 | ![Imgur](https://i.imgur.com/GKGyafh.png) | Toy Robot           | Grab pickups from further away. Gain temporary barrier from pickups.                                                    |      White      |
 | ![Imgur](https://i.imgur.com/AYBM5gB.png) | 1000 Degree Scissor | Melts two consumed items into scraps. Otherwise melts itself.                                                           |      Green      |
@@ -25,7 +25,7 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/85CkaFY.png) | Viral Smog          | Increase speed per unique status effect.                                                                                |       Red       |
 | ![Imgur](https://i.imgur.com/70oQsj7.png) | Rocky Taffy         | Gain a recharging shield. Gain a stable barrier without your shield.                                                    |       Red       |
 | ![Imgur](https://i.imgur.com/ClXO89c.png) | Dream Fuel          | Increase speed at full health... **BUT get rooted when hit.**                                                           |      Lunar      |
-| ![Imgur](https://i.imgur.com/c09eLL8.png) | Silver Thread       | Chance to gain additional items... **BUT chance of dying upon being attacked**. Upon death, this item will be consumed. |      Lunar      |
+| ![Imgur](https://i.imgur.com/ASsZX2z.png) | Silver Thread       | Chance to gain additional items... **BUT chance of dying upon being attacked**. Upon death, this item will be consumed. |      Lunar      |
 | ![Imgur](https://i.imgur.com/OM2CjLT.png) | Sonorous Pail       | Gain stats for each item held... **BUT picking up an item triggers a restack.**                                         |      Lunar      |
 | ![Imgur](https://i.imgur.com/wYLzvng.png) | Ultraviolet Bulb    | Chance to instantly reset a skill after it's used... **BUT triples all cooldown**                                       |      Lunar      |
 | ![Imgur](https://i.imgur.com/XnoYzTk.png) | Crysotope           | Rise after jumping. Hold jump to continue flying. **Corrupts all Frisbees**.                                            |    Void White   |
