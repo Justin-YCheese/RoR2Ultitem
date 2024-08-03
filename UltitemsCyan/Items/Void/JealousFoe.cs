@@ -24,7 +24,7 @@ namespace UltitemsCyan.Items.Void
 
         public const float collectTime = 6f;
         public const float consumeBaseTime = 4f;
-        public const float consumeMinTime = 0f;
+        //public const float consumeMinTime = 0f;
         public const float cooldownTime = 6f;
 
         public const float maxBuffsPerStack = 3f;
@@ -212,8 +212,8 @@ namespace UltitemsCyan.Items.Void
                 {
                     eyePhaseStopwatch = Run.instance.time;
                     // Quadratic equation with mininum
-                    // (t - m) * 2 / (n + 1) + m
-                    currentTimer = ((consumeBaseTime - consumeMinTime) * 2 / (stack + 1)) + consumeMinTime;
+                    // t * 2 / (n + 1)
+                    currentTimer = consumeBaseTime * 2 / (stack + 1);
                     //Log.Debug(" | | | TIME | | | Eating! New timer is " + currentTimer);
 
                     SetConsumingPhase();
@@ -302,7 +302,7 @@ namespace UltitemsCyan.Items.Void
                 {
                     body.SetBuffCount(EyeDrowsyBuff.buff.buffIndex, 0);
                     body.SetBuffCount(EyeAwakeBuff.buff.buffIndex, 0);
-                    body.SetBuffCount(EyeSleepyBuff.buff.buffIndex, 0);
+                    body.ClearTimedBuffs(EyeSleepyBuff.buff.buffIndex);
                 }
             }
 
