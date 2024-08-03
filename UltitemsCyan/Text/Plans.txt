@@ -1,8 +1,5 @@
 ﻿	
 	When Testing:
-- Zorse Pill Buff Icon is broken
-- Jealous Foe sometimes doesn't give sleepy cooldown
-
 - Test DamageType for Macrosiesmograph
 - Test if Birthday Candles and Rotten Bones works when time is frozen...
 	- Because using Run.instance.time

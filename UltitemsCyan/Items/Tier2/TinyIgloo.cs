@@ -21,7 +21,7 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Overclocked GPU";
+			string itemName = "Tiny Igloo";
 			if (!CheckItemEnabledConfig(itemName, "Green", configs))
 			{
 				return;
