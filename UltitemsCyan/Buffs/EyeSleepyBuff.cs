@@ -28,6 +28,7 @@ namespace UltitemsCyan.Buffs
                 var behavior = self.GetComponent<JealousFoeBehaviour>();
                 if (behavior)
                 {
+                    Log.Debug("The thing sleepy did the thing ! ! !");
                     behavior.SetCollectingPhase();
                     // next is JealousFoeBehaviour GotPickup
                 }

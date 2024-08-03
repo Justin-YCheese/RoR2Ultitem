@@ -1,9 +1,11 @@
 ﻿	
 	When Testing:
+- Zorse Pill Buff Icon is broken
+- Jealous Foe sometimes doesn't give sleepy cooldown
+
 - Test DamageType for Macrosiesmograph
 - Test if Birthday Candles and Rotten Bones works when time is frozen...
 	- Because using Run.instance.time
-- Test healing removing stacks of Peel
 
 	My Item Add Order:
 - Power Chips
@@ -17,14 +19,14 @@
 - Bugs / Tests
 - Version number (Ultitems Main / Manifest)
 - Readme
-- Update DLL
-- Update Bundle
+- Update DLL and Bundle
 - Update Manifest dependencies
 - Has the tags: Mods | Items | Survivors of the Void
-- Check directory of zip so that manifest is the first thing
+
 
 
 	For Future Consideration:
+
 - Crysotope and Frisbee are disabled when gaining certain buffs (i.e. hunter's harpoon)
 - Use heal fraction for percent heals
 - Koala does nothing if player doesn't have one shot protection enabled?

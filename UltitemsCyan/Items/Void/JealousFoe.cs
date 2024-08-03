@@ -164,6 +164,7 @@ namespace UltitemsCyan.Items.Void
                     Log.Debug(" ! ! ! ! ! ! Phase Set ! ! c o o l down");
                     // There should already be no Awake Buffs
                     _currentPhase = EyePhase.cooldown;
+                    eyePhaseStopwatch = float.PositiveInfinity;
                     body.AddTimedBuff(EyeSleepyBuff.buff, cooldownTime);
                 }
             }
@@ -183,7 +184,7 @@ namespace UltitemsCyan.Items.Void
                     // Give buff if below max
                     if (body.GetBuffCount(EyeDrowsyBuff.buff) < stack * maxBuffsPerStack)
                     {
-                        body.AddBuff(EyeDrowsyBuff.buff);
+                        body.AddTimedBuff(EyeDrowsyBuff.buff, collectTime);
                         _ = Util.PlaySound("Play_UI_arenaMode_voidCollapse_select", body.gameObject);
                     }
                 }
@@ -293,6 +294,13 @@ namespace UltitemsCyan.Items.Void
 
             public void OnAwake()
             {
+            }
+            public void OnEnable()
+            {
+                Log.Debug(" 1 Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
+                _currentPhase = EyePhase.collecting;
+                eyePhaseStopwatch = float.PositiveInfinity;
+                currentTimer = collectTime;
             }
 
             public void OnDisable()
