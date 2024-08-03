@@ -311,11 +311,6 @@ namespace UltitemsCyan.Items.Void
                     body.SetBuffCount(EyeDrowsyBuff.buff.buffIndex, 0);
                     body.SetBuffCount(EyeAwakeBuff.buff.buffIndex, 0);
                     body.ClearTimedBuffs(EyeSleepyBuff.buff.buffIndex);
-                    Log.Debug(" 2 2 Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
-                    _currentPhase = EyePhase.collecting;
-                    eyePhaseStopwatch = float.PositiveInfinity;
-                    currentTimer = collectTime;
-                    Log.Debug(" 3 3 3 Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
                 }
             }
 

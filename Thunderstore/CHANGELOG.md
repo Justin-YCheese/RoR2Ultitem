@@ -1,7 +1,7 @@
 ## 0.10.2
 
 - Fixed Zorse buff icon
-- Fixed removing Jealous Foe bug
+- Fixed Jealous Foe removal bug
 
 ## 0.10.1
 
