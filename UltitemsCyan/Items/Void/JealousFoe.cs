@@ -184,7 +184,7 @@ namespace UltitemsCyan.Items.Void
                     // Give buff if below max
                     if (body.GetBuffCount(EyeDrowsyBuff.buff) < stack * maxBuffsPerStack)
                     {
-                        body.AddBuff(EyeDrowsyBuff.buff);
+                        body.AddTimedBuff(EyeDrowsyBuff.buff, collectTime);
                         _ = Util.PlaySound("Play_UI_arenaMode_voidCollapse_select", body.gameObject);
                     }
                 }
@@ -213,7 +213,7 @@ namespace UltitemsCyan.Items.Void
                 {
                     eyePhaseStopwatch = Run.instance.time;
                     // Quadratic equation with mininum
-                    // (t - m) * 2 / (n + 1) + m
+                    // t * 2 / (n + 1)
                     currentTimer = consumeBaseTime * 2 / (stack + 1);
                     //Log.Debug(" | | | TIME | | | Eating! New timer is " + currentTimer);
 
@@ -295,6 +295,13 @@ namespace UltitemsCyan.Items.Void
             public void OnAwake()
             {
             }
+            public void OnEnable()
+            {
+                Log.Debug(" 1 Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
+                _currentPhase = EyePhase.collecting;
+                eyePhaseStopwatch = float.PositiveInfinity;
+                currentTimer = collectTime;
+            }
 
             public void OnDisable()
             {
@@ -304,10 +311,11 @@ namespace UltitemsCyan.Items.Void
                     body.SetBuffCount(EyeDrowsyBuff.buff.buffIndex, 0);
                     body.SetBuffCount(EyeAwakeBuff.buff.buffIndex, 0);
                     body.ClearTimedBuffs(EyeSleepyBuff.buff.buffIndex);
-                    //Log.Debug("Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
-                    //_currentPhase = EyePhase.collecting;
-                    //eyePhaseStopwatch = float.PositiveInfinity;
-                    //currentTimer = collectTime;
+                    Log.Debug(" 2 2 Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
+                    _currentPhase = EyePhase.collecting;
+                    eyePhaseStopwatch = float.PositiveInfinity;
+                    currentTimer = collectTime;
+                    Log.Debug(" 3 3 3 Phase: " + _currentPhase + "\t| stop watch: " + eyePhaseStopwatch + "\t| timer: " + currentTimer);
                 }
             }
 
