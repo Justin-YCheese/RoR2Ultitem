@@ -4,6 +4,9 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 using BepInEx.Configuration;
 
+// Notes:
+// Doesn't take Consumed Regenerative Scrap nor Sale Star
+
 namespace UltitemsCyan.Items.Tier2
 {
 

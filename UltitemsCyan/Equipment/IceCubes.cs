@@ -11,7 +11,7 @@ namespace UltitemsCyan.Equipment
     {
         // Inflict Slowdown on self?
         public static EquipmentDef equipment;
-        private const float percentOfBarrier = 80f;
+        private const float percentOfBarrier = 75f;
 
         public override void Init(ConfigFile configs)
         {
@@ -24,7 +24,7 @@ namespace UltitemsCyan.Equipment
                 "ICECUBES",
                 itemName,
                 "Gain barrier on use",
-                "Instantly gain <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>80% of your maximum health</style>",
+                "Instantly gain <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>75% of your maximum health</style>",
                 "Alice that freezes forever",
                 60f,
                 false,

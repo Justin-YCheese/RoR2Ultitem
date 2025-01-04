@@ -1,3 +1,21 @@
+## 0.11.0
+
+- Updated for DLC2
+- Retuning some items to adjust for DLC
+- Viral Smog speed per status 25% -> 20%
+- Overclocked GPU max attack speed per item 30% -> 35%
+- Dream Fuel speed 120% -> 125
+    - Root Duration 2s -> 1.5s
+- 9 Ice Cubes barrier 80% -> 75%
+- Macroseismograph launch power 7450 -> 10500
+- Sonorous Pail renamed to Deluged Pail
+- Removed problem items (plan to add them back in when I figure out how to...)
+    - Grapevine
+    - Silver Thread
+    - Koala Sticker
+    - Pig's Spork
+    - Quantum Peel
+
 ## 0.10.2
 
 - Fixed Zorse buff icon

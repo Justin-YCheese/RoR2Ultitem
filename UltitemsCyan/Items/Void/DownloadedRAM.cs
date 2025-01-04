@@ -10,7 +10,7 @@ namespace UltitemsCyan.Items.Void
 
 
     // * * * ~ ~ ~ * * * ~ ~ ~ * * * Change to increase TOTAL DAMAGE * * * ~ ~ ~ * * * ~ ~ ~ * * * //
-
+    // Change to be a cooldown instead? (like fin: so unaffected by luck and less dependeant on rapid fire attacks?)
 
     // TODO: check if Item classes needs to be public
     public class DownloadedRAM : ItemBase
@@ -35,9 +35,9 @@ namespace UltitemsCyan.Items.Void
             item = CreateItemDef(
                 "DOWNLOADEDRAM",
                 itemName,
-                "Chance on hit to increase damage. Lose stacks when not attacking. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
+                "Chance on hit to temporarily increase damage. Dealing damage refreshes the timer. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
                 "<style=cIsDamage>12%</style> chance on hit to increase damage by <style=cIsDamage>8%</style>. Maxinum cap of <style=cIsDamage>4</style> <style=cStack>(+4 per stack)</style>. Lose stacks 4 seconds after inflicting damage. <style=cIsVoid>Corrupts all Overclocked GPUs</style>.",
-                "Wow I can't belive it worked! I though for sure it was a scam!",
+                "Wow I can't belive it worked! I thought for sure it was a scam!",
                 ItemTier.VoidTier2,
                 UltAssets.DownloadedRAMSprite,
                 UltAssets.DownloadedRAMPrefab,

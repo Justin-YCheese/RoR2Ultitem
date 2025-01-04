@@ -1,6 +1,10 @@
 ﻿Known:
 - Rocky Taffy doesn't update it's shield granted when health changes (i.e. from stone flux pauldron) unlick personal shield
 - Silver Thread and Cleansing Pools work weird if player has a lunar active
+- Toy Robot and Elusive Antlers, Pickups are pulled in but don't give barrier (allow this)
+- H.M.T and Breaching Fin, inflicting fin doesn't burn enemy even with 10 HMTs
+- Rocky Taffy Doesn't give sheilds when using Transcendenc unlike personal shiled generator
+- With 2 Rotten Bones, removing one doesn't reduce buff
 
 Test:
 

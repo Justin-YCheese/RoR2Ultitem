@@ -38,7 +38,7 @@ namespace UltitemsCyan.Items.Tier1
 
         protected override void Hooks()
         {
-            IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            // IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }
 
         private void HealthComponent_TakeDamage(ILContext il)

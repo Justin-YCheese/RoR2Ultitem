@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Tier2
         private const int maxOverclocked = 10;
 
         // For Overclocked Buff
-        public const float buffAttackSpeedPerItem = 3f;
+        public const float buffAttackSpeedPerItem = 3.5f;
 
         public override void Init(ConfigFile configs)
         {
@@ -29,8 +29,8 @@ namespace UltitemsCyan.Items.Tier2
             item = CreateItemDef(
                 "OVERCLOCKEDGPU",
                 itemName,
-                "Increase attack speed on kill. Stacks 10 times. Resets after getting hurt.",
-                "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.",
+                "Increase attack speed on kill. Stacks 10 times. Resets upon getting hurt.",
+                "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3.5%</style> <style=cStack>(+3.5% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.",
                 "GPU GPU",
                 ItemTier.Tier2,
                 UltAssets.OverclockedGPUSprite,

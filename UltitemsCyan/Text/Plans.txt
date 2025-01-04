@@ -1,16 +1,22 @@
-﻿	
+﻿
+	Check Interaction:
+- Should Dream Fuel use amuptated Max HEalth (how does it interact with the Shine of Soul)
+- Use delayedDamageRefreshTime for Downloaded RAM like Chronic Expansion? (what does Chronic Expansion use?)
+
 	When Testing:
+- Test Tiny Igloo with Turrets
+
 - Test DamageType for Macrosiesmograph
 - Test if Birthday Candles and Rotten Bones works when time is frozen...
 	- Because using Run.instance.time
+
 
 	My Item Add Order:
 - Power Chips
 - Trebuchet
 - Jelly Jail
 - Worm Holes
-- Tipped Arrow
-- Tungston Rod
+
 
 	When updating mod check:
 - Bugs / Tests
@@ -18,12 +24,11 @@
 - Readme
 - Update DLL and Bundle
 - Update Manifest dependencies
-- Has the tags: Mods | Items | Survivors of the Void
-
+- Has the tags: Mods | Items | Survivors of the Void | Seekers of the Storm Update
 
 
 	For Future Consideration:
-
+- Make Obsolute and Igloo list read only?
 - Crysotope and Frisbee are disabled when gaining certain buffs (i.e. hunter's harpoon)
 - Use heal fraction for percent heals
 - Koala does nothing if player doesn't have one shot protection enabled?

@@ -1,10 +1,5 @@
 ﻿using BepInEx.Configuration;
-using IL.RoR2.Items;
-using On.RoR2.Items;
-using R2API;
 using RoR2;
-using UltitemsCyan.Buffs;
-using UnityEngine;
 using static UltitemsCyan.Equipment.YieldSign;
 
 namespace UltitemsCyan.Equipment

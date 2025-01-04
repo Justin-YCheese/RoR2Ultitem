@@ -78,9 +78,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.10.2";
+        public const string PluginVersion = "0.11.0";
 
-        public const string PluginSuffix = "Oops, no zorse";
+        public const string PluginSuffix = "Survivors get the Scraps";
 
         private static ConfigFile UltitemsConfig { get; set; }
 
@@ -130,7 +130,9 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new FrisbeeGlidingBuff());
             ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new RottingBuff());
-            ultitemBuffs.Add(new SlipperyGrapeBuff());
+
+            //ultitemBuffs.Add(new SlipperyGrapeBuff()); // TAKEDAMAGEPROCESS
+
             //ultitemBuffs.Add(new PeelBuff());
             ultitemBuffs.Add(new SporkBleedBuff());
             ultitemBuffs.Add(new TickCritBuff());
@@ -155,12 +157,16 @@ namespace UltitemsCyan
             ultitemItems.Add(new CorrodingVaultConsumed());
             ultitemItems.Add(new InhabitedCoffinConsumed());
             ultitemItems.Add(new SuesMandiblesConsumed());
-            ultitemItems.Add(new SilverThreadConsumed());
+
+            // ultitemItems.Add(new SilverThreadConsumed());  .   .   .   .    .   .    .   // TAKEDAMAGEPROCESS
+
             ultitemItems.Add(new GreySolvent());
 
             // White
             ultitemItems.Add(new CremeBrulee());
-            ultitemItems.Add(new KoalaSticker());
+
+            // ultitemItems.Add(new KoalaSticker());   .    .    .     .   .    .   .   .  // TAKEDAMAGEPROCESS
+
             ultitemItems.Add(new ToyRobot());
             ultitemItems.Add(new FleaBag());
             ultitemItems.Add(new Frisbee());
@@ -170,12 +176,15 @@ namespace UltitemsCyan
             //ultitemItems.Add(new DegreeScissors()); // Last Priority
             ultitemItems.Add(new HMT());
             ultitemItems.Add(new OverclockedGPU());
+            //ultitemItems.Add(new TinyIgloo());
             ultitemItems.Add(new XenonAmpoule());
 
             // Red
             ultitemItems.Add(new CorrodingVault());
-            ultitemItems.Add(new Grapevine());
-            ultitemItems.Add(new PigsSpork());
+
+            // ultitemItems.Add(new Grapevine());   .    .      .    .  .    .   .     .    // TAKEDAMAGEPROCESS
+
+            //ultitemItems.Add(new PigsSpork());   .  .   .      .       .    .      .      // HealthComponent_UpdateLastHitTime
             ultitemItems.Add(new RockyTaffy());
             ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new ViralSmog());
@@ -184,8 +193,10 @@ namespace UltitemsCyan
             ultitemItems.Add(new DreamFuel());
             ultitemItems.Add(new UltravioletBulb());
             //ultitemItems.Add(new PowerChip());
-            ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail?
-            ultitemItems.Add(new SonorousPail());
+
+            // ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail?  . // TAKEDAMAGEPROCESS
+
+            ultitemItems.Add(new DelugedPail());
 
             // Equipments
             ultitemItems.Add(new IceCubes());
@@ -204,7 +215,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new Crysotope());
             ultitemItems.Add(new DriedHam());
             ultitemItems.Add(new RottenBones());
-            ultitemItems.Add(new QuantumPeel());
+            //ultitemItems.Add(new QuantumPeel());  .   . . .   .  .    .   .   .    .      //HealthComponent_UpdateLastHitTime
             ultitemItems.Add(new DownloadedRAM());
             ultitemItems.Add(new JealousFoe());
             ultitemItems.Add(new InhabitedCoffin());

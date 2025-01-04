@@ -13,7 +13,8 @@ namespace UltitemsCyan.Items.Lunar
         public static ItemDef item;
 
         // For Dream Speed Buff
-        public const float dreamSpeed = 120f;
+        public const float dreamSpeed = 125f;
+        private const float rootDuration = 1.5f;
 
         public override void Init(ConfigFile configs)
         {
@@ -26,7 +27,7 @@ namespace UltitemsCyan.Items.Lunar
                 "DREAMFUEL",
                 itemName,
                 "Increase speed at full health... <style=cDeath>BUT get rooted when hit.</style>",
-                "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>120%</style> <style=cStack>(+120% per stack)</style>. You get <style=cIsHealth>rooted</style> for 2 seconds <style=cStack>(+2 per stack)</style> when hit.",
+                "While at <style=cIsHealth>full health</style> increase <style=cIsUtility>movement speed</style> by <style=cIsUtility>125%</style> <style=cStack>(+125% per stack)</style>. You get <style=cIsHealth>rooted</style> for 1.5 seconds <style=cStack>(+1.5 per stack)</style> when hit.",
                 "More like Nightmare fuel",
                 ItemTier.Lunar,
                 UltAssets.DreamFuelSprite,
@@ -120,7 +121,7 @@ namespace UltitemsCyan.Items.Lunar
                     if (grabCount > 0)
                     {
                         Util.PlaySound("Play_item_lunar_secondaryReplace_explode", injured.gameObject);
-                        injured.AddTimedBuffAuthority(RoR2Content.Buffs.LunarSecondaryRoot.buffIndex, 2f * grabCount);
+                        injured.AddTimedBuffAuthority(RoR2Content.Buffs.LunarSecondaryRoot.buffIndex, rootDuration * grabCount);
                     }
                 }
             }

@@ -28,7 +28,7 @@ namespace UltitemsCyan.Items.Tier2
                 "BIRTHDAYCANDLES",
                 itemName,
                 "Temporarily deal extra damage after pickup and at the start of each stage.",
-                "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for<style=cIsUtility>5 minutes</style>after pickup and after the start of each stage.",
+                "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for <style=cIsUtility>5 minutes</style> after pickup and after the start of each stage.",
                 "I don't know what to get you for your birthday...",
                 ItemTier.Tier2,
                 UltAssets.BirthdayCandleSprite,

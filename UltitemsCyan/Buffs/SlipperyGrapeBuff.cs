@@ -1,13 +1,8 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using R2API;
 using RoR2;
-using UltitemsCyan.Items.Tier1;
-using UnityEngine;
 using System;
-using System.Reflection;
-using R2API.Utils;
-using Rewired.Utils;
+using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -27,7 +22,7 @@ namespace UltitemsCyan.Buffs
 
         protected void Hooks()
         {
-            IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            //IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }
 
         //
@@ -120,7 +115,7 @@ namespace UltitemsCyan.Buffs
             }
             else
             {
-                Log.Warning("Silver cannot find '(num12 > 0f && this.barrier > 0f)'");
+                Log.Warning("Slippery Grape cannot find line");
             }
         }
         //*/

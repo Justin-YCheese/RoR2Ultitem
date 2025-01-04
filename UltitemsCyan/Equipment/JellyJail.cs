@@ -130,7 +130,7 @@ namespace UltitemsCyan.Equipment
         */
     }
 
-    //AmmoLockerInteraction
+    /*/AmmoLockerInteraction
     public class JellyJailInteraction : NetworkBehaviour, IInteractable, IDisplayNameProvider
     {
         [SyncVar]
@@ -163,37 +163,37 @@ namespace UltitemsCyan.Equipment
         }
 
 
-        /*/
-        [ClientRpc]
-        public void RpcSetPortrait(NetworkInstanceId ownerNetId, NetworkInstanceId characterNetId)
-        {
-            Log.Debug(string.Format("RpcSetPortrait {0}, {1}", ownerNetId, characterNetId));
-            var ownerBody = GetCharacterBody(ownerNetId);
-            //var skinTexture = null;
-            var skinTexture = SkinCatalog.FindCurrentSkinDefForBodyInstance(ownerBody.gameObject);
-            var body = GetCharacterBody(characterNetId);
-            foreach (var renderer in gameObject.GetComponentsInChildren<Renderer>())
-            {
-                Log.Debug(string.Format("Renderer on {0}", renderer.gameObject));
-                var materials = renderer.materials;
-                foreach (var material in materials)
-                {
-                    Log.Debug(string.Format("Material {0}", material.name));
-                    if (body.portraitIcon != null && material.name.StartsWith("Portrait"))
-                    {
-                        Log.Debug(string.Format("Setting portrait mainTexture to {0}", body.portraitIcon));
-                        material.mainTexture = body.portraitIcon;
-                    }
-                    else if (skinTexture != null && material.name.StartsWith("Skin"))
-                    {
-                        Log.Debug(string.Format("Setting skin mainTexture to {0}", skinTexture));
-                        //material.mainTexture = skinTexture;
-                    }
-                }
-                renderer.materials = materials;
-            }
-        }
-        //*/
+        //
+        //[ClientRpc]
+        //public void RpcSetPortrait(NetworkInstanceId ownerNetId, NetworkInstanceId characterNetId)
+        //{
+        //    Log.Debug(string.Format("RpcSetPortrait {0}, {1}", ownerNetId, characterNetId));
+        //    var ownerBody = GetCharacterBody(ownerNetId);
+        //    //var skinTexture = null;
+        //    var skinTexture = SkinCatalog.FindCurrentSkinDefForBodyInstance(ownerBody.gameObject);
+        //    var body = GetCharacterBody(characterNetId);
+        //    foreach (var renderer in gameObject.GetComponentsInChildren<Renderer>())
+        //    {
+        //        Log.Debug(string.Format("Renderer on {0}", renderer.gameObject));
+        //        var materials = renderer.materials;
+        //        foreach (var material in materials)
+        //        {
+        //            Log.Debug(string.Format("Material {0}", material.name));
+        //            if (body.portraitIcon != null && material.name.StartsWith("Portrait"))
+        //            {
+        //                Log.Debug(string.Format("Setting portrait mainTexture to {0}", body.portraitIcon));
+        //                material.mainTexture = body.portraitIcon;
+        //            }
+        //            else if (skinTexture != null && material.name.StartsWith("Skin"))
+        //            {
+        //                Log.Debug(string.Format("Setting skin mainTexture to {0}", skinTexture));
+        //                //material.mainTexture = skinTexture;
+        //            }
+        //        }
+        //        renderer.materials = materials;
+        //    }
+        //}
+        ///
 
         public string GetContextString(Interactor activator)//[Not NULL]
         {
@@ -232,16 +232,16 @@ namespace UltitemsCyan.Equipment
         public void RpcOnInteraction(NetworkInstanceId bodyId)
         {
             Log.Debug("Jelly RpcOnInteraction");
-            /*/
-            var skillLocator = GetCharacterBody(bodyId)?.skillLocator;
-            if (skillLocator != null)
-            {
-                foreach (var skill in skillLocator.allSkills)
-                {
-                    skill.Reset();
-                }
-            }
-            //*/
+
+            //var skillLocator = GetCharacterBody(bodyId)?.skillLocator;
+            //if (skillLocator != null)
+            //{
+            //    foreach (var skill in skillLocator.allSkills)
+            //    {
+            //        skill.Reset();
+            //    }
+            //}
+
             gameObject.GetComponentInChildren<Animator>().Play("Base Layer.Opening");
         }
 
@@ -260,4 +260,5 @@ namespace UltitemsCyan.Equipment
             return "Jelly_Jail_Display_Name";
         }
     }
+    //*/
 }

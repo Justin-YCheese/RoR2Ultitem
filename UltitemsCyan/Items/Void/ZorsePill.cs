@@ -11,10 +11,9 @@ using static RoR2.DotController;
 
 namespace UltitemsCyan.Items.Void
 {
-
-
-    // * * * ~ ~ ~ * * * ~ ~ ~ * * * Change to increase TOTAL DAMAGE * * * ~ ~ ~ * * * ~ ~ ~ * * * //
-
+    // Notes:
+    // Moves which deal zero damage will still trigger Zorse and deal a non zero amount of damage
+    // Is great with KNockback fin because both multiply total damage dealt (but it's real hard to proc both)
 
     // TODO: check if Item classes needs to be public
     public class ZorsePill : ItemBase
@@ -73,7 +72,9 @@ namespace UltitemsCyan.Items.Void
                         // If you have fewer than the max number of downloads, then grant buff
 
                         //float damageMultiplier = (basePercentHealth + (percentHealthPerStack * (grabCount - 1))) / 100f;
-                        //Log.Debug("Damage/attack = " + damageDealt + " | " + (damageDealt / inflictor.damage));
+                        Log.Debug("Damage = " + damageDealt + " | i.damage: " + inflictor.damage + " i.damageRecalc: " + inflictor.damageFromRecalculateStats
+                            + " di.damage: " + damageInfo.damage + " di.crit: " + damageInfo.crit
+                            + " multiplier:" + (damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f));
                         InflictDotInfo inflictDotInfo = new()
                         {
                             victimObject = victimObject,
@@ -82,7 +83,7 @@ namespace UltitemsCyan.Items.Void
                             dotIndex = ZorseStarvingBuff.index,
                             duration = duration,
                             //damageMultiplier = damageInfo.damage / inflictor.damage * grabCount * percentPerStack / 100f,
-                            damageMultiplier = damageDealt / inflictor.damage * grabCount * percentPerStack / 100f,
+                            damageMultiplier = damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f,
                             maxStacksFromAttacker = null
                         };
                         InflictDot(ref inflictDotInfo);

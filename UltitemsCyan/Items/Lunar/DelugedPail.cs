@@ -11,7 +11,7 @@ namespace UltitemsCyan.Items.Lunar
 {
 
     // TODO: check if Item classes needs to be public
-    public class SonorousPail : ItemBase
+    public class DelugedPail : ItemBase
     {
         public static ItemDef item;
 
@@ -24,19 +24,19 @@ namespace UltitemsCyan.Items.Lunar
         private const float jumpPerLunar = 1f;
         private const float stackPercent = 20f;
 
-        public bool inSonorousAlready = false;
+        public bool inDelugedAlready = false;
 
         public readonly GameObject ShrineUseEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Sonorous Pail";
+            string itemName = "Deluged Pail";
             if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
             }
             item = CreateItemDef(
-                "SONOROUSPAIL",
+                "DELUGEDPAIL",
                 itemName,
                 "Gain stats for each item held... <style=cDeath>BUT picking up an item triggers a restack.</style>",
                 "Gain <style=cIsDamage>2.5% attack</style> per common, <style=cIsHealing>0.05 regen</style> per <style=cIsHealing>uncommon</style>, <style=cIsUtility>10% speed</style> per legendary</style>, <style=cIsDamage>10% crit</style> per <style=cIsDamage>boss</style> item, and <style=cIsUtility>1% jump height</style> per <style=cIsUtility>lunar</style> <style=cStack>(+20% of each stat per stack)</style>. Trigger a <style=cDeath>restack</style> when picking up items.",
@@ -148,18 +148,18 @@ namespace UltitemsCyan.Items.Lunar
             //Log.Debug("orig IN Sonorous Pail");
             if (!ItemCatalog.GetItemDef(itemIndex))
             {
-                Log.Debug("Sonorous found impossible item? Index: " + itemIndex);
+                Log.Debug("Deluged found impossible item? Index: " + itemIndex);
             }
             orig(self, itemIndex, count);
             //Log.Debug("orig OUT Sonorous Pail");
-            if (NetworkServer.active && !inSonorousAlready && self) // Hopefully fix multiple triggers and visual bug?
+            if (NetworkServer.active && !inDelugedAlready && self) // Hopefully fix multiple triggers and visual bug?
             {
                 ItemDef iDef = ItemCatalog.GetItemDef(itemIndex);
                 ItemTierDef iTierDef = ItemTierCatalog.GetItemTierDef(iDef.tier);
                 // Validate check, and pass if not lunar unless is pail
                 if (iDef && iTierDef && iTierDef.canRestack && (iTierDef.tier != ItemTier.Lunar || iDef == item)) // Valid Check (check iDef and iTierDef)
                 {
-                    inSonorousAlready = true;
+                    inDelugedAlready = true;
                     CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body) => body.inventory == self);
                     if (player && self.GetItemCount(item) > 0) // Valid Check
                     {
@@ -174,7 +174,7 @@ namespace UltitemsCyan.Items.Lunar
                             color = new Color(0.2392f, 0.8196f, 0.917647f) // Cyan Lunar color
                         }, true);
                     }
-                    inSonorousAlready = false;
+                    inDelugedAlready = false;
                 }
             }
         }//*/

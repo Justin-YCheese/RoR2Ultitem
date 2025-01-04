@@ -14,10 +14,10 @@ namespace UltitemsCyan.Equipment
 
         private const float cooldown = 300f;
 
-        private const int radius = 100;
+        private const int radius = 110;
         private const float delay = 1.25f;
-        private const float force = 7450f;
-        private const float earthquakeDamage = 10000f; // 1,000,000% = 1000
+        private const float force = 10500f; //7450f
+        private const float earthquakeDamage = 10000f; // 1,000,000% = 10,000
 
         private static GameObject willOWisp = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ExplodeOnDeath/WilloWispDelay.prefab").WaitForCompletion();
         private static GameObject explosionEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/FallBoots/BootShockwave.prefab").WaitForCompletion();
@@ -78,7 +78,7 @@ namespace UltitemsCyan.Equipment
 
                     // Get position below player
                     Vector3 position = activator?.corePosition ?? self.transform.position;
-                    position.y -= 5;
+                    position.y -= 8;
 
                     //EffectManager.SpawnEffect(warningEffect, new EffectData
                     //{
@@ -90,12 +90,10 @@ namespace UltitemsCyan.Equipment
                     //BlastAttack impactDamage = new()
 
                     Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
-
-                    //float force = rng.RangeFloat(3000f, 20000f);
+                    float force = rng.RangeFloat(9400f, 11000f);
+                    Log.Warning(" - - - - - Force? " + force);
 
                     // < 10250
-
-                    Log.Warning(" - - - - - Force? " + force);
 
                     // Damage
                     GameObject explostionObject = UnityEngine.Object.Instantiate(willOWisp, position, Quaternion.identity);
@@ -145,10 +143,10 @@ namespace UltitemsCyan.Equipment
 
                     forceBlast.teamFilter = new TeamFilter()
                     {
-                        teamIndexInternal = 0,
+                        teamIndexInternal = -1,
                         defaultTeam = TeamIndex.None,
-                        teamIndex = TeamIndex.Neutral,
-                        NetworkteamIndexInternal = 0
+                        teamIndex = TeamIndex.None,
+                        NetworkteamIndexInternal = -1
                     };//*/
 
                     Util.PlaySound("Play_voidDevastator_death_vortex_explode", activator.gameObject);

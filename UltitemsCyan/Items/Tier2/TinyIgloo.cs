@@ -1,6 +1,9 @@
 ﻿using RoR2;
 using UnityEngine;
 using BepInEx.Configuration;
+using System.Collections.Generic;
+using UnityEngine.Networking;
+using System;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -14,89 +17,195 @@ namespace UltitemsCyan.Items.Tier2
     {
         public static ItemDef item;
 
-        private const int maxOverclocked = 10;
+        private List<NetworkBehaviour> zoneList = [];
 
-        // For Overclocked Buff
-        public const float buffAttackSpeedPerItem = 3f;
+        private const int basePercent = 12;
+        private const int perStackPercent = 8;
+
+        private const int maxZoneCount = 4;
+        private const int minOverHeal = 10;
+        private const float radiusPerOverHeal = 0.5f;
+        private const int holdoutMultipleir = 2;
+
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Tiny Igloo";
-			if (!CheckItemEnabledConfig(itemName, "Green", configs))
-			{
-				return;
-			}
+            string itemName = "Tiny Igloo";
+            if (!CheckItemEnabledConfig(itemName, "Green", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
-                "OVERCLOCKEDGPU",
+                "TINYIGLOO",
                 itemName,
-                "Increase attack speed on kill. Stacks 10 times. Resets after getting hurt.",
-                "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.",
+                "Increase healing while in ",
+                "Increase healing by 12% (+8% per stack) per zone you are in. Overhealing while in a zone will increase the size of the zone.",
                 "GPU GPU",
                 ItemTier.Tier2,
-                UltAssets.OverclockedGPUSprite,
-                UltAssets.OverclockedGPUPrefab,
-                [ItemTag.Damage, ItemTag.OnKillEffect]
+                UltAssets.CremeBruleeSprite,
+                UltAssets.CremeBruleePrefab,
+                [ItemTag.Healing, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.HoldoutZoneRelated]
             );
         }
 
 
         protected override void Hooks()
         {
-            On.RoR2.GlobalEventManager.OnCharacterDeath += GlobalEventManager_OnCharacterDeath;
-            On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
+            On.RoR2.HoldoutZoneController.OnEnable += HoldoutZoneController_OnEnable;
+            On.RoR2.HoldoutZoneController.OnDisable += HoldoutZoneController_OnDisable;
+            On.RoR2.BuffWard.OnEnable += BuffWard_OnEnable;
+            On.RoR2.BuffWard.OnDisable += BuffWard_OnDisable;
+            On.RoR2.HealthComponent.Heal += HealthComponent_Heal;
         }
 
-        // Give Overclocked buff on kill
-        private void GlobalEventManager_OnCharacterDeath(On.RoR2.GlobalEventManager.orig_OnCharacterDeath orig, GlobalEventManager self, DamageReport damageReport)
+        private void BuffWard_OnEnable(On.RoR2.BuffWard.orig_OnEnable orig, BuffWard self)
         {
-            //Log.Warning("Overclocking Killed");
-            if (self && damageReport.attacker && damageReport.attackerBody && damageReport.attackerBody.inventory)
-            {
-                CharacterBody killer = damageReport.attackerBody;
-                int grabCount = killer.inventory.GetItemCount(item);
-                int buffCount = killer.GetBuffCount(Buffs.OverclockedBuff.buff);
-                // If body has the item and has fewer than the max stack then add buff
-                if (grabCount > 0 && buffCount < maxOverclocked) // maxOverclockedPerStack * grabCount
-                {
-                    // Don't have any buffs yet
-                    if (buffCount == 0)
-                    {
-                        Util.PlaySound("Play_item_goldgat_windup", killer.gameObject);
-                    }
-                    else
-                    {
-                        //Play_wCrit
-                        Util.PlaySound("Play_item_proc_crowbar", killer.gameObject);
-                        Util.PlaySound("Play_wDroneDeath", killer.gameObject);
-                    }
-                    killer.AddBuff(Buffs.OverclockedBuff.buff);
-                }
-            }
-            // TODO check if goes in beginning or end
-            orig(self, damageReport);
+            zoneList.Add(self);
+            Log.Debug(" + + + ++++++ + + + Adding B U F F");
+            orig(self);
         }
 
-        // Remove Overclocked buff when hit
-        private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
+        private void BuffWard_OnDisable(On.RoR2.BuffWard.orig_OnDisable orig, BuffWard self)
         {
-            orig(self, damageInfo, victim);
-            //Log.Warning("Overclocking hit");
-            try
+            zoneList.Remove(self);
+            Log.Debug(" + + + +----+ + + + B U F F Subtraction");
+            orig(self);
+        }
+
+        private void HoldoutZoneController_OnEnable(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
+        {
+            zoneList.Add(self);
+            Log.Debug(" + + + ++++++ + + + Adding Zone");
+            orig(self);
+        }
+        private void HoldoutZoneController_OnDisable(On.RoR2.HoldoutZoneController.orig_OnDisable orig, HoldoutZoneController self)
+        {
+            _ = zoneList.Remove(self);
+            Log.Debug(" + + + +----+ + + + Zone Subtraction");
+            orig(self);
+        }
+
+        // Increase amount healed and increase zone radius
+        private float HealthComponent_Heal(On.RoR2.HealthComponent.orig_Heal orig, HealthComponent self, float amount, ProcChainMask procChainMask, bool nonRegen)
+        {
+            if (nonRegen && self && self.body && self.body.inventory)
             {
-                if (self && victim && victim.GetComponent<CharacterBody>() && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
+                int grabCount = self.body.inventory.GetItemCount(item);
+                if (grabCount > 0)
                 {
-                    CharacterBody injured = victim.GetComponent<CharacterBody>();
-                    if (injured.HasBuff(Buffs.OverclockedBuff.buff))
-                    {
-                        Util.PlaySound("Play_item_goldgat_winddown", injured.gameObject);
-                        injured.SetBuffCount(Buffs.OverclockedBuff.buff.buffIndex, 0);
-                    }
+                    // Increase amount healed
+                    Log.Warning("  +++  Healing igloo");
+                    NetworkBehaviour[] inZoneList = GetInZoneList(self.body);
+                    int zoneCount = inZoneList.Length;
+
+                    Log.Debug(" ^ ^ ^ zoneCount = " + zoneCount);
+                    var multiplier = 1 + ((basePercent + ((grabCount - 1) * perStackPercent)) * zoneCount / 100f);
+                    amount *= multiplier;
+
+                    // Return modified amount and get final heal amount
+                    float returnAmount = orig(self, amount, procChainMask, nonRegen);
+
+                    // Mininum amount to heal to be at full health
+                    float overHeal = returnAmount - Mathf.Max(Mathf.Min(returnAmount, self.fullHealth - self.health), 0f);
+
+                    // Increase radius for over heals
+                    IncreaseRadius(inZoneList, 13f);
+
+                    Log.Warning("  +++  | Multiplier: " + multiplier + " | amount " + amount + " | overHeal " + overHeal);
+
+                    return returnAmount;
                 }
             }
-            catch
+            return orig(self, amount, procChainMask, nonRegen);
+        }
+
+        // Get list of zones the body is in
+        private NetworkBehaviour[] GetInZoneList(CharacterBody body)
+        {
+            List<NetworkBehaviour> list = new(maxZoneCount);
+            //int zoneCount = 0;
+            foreach (var zone in zoneList)
             {
-                Log.Warning("Overloading GPU Hit Error?");
+                // Randomize list??? (otherwise prioritize oldest zone over newer zones)
+                // If already counted max number of zones
+                // If body is in buffward
+                if (zone is BuffWard ward
+                    && (body.transform.position - ward.transform.position).magnitude <= Mathf.Abs(ward.calculatedRadius))
+                {
+                    //Log.Debug(" . " + (body.transform.position - ward.transform.position).magnitude + " BUFF less then " + Mathf.Abs(ward.calculatedRadius));
+                    list.Add(zone);
+                }
+                // If body is in holdout zone
+                else if (zone is HoldoutZoneController holdout
+                    && holdout.IsBodyInChargingRadius(body))
+                {
+                    //Log.Debug(" . in Holdout");
+                    list.Add(zone);
+                }
+                // break if already found max amount
+                if (list.Count >= maxZoneCount)
+                {
+                    break;
+                }
             }
+            //Log.Debug(" ^ ^ ^ list.Count = " + list.Count);
+            return list.ToArray();
+        }
+
+        private void IncreaseRadius(NetworkBehaviour[] inZoneList, float amount)
+        {
+            Log.Debug("Increasing radius");
+
+            foreach(var zone in inZoneList)
+            {
+                if (zone is BuffWard ward)
+                {
+                    Log.Debug(" _ _ _ _ Ward radius " + ward.radius + " increased by _" + Math.Min(amount - minOverHeal, 0f));
+                    //Log.Debug(" . " + (body.transform.position - ward.transform.position).magnitude + " BUFF less then " + Mathf.Abs(ward.calculatedRadius));
+                    ward.radius += Math.Min(amount - minOverHeal, 0f);
+                }
+                // If body is in holdout zone
+                else if (zone is HoldoutZoneController holdout)
+                {
+                    //Log.Debug(" . in Holdout");
+                    Log.Debug(" _ _ _ _ Holdout radius " + holdout.baseRadius + " increased by _" + (Math.Min(amount - minOverHeal, 0f) * holdoutMultipleir));
+                    holdout.baseRadius += Math.Min(amount - minOverHeal, 0f) * holdoutMultipleir;
+                }
+            }
+            /*
+            float num2 = amount;
+            if (this.health < this.fullHealth)
+            {
+                float num3 = Mathf.Max(Mathf.Min(amount, this.fullHealth - this.health), 0f);
+                num2 = amount - num3;
+                this.Networkhealth = this.health + num3;
+            }
+            if (num2 > 0f && nonRegen && this.itemCounts.barrierOnOverHeal > 0)
+            {
+                float value = num2 * ((float)this.itemCounts.barrierOnOverHeal * 0.5f);
+                this.AddBarrier(value);
+            }
+            */
+        }
+
+        private void AddToRadius(NetworkBehaviour zone, float addRadius)
+        {
+            if (zone is BuffWard ward)
+            {
+                ward.radius += addRadius;
+            }
+            else if (zone is HoldoutZoneController)
+            {
+
+            }
+
+
+        }
+
+        private void HoldoutZoneController_Start(On.RoR2.HoldoutZoneController.orig_Start orig, HoldoutZoneController self)
+        {
+            orig(self);
+            Log.Debug("     |||     Created a zone     |||");
         }
     }
 }

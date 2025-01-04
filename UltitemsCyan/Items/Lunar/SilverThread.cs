@@ -50,8 +50,12 @@ namespace UltitemsCyan.Items.Lunar
         {
             // Gain additional items
             On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
+            
+            
             // Chance of Death
-            IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            //IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamage;
+
+
             // Increase cauldron and 3D printer cost
             On.RoR2.PurchaseInteraction.OnInteractionBegin += PurchaseInteraction_OnInteractionBegin;
             // Increase scrapper cost

@@ -57,6 +57,15 @@ namespace UltitemsCyan.Items.Tier3
             On.RoR2.HealthComponent.UpdateLastHitTime += HealthComponent_UpdateLastHitTime;
         }
 
+        private void HealthComponent_UpdateLastHitTime(
+            On.RoR2.HealthComponent.orig_UpdateLastHitTime orig,
+            //HealthComponent self, float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker)
+            float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker, bool delayedDamage, bool firstHitOfDelayedDamage)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Initial Explosion when at low health
         private void HealthComponent_UpdateLastHitTime(On.RoR2.HealthComponent.orig_UpdateLastHitTime orig, HealthComponent self, float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker)
         {
             if (NetworkServer.active && self && self.body && self.body.inventory)
@@ -69,7 +78,7 @@ namespace UltitemsCyan.Items.Tier3
                     GameObject explostionObject = UnityEngine.Object.Instantiate(willOWisp, body.corePosition, Quaternion.identity);
                     DelayBlast blast = explostionObject.GetComponent<DelayBlast>();
                     //GameObject FakePlayer = body.gameObject.InstantiateClone("Fake Player");
-                    
+
                     //UnityEngine.Object.Destroy(FakePlayer.GetComponent<CharacterBody>());
                     blast.position = body.corePosition;
                     blast.attacker = attacker;
@@ -103,7 +112,7 @@ namespace UltitemsCyan.Items.Tier3
                 }
             }
             orig(self, damageValue, damagePosition, damageIsSilent, attacker);
-        }
+        }//*/
 
         private void DotController_OnDotStackRemovedServer(On.RoR2.DotController.orig_OnDotStackRemovedServer orig, DotController self, object dotStack)
         {
