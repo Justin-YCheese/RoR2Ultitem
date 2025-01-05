@@ -89,9 +89,9 @@ namespace UltitemsCyan.Equipment
                     // Damage Blast
                     //BlastAttack impactDamage = new()
 
-                    Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
-                    float force = rng.RangeFloat(9400f, 11000f);
-                    Log.Warning(" - - - - - Force? " + force);
+                    //Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
+                    //float force = rng.RangeFloat(9400f, 11000f);
+                    //Log.Warning(" - - - - - Force? " + force);
 
                     // < 10250
 
