@@ -1,14 +1,7 @@
-﻿using HG;
-using R2API;
-using RoR2;
-using System;
-using System.Collections.Generic;
-using UltitemsCyan.Items.Lunar;
-using UltitemsCyan.Items.Tier1;
+﻿using RoR2;
 using UltitemsCyan.Items.Void;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 using static R2API.DotAPI;
 using static RoR2.DotController;
 
@@ -22,7 +15,7 @@ namespace UltitemsCyan.Buffs
         public readonly GameObject PreFractureEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/BleedOnHitVoid/PreFractureEffect.prefab").WaitForCompletion();
         public readonly GameObject FractureEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/BleedOnHitVoid/FractureImpactEffect.prefab").WaitForCompletion();
 
-        private float duration = ZorsePill.duration;
+        private readonly float duration = ZorsePill.duration;
         //private const float airSpeed = Chrysotope.airSpeed;
 
         public override void Init()
@@ -46,10 +39,10 @@ namespace UltitemsCyan.Buffs
             //RegisterDotDef(null);
             index = RegisterDotDef(dotDef);
             //Log.Debug("2nd Custom Count " + CustomDotCount + " | Count: " + DotIndex.Count);
-            
+
             Hooks();
         }
-        
+
         protected void Hooks()
         {
             On.RoR2.CharacterBody.OnBuffFinalStackLost += CharacterBody_OnBuffFinalStackLost;

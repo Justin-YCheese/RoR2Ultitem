@@ -1,10 +1,7 @@
 ﻿using RoR2;
 using BepInEx.Configuration;
-using UltitemsCyan.Buffs;
-using UnityEngine.Networking;
 using UltitemsCyan.Items.Tier3;
 using R2API;
-using System;
 
 namespace UltitemsCyan.Items.Void
 {

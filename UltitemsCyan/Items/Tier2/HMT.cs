@@ -20,11 +20,11 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "H.M.T";
-			if (!CheckItemEnabledConfig(itemName, "Green", configs))
-			{
-				return;
-			}
+            string itemName = "H.M.T";
+            if (!CheckItemEnabledConfig(itemName, "Green", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "HMT",
                 itemName,
@@ -95,7 +95,7 @@ namespace UltitemsCyan.Items.Tier2
                     if (grabCount > 0 && Util.CheckRoll(igniteChance * grabCount, inflictor.master.luck))
                     {
                         // Inflict Burn!
-                        inflictBurn(self.gameObject, onHitAttacker, inflictor.inventory, grabCount);
+                        InflictBurn(self.gameObject, onHitAttacker, inflictor.inventory, grabCount);
                     }
                 }
             }
@@ -116,12 +116,12 @@ namespace UltitemsCyan.Items.Tier2
                 if (grabCount > 0 && Util.CheckRoll(igniteChance * grabCount, body.master.luck))
                 {
                     // Inflict Burn!
-                    inflictBurn(victimObject, attackerObject, body.inventory, grabCount);
+                    InflictBurn(victimObject, attackerObject, body.inventory, grabCount);
                 }
             }
         }
 
-        private void inflictBurn(GameObject victimObject, GameObject attackerObject, Inventory inventory, int grabCount)
+        private void InflictBurn(GameObject victimObject, GameObject attackerObject, Inventory inventory, int grabCount)
         {
             Log.Debug("Hot Burns! HMT");
             InflictDotInfo inflictDotInfo = new()
@@ -130,7 +130,7 @@ namespace UltitemsCyan.Items.Tier2
                 attackerObject = attackerObject,
                 //totalDamage = 0,
                 dotIndex = DotController.DotIndex.Burn,
-                duration = baseBurnDuration + (durationPerItem * (grabCount - 1)),
+                duration = baseBurnDuration + durationPerItem * (grabCount - 1),
                 damageMultiplier = 1,
                 maxStacksFromAttacker = null
             };

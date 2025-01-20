@@ -1,21 +1,46 @@
 ﻿
+
+	Ask my Friends Questions:
+- Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
+- Relating to Warped Echo
+	- Should Grapes / Koala / Silver Thread work only for the delayed damage and not the initial damage?
+		- Koala is kind of useless because would need way too many for it to ever matter in a normal game
+		- Grapes would drain faster because more chances is less grapes
+		- Silver Thread would be deadlier as more smaller chances is deadlier than a single chance
+		- Medkit only triggers on first hit of delayed damage
+		- 
+- Should Scissors cut Tonic Affliction?
+- Should Yield Sign activate with Bottled Choas?
+
+
 	Check Interaction:
-- Should Dream Fuel use amuptated Max HEalth (how does it interact with the Shine of Soul)
+- Should Dream Fuel use amuptated Max Health (how does it interact with the Shine of Soul)
 - Use delayedDamageRefreshTime for Downloaded RAM like Chronic Expansion? (what does Chronic Expansion use?)
+- Pigs spork and Trancedence (does it trigger low health?)
+	- Might need: "this.IsHealthBelowThreshold(this.health - num14, 0.25f)"
+- Test Pot of Regolith's damage (halved by self damage?)
 
 	When Testing:
 - Test Tiny Igloo with Turrets
-
+- Change Icecubes to be set to 75% barrier? (Test with Gesture of the Drowned)
 - Test DamageType for Macrosiesmograph
 - Test if Birthday Candles and Rotten Bones works when time is frozen...
 	- Because using Run.instance.time
+- Check that Mythrixs can apply starve
 
 
 	My Item Add Order:
+- Pig's Spork
+- Quantum Peel
+- Grapevine
+- Silver Thread
+- Koala Sticker
+- Tiny Igloo
+- Plutotarium
+- Worm Holes
 - Power Chips
 - Trebuchet
 - Jelly Jail
-- Worm Holes
 
 
 	When updating mod check:
@@ -64,11 +89,7 @@
 - Downloaded RAM and Jealous Foe will not synergize with buff duration increase as they don't use addTimedBuff
 
 
-	Ask my Friends Questions:
-- Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
-- Should Scissors cut Tonic Affliction?
-- Should Yield Sign activate with Bottled Choas?
-- What should I do with Dried Ham?
+
 
 
 	Possible Changes for v0.10.1:

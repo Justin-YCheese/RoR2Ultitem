@@ -19,11 +19,11 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Birthday Candles";
-			if (!CheckItemEnabledConfig(itemName, "Green", configs))
-			{
-				return;
-			}
+            string itemName = "Birthday Candles";
+            if (!CheckItemEnabledConfig(itemName, "Green", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "BIRTHDAYCANDLES",
                 itemName,
@@ -118,7 +118,7 @@ namespace UltitemsCyan.Items.Tier2
             {
                 recipient.AddTimedBuff(BirthdayBuff.buff, birthdayDuration, max);
             }
-            Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
+            _ = Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
         }
     }
 }

@@ -2,9 +2,7 @@
 using UltitemsCyan.Items.Untiered;
 using System.Collections.Generic;
 using UnityEngine.Networking;
-using System.Linq;
 using UltitemsCyan.Items.Lunar;
-using System;
 using BepInEx.Configuration;
 
 namespace UltitemsCyan.Equipment
@@ -16,6 +14,7 @@ namespace UltitemsCyan.Equipment
      * When dissolving a boss item, the item will still be dropped by the boss for teleporter and tricorn
      *      removing from available items will only effect command
      * If you dissolve void items, then Larva won't corrupt thoes pairs upon dying
+     * Prayer Beads do give stats upon being dissolved
      * 
      */
 
@@ -23,12 +22,12 @@ namespace UltitemsCyan.Equipment
     public class Obsolute : EquipmentBase
     {
         public static EquipmentDef equipment;
-        
+
         private const float shortCooldown = 6f;
         private const float cooldown = 60f;
 
         // Keeps track of the dissolved items of the current stage
-        private List<ItemIndex> dissolvedList = [];
+        private readonly List<ItemIndex> dissolvedList = [];
 
         public override void Init(ConfigFile configs)
         {
@@ -118,7 +117,7 @@ namespace UltitemsCyan.Equipment
                 if (itemList.Count > 0)
                 {
                     // Null if player has only untiered items, or no items
-                    ItemDef lastItem = getLastItem(itemList);
+                    ItemDef lastItem = GetLastItem(itemList);
 
                     if (lastItem)
                     {
@@ -142,7 +141,7 @@ namespace UltitemsCyan.Equipment
                         {
                             Log.Debug("who? " + body.name);
                             // Checks inventory in function
-                            dissolveItem(body, lastItem);
+                            DissolveItem(body, lastItem);
                         }
 
                         Log.Warning(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex] + " is in? "
@@ -151,8 +150,8 @@ namespace UltitemsCyan.Equipment
                         // * * * Remove item from pools
                         thisRun.DisableItemDrop(lastItem.itemIndex);
                         //Run.instance.DisablePickupDrop(PickupCatalog.itemIndexToPickupIndex[(int)lastItem.itemIndex]);
-                        thisRun.availableItems.Remove(lastItem.itemIndex);
-                        checkEmptyTierList(lastItem); // also check if empty, if so then add solute to item tier
+                        _ = thisRun.availableItems.Remove(lastItem.itemIndex);
+                        CheckEmptyTierList(lastItem); // also check if empty, if so then add solute to item tier
                         dissolvedList.Add(lastItem.itemIndex);
                         thisRun.RefreshLunarCombinedDropList();
 
@@ -226,7 +225,7 @@ namespace UltitemsCyan.Equipment
             if (dissolvedList.Contains(itemIndex) && self)
             {
                 Log.Debug("Grabbed a disolved item...");
-                Util.PlaySound("Play_minimushroom_spore_shoot", self.gameObject);
+                _ = Util.PlaySound("Play_minimushroom_spore_shoot", self.gameObject);
                 itemIndex = GreySolvent.item.itemIndex;
 
             }
@@ -290,16 +289,16 @@ namespace UltitemsCyan.Equipment
         }
         //*/
 
-        private ItemDef getLastItem(List<ItemIndex> list)
+        private ItemDef GetLastItem(List<ItemIndex> list)
         {
             // Go through inventory in reverse order
             for (int i = list.Count - 1; i >= 0; i--)
             {
                 ItemDef item = ItemCatalog.GetItemDef(list[i]);
-                if (item.tier != ItemTier.NoTier && item.tier != ItemTier.Boss)
+                if (item.tier is not ItemTier.NoTier and not ItemTier.Boss)
                 {
                     // Don't dissolve world unique items
-                    var tagList = item.tags.ToList();
+                    List<ItemTag> tagList = [.. item.tags];
                     if (!tagList.Contains(ItemTag.WorldUnique))
                     {
                         // return last non untiered non unique item
@@ -311,7 +310,7 @@ namespace UltitemsCyan.Equipment
             return null;
         }
 
-        private void dissolveItem(CharacterMaster body, ItemDef item)
+        private void DissolveItem(CharacterMaster body, ItemDef item)
         {
             Inventory inventory = body.inventory;
             if (inventory)
@@ -331,7 +330,7 @@ namespace UltitemsCyan.Equipment
             }
         }
 
-        private void checkEmptyTierList(ItemDef item)
+        private void CheckEmptyTierList(ItemDef item)
         {
             List<PickupIndex> list = null;
             switch (item.tier)
@@ -362,6 +361,10 @@ namespace UltitemsCyan.Equipment
                     break;
                 case ItemTier.VoidBoss:
                     list = Run.instance.availableVoidBossDropList;
+                    break;
+                case ItemTier.NoTier:
+                    break;
+                case ItemTier.AssignedAtRuntime:
                     break;
                 default:
                     break;

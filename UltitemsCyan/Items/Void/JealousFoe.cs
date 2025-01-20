@@ -6,12 +6,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using BepInEx.Configuration;
 using UltitemsCyan.Buffs;
-using static UnityEngine.Rendering.DebugUI;
-using UnityEngine.ProBuilder.MeshOperations;
-using UnityEngine.XR;
-using static UltitemsCyan.Items.Void.DownloadedRAM;
-using static UltitemsCyan.Items.Tier3.PigsSpork;
-using EntityStates.VagrantMonster.Weapon;
 
 namespace UltitemsCyan.Items.Void
 {
@@ -41,11 +35,11 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Jealous Foe";
-			if (!CheckItemEnabledConfig(itemName, "Void", configs))
-			{
-				return;
-			}
+            string itemName = "Jealous Foe";
+            if (!CheckItemEnabledConfig(itemName, "Void", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "JEALOUSFOE",
                 itemName,
@@ -70,25 +64,25 @@ namespace UltitemsCyan.Items.Void
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
         }
 
-        private void HealthPickup_OnTriggerStay(On.RoR2.HealthPickup.orig_OnTriggerStay orig, HealthPickup self, UnityEngine.Collider other)
+        private void HealthPickup_OnTriggerStay(On.RoR2.HealthPickup.orig_OnTriggerStay orig, HealthPickup self, Collider other)
         {
             orig(self, other);
             GotPickup(other);
         }
 
-        private void AmmoPickup_OnTriggerStay(On.RoR2.AmmoPickup.orig_OnTriggerStay orig, AmmoPickup self, UnityEngine.Collider other)
+        private void AmmoPickup_OnTriggerStay(On.RoR2.AmmoPickup.orig_OnTriggerStay orig, AmmoPickup self, Collider other)
         {
             orig(self, other);
             GotPickup(other);
         }
 
-        private void BuffPickup_OnTriggerStay(On.RoR2.BuffPickup.orig_OnTriggerStay orig, BuffPickup self, UnityEngine.Collider other)
+        private void BuffPickup_OnTriggerStay(On.RoR2.BuffPickup.orig_OnTriggerStay orig, BuffPickup self, Collider other)
         {
             orig(self, other);
             GotPickup(other);
         }
 
-        private void MoneyPickup_OnTriggerStay(On.RoR2.MoneyPickup.orig_OnTriggerStay orig, MoneyPickup self, UnityEngine.Collider other)
+        private void MoneyPickup_OnTriggerStay(On.RoR2.MoneyPickup.orig_OnTriggerStay orig, MoneyPickup self, Collider other)
         {
             orig(self, other);
             GotPickup(other);
@@ -99,7 +93,7 @@ namespace UltitemsCyan.Items.Void
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<JealousFoeBehaviour>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<JealousFoeBehaviour>(self.inventory.GetItemCount(item));
             }
         }
 
@@ -278,10 +272,10 @@ namespace UltitemsCyan.Items.Void
                     damageType = DamageType.Generic,
                     damageColorIndex = DamageColorIndex.Item
                 };
-                DamageReport damageReport = new DamageReport(damageInfo, health, damageInfo.damage, health.combinedHealth);
+                DamageReport damageReport = new(damageInfo, health, damageInfo.damage, health.combinedHealth);
                 //GlobalEventManager.instance.OnCharacterDeath(val3);
                 GlobalEventManager.instance.OnCharacterDeath(damageReport);
-                
+
                 EffectData effectData = new()
                 {
                     origin = body.corePosition,

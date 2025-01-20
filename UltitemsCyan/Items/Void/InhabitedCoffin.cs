@@ -19,11 +19,11 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Inhabited Coffin";
-			if (!CheckItemEnabledConfig(itemName, "Void", configs))
-			{
-				return;
-			}
+            string itemName = "Inhabited Coffin";
+            if (!CheckItemEnabledConfig(itemName, "Void", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "INHABITEDCOFFIN",
                 itemName,
@@ -100,7 +100,7 @@ namespace UltitemsCyan.Items.Void
                         for (int i = 0; i < quantityInVault; i++)
                         {
                             int randItemPos = rng.RangeInt(0, length);
-                            PickupIndex foundItem = getVoidItem(allVoidDropList, randItemPos);
+                            PickupIndex foundItem = GetVoidItem(allVoidDropList, randItemPos);
 
                             master.inventory.GiveItem(PickupCatalog.GetPickupDef(foundItem).itemIndex);
                             GenericPickupController.SendPickupMessage(master, foundItem);
@@ -110,10 +110,10 @@ namespace UltitemsCyan.Items.Void
             }
         }
 
-        private PickupIndex getVoidItem(List<PickupIndex>[] items, int index)
+        private PickupIndex GetVoidItem(List<PickupIndex>[] items, int index)
         {
             // Iterate the different tiers
-            for(int i = 0; i < items.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
                 // If index greater than current tier, subract count and iterate to next tier
                 if (index >= items[i].Count)

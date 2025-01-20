@@ -1,7 +1,4 @@
-﻿using R2API;
-using RoR2;
-using UltitemsCyan.Items.Lunar;
-using UltitemsCyan.Items.Tier1;
+﻿using RoR2;
 using UnityEngine;
 
 namespace UltitemsCyan.Buffs

@@ -15,11 +15,11 @@ namespace UltitemsCyan.Items.Tier3
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Corroding Vault";
-			if (!CheckItemEnabledConfig(itemName, "Red", configs))
-			{
-				return;
-			}
+            string itemName = "Corroding Vault";
+            if (!CheckItemEnabledConfig(itemName, "Red", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "CORRODINGVAULT",
                 itemName,

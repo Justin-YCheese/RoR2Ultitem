@@ -1,6 +1,4 @@
-﻿using R2API;
-using RoR2;
-using UltitemsCyan.Items.Void;
+﻿using RoR2;
 using UnityEngine;
 using static UltitemsCyan.Items.Void.JealousFoe;
 
@@ -27,7 +25,7 @@ namespace UltitemsCyan.Buffs
             orig(self, buffDef);
             if (self && buffDef == buff && self.inventory) // && list.Count > 0
             {
-                var behavior = self.GetComponent<JealousFoeBehaviour>();
+                JealousFoeBehaviour behavior = self.GetComponent<JealousFoeBehaviour>();
                 Log.Warning("   ?   Do you have a Jelly Foe   ?");
                 if (behavior)
                 {

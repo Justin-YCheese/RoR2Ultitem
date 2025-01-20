@@ -23,6 +23,82 @@ namespace UltitemsCyan.Buffs
         protected void Hooks()
         {
             //IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
+        }
+
+        private void HealthComponent_TakeDamageProcess(ILContext il)
+        {
+            ILCursor c = new(il); // Make new ILContext
+
+            // Inject code just before body armor
+            // Go just before: if (!CS$<>8__locals1.damageInfo.rejected && this.body.HasBuff(JunkContent.Buffs.BodyArmor))
+            //     which is equal to the following instructions
+            if (c.TryGotoNext(MoveType.Before,
+                x => x.MatchLdloc(0),
+                x => x.MatchLdfld("RoR2.HealthComponent/<>c__DisplayClass108_0", "damageInfo"),
+                x => x.MatchLdfld<DamageInfo>("rejected"),
+                x => x.MatchBrtrue(out ILLabel label),
+                x => x.MatchLdarg(0),
+                x => x.MatchLdfld("RoR2.HealthComponent", "body"),
+                x => x.MatchLdsfld("RoR2.JunkContext/Buffs", "BodyArmor"),
+                x => x.Match(OpCodes.Callvirt))
+            //x => x.MatchCallvirt<CharacterBody>("HasBuff", new Type[] { typeof(BuffDef) }),
+            )
+            {
+                Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
+
+                Log.Debug(c);
+
+                c.Index++;
+
+                Log.Debug(" * * * +1 Working Index: " + c.Index + " > " + c.ToString());
+
+                Log.Debug(c);
+
+                _ = c.Emit(OpCodes.Ldarg, 0);   // Load Health Component
+                _ = c.Emit(OpCodes.Ldarg, 1);   // Load Damage Info
+
+                // Run custom code
+                _ = c.EmitDelegate<Action<HealthComponent, DamageInfo>>((hc, di) =>
+                {
+                    //Log.Warning("Slippery Grapes Block?");
+                    if (di.rejected == false)
+                    {
+                        CharacterBody cb = hc.body;
+                        if (cb)
+                        {
+                            int grapes = cb.GetBuffCount(buff);     // TODO optimize with one random number generator, find location
+                            for (int i = 0; i < grapes; i++)    // Ecential While loop but max 'grapes' times
+                            {
+                                //Log.Debug(" - " + i);
+                                cb.RemoveBuff(buff);
+                                if (Util.CheckRoll(grapeBlockChance, 0))
+                                {
+                                    Log.Debug("Slip Grape Avoidance!");
+                                    di.rejected = true;     // Can set value here because it's a reference. Cannot do the same for primative types?
+
+                                    //EffectManager.SpawnEffect(HealthComponent.AssetReferences.damageRejectedPrefab, new EffectData
+                                    //{
+                                    //    origin = di.position
+                                    //}, true);
+
+                                    EffectManager.SpawnEffect(HealthComponent.AssetReferences.bearEffectPrefab, new EffectData
+                                    {
+                                        origin = di.position,
+                                        rotation = Util.QuaternionSafeLookRotation((di.force != Vector3.zero) ? di.force : UnityEngine.Random.onUnitSphere),
+                                        //color = new Color(9, 153, 61), // Grape Colors  Deson't Do Anything
+                                        //scale = 50f
+                                    }, true);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    //return false;
+                });
+
+                Log.Debug(il.ToString());
+            }
         }
 
         //
@@ -63,11 +139,11 @@ namespace UltitemsCyan.Buffs
                 // IL_0e8f: ldloc.s V_7
                 // IL_0e91: ldc.r4 0
 
-                c.Emit(OpCodes.Ldarg, 0);   // Load Health Component
-                c.Emit(OpCodes.Ldarg, 1);   // Load Damage Info
+                _ = c.Emit(OpCodes.Ldarg, 0);   // Load Health Component
+                _ = c.Emit(OpCodes.Ldarg, 1);   // Load Damage Info
 
                 // Run custom code
-                c.EmitDelegate<Action<HealthComponent, DamageInfo>>((hc, di) =>
+                _ = c.EmitDelegate<Action<HealthComponent, DamageInfo>>((hc, di) =>
                 {
                     //Log.Warning("Slippery Grapes Block?");
                     if (di.rejected == false)
@@ -111,7 +187,7 @@ namespace UltitemsCyan.Buffs
                 //c.Emit(OpCodes.Stfld, field); * Crash
                 //c.Emit<DamageInfo>(OpCodes.Stfld, "rejected");   // Store Damage Info Rejected * Crash
 
-                //*/
+                ///
             }
             else
             {

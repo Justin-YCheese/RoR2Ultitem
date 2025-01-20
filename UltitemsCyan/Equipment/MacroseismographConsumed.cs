@@ -1,11 +1,6 @@
 ﻿using BepInEx.Configuration;
-using Epic.OnlineServices.Auth;
-using Generics.Dynamics;
 using R2API;
 using RoR2;
-using System;
-using UnityEngine;
-using static Rewired.InputMapper;
 
 namespace UltitemsCyan.Equipment
 {
@@ -76,7 +71,7 @@ namespace UltitemsCyan.Equipment
                     bodyObject = context.body.gameObject,
                     token = token
                 });
-                Util.PlaySound("Play_blindVermin_idle_VO", context.body.gameObject);
+                _ = Util.PlaySound("Play_blindVermin_idle_VO", context.body.gameObject);
                 return;
             }
             else
@@ -99,7 +94,7 @@ namespace UltitemsCyan.Equipment
                 });
 
                 self.subcooldownTimer = 2f;
-                Util.PlaySound("Play_blindVermin_death", self.characterBody.gameObject);
+                _ = Util.PlaySound("Play_blindVermin_death", self.characterBody.gameObject);
                 return true;
             }
             else

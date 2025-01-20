@@ -1,11 +1,6 @@
-﻿using BepInEx.Configuration;
-using R2API;
+﻿using R2API;
 using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace UltitemsCyan.Buffs
 {

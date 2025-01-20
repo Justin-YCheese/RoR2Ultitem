@@ -41,7 +41,7 @@ namespace UltitemsCyan.Items.Lunar
 
         private float GenericSkill_CalculateFinalRechargeInterval(On.RoR2.GenericSkill.orig_CalculateFinalRechargeInterval orig, GenericSkill self)
         {
-            return self.baseRechargeInterval > 0 ? Mathf.Max(0.5f, self.baseRechargeInterval * self.cooldownScale - self.flatCooldownReduction) : 0;
+            return self.baseRechargeInterval > 0 ? Mathf.Max(0.5f, (self.baseRechargeInterval * self.cooldownScale) - self.flatCooldownReduction) : 0;
         }
 
         protected void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
@@ -61,7 +61,7 @@ namespace UltitemsCyan.Items.Lunar
                     for (int i = 0; i < grabCount; i++)
                     {
                         procChance *= resetFraction;
-                    } 
+                    }
                     // fleaDropChance = 100 - dontResetChance ^ n
                     procChance = 100f - procChance;
                     //Log.Debug("fleaDropChance: " + fleaDropChance);
@@ -69,18 +69,16 @@ namespace UltitemsCyan.Items.Lunar
                     if (reset)
                     {
                         Log.Debug("New Bulb Reseting for: " + self.GetUserName());
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
                         //skill.RestockContinuous(); // Doesn't do anything?
                         //skill.RestockSteplike();
                         skill.ApplyAmmoPack();
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
-                        Util.PlaySound("Play_mage_m2_zap", self.gameObject);
-                        Util.PlaySound("Play_mage_m2_zap", self.gameObject);
-                        Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
-                        Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
+                        _ = Util.PlaySound("Play_mage_m2_zap", self.gameObject);
+                        _ = Util.PlaySound("Play_mage_m2_zap", self.gameObject);
+                        _ = Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
+                        _ = Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
                         //Util.PlaySound("Play_item_proc_chain_lightning", self.gameObject);
                         //Util.PlaySound("Play_mage_m2_impact", self.gameObject);
-                        Util.PlaySound("Play_item_use_BFG_explode", self.gameObject);
+                        _ = Util.PlaySound("Play_item_use_BFG_explode", self.gameObject);
                     }
                     else
                     {

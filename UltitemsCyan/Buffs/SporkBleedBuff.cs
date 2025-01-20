@@ -1,5 +1,4 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UltitemsCyan.Items.Tier3;
 using UnityEngine;
 

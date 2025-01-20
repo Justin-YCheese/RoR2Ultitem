@@ -20,14 +20,14 @@ using System.Linq;
 //using HarmonyLib;
 
 // Unused?
-using UnityEngine.ResourceManagement.ResourceProviders;
-using System.IO;
-using System.Runtime.InteropServices.ComTypes;
-using System.Reflection;
-using Unity.Audio;
-using R2API.Utils;
+//using UnityEngine.ResourceManagement.ResourceProviders;
+//using System.IO;
+//using System.Runtime.InteropServices.ComTypes;
+//using System.Reflection;
+//using Unity.Audio;
+//using R2API.Utils;
 using BepInEx.Configuration;
-using System;
+//using System;
 using UltitemsCyan.Items;
 using RoR2.ExpansionManagement;
 
@@ -78,9 +78,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.11.1";
+        public const string PluginVersion = "0.11.2";
 
-        public const string PluginSuffix = "Oh... Seekers get the Scraps";
+        public const string PluginSuffix = "Restoring hurt items";
 
         private static ConfigFile UltitemsConfig { get; set; }
 
@@ -264,20 +264,20 @@ namespace UltitemsCyan
         {
             // Add ultiCorruptionPairs to base game corruption pairs
             Log.Warning("Ultitem Create Void Transformations!");
-            List<ItemDef.Pair> voidPairs = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].ToList(); // Collection Expression?
+            List<ItemDef.Pair> voidPairs = [.. ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem]]; // Collection Expression?
             /*/
             Log.Debug("Base Void Items:");
             printPairList(voidPairs);
             //*/
             Log.Debug("My Void Items:");
-            printPairList(CorruptionPairs);
+            PrintPairList(CorruptionPairs);
 
             ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = voidPairs.Union(CorruptionPairs).ToArray();
             Log.Debug("Error?");
             orig();
         }
 
-        private void printPairList(List<ItemDef.Pair> list)
+        private void PrintPairList(List<ItemDef.Pair> list)
         {
             foreach (ItemDef.Pair pair in list)
             {
@@ -287,6 +287,6 @@ namespace UltitemsCyan
         }
 
         //Static class for ease of access
-        
+
     }
 }

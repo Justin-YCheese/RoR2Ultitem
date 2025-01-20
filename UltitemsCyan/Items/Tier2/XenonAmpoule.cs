@@ -34,7 +34,7 @@ namespace UltitemsCyan.Items.Tier2
         public const float longCooldown = 60f;   // Greater than or equal, big laser multiple cooldown by cooldown / 60
         public const float maxCooldownMultipler = 4f;
 
-        public const float subCooldown = .4f;
+        public const float subCooldown = .3f;
 
         /* Use muzzle location?
         	Vector3 position = base.transform.position;
@@ -58,15 +58,15 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Xenon Ampoule";
-			if (!CheckItemEnabledConfig(itemName, "Green", configs))
-			{
-				return;
-			}
-			
+            string itemName = "Xenon Ampoule";
+            if (!CheckItemEnabledConfig(itemName, "Green", configs))
+            {
+                return;
+            }
+
             //damagePerStack /= 3f;   // Counter WeakPointHit and Crit bonus
             //baseDamage /= 3f;       // Counter WeakPointHit and Crit bonus
-			
+
             item = CreateItemDef(
                 "XENONAMPOULE",
                 itemName,
@@ -113,7 +113,7 @@ namespace UltitemsCyan.Items.Tier2
                     if (cooldown <= shortCooldown)
                     {
                         //Log.Debug("Short");
-                        Util.PlaySound("Play_railgunner_m2_fire", activator.gameObject);
+                        _ = Util.PlaySound("Play_railgunner_m2_fire", activator.gameObject);
                         tracer = TracerRailgun;
                         damage = (baseDamage + damagePerStack * (grabCount - 1)) * shortDamagePercent / 100f;//  * (self.cooldownTimer / 45f)
                         radius = shortLaserRadius;
@@ -122,7 +122,7 @@ namespace UltitemsCyan.Items.Tier2
                     else if (cooldown < longCooldown)
                     {
                         //Log.Debug("Normal");
-                        Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
+                        _ = Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
                         tracer = TracerRailgunCryo;
                         damage = baseDamage + damagePerStack * (grabCount - 1);
                         radius = laserRadius;
@@ -131,7 +131,7 @@ namespace UltitemsCyan.Items.Tier2
                     else
                     {
                         //Log.Debug("Long");
-                        Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
+                        _ = Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
                         tracer = TracerRailgunSuper;
                         damage = (baseDamage + damagePerStack * (grabCount - 1)) * Mathf.Max(cooldown / longCooldown, maxCooldownMultipler);
                         radius = longLaserRadius;
@@ -171,7 +171,7 @@ namespace UltitemsCyan.Items.Tier2
                     {
                         self.subcooldownTimer = subCooldown;
                     }
-                    
+
                     activator.healthComponent.TakeDamageForce(aimRay.direction * -force, true, false);
                 }
             }

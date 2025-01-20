@@ -17,11 +17,11 @@ namespace UltitemsCyan.Items.Tier3
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Rocky Taffy";
-			if (!CheckItemEnabledConfig(itemName, "Red", configs))
-			{
-				return;
-			}
+            string itemName = "Rocky Taffy";
+            if (!CheckItemEnabledConfig(itemName, "Red", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "ROCKYTAFFY",
                 itemName,
@@ -69,7 +69,7 @@ namespace UltitemsCyan.Items.Tier3
 
             if (self && self.body && self.body.inventory)
             {
-                var grabCount = self.body.inventory.GetItemCount(item);
+                int grabCount = self.body.inventory.GetItemCount(item);
                 if (grabCount > 0)
                 {
                     runOrig = false;
@@ -84,7 +84,7 @@ namespace UltitemsCyan.Items.Tier3
                     if (initialShield && !newShield)
                     {
                         Log.Debug("Taffy Shield lost! Gain Barrier");
-                        Util.PlaySound("Play_voidDevastator_m2_chargeUp", self.body.gameObject);
+                        _ = Util.PlaySound("Play_voidDevastator_m2_chargeUp", self.body.gameObject);
                         self.AddBarrier(self.fullShield);
                         //self.body.statsDirty = true;
                         //self.body.RecalculateStats();
@@ -137,7 +137,7 @@ namespace UltitemsCyan.Items.Tier3
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<RockyTaffyBehaviour>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<RockyTaffyBehaviour>(self.inventory.GetItemCount(item));
             }
         }
 

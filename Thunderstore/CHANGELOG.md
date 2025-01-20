@@ -1,3 +1,9 @@
+## 0.11.2
+
+- Equipment with Xenon Ampoule subCooldown .4 -> .3
+- Base Grape drop chance 50% -> 40%
+    - item stacks still increase by 25%
+
 ## 0.11.1
 
 - Removed debug random launch for Macroseismograph

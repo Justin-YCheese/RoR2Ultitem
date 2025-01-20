@@ -1,12 +1,7 @@
 ﻿using BepInEx.Configuration;
-using KinematicCharacterController;
-using R2API;
 using RoR2;
-using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using static Mono.Security.X509.X520;
 
 namespace UltitemsCyan.Equipment
 {
@@ -19,8 +14,8 @@ namespace UltitemsCyan.Equipment
 
         //private static GameObject jailPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Projectiles/VendingMachineProjectile");
         //private static GameObject jailProjectilePrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/VendingMachine/VendingMachineProjectile.prefab").WaitForCompletion();
-        private static GameObject gupPrefab = MasterCatalog.FindMasterPrefab("GupMaster");
-        private static GameObject jailPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/VendingMachine/VendingMachineProjectile.prefab").WaitForCompletion();
+        //private static readonly GameObject gupPrefab = MasterCatalog.FindMasterPrefab("GupMaster");
+        //private static readonly GameObject jailPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/VendingMachine/VendingMachineProjectile.prefab").WaitForCompletion();
         public static DeployableSlot jailSlot;
         public static int jailMaxDeployed = 1;
         public static int jailMaxJails = 4;
@@ -47,11 +42,9 @@ namespace UltitemsCyan.Equipment
                 true,
                 Ultitems.mysterySprite,
                 Ultitems.mysteryPrefab
-                //Ultitems.Assets.JellyJailSprite,
-                //Ultitems.Assets.JellyJailPrefab
+            //Ultitems.Assets.JellyJailSprite,
+            //Ultitems.Assets.JellyJailPrefab
             );
-
-            
         }
 
         protected override void Hooks()
@@ -72,7 +65,7 @@ namespace UltitemsCyan.Equipment
             //contentPack.networkedObjectPrefabs.Add(jailPrefab);
 
             //ammoLockerSlot = DeployableAPI.RegisterDeployableSlot((master, multiplier) => ammoLockerMaxDeployed);
-            
+
             //jailSlot = DeployableAPI.RegisterDeployableSlot((master, multiplier) => ammoLockerMaxDeployed);
         }
 
@@ -80,7 +73,7 @@ namespace UltitemsCyan.Equipment
         {
             if (equipmentDef == equipment)
             {
-                Ray ray = new Ray(self.GetAimRay().origin, Vector3.down);
+                Ray ray = new(self.GetAimRay().origin, Vector3.down);
                 RaycastHit raycastHit;
                 if (Util.CharacterRaycast(self.gameObject, ray, out raycastHit, 1000f, LayerIndex.world.mask, QueryTriggerInteraction.UseGlobal))
                 {

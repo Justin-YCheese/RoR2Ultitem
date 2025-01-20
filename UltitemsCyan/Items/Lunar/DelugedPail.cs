@@ -108,7 +108,7 @@ namespace UltitemsCyan.Items.Lunar
                         {
                             tier = 1; // Jump Height
                         }
-                        else if(itemTier is ItemTier.Tier1 or ItemTier.VoidTier1)
+                        else if (itemTier is ItemTier.Tier1 or ItemTier.VoidTier1)
                         {
                             tier = 2; // Damage
                         }
@@ -128,7 +128,7 @@ namespace UltitemsCyan.Items.Lunar
                         // Check next Item
                         itemIndex++;
                     }
-                    float statMultiplier = 1f + ((grabCount - 1) * stackPercent / 100f);
+                    float statMultiplier = 1f + (grabCount - 1) * stackPercent / 100f;
                     //Log.Debug("stat Multiplier: " + statMultiplier);
                     args.jumpPowerMultAdd += statTiers[1] * jumpPerLunar / 100f * statMultiplier;
                     //Log.Debug("Pail Damage is: " + sender.baseDamage + " + " + (statTiers[1] * attackPerWhite * statMultiplier) + "%");
@@ -164,7 +164,7 @@ namespace UltitemsCyan.Items.Lunar
                     if (player && self.GetItemCount(item) > 0) // Valid Check
                     {
                         Log.Warning("Spork the inventory");
-                        SporkRestackInventory(self, player.transform.position, new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
+                        SporkRestackInventory(self, new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
                         // Effect after restock
                         EffectManager.SpawnEffect(ShrineUseEffect, new EffectData
                         {
@@ -179,7 +179,7 @@ namespace UltitemsCyan.Items.Lunar
             }
         }//*/
 
-        public void SporkRestackInventory(Inventory inventory, Vector3 pos, Xoroshiro128Plus rng)
+        public void SporkRestackInventory(Inventory inventory, Xoroshiro128Plus rng)
         {
             //Log.Debug("Restock my sporks!");
             if (!NetworkServer.active)
@@ -187,7 +187,7 @@ namespace UltitemsCyan.Items.Lunar
                 Debug.LogWarning("[Server] function 'System.Void RoR2.Inventory::ShrineRestackInventory(Xoroshiro128Plus)' called on client");
                 return;
             }
-            List<ItemIndex> list = new List<ItemIndex>();
+            List<ItemIndex> list = [];
             bool flag = false;
             foreach (ItemTierDef itemTierDef in ItemTierCatalog.allItemTierDefs)
             {
@@ -220,7 +220,7 @@ namespace UltitemsCyan.Items.Lunar
                         // Adjust count of ket item
                         ItemIndex keptItem = rng.NextElementUniform(list);
                         SetItemCount(inventory, keptItem, num);
-                        list.Remove(keptItem);
+                        _ = list.Remove(keptItem);
                         // Remove all other items
                         foreach (ItemIndex index in list)
                         {

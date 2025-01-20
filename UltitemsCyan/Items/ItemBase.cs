@@ -42,9 +42,7 @@ namespace UltitemsCyan.Items
             // tier
             ItemTierDef itd = ScriptableObject.CreateInstance<ItemTierDef>();
             itd.tier = tier;
-#pragma warning disable Publicizer001 // Accessing a member that was not originally public
             item._itemTierDef = itd;
-#pragma warning restore Publicizer001 // Accessing a member that was not originally public
 
             item.canRemove = tier != ItemTier.NoTier;
             item.hidden = false;
@@ -56,7 +54,7 @@ namespace UltitemsCyan.Items
 
             ItemDisplayRuleDict displayRules = new(null);
 
-            ItemAPI.Add(new CustomItem(item, displayRules));
+            _ = ItemAPI.Add(new CustomItem(item, displayRules));
 
             // Item Functionality
             Hooks();

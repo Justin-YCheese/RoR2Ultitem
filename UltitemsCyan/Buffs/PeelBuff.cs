@@ -1,9 +1,5 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
-using static UltitemsCyan.Items.Void.QuantumPeel;
-using System;
-using UltitemsCyan.Items.Void;
 
 namespace UltitemsCyan.Buffs
 {

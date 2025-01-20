@@ -1,5 +1,4 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 using static UltitemsCyan.Items.Void.JealousFoe;
 
@@ -25,7 +24,7 @@ namespace UltitemsCyan.Buffs
             orig(self, buffDef);
             if (self && buffDef == buff && self.inventory) // && list.Count > 0
             {
-                var behavior = self.GetComponent<JealousFoeBehaviour>();
+                JealousFoeBehaviour behavior = self.GetComponent<JealousFoeBehaviour>();
                 if (behavior)
                 {
                     Log.Debug("The thing sleepy did the thing ! ! !");

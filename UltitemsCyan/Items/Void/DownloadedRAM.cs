@@ -27,11 +27,11 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Downloaded RAM";
-			if (!CheckItemEnabledConfig(itemName, "Void", configs))
-			{
-				return;
-			}
+            string itemName = "Downloaded RAM";
+            if (!CheckItemEnabledConfig(itemName, "Void", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "DOWNLOADEDRAM",
                 itemName,
@@ -58,7 +58,7 @@ namespace UltitemsCyan.Items.Void
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<DownloadedVoidBehavior>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<DownloadedVoidBehavior>(self.inventory.GetItemCount(item));
             }
         }
 
@@ -104,14 +104,14 @@ namespace UltitemsCyan.Items.Void
 
                         //   *   *   *   ADD EFFECT   *   *   *   //
 
-                        var behavior = inflictor.GetComponent<DownloadedVoidBehavior>();
+                        DownloadedVoidBehavior behavior = inflictor.GetComponent<DownloadedVoidBehavior>();
                         behavior.enabled = true;
                         behavior.UpdateStopwatch(Run.instance.time);
                         if (Util.CheckRoll(downloadChance, inflictor.master.luck))
                         {
                             Log.Debug("downloading");
                             // If you have fewer than the max number of downloads, then grant buff
-                            if(inflictor.GetBuffCount(DownloadedBuff.buff) < grabCount * downloadsPerItem)
+                            if (inflictor.GetBuffCount(DownloadedBuff.buff) < grabCount * downloadsPerItem)
                             {
                                 inflictor.AddBuff(DownloadedBuff.buff);
                             }
@@ -169,6 +169,7 @@ namespace UltitemsCyan.Items.Void
                 }
             }
 
+#pragma warning disable IDE0051 // Remove unused private members
             private void OnAwake()
             {
                 enabled = false;
@@ -190,6 +191,7 @@ namespace UltitemsCyan.Items.Void
             {
                 Log.Warning("RAM ran this on death?");
             }
+#pragma warning restore IDE0051 // Remove unused private members
         }
         ///
     }

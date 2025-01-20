@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Tier2
     {
         public static ItemDef item;
 
-        private List<NetworkBehaviour> zoneList = [];
+        private readonly List<NetworkBehaviour> zoneList = [];
 
         private const int basePercent = 12;
         private const int perStackPercent = 8;
@@ -67,7 +67,7 @@ namespace UltitemsCyan.Items.Tier2
 
         private void BuffWard_OnDisable(On.RoR2.BuffWard.orig_OnDisable orig, BuffWard self)
         {
-            zoneList.Remove(self);
+            _ = zoneList.Remove(self);
             Log.Debug(" + + + +----+ + + + B U F F Subtraction");
             orig(self);
         }
@@ -99,7 +99,7 @@ namespace UltitemsCyan.Items.Tier2
                     int zoneCount = inZoneList.Length;
 
                     Log.Debug(" ^ ^ ^ zoneCount = " + zoneCount);
-                    var multiplier = 1 + ((basePercent + ((grabCount - 1) * perStackPercent)) * zoneCount / 100f);
+                    float multiplier = 1 + (basePercent + (grabCount - 1) * perStackPercent) * zoneCount / 100f;
                     amount *= multiplier;
 
                     // Return modified amount and get final heal amount
@@ -124,7 +124,7 @@ namespace UltitemsCyan.Items.Tier2
         {
             List<NetworkBehaviour> list = new(maxZoneCount);
             //int zoneCount = 0;
-            foreach (var zone in zoneList)
+            foreach (NetworkBehaviour zone in zoneList)
             {
                 // Randomize list??? (otherwise prioritize oldest zone over newer zones)
                 // If already counted max number of zones
@@ -149,14 +149,14 @@ namespace UltitemsCyan.Items.Tier2
                 }
             }
             //Log.Debug(" ^ ^ ^ list.Count = " + list.Count);
-            return list.ToArray();
+            return [.. list];
         }
 
         private void IncreaseRadius(NetworkBehaviour[] inZoneList, float amount)
         {
             Log.Debug("Increasing radius");
 
-            foreach(var zone in inZoneList)
+            foreach (NetworkBehaviour zone in inZoneList)
             {
                 if (zone is BuffWard ward)
                 {
@@ -168,7 +168,7 @@ namespace UltitemsCyan.Items.Tier2
                 else if (zone is HoldoutZoneController holdout)
                 {
                     //Log.Debug(" . in Holdout");
-                    Log.Debug(" _ _ _ _ Holdout radius " + holdout.baseRadius + " increased by _" + (Math.Min(amount - minOverHeal, 0f) * holdoutMultipleir));
+                    Log.Debug(" _ _ _ _ Holdout radius " + holdout.baseRadius + " increased by _" + Math.Min(amount - minOverHeal, 0f) * holdoutMultipleir);
                     holdout.baseRadius += Math.Min(amount - minOverHeal, 0f) * holdoutMultipleir;
                 }
             }
@@ -188,7 +188,9 @@ namespace UltitemsCyan.Items.Tier2
             */
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
         private void AddToRadius(NetworkBehaviour zone, float addRadius)
+#pragma warning restore IDE0051 // Remove unused private members
         {
             if (zone is BuffWard ward)
             {
@@ -202,7 +204,9 @@ namespace UltitemsCyan.Items.Tier2
 
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
         private void HoldoutZoneController_Start(On.RoR2.HoldoutZoneController.orig_Start orig, HoldoutZoneController self)
+#pragma warning restore IDE0051 // Remove unused private members
         {
             orig(self);
             Log.Debug("     |||     Created a zone     |||");

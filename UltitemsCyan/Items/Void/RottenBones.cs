@@ -19,11 +19,11 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Rotten Bones";
-			if (!CheckItemEnabledConfig(itemName, "Void", configs))
-			{
-				return;
-			}
+            string itemName = "Rotten Bones";
+            if (!CheckItemEnabledConfig(itemName, "Void", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "ROTTENBONES",
                 itemName,
@@ -51,7 +51,7 @@ namespace UltitemsCyan.Items.Void
             // Add Behavior to player (expectially if the full time intervals have passed)
             if (NetworkServer.active && self && self.inventory)
             {
-                self.AddItemBehavior<RottenBonesVoidBehavior>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<RottenBonesVoidBehavior>(self.inventory.GetItemCount(item));
             }
         }
         private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
@@ -64,7 +64,7 @@ namespace UltitemsCyan.Items.Void
                 {
                     //Log.Warning("Give Rotting Bones");
                     // If within time intervals give item behavior
-                    if (Run.instance.time < Ultitems.stageStartTime + (rotTimeInterval * rotsPerItem))
+                    if (Run.instance.time < Ultitems.stageStartTime + rotTimeInterval * rotsPerItem)
                     {
                         RottenBonesVoidBehavior behavior = self.AddItemBehavior<RottenBonesVoidBehavior>(self.inventory.GetItemCount(item));
                         //Log.Debug("New Bone? Intervals Passed! " + behavior.IntervalsPassed);
@@ -151,12 +151,14 @@ namespace UltitemsCyan.Items.Void
                 }
             }
 
+#pragma warning disable IDE0051 // Remove unused private members
             private void FixedUpdate()
+#pragma warning restore IDE0051 // Remove unused private members
             {
                 float currentTime = Run.instance.time;
                 // If more intervals have passed than currently recorded
                 // not actually a while loop, the increment is IntervalsPassed
-                while (currentTime > Ultitems.stageStartTime + (rotTimeInterval * (_intervalsPassed + 1)) && _intervalsPassed < rotsPerItem)
+                while (currentTime > Ultitems.stageStartTime + rotTimeInterval * (_intervalsPassed + 1) && _intervalsPassed < rotsPerItem)
                 {
                     //Log.Warning("Rot Math: " + (currentTime - stageStartTime) + "\t/ " + rotTimeInterval + "\t = " + (int)((currentTime - stageStartTime) / rotTimeInterval));
                     IntervalsPassed++;

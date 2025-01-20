@@ -1,6 +1,5 @@
 ﻿using R2API;
 using RoR2;
-using UltitemsCyan.Items.Lunar;
 using UltitemsCyan.Items.Tier1;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace UltitemsCyan.Buffs
             Hooks();
         }
 
-        
+
         protected void Hooks()
         {
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;

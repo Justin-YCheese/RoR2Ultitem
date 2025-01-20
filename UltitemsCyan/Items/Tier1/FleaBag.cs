@@ -14,10 +14,10 @@ namespace UltitemsCyan.Items.Tier1
     public class FleaBag : ItemBase
     {
         public static ItemDef item;
-        private static GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
+        private static readonly GameObject FleaOrb = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Tooth/HealPack.prefab").WaitForCompletion();
         //private static GameObject FleaOrbPrefab;
         //public static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleWardOrbEffect.prefab").WaitForCompletion();
-        private static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/HealthOrbEffect.prefab").WaitForCompletion();
+        private static readonly GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/HealthOrbEffect.prefab").WaitForCompletion();
         private const float fleaDropChance = 3f;
         private const int fleaDropCritMultiplier = 3;
 
@@ -126,7 +126,7 @@ namespace UltitemsCyan.Items.Tier1
                 if (NetworkServer.active && self && victim && damageInfo.attacker && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory
                     && !damageInfo.rejected && damageInfo.procCoefficient > 0f)// && !damageInfo.procChainMask.HasProc(ProcType.LoaderLightning)
                 {
-                    
+
                     CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
 
                     int grabCount = inflictor.inventory.GetItemCount(item);
@@ -146,8 +146,8 @@ namespace UltitemsCyan.Items.Tier1
                         {
                             //Log.Warning("Dropping flea from " + victim.name);
                             //RoR2.BuffPickup.Instantiate(item);
-                            Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
-                            Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
+                            _ = Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
+                            _ = Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
                             SpawnOrb(victim.transform.position, victim.transform.rotation, TeamComponent.GetObjectTeam(inflictor.gameObject), grabCount);
                         }
                     }
@@ -167,7 +167,7 @@ namespace UltitemsCyan.Items.Tier1
         public static GameObject CreateBlankPrefab(string name)
         {
             GameObject gameObject = PrefabAPI.InstantiateClone(new GameObject(name), name, false);
-            gameObject.AddComponent<NetworkIdentity>();
+            _ = gameObject.AddComponent<NetworkIdentity>();
             //gameObject.AddComponent<NetworkHelper.MysticsRisky2UtilsNetworkHelper>(); // Probably don't need
             PrefabAPI.RegisterNetworkPrefab(gameObject);
             return gameObject;
@@ -218,7 +218,7 @@ namespace UltitemsCyan.Items.Tier1
             FleaComponent.pickupEffect = FleaEffect;
 
             orb.GetComponent<Rigidbody>().useGravity = true;
-            orb.transform.localScale = Vector3.one * (0.8f + (itemCount / 12f));
+            orb.transform.localScale = Vector3.one * (0.8f + itemCount / 12f);
             //orb.transform.localScale = Vector3.one * (.5f + itemCount / 20);
 
             //Log.Debug("Spawning orb at: " + orb.transform.position);
@@ -229,7 +229,9 @@ namespace UltitemsCyan.Items.Tier1
 
     public class FleaPickup : MonoBehaviour
     {
+#pragma warning disable IDE0051 // Remove unused private members
         private void OnTriggerStay(Collider other)
+#pragma warning restore IDE0051 // Remove unused private members
         {
             if (NetworkServer.active && alive && TeamComponent.GetObjectTeam(other.gameObject) == teamFilter.teamIndex)
             {
@@ -250,8 +252,8 @@ namespace UltitemsCyan.Items.Tier1
             }
         }
 
-        private BuffDef buffDef = Buffs.TickCritBuff.buff;
-        private float baseBuffDuration = FleaBag.baseBuffDuration;
+        private readonly BuffDef buffDef = Buffs.TickCritBuff.buff;
+        private readonly float baseBuffDuration = FleaBag.baseBuffDuration;
         //private float buffDurationPerItem = FleaBag.buffDurationPerItem;
         //private int maxStack = FleaBag.buffMaxStack; // Was for limiting max number of TickCrit stacks
         public int amount;

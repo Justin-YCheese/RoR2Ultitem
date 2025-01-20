@@ -56,9 +56,9 @@ namespace UltitemsCyan.Items.Tier1
                         if (self.combinedHealthFraction >= threshold / 100f)
                         {
                             //Log.Debug("Heal Attacker, Initial: " + inflictor.healthComponent.health);
-                            inflictor.healthComponent.Heal((inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount) + flatHealing, damageInfo.procChainMask);
+                            _ = inflictor.healthComponent.Heal(inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount + flatHealing, damageInfo.procChainMask);
                             //Log.Debug("Healing: " + ((inflictor.healthComponent.fullHealth * percentHealing / 100f) + flatHealing));
-                            Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
+                            _ = Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
                             /*/
                             EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/HealthOrbEffect"), new EffectData
                             {

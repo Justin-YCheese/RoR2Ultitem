@@ -23,11 +23,11 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Crysotope";
-			if (!CheckItemEnabledConfig(itemName, "Void", configs))
-			{
-				return;
-			}
+            string itemName = "Crysotope";
+            if (!CheckItemEnabledConfig(itemName, "Void", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "CRYSOTOPE",
                 itemName,
@@ -53,7 +53,7 @@ namespace UltitemsCyan.Items.Void
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<CrysotopeBehavior>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<CrysotopeBehavior>(self.inventory.GetItemCount(item));
             }
         }
 
@@ -82,10 +82,10 @@ namespace UltitemsCyan.Items.Void
                     {
                         //   *   *   *   ADD EFFECT   *   *   *   //
 
-                        Log.Debug("Crysotope Jump ? ? ? adding buff for " + (baseDuration + (durationPerStack * (grabCount - 1))) + " seconds");
+                        Log.Debug("Crysotope Jump ? ? ? adding buff for " + (baseDuration + durationPerStack * (grabCount - 1)) + " seconds");
                         //self.characterBody.AddTimedBuffAuthority(FrisbeeFlyingBuff.buff.buffIndex, baseDuration + (durationPerStack * (grabCount - 1)));
 
-                        var behavior = self.characterBody.GetComponent<CrysotopeBehavior>();
+                        CrysotopeBehavior behavior = self.characterBody.GetComponent<CrysotopeBehavior>();
                         behavior.enabled = true;
                         behavior.UpdateStopwatch(Run.instance.time);
                         body.SetBuffCount(CrysotopeFlyingBuff.buff.buffIndex, 1);
@@ -142,7 +142,7 @@ namespace UltitemsCyan.Items.Void
                 if (characterMotor)
                 {
                     CanHaveBuff = !characterMotor.isGrounded && body.inputBank.jump.down
-                        && Run.instance.time <= flyingStopwatch + baseDuration + (durationPerStack * (stack - 1));
+                        && Run.instance.time <= flyingStopwatch + baseDuration + durationPerStack * (stack - 1);
                     if (body.HasBuff(CrysotopeFlyingBuff.buff))
                     {
                         // Player is rising
@@ -150,7 +150,7 @@ namespace UltitemsCyan.Items.Void
                         {
                             //Log.Debug("Falling?: \t" + body.characterMotor.velocity.y + " = " + ((body.characterMotor.velocity.y * dampeningForce) + (riseSpeed * dampeningForce)));
                             //body.characterMotor.velocity.y -= Time.fixedDeltaTime * Physics.gravity.y * fallReducedGravity;
-                            body.characterMotor.velocity.y = ((body.characterMotor.velocity.y - riseSpeed) * dampeningForce) + riseSpeed;
+                            body.characterMotor.velocity.y = (body.characterMotor.velocity.y - riseSpeed) * dampeningForce + riseSpeed;
                         }
                     }
                 }
@@ -162,7 +162,9 @@ namespace UltitemsCyan.Items.Void
                 enabled = false;
             }
 
+#pragma warning disable IDE0051 // Remove unused private members
             private void OnDisable()
+#pragma warning restore IDE0051 // Remove unused private members
             {
                 flyingStopwatch = 0;
                 CanHaveBuff = false;

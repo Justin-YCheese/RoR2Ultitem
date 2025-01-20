@@ -1,8 +1,5 @@
 ﻿using BepInEx.Configuration;
-using R2API;
 using RoR2;
-using System;
-using UnityEngine;
 
 namespace UltitemsCyan.Equipment
 {
@@ -65,7 +62,7 @@ namespace UltitemsCyan.Equipment
                 DamageInfo damageSelf = new()
                 {
                     crit = false, // activator.RollCrit()
-                    damage = (percentDamage / 100f * activator.healthComponent.fullCombinedHealth), // + activator.baseDamage
+                    damage = percentDamage / 100f * activator.healthComponent.fullCombinedHealth, // + activator.baseDamage
                     procCoefficient = 100f,
                     damageType = DamageType.Generic,
                     inflictor = activator.gameObject,
@@ -78,7 +75,7 @@ namespace UltitemsCyan.Equipment
                 activator.healthComponent.TakeDamage(damageSelf);
                 //self.subcooldownTimer += 5f;
                 //Log.Debug("Sub cooldown");
-                Util.PlaySound("Play_imp_attack", activator.gameObject);
+                _ = Util.PlaySound("Play_imp_attack", activator.gameObject);
                 self.subcooldownTimer = subCooldown;
 
                 return true;

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace UltitemsCyan.Items.Lunar
 {
-    
+
     // TODO: check if Item classes needs to be public
     public class SilverThread : ItemBase
     {
@@ -50,8 +50,8 @@ namespace UltitemsCyan.Items.Lunar
         {
             // Gain additional items
             On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
-            
-            
+
+
             // Chance of Death
             //IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamage;
 
@@ -81,7 +81,7 @@ namespace UltitemsCyan.Items.Lunar
             // Inject code just before damage is subtracted from health
             // Go just before the "if (num12 > 0f && this.barrier > 0f)" line, which is equal to the following instructions
 
-                                                                      // 1170 ldloc.s V_49 (49)             // Previous For loop k value
+            // 1170 ldloc.s V_49 (49)             // Previous For loop k value
             if (c.TryGotoNext(MoveType.Before,                        // 1171 blt.s 1161 (0D7E) ldarg.0     // Previous For Loop branch
                 x => x.MatchLdloc(out num12),                         // 1172 ldloc.s V_7 (7)
                 x => x.MatchLdcR4(0f),                                // 1173 ldc.r4 0
@@ -111,12 +111,12 @@ namespace UltitemsCyan.Items.Lunar
                 // IL_0e8f: ldloc.s V_7
                 // IL_0e91: ldc.r4 0
 
-                c.Emit(OpCodes.Ldarg, 0);       // Load Health Component
-                c.Emit(OpCodes.Ldloc, 1);       // Load Attacker Character Body
-                c.Emit(OpCodes.Ldloc, num12);   // Load Total Damage
+                _ = c.Emit(OpCodes.Ldarg, 0);       // Load Health Component
+                _ = c.Emit(OpCodes.Ldloc, 1);       // Load Attacker Character Body
+                _ = c.Emit(OpCodes.Ldloc, num12);   // Load Total Damage
 
                 // Run custom code
-                c.EmitDelegate<Action<HealthComponent, CharacterBody, float>>((hc, aCb, td) =>
+                _ = c.EmitDelegate<Action<HealthComponent, CharacterBody, float>>((hc, aCb, td) =>
                 {
                     CharacterBody cb = hc.body;
                     //Log.Debug("Health: " + hc.fullCombinedHealth + "\t Body: " + cb.GetUserName() + "\t Damage: " + td);
@@ -137,7 +137,7 @@ namespace UltitemsCyan.Items.Lunar
                             Log.Debug("Chance of Snapping: " + deathChance);
                             if (Util.CheckRoll(deathChance, 0))
                             {
-                                snapBody(cb, aCb);
+                                SnapBody(cb, aCb);
                             }
                         }
                     }
@@ -150,7 +150,7 @@ namespace UltitemsCyan.Items.Lunar
         }
 
         // Kill character body
-        private static void snapBody(CharacterBody body, CharacterBody killer)
+        private static void SnapBody(CharacterBody body, CharacterBody killer)
         {
             Log.Warning(body.GetUserName() + "'s thread snapped");
             // If has item
@@ -301,7 +301,6 @@ namespace UltitemsCyan.Items.Lunar
                 orig(self, intPickupIndex);
                 //Log.Debug("runOrig out SilverThread");
             }
-            
         }
 
         // Increase Items gained when given

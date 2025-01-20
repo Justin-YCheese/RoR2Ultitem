@@ -30,11 +30,11 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "ZorsePill";
-			if (!CheckItemEnabledConfig(itemName, "Void", configs))
-			{
-				return;
-			}
+            string itemName = "ZorsePill";
+            if (!CheckItemEnabledConfig(itemName, "Void", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "ZORSEPILL",
                 itemName,
@@ -74,7 +74,7 @@ namespace UltitemsCyan.Items.Void
                         //float damageMultiplier = (basePercentHealth + (percentHealthPerStack * (grabCount - 1))) / 100f;
                         Log.Debug("Damage = " + damageDealt + " | i.damage: " + inflictor.damage + " i.damageRecalc: " + inflictor.damageFromRecalculateStats
                             + " di.damage: " + damageInfo.damage + " di.crit: " + damageInfo.crit
-                            + " multiplier:" + (damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f));
+                            + " multiplier:" + damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f);
                         InflictDotInfo inflictDotInfo = new()
                         {
                             victimObject = victimObject,

@@ -80,12 +80,12 @@ namespace UltitemsCyan.Items.Tier1
                 //IL_0e15: ble.un.s IL_0e21
 
 
-                c.Emit(OpCodes.Ldarg, 0);     // Load Health Component
-                c.Emit(OpCodes.Ldarg, 1);     // Load Damage Info (If Damage rejected, returned earlier)
-                c.Emit(OpCodes.Ldloc, num);   // Load Total Damage
+                _ = c.Emit(OpCodes.Ldarg, 0);     // Load Health Component
+                _ = c.Emit(OpCodes.Ldarg, 1);     // Load Damage Info (If Damage rejected, returned earlier)
+                _ = c.Emit(OpCodes.Ldloc, num);   // Load Total Damage
 
                 // Run custom code
-                c.EmitDelegate<Func<HealthComponent, DamageInfo, float, float>>((hc, di, td) =>
+                _ = c.EmitDelegate<Func<HealthComponent, DamageInfo, float, float>>((hc, di, td) =>
                 {
                     CharacterBody cb = hc.body;
                     if (cb)
@@ -98,7 +98,7 @@ namespace UltitemsCyan.Items.Tier1
                             {
                                 //Log.Debug("Koala Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
                                 //Log.Debug("Max Percent: " + ((hyperbolicPercent / 100 * grabCount) + 1) + " of " + hc.fullCombinedHealth);
-                                float maxDamage = hc.fullCombinedHealth / ((hyperbolicPercent / 100 * grabCount) + 1);
+                                float maxDamage = hc.fullCombinedHealth / (hyperbolicPercent / 100 * grabCount + 1);
                                 if (maxDamage < minDamage)
                                 {
                                     maxDamage = minDamage;
@@ -121,7 +121,7 @@ namespace UltitemsCyan.Items.Tier1
                     return td;
                 });
 
-                c.Emit(OpCodes.Stloc, num12); // Store Total Damage
+                _ = c.Emit(OpCodes.Stloc, num12); // Store Total Damage
                 //
                 //}
                 //else

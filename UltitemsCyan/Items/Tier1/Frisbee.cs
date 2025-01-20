@@ -51,7 +51,7 @@ namespace UltitemsCyan.Items.Tier1
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<FrisbeeBehavior>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<FrisbeeBehavior>(self.inventory.GetItemCount(item));
             }
         }
 
@@ -67,7 +67,7 @@ namespace UltitemsCyan.Items.Tier1
             {
                 CharacterBody body = self.characterBody;
                 int grabCount = body.inventory.GetItemCount(item);
-                
+
                 if (grabCount > 0 && self.hasCharacterMotor && self.jumpInputReceived)
                 {
                     //Log.Warning("Is Authority? " + self.isAuthority + " Is Local? " + self.isLocalPlayer + " Is Local Authority? " + self.localPlayerAuthority + " is? " + self.rigidbody);
@@ -80,10 +80,10 @@ namespace UltitemsCyan.Items.Tier1
                     {
                         //   *   *   *   ADD EFFECT   *   *   *   //
 
-                        Log.Debug("Frisbee Jump ? ? ? adding buff for " + (baseDuration + (durationPerStack * (grabCount - 1))) + " seconds");
+                        Log.Debug("Frisbee Jump ? ? ? adding buff for " + (baseDuration + durationPerStack * (grabCount - 1)) + " seconds");
                         //self.characterBody.AddTimedBuffAuthority(FrisbeeFlyingBuff.buff.buffIndex, baseDuration + (durationPerStack * (grabCount - 1)));
-                        
-                        var behavior = self.characterBody.GetComponent<FrisbeeBehavior>();
+
+                        FrisbeeBehavior behavior = self.characterBody.GetComponent<FrisbeeBehavior>();
                         behavior.enabled = true;
                         behavior.UpdateStopwatch(Run.instance.time);
                         body.SetBuffCount(FrisbeeGlidingBuff.buff.buffIndex, 1);
@@ -95,7 +95,7 @@ namespace UltitemsCyan.Items.Tier1
             orig(self);
         }
 
-        
+
 
 
         public class FrisbeeBehavior : CharacterBody.ItemBehavior
@@ -111,7 +111,7 @@ namespace UltitemsCyan.Items.Tier1
                 //Log.Debug("New attack at " + newTime);
                 flyingStopwatch = newTime;
             }
-            
+
             public bool CanHaveBuff
             {
                 get { return _canHaveBuff; }
@@ -149,7 +149,7 @@ namespace UltitemsCyan.Items.Tier1
                 if (motor)
                 {
                     CanHaveBuff = !motor.isGrounded && body.inputBank.jump.down
-                        && Run.instance.time <= flyingStopwatch + baseDuration + (durationPerStack * (stack - 1));
+                        && Run.instance.time <= flyingStopwatch + baseDuration + durationPerStack * (stack - 1);
                     if (body.HasBuff(FrisbeeGlidingBuff.buff))
                     {
                         // Player is rising
@@ -158,7 +158,7 @@ namespace UltitemsCyan.Items.Tier1
                             //Log.Warning("Is on server? " + NetworkServer.active + "  Or enabled? " + motor.enabled + "last velocity: " + motor.lastVelocity);
                             //Log.Debug("Falling?: \t" + motor.velocity.y + " = " + ((body.characterMotor.velocity.y * dampeningForce) + (riseSpeed * dampeningForce)));
                             //body.characterMotor.velocity.y -= Time.fixedDeltaTime * Physics.gravity.y * fallReducedGravity;
-                            motor.velocity.y = ((motor.velocity.y - riseSpeed) * dampeningForce) + riseSpeed;
+                            motor.velocity.y = (motor.velocity.y - riseSpeed) * dampeningForce + riseSpeed;
                         }
                     }
                 }
@@ -170,7 +170,9 @@ namespace UltitemsCyan.Items.Tier1
                 enabled = false;
             }
 
+#pragma warning disable IDE0051 // Remove unused private members
             private void OnDisable()
+#pragma warning restore IDE0051 // Remove unused private members
             {
                 flyingStopwatch = 0;
                 CanHaveBuff = false;

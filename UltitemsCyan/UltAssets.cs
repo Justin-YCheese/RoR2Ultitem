@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using RoR2.ContentManagement;
-using System.Collections;
-using System.Reflection;
 
 namespace UltitemsCyan
 {

@@ -19,11 +19,11 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "1000 Degree Scissors";
-			if (!CheckItemEnabledConfig(itemName, "Green", configs))
-			{
-				return;
-			}
+            string itemName = "1000 Degree Scissors";
+            if (!CheckItemEnabledConfig(itemName, "Green", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "DEGREESCISSORS",
                 itemName,
@@ -67,7 +67,7 @@ namespace UltitemsCyan.Items.Tier2
                         List<ItemIndex> itemsInInventory = master.inventory.itemAcquisitionOrder;
 
                         // Aggregate list of consumed items in inventory
-                        List<ItemDef> consumedItems = getUntieredItems(itemsInInventory);
+                        List<ItemDef> consumedItems = GetUntieredItems(itemsInInventory);
 
                         // Convert items
                         MeltItems(master, consumedItems, grabCount);
@@ -76,14 +76,16 @@ namespace UltitemsCyan.Items.Tier2
             }
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
         private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
+#pragma warning restore IDE0051 // Remove unused private members
         {
             Log.Debug(" . . . In Beginin Stage");
             orig(self);
             Log.Debug(" . . . Outing the Begin Stage");
         }
 
-        private List<ItemDef> getUntieredItems(List<ItemIndex> list)
+        private List<ItemDef> GetUntieredItems(List<ItemIndex> list)
         {
             List<ItemDef> consumedItems = [];
             foreach (ItemIndex index in list)

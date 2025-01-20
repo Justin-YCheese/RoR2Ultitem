@@ -1,6 +1,5 @@
 ﻿using BepInEx.Configuration;
 using RoR2;
-using UltitemsCyan.Buffs;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 

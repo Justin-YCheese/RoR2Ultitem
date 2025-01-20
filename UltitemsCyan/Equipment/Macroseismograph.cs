@@ -7,7 +7,15 @@ using BepInEx.Configuration;
 namespace UltitemsCyan.Equipment
 {
 
-    // TODO: check if Item classes needs to be public
+    /* Notes
+     * 
+     * Works as expected with MULT's swap speacil
+     * 
+     * 
+     * 
+     * 
+     */
+
     public class Macroseismograph : EquipmentBase
     {
         public static EquipmentDef equipment;
@@ -19,8 +27,8 @@ namespace UltitemsCyan.Equipment
         private const float force = 10500f; //7450f
         private const float earthquakeDamage = 10000f; // 1,000,000% = 10,000
 
-        private static GameObject willOWisp = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ExplodeOnDeath/WilloWispDelay.prefab").WaitForCompletion();
-        private static GameObject explosionEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/FallBoots/BootShockwave.prefab").WaitForCompletion();
+        private static readonly GameObject willOWisp = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ExplodeOnDeath/WilloWispDelay.prefab").WaitForCompletion();
+        private static readonly GameObject explosionEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/FallBoots/BootShockwave.prefab").WaitForCompletion();
         //private static readonly GameObject warningEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Meteor/MeteorStrikePredictionEffect.prefab").WaitForCompletion();
         //private static readonly GameObject warningEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/GenericDelayBlast.prefab").WaitForCompletion();
         //private static readonly GameObject explostionEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/MajorAndMinorConstruct/OmniExplosionVFXMajorConstruct.prefab").WaitForCompletion();
@@ -96,7 +104,7 @@ namespace UltitemsCyan.Equipment
                     // < 10250
 
                     // Damage
-                    GameObject explostionObject = UnityEngine.Object.Instantiate(willOWisp, position, Quaternion.identity);
+                    GameObject explostionObject = Object.Instantiate(willOWisp, position, Quaternion.identity);
                     DelayBlast blast = explostionObject.GetComponent<DelayBlast>();
                     blast.position = position;
                     blast.attacker = activator.gameObject;
@@ -123,7 +131,7 @@ namespace UltitemsCyan.Equipment
                     };//*/
 
                     // Force
-                    GameObject forceObject = UnityEngine.Object.Instantiate(willOWisp, position, Quaternion.identity);
+                    GameObject forceObject = Object.Instantiate(willOWisp, position, Quaternion.identity);
                     DelayBlast forceBlast = forceObject.GetComponent<DelayBlast>();
                     forceBlast.position = position;
                     forceBlast.attacker = activator.gameObject;
@@ -149,8 +157,8 @@ namespace UltitemsCyan.Equipment
                         NetworkteamIndexInternal = -1
                     };//*/
 
-                    Util.PlaySound("Play_voidDevastator_death_vortex_explode", activator.gameObject);
-                    Util.PlaySound("Play_voidDevastator_death_VO", activator.gameObject);
+                    _ = Util.PlaySound("Play_voidDevastator_death_vortex_explode", activator.gameObject);
+                    _ = Util.PlaySound("Play_voidDevastator_death_VO", activator.gameObject);
 
                     // Send notification and consume equipment
                     CharacterMasterNotificationQueue.SendTransformNotification(
@@ -193,7 +201,9 @@ namespace UltitemsCyan.Equipment
                 //gameObject = base.gameObject;
             }
 
+#pragma warning disable IDE0051 // Remove unused private members
             private void FixedUpdate()
+#pragma warning restore IDE0051 // Remove unused private members
             {
                 if (!NetworkServer.active)
                 {

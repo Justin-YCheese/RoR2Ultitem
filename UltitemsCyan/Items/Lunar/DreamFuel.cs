@@ -52,7 +52,7 @@ namespace UltitemsCyan.Items.Lunar
             orig(self);
             if (self && self.inventory)
             {
-                self.AddItemBehavior<DreamFuelBehaviour>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<DreamFuelBehaviour>(self.inventory.GetItemCount(item));
             }
         }//*/
 
@@ -75,7 +75,7 @@ namespace UltitemsCyan.Items.Lunar
                         {
                             // Don't know why I would need to check for NetworkServer active
                             // This ensures that the following code only runs as the host
-                            Util.PlaySound("Play_affix_void_bug_spawn", gameObject);
+                            _ = Util.PlaySound("Play_affix_void_bug_spawn", gameObject);
                             body.AddBuff(DreamSpeedBuff.buff);
                         }
                         else
@@ -120,7 +120,7 @@ namespace UltitemsCyan.Items.Lunar
                     int grabCount = injured.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
-                        Util.PlaySound("Play_item_lunar_secondaryReplace_explode", injured.gameObject);
+                        _ = Util.PlaySound("Play_item_lunar_secondaryReplace_explode", injured.gameObject);
                         injured.AddTimedBuffAuthority(RoR2Content.Buffs.LunarSecondaryRoot.buffIndex, rootDuration * grabCount);
                     }
                 }

@@ -63,7 +63,7 @@ namespace UltitemsCyan.Equipment
             equipment.isBoss = false;
 
             ItemDisplayRuleDict displayRules = new(null);
-            ItemAPI.Add(new CustomEquipment(equipment, displayRules));
+            _ = ItemAPI.Add(new CustomEquipment(equipment, displayRules));
 
             // Item Functionality
             Hooks();

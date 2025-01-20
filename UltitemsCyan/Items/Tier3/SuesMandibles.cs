@@ -49,10 +49,10 @@ namespace UltitemsCyan.Items.Tier3
                 {
                     Log.Warning(" ! ! ! Killing Blow ! ! ! ");
                     Log.Debug("S Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage + " Alive? " + self.alive);
-                    
+
                     // Regain one health
                     self.health = 1;
-                    
+
                     // Trade Items
                     victim.inventory.RemoveItem(item);
                     victim.inventory.GiveItem(SuesMandiblesConsumed.item);
@@ -63,11 +63,11 @@ namespace UltitemsCyan.Items.Tier3
                     victim.AddTimedBuffAuthority(RoR2Content.Buffs.HealingDisabled.buffIndex, effectDuration); // Adds synergy with Ben's Raincoat and Genisis Loop
 
                     // Play Sounds
-                    Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
-                    Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
-                    Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
-                    Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
-                    Util.PlaySound("Play_elite_haunt_ghost_convert", victim.gameObject);
+                    _ = Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
+                    _ = Util.PlaySound("Play_item_proc_ghostOnKill", victim.gameObject);
+                    _ = Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
+                    _ = Util.PlaySound("Play_item_proc_phasing", victim.gameObject);
+                    _ = Util.PlaySound("Play_elite_haunt_ghost_convert", victim.gameObject);
                 }
             }
             //Log.Debug("Bye Sue");

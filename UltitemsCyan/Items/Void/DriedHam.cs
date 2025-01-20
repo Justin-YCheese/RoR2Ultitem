@@ -16,11 +16,11 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Dried Ham";
-			if (!CheckItemEnabledConfig(itemName, "Void", configs))
-			{
-				return;
-			}
+            string itemName = "Dried Ham";
+            if (!CheckItemEnabledConfig(itemName, "Void", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "DRIEDHAM",
                 itemName,
@@ -55,11 +55,11 @@ namespace UltitemsCyan.Items.Void
                         if (self.combinedHealthFraction <= threshold / 100f)
                         {
                             //Log.Debug("Heal Attacker, Initial: " + inflictor.healthComponent.health);
-                            inflictor.healthComponent.Heal(flatHealing * grabCount, damageInfo.procChainMask);
+                            _ = inflictor.healthComponent.Heal(flatHealing * grabCount, damageInfo.procChainMask);
                             //inflictor.healthComponent.Heal(inflictor.healthComponent.fullHealth * percentHealing / 100f * grabCount + flatHealing, damageInfo.procChainMask);
                             //Log.Debug("Healing: " + (flatHealing * grabCount));
                             // TODO Change sound
-                            Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
+                            _ = Util.PlaySound("Play_item_proc_thorns", inflictor.gameObject);
                         }
                     }
                 }

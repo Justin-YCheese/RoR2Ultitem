@@ -1,7 +1,5 @@
 ﻿using BepInEx.Configuration;
-using R2API;
 using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Equipment
 {
@@ -46,7 +44,7 @@ namespace UltitemsCyan.Equipment
             {
                 CharacterBody activator = self.characterBody;
                 activator.healthComponent.AddBarrier(activator.healthComponent.fullBarrier * percentOfBarrier / 100f);
-                Util.PlaySound("Play_item_proc_iceRingSpear", self.gameObject);
+                _ = Util.PlaySound("Play_item_proc_iceRingSpear", self.gameObject);
                 return true;
             }
             else

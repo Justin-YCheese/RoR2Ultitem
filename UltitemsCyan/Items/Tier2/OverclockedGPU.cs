@@ -21,11 +21,11 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-			string itemName = "Overclocked GPU";
-			if (!CheckItemEnabledConfig(itemName, "Green", configs))
-			{
-				return;
-			}
+            string itemName = "Overclocked GPU";
+            if (!CheckItemEnabledConfig(itemName, "Green", configs))
+            {
+                return;
+            }
             item = CreateItemDef(
                 "OVERCLOCKEDGPU",
                 itemName,
@@ -61,13 +61,13 @@ namespace UltitemsCyan.Items.Tier2
                     // Don't have any buffs yet
                     if (buffCount == 0)
                     {
-                        Util.PlaySound("Play_item_goldgat_windup", killer.gameObject);
+                        _ = Util.PlaySound("Play_item_goldgat_windup", killer.gameObject);
                     }
                     else
                     {
                         //Play_wCrit
-                        Util.PlaySound("Play_item_proc_crowbar", killer.gameObject);
-                        Util.PlaySound("Play_wDroneDeath", killer.gameObject);
+                        _ = Util.PlaySound("Play_item_proc_crowbar", killer.gameObject);
+                        _ = Util.PlaySound("Play_wDroneDeath", killer.gameObject);
                     }
                     killer.AddBuff(Buffs.OverclockedBuff.buff);
                 }
@@ -88,7 +88,7 @@ namespace UltitemsCyan.Items.Tier2
                     CharacterBody injured = victim.GetComponent<CharacterBody>();
                     if (injured.HasBuff(Buffs.OverclockedBuff.buff))
                     {
-                        Util.PlaySound("Play_item_goldgat_winddown", injured.gameObject);
+                        _ = Util.PlaySound("Play_item_goldgat_winddown", injured.gameObject);
                         injured.SetBuffCount(Buffs.OverclockedBuff.buff.buffIndex, 0);
                     }
                 }

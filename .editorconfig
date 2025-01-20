@@ -81,3 +81,6 @@ dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix = 
 dotnet_naming_style.pascal_case.word_separator = 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# IDE0048: Add parentheses for clarity
+dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary

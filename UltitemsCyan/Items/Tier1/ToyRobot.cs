@@ -93,7 +93,7 @@ namespace UltitemsCyan.Items.Tier1
         {
             if (self && self.inventory)
             {
-                self.AddItemBehavior<ToyRobotBehaviour>(self.inventory.GetItemCount(item));
+                _ = self.AddItemBehavior<ToyRobotBehaviour>(self.inventory.GetItemCount(item));
             }
             orig(self);
         }
@@ -117,7 +117,7 @@ namespace UltitemsCyan.Items.Tier1
                 //GravitationControllers have sphere colliders to check whenever a player is in radius no matter what...
                 colliders.Clear();
                 sphereSearch.RefreshCandidates().OrderCandidatesByDistance().GetColliders(colliders);
-                foreach (var pickUp in colliders)
+                foreach (Collider pickUp in colliders)
                 {
                     // Get Gravitate Pickup if it has one
                     GravitatePickup gravitatePickup = pickUp.gameObject.GetComponent<GravitatePickup>();
@@ -140,7 +140,7 @@ namespace UltitemsCyan.Items.Tier1
                             }, true);//*/
                             gravitatePickup.gravitateTarget = body.transform;
                         }
-                        
+
 
 
                         /*/ Failed Check closest player method
@@ -201,7 +201,7 @@ namespace UltitemsCyan.Items.Tier1
             public void Start()
             {
                 Log.Warning("Got my some sphere!");
-                colliders = new List<Collider>();
+                colliders = [];
                 sphereSearch = new SphereSearch()
                 {
                     mask = LayerIndex.pickups.mask,
