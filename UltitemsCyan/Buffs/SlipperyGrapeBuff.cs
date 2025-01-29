@@ -3,6 +3,7 @@ using MonoMod.Cil;
 using RoR2;
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace UltitemsCyan.Buffs
 {
@@ -13,6 +14,8 @@ namespace UltitemsCyan.Buffs
         //private const int maxGrapes = Items.Tier3.Grapevine.maxGrapes;
         //private const float tickPerStack = FleaBag.tickPerStack;
 
+        //private static readonly GameObject DamageRejectedEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/DamageRejected.prefab").WaitForCompletion();
+
         public override void Init()
         {
             buff = DefineBuff("Slippery Grape Buff", true, false, Color.white, UltAssets.GrapeSprite, false, false);
@@ -22,7 +25,6 @@ namespace UltitemsCyan.Buffs
 
         protected void Hooks()
         {
-            //IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
         }
 
@@ -30,48 +32,50 @@ namespace UltitemsCyan.Buffs
         {
             ILCursor c = new(il); // Make new ILContext
 
+            //Log.Debug(" $ $ $ $ $ $ $ $ $ $ $ $ $ $ * * * Find IL: work? 2");
+
             // Inject code just before body armor
             // Go just before: if (!CS$<>8__locals1.damageInfo.rejected && this.body.HasBuff(JunkContent.Buffs.BodyArmor))
             //     which is equal to the following instructions
             if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchLdloc(0),
-                x => x.MatchLdfld("RoR2.HealthComponent/<>c__DisplayClass108_0", "damageInfo"),
-                x => x.MatchLdfld<DamageInfo>("rejected"),
-                x => x.MatchBrtrue(out ILLabel label),
+                //x => x.MatchLdloc(0),
+                //x => x.MatchLdfld("RoR2.HealthComponent/<>c__DisplayClass108_0", "damageInfo"),
+                //x => x.MatchLdfld<DamageInfo>("rejected"),
+                //x => x.MatchBrtrue(out ILLabel label),
                 x => x.MatchLdarg(0),
                 x => x.MatchLdfld("RoR2.HealthComponent", "body"),
-                x => x.MatchLdsfld("RoR2.JunkContext/Buffs", "BodyArmor"),
-                x => x.Match(OpCodes.Callvirt))
-            //x => x.MatchCallvirt<CharacterBody>("HasBuff", new Type[] { typeof(BuffDef) }),
-            )
+                x => x.MatchLdsfld("RoR2.JunkContent/Buffs", "BodyArmor"))
+            && c.TryGotoPrev(MoveType.Before,
+                x => x.MatchLdloc(0)))
             {
-                Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
+                //RoR2.JunkContent.Buffs;
 
-                Log.Debug(c);
+                //Log.Debug(c);
 
                 c.Index++;
 
-                Log.Debug(" * * * +1 Working Index: " + c.Index + " > " + c.ToString());
 
-                Log.Debug(c);
+                //Log.Debug(c);
 
                 _ = c.Emit(OpCodes.Ldarg, 0);   // Load Health Component
                 _ = c.Emit(OpCodes.Ldarg, 1);   // Load Damage Info
 
-                // Run custom code
+                /// Run custom code
                 _ = c.EmitDelegate<Action<HealthComponent, DamageInfo>>((hc, di) =>
                 {
-                    //Log.Warning("Slippery Grapes Block?");
+                    //Log.Warning(" ///// ///// Slippery Grapes Block?");
                     if (di.rejected == false)
                     {
                         CharacterBody cb = hc.body;
                         if (cb)
                         {
                             int grapes = cb.GetBuffCount(buff);     // TODO optimize with one random number generator, find location
+                            //Log.Debug("Slip Grape 2");
                             for (int i = 0; i < grapes; i++)    // Ecential While loop but max 'grapes' times
                             {
                                 //Log.Debug(" - " + i);
                                 cb.RemoveBuff(buff);
+                                Log.Debug("Got some Grapes!");
                                 if (Util.CheckRoll(grapeBlockChance, 0))
                                 {
                                     Log.Debug("Slip Grape Avoidance!");
@@ -95,13 +99,19 @@ namespace UltitemsCyan.Buffs
                         }
                     }
                     //return false;
+                    //*/
                 });
+                //*/
 
-                Log.Debug(il.ToString());
+                //Log.Debug(il.ToString());
+            }
+            else
+            {
+                Log.Warning("Slippery Grape cannot find line");
             }
         }
 
-        //
+        /*/
         private void HealthComponent_TakeDamage(ILContext il)
         {
             ILCursor c = new(il); // Make new ILContext

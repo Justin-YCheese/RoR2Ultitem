@@ -58,6 +58,7 @@ namespace UltitemsCyan.Items.Void
         protected override void Hooks()
         {
             On.RoR2.HealthPickup.OnTriggerStay += HealthPickup_OnTriggerStay;
+            On.RoR2.ElusiveAntlersPickup.OnTriggerStay += ElusiveAntlersPickup_OnTriggerStay;
             On.RoR2.AmmoPickup.OnTriggerStay += AmmoPickup_OnTriggerStay;
             On.RoR2.BuffPickup.OnTriggerStay += BuffPickup_OnTriggerStay;
             On.RoR2.MoneyPickup.OnTriggerStay += MoneyPickup_OnTriggerStay;
@@ -65,6 +66,12 @@ namespace UltitemsCyan.Items.Void
         }
 
         private void HealthPickup_OnTriggerStay(On.RoR2.HealthPickup.orig_OnTriggerStay orig, HealthPickup self, Collider other)
+        {
+            orig(self, other);
+            GotPickup(other);
+        }
+
+        private void ElusiveAntlersPickup_OnTriggerStay(On.RoR2.ElusiveAntlersPickup.orig_OnTriggerStay orig, ElusiveAntlersPickup self, Collider other)
         {
             orig(self, other);
             GotPickup(other);

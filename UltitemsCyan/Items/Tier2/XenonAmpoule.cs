@@ -22,9 +22,9 @@ namespace UltitemsCyan.Items.Tier2
 
         public const float baseDamage = 16f / 3f; // div 3f to account for weak point and crit
         public const float damagePerStack = 4f / 3f; // div 3f to account for weak point and crit
-        public const float shortDamagePercent = 50f; // Percent of normal damage
+        public const float shortDamagePercent = 70f; // Percent of normal damage
 
-        public const float shortLaserRadius = 1.5f;
+        public const float shortLaserRadius = 1.6f;
         public const float laserRadius = 2.5f;
         public const float longLaserRadius = 3.2f;
 

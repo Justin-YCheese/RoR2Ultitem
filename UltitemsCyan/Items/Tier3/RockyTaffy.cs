@@ -25,9 +25,10 @@ namespace UltitemsCyan.Items.Tier3
             item = CreateItemDef(
                 "ROCKYTAFFY",
                 itemName,
-                "Gain a recharging shield. Gain a stable barrier without your shield.",
-                "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>40%</style> <style=cStack>(+40% per stack)</style> of your maximum health. On losing your shield, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield.",
-                "This vault is sturdy, but over time the rust will just crack it open",
+                "Gain a recharging shield. Buff gives a stable barrier without your shield. Buff gained with full shield.",
+                "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>40%</style> <style=cStack>(+40% per stack)</style> of your maximum health. On losing your shield with the buff, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield and regain buff with a full shield.",
+                "This vault is sturdy, but over time the rust will just crack it open. Oh wait this is the wrong description...\n" +
+                "Give me a second...\n\num...\n\nSomething about laughing but harder so for shields? I don't know...",
                 ItemTier.Tier3,
                 UltAssets.RockyTaffySprite,
                 UltAssets.RockyTaffyPrefab,
@@ -81,11 +82,12 @@ namespace UltitemsCyan.Items.Tier3
 
                     bool newShield = self.shield > 0;
 
-                    if (initialShield && !newShield)
+                    if (initialShield && !newShield && self.body.HasBuff(Buffs.TaffyChewBuff.buff))
                     {
                         Log.Debug("Taffy Shield lost! Gain Barrier");
-                        _ = Util.PlaySound("Play_voidDevastator_m2_chargeUp", self.body.gameObject);
+                        self.body.RemoveBuff(Buffs.TaffyChewBuff.buff);
                         self.AddBarrier(self.fullShield);
+                        _ = Util.PlaySound("Play_gup_death", self.body.gameObject);
                         //self.body.statsDirty = true;
                         //self.body.RecalculateStats();
                     }
@@ -117,8 +119,7 @@ namespace UltitemsCyan.Items.Tier3
                     {
                         self.barrierDecayRate = 0;
                     }
-                    Log.Debug("After Barrier Decay: " + self.barrierDecayRate);
-
+                    //Log.Debug("After Barrier Decay: " + self.barrierDecayRate);
                     //Log.Debug("v Shield new: " + args.shieldMultAdd);
                     //args.baseShieldAdd += sender.healthComponent.fullHealth * (shieldPercent / 100f * grabCount);
                     //self.moveSpeed = 0;
@@ -146,6 +147,7 @@ namespace UltitemsCyan.Items.Tier3
         {
             public HealthComponent healthComponent;
             private bool _hasShield = true;
+            private bool _ifFullShield = false; // False so when you first get full shield then can get buff immediantly
             public bool HasShield
             {
                 get { return _hasShield; }
@@ -155,8 +157,25 @@ namespace UltitemsCyan.Items.Tier3
                     if (_hasShield != value)
                     {
                         _hasShield = value;
-                        Log.Debug(_hasShield + " > Sticky Taffy Dirty Stats (has shield changed)");
+                        //Log.Debug(_hasShield + " > Sticky Taffy Dirty Stats (has shield changed) | Shield: " + healthComponent.shield + " vs Full? " + healthComponent.fullShield);
                         body.statsDirty = true;
+                    }
+                }
+            }
+            public bool IfFullShield
+            {
+                get { return _ifFullShield; }
+                set
+                {
+                    // If not already the same value
+                    if (_ifFullShield != value)
+                    {
+                        _ifFullShield = value;
+                        if (_ifFullShield)
+                        {
+                            body.AddBuff(Buffs.TaffyChewBuff.buff);
+                            _ = Util.PlaySound("Play_captain_m2_tazer_bounce", body.gameObject);
+                        }
                     }
                 }
             }
@@ -167,6 +186,7 @@ namespace UltitemsCyan.Items.Tier3
                 if (healthComponent)
                 {
                     HasShield = healthComponent.shield > 0;
+                    IfFullShield = healthComponent.shield == healthComponent.fullShield;
                 }
             }
 
@@ -177,7 +197,9 @@ namespace UltitemsCyan.Items.Tier3
 
             public void OnDestroy()
             {
+                body.RemoveBuff(Buffs.TaffyChewBuff.buff);
                 HasShield = true;
+                IfFullShield = false;
             }
         }
     }

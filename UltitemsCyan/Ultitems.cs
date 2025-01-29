@@ -78,7 +78,7 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.11.2";
+        public const string PluginVersion = "0.12.0";
 
         public const string PluginSuffix = "Restoring hurt items";
 
@@ -131,10 +131,12 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new RottingBuff());
 
-            //ultitemBuffs.Add(new SlipperyGrapeBuff()); // TAKEDAMAGEPROCESS
+            ultitemBuffs.Add(new SlipperyGrapeBuff()); // TAKEDAMAGEPROCESS
 
             //ultitemBuffs.Add(new PeelBuff());
+            ultitemBuffs.Add(new SuesTeethBuff());
             ultitemBuffs.Add(new SporkBleedBuff());
+            ultitemBuffs.Add(new TaffyChewBuff());
             ultitemBuffs.Add(new TickCritBuff());
             ultitemBuffs.Add(new ZorseStarvingBuff());
             //ultitemBuffs.Add(new ());
@@ -157,15 +159,14 @@ namespace UltitemsCyan
             ultitemItems.Add(new CorrodingVaultConsumed());
             ultitemItems.Add(new InhabitedCoffinConsumed());
             ultitemItems.Add(new SuesMandiblesConsumed());
-
-            // ultitemItems.Add(new SilverThreadConsumed());  .   .   .   .    .   .    .   // TAKEDAMAGEPROCESS
+            ultitemItems.Add(new SilverThreadConsumed()); // TAKEDAMAGEPROCESS
 
             ultitemItems.Add(new GreySolvent());
 
             // White
             ultitemItems.Add(new CremeBrulee());
 
-            // ultitemItems.Add(new KoalaSticker());   .    .    .     .   .    .   .   .  // TAKEDAMAGEPROCESS
+            ultitemItems.Add(new KoalaSticker()); // TAKEDAMAGEPROCESS
 
             ultitemItems.Add(new ToyRobot());
             ultitemItems.Add(new FleaBag());
@@ -182,9 +183,9 @@ namespace UltitemsCyan
             // Red
             ultitemItems.Add(new CorrodingVault());
 
-            // ultitemItems.Add(new Grapevine());   .    .      .    .  .    .   .     .    // TAKEDAMAGEPROCESS
+            ultitemItems.Add(new Grapevine()); // TAKEDAMAGEPROCESS
 
-            //ultitemItems.Add(new PigsSpork());   .  .   .      .       .    .      .      // HealthComponent_UpdateLastHitTime
+            ultitemItems.Add(new PigsSpork()); // HealthComponent_UpdateLastHitTime
             ultitemItems.Add(new RockyTaffy());
             ultitemItems.Add(new SuesMandibles());
             ultitemItems.Add(new ViralSmog());
@@ -194,7 +195,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new UltravioletBulb());
             //ultitemItems.Add(new PowerChip());
 
-            // ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail?  . // TAKEDAMAGEPROCESS
+            ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail?  . // TAKEDAMAGEPROCESS
 
             ultitemItems.Add(new DelugedPail());
 

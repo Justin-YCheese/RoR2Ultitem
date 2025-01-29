@@ -10,13 +10,15 @@ namespace UltitemsCyan.Buffs
         public override void Init()
         {
             buff = DefineBuff("Eye Drowsy Buff", true, false, Color.white, UltAssets.EyeDrowsySprite, false, false);
-            Hooks();
+            //Hooks();
         }
 
+        /*
         protected void Hooks()
         {
             //On.RoR2.CharacterBody.OnBuffFinalStackLost += CharacterBody_OnBuffFinalStackLost;
         }
+        */
 
         /*/ Last stack of awake lost, go into cooldown
         private void CharacterBody_OnBuffFinalStackLost(On.RoR2.CharacterBody.orig_OnBuffFinalStackLost orig, CharacterBody self, BuffDef buffDef)

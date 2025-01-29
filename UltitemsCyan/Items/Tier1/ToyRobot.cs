@@ -16,7 +16,7 @@ namespace UltitemsCyan.Items.Tier1
         private const float minPickupChance = 10f;
         private const float ratioPickupChance = 80f;
 
-        private const float barrierGained = 6f;
+        private const float barrierGained = 8f;
 
         public override void Init(ConfigFile configs)
         {
@@ -43,6 +43,7 @@ namespace UltitemsCyan.Items.Tier1
         {
             // Barrier from pickups
             On.RoR2.HealthPickup.OnTriggerStay += HealthPickup_OnTriggerStay;
+            On.RoR2.ElusiveAntlersPickup.OnTriggerStay += ElusiveAntlersPickup_OnTriggerStay;
             On.RoR2.MoneyPickup.OnTriggerStay += MoneyPickup_OnTriggerStay;
             On.RoR2.BuffPickup.OnTriggerStay += BuffPickup_OnTriggerStay;
             On.RoR2.AmmoPickup.OnTriggerStay += AmmoPickup_OnTriggerStay;
@@ -52,6 +53,12 @@ namespace UltitemsCyan.Items.Tier1
 
         //https://github.com/TheMysticSword/MysticsItems/blob/main/Items/Tier2/ExplosivePickups.cs
         private void HealthPickup_OnTriggerStay(On.RoR2.HealthPickup.orig_OnTriggerStay orig, HealthPickup self, Collider other)
+        {
+            orig(self, other);
+            CheckBarrier(other);
+        }
+
+        private void ElusiveAntlersPickup_OnTriggerStay(On.RoR2.ElusiveAntlersPickup.orig_OnTriggerStay orig, ElusiveAntlersPickup self, Collider other)
         {
             orig(self, other);
             CheckBarrier(other);
@@ -126,7 +133,7 @@ namespace UltitemsCyan.Items.Tier1
                         // If it does not have a gravitation target, then pull in
                         // Chance to pickup, so that one player doesn't pickup all stuff
                         // Log.Warning("Toy Pickup for " + body.GetUserName() + "\t is " + (minPickupChance + (ratioPickupChance / stack)));
-                        if (Util.CheckRoll(minPickupChance + (ratioPickupChance / stack)))
+                        if (Util.CheckRoll(minPickupChance + ratioPickupChance / stack))
                         {
                             //Log.Debug("     Got");
 

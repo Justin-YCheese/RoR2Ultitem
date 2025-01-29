@@ -187,7 +187,9 @@ namespace UltitemsCyan.Items.Void
                 //Log.Debug("RAM Times: " + attackingStopwatch);
                 DealingDamage = Run.instance.time <= attackingStopwatch + notAttackingDelay;
             }
+#pragma warning disable IDE0060 // Remove unused parameter
             private void OnCharacterDeathGlobal(DamageReport damageReport)
+#pragma warning restore IDE0060 // Remove unused parameter
             {
                 Log.Warning("RAM ran this on death?");
             }

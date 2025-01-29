@@ -31,7 +31,7 @@ namespace UltitemsCyan.Buffs
             {
                 int buffCount = sender.GetBuffCount(buff);
                 //Log.Debug("Tick Crit Added " + (baseTickMultiplier + (tickPerStack * buffCount)));
-                args.critAdd += baseTickMultiplier + (tickPerStack * buffCount);
+                args.critAdd += baseTickMultiplier + tickPerStack * buffCount;
                 //Debug.Log(sender.name + "Birthday modifier: " + (rottingBuffMultiplier / 100f * buffCount));
             }
         }

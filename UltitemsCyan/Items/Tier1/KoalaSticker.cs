@@ -7,13 +7,19 @@ using UnityEngine;
 
 namespace UltitemsCyan.Items.Tier1
 {
-    // Currently triggers after Sue's Mandibles
     // TODO: check if Item classes needs to be public
+    // Notes
+    // With 3 you take a maximum of 75.2%, just more than 75% to get low health threashold
+    // With 10 you take a maximum of 47.6%, less than 50% requiring 3 hits to die
+    // With 19 you take a maximum of 32.4%, less than 33% requiring 4 hits to die
+
     public class KoalaSticker : ItemBase
     {
         public static ItemDef item;
         private const float hyperbolicPercent = 11f;
         private const float minDamage = 5f;
+        // 1 - 1 / (percent * n + 1)
+
 
         public override void Init(ConfigFile configs)
         {
@@ -38,15 +44,15 @@ namespace UltitemsCyan.Items.Tier1
 
         protected override void Hooks()
         {
-            // IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
         }
 
-        private void HealthComponent_TakeDamage(ILContext il)
+        private void HealthComponent_TakeDamageProcess(ILContext il)
         {
             ILCursor c = new(il); // Make new ILContext
 
-            int num = -1;   //Initial Total Damage
-            int num12 = -1; //New Total Damage
+            int num3 = -1;   //Initial Total Damage
+            int num14 = -1; //New Total Damage
 
             // Inject code just before damage is subtracted from health
             // Go just before the "if (num12 > 0f && this.barrier > 0f)" line, which is equal to the following instructions
@@ -54,9 +60,9 @@ namespace UltitemsCyan.Items.Tier1
             //Log.Warning("Koala Sticker Take Damage");
 
             if (c.TryGotoNext(MoveType.Before,                              // TODO make cursor search more robust
-                x => x.MatchLdloc(out num),                                 // 1130 ldloc.s V_6 (6)
-                x => x.MatchStloc(out num12),                               // 1130 stloc.s V_7 (7)
-                x => x.MatchLdloc(out num12),                               // 1130 ldloc.s V_7 (7)
+                x => x.MatchLdloc(out num3),                                // 1130 ldloc.s V_6 (7)
+                x => x.MatchStloc(out num14),                               // 1130 stloc.s V_7 (8)
+                x => x.MatchLdloc(out num14),                               // 1130 ldloc.s V_7 (8)
                 x => x.MatchLdcR4(0f),                                      // 1131 ldc.r4 0
                 x => x.Match(OpCodes.Ble_Un_S),                             // 1132 ble.un.s 1200 (0D38) ldloc.s V_7 (7)
                 x => x.MatchLdarg(0),                                       // 1133 ldarg.0
@@ -68,7 +74,7 @@ namespace UltitemsCyan.Items.Tier1
                 //Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
                 //[Warning:UltitemsCyan] * **Start C Index: 1129 > // ILCursor: System.Void DMD<RoR2.HealthComponent::TakeDamage>?-456176384::RoR2.HealthComponent::TakeDamage(RoR2.HealthComponent,RoR2.DamageInfo), 1129, Next
                 //IL_0e05: stfld System.Single RoR2.HealthComponent::adaptiveArmorValue
-                //IL_0e0a: ldloc.s V_6
+                //IL_0e0a: ldloc.s V_7
 
                 //give_item koalasticker 100
 
@@ -82,7 +88,7 @@ namespace UltitemsCyan.Items.Tier1
 
                 _ = c.Emit(OpCodes.Ldarg, 0);     // Load Health Component
                 _ = c.Emit(OpCodes.Ldarg, 1);     // Load Damage Info (If Damage rejected, returned earlier)
-                _ = c.Emit(OpCodes.Ldloc, num);   // Load Total Damage
+                _ = c.Emit(OpCodes.Ldloc, num14);   // Load Total Damage
 
                 // Run custom code
                 _ = c.EmitDelegate<Func<HealthComponent, DamageInfo, float, float>>((hc, di, td) =>
@@ -99,6 +105,7 @@ namespace UltitemsCyan.Items.Tier1
                                 //Log.Debug("Koala Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
                                 //Log.Debug("Max Percent: " + ((hyperbolicPercent / 100 * grabCount) + 1) + " of " + hc.fullCombinedHealth);
                                 float maxDamage = hc.fullCombinedHealth / (hyperbolicPercent / 100 * grabCount + 1);
+                                //Util.ConvertAmplificationPercentageIntoReductionNormalized(hyperbolicPercent / 100 );
                                 if (maxDamage < minDamage)
                                 {
                                     maxDamage = minDamage;
@@ -121,7 +128,7 @@ namespace UltitemsCyan.Items.Tier1
                     return td;
                 });
 
-                _ = c.Emit(OpCodes.Stloc, num12); // Store Total Damage
+                _ = c.Emit(OpCodes.Stloc, num14); // Store Total Damage
                 //
                 //}
                 //else

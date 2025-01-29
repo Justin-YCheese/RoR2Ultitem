@@ -63,15 +63,18 @@ namespace UltitemsCyan.Equipment
             On.RoR2.EquipmentSlot.RpcOnClientEquipmentActivationRecieved += EquipmentSlot_RpcOnClientEquipmentActivationRecieved;
         }
 
+
         private void EquipmentSlot_RpcOnClientEquipmentActivationRecieved(On.RoR2.EquipmentSlot.orig_RpcOnClientEquipmentActivationRecieved orig, EquipmentSlot self)
         {
             orig(self);
             if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
             {
                 Log.Debug("RPC Equipment");
-                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
+                //VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
+                // Stop Multipliers because item switches on server first
+                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
                 YieldAttack(self.characterBody);
-                self.characterBody.inventory.SetEquipmentIndex(YieldSignStop.equipment.equipmentIndex);
+                Log.Debug(" ))) --- ))) RPC ID: " + equipment.equipmentIndex);
             }
         }
 
@@ -81,6 +84,10 @@ namespace UltitemsCyan.Equipment
             if (equipmentDef == equipment)
             {
                 Log.Warning("YIELD! Preform Equipment");
+                Log.Debug(" ))) --- ))) EquipmentSlot_PerformEquipmentAction ID: " + equipment.equipmentIndex);
+                // TODO: Keep change equipment here? or back to Rpc function
+                // Check how base game handles rpc equipment on switch
+                self.characterBody.inventory.SetEquipmentIndex(YieldSignStop.equipment.equipmentIndex);
                 return true;
             }
             else

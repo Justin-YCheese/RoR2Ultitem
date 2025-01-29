@@ -19,7 +19,7 @@ namespace UltitemsCyan.Equipment
                 "YIELDSIGNSTOP",
                 itemName,
                 "Alternate between multiplying speed and canceling it. Hit nearby enemies each time.",
-                "Alternate between multipling speed by 400%, or setting it to zero. Damage nearby enemies for 300% damage.",
+                "Alternate between multipling speed by 400%, or canceling speed. Damage nearby enemies for 300% damage.",
                 "Just Stop",
                 cooldown,
                 false,
@@ -41,9 +41,10 @@ namespace UltitemsCyan.Equipment
             orig(self);
             if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
             {
-                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
+                //VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
+                // Boost Multipliers because item switches on server first
+                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
                 YieldAttack(self.characterBody);
-                self.characterBody.inventory.SetEquipmentIndex(YieldSign.equipment.equipmentIndex);
             }
         }
 
@@ -53,6 +54,7 @@ namespace UltitemsCyan.Equipment
             if (equipmentDef == equipment)
             {
                 Log.Debug("Yields qStop");
+                self.characterBody.inventory.SetEquipmentIndex(YieldSign.equipment.equipmentIndex);
                 return true;
             }
             else

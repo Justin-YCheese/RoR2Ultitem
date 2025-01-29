@@ -4,17 +4,12 @@ using System.Collections.Generic;
 using UltitemsCyan.Buffs;
 using BepInEx.Configuration;
 using UnityEngine.Networking;
-using System.Collections;
-using System.Net.NetworkInformation;
 using UnityEngine.AddressableAssets;
-using HG;
-using System;
-using UnityEngine.UIElements;
-using R2API;
 
 namespace UltitemsCyan.Items.Tier3
 {
-    // TODO: check if Item classes needs to be public
+    // Notes
+    // Unless explosion everytime hit below 25%
     public class PigsSpork : ItemBase
     {
         public static ItemDef item;
@@ -22,8 +17,8 @@ namespace UltitemsCyan.Items.Tier3
         public const float sporkBleedChance = 200f;
         public const float sporkBaseDuration = 12f;
 
-        private static GameObject willOWisp = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ExplodeOnDeath/WilloWispDelay.prefab").WaitForCompletion();
-        private static GameObject sporkBlastEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/BleedOnHitAndExplode/BleedOnHitAndExplode_Explosion.prefab").WaitForCompletion();
+        private static readonly GameObject willOWisp = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ExplodeOnDeath/WilloWispDelay.prefab").WaitForCompletion();
+        private static readonly GameObject sporkBlastEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/BleedOnHitAndExplode/BleedOnHitAndExplode_Explosion.prefab").WaitForCompletion();
         public const float sporkBlastRadius = 32f;
 
         //public const float sporkDurationPerStack = 5f;
@@ -39,7 +34,7 @@ namespace UltitemsCyan.Items.Tier3
                 "PIGSSPORK",
                 "Pig's Spork",
                 "Bleeds heal you. When at low health explode and gain 200% chance to bleed enemies.",
-                "Bleed damage <style=cIsHealing>heals</style> for <style=cIsHealing>3</style> <style=cStack>(+3 per stack)</style> <style=cIsHealing>health</style>. When taking damage to below <style=cIsHealth>25% health</style> <style=cIsHealth>hemorrhage</style> all enemies within <style=cIsDamage>32m</style> and gain <style=cIsDamage>200%</style> chance to <style=cIsDamage>bleed</style> for <style=cIsDamage>12s</style> <style=cStack>(+12 per stack)</style>.",
+                "Bleed damage <style=cIsHealing>heals</style> for <style=cIsHealing>3</style> <style=cStack>(+3 per stack)</style> <style=cIsHealing>health</style>. When taking damage to below <style=cIsHealth>25% health</style> <style=cIsHealth>hemorrhage</style> all enemies within <style=cIsDamage>32m</style> <style=cStack>(+32m per stack)</style> and gain <style=cIsDamage>200%</style> chance to <style=cIsDamage>bleed</style> for <style=cIsDamage>12s</style> <style=cStack>(+12 per stack)</style>.",
                 "There once was a pet named porky\nA cute and chubby pig\n\nBut the farmer broke his fork\nAnd used the spoon to dig\n\nSo he made a Sporky Spig\n",
                 ItemTier.Tier3,
                 UltAssets.PigsSporkSprite,
@@ -57,16 +52,8 @@ namespace UltitemsCyan.Items.Tier3
             On.RoR2.HealthComponent.UpdateLastHitTime += HealthComponent_UpdateLastHitTime;
         }
 
-        private void HealthComponent_UpdateLastHitTime(
-            On.RoR2.HealthComponent.orig_UpdateLastHitTime orig,
-            //HealthComponent self, float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker)
-            float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker, bool delayedDamage, bool firstHitOfDelayedDamage)
-        {
-            throw new NotImplementedException();
-        }
-
         // Initial Explosion when at low health
-        private void HealthComponent_UpdateLastHitTime(On.RoR2.HealthComponent.orig_UpdateLastHitTime orig, HealthComponent self, float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker)
+        private void HealthComponent_UpdateLastHitTime(On.RoR2.HealthComponent.orig_UpdateLastHitTime orig, HealthComponent self, float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker, bool delayedDamage, bool firstHitOfDelayedDamage)
         {
             if (NetworkServer.active && self && self.body && self.body.inventory)
             {
@@ -75,7 +62,7 @@ namespace UltitemsCyan.Items.Tier3
                 if (grabCount > 0 && self.isHealthLow) // && !body.HasBuff(SporkBleedBuff.buff.buffIndex)
                 {
                     // Bleed Blast
-                    GameObject explostionObject = UnityEngine.Object.Instantiate(willOWisp, body.corePosition, Quaternion.identity);
+                    GameObject explostionObject = Object.Instantiate(willOWisp, body.corePosition, Quaternion.identity);
                     DelayBlast blast = explostionObject.GetComponent<DelayBlast>();
                     //GameObject FakePlayer = body.gameObject.InstantiateClone("Fake Player");
 
@@ -86,7 +73,7 @@ namespace UltitemsCyan.Items.Tier3
                     blast.baseDamage = body.damage;
                     blast.baseForce = 1000f;
                     //blast.bonusForce = ;
-                    blast.radius = sporkBlastRadius;
+                    blast.radius = sporkBlastRadius * grabCount;
                     blast.maxTimer = 0.1f;
                     blast.falloffModel = BlastAttack.FalloffModel.None;
                     blast.damageColorIndex = DamageColorIndex.SuperBleed;
@@ -111,7 +98,7 @@ namespace UltitemsCyan.Items.Tier3
                     _ = Util.PlaySound("Play_item_void_bleedOnHit_start", body.gameObject);
                 }
             }
-            orig(self, damageValue, damagePosition, damageIsSilent, attacker);
+            orig(self, damageValue, damagePosition, damageIsSilent, attacker, delayedDamage, firstHitOfDelayedDamage);
         }//*/
 
         private void DotController_OnDotStackRemovedServer(On.RoR2.DotController.orig_OnDotStackRemovedServer orig, DotController self, object dotStack)
@@ -210,7 +197,7 @@ namespace UltitemsCyan.Items.Tier3
         // Used to keep track of who heals from bleed damage
         public class SporkBleedBehavior : CharacterBody.ItemBehavior
         {
-            private List<CharacterBody> _inflictors = [];
+            private readonly List<CharacterBody> _inflictors = [];
 
             public void AddInflictor(CharacterBody inflictor)
             {
@@ -224,7 +211,7 @@ namespace UltitemsCyan.Items.Tier3
             public CharacterBody[] GetInflictors()
             {
                 Log.Debug("In Inflictor get method");
-                return _inflictors.ToArray();
+                return [.. _inflictors];
             }
 
             public void OnDestroy()

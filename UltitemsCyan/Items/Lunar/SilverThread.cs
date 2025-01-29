@@ -3,7 +3,10 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using System;
+using System.Collections.Generic;
+using UltitemsCyan.Items.Untiered;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace UltitemsCyan.Items.Lunar
@@ -26,6 +29,8 @@ namespace UltitemsCyan.Items.Lunar
 
         //private bool inSilverAlready = false;
 
+        private static readonly GameObject BrittleDeathEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/BrittleDeath.prefab").WaitForCompletion();
+
         public override void Init(ConfigFile configs)
         {
             string itemName = "Silver Thread";
@@ -36,8 +41,8 @@ namespace UltitemsCyan.Items.Lunar
             item = CreateItemDef(
                 "SILVERTHREAD",
                 itemName,
-                "Chance to gain additional items... <style=cDeath>BUT chance of dying upon being attacked</style>. Upon death, this item will be consumed.",
-                "<style=cIsUtility>50%</style> <style=cStack>(+25% chance per stack)</style> chance to pick up <style=cIsUtility>1</style> additional item. You have a chance of <style=cDeath>dying</style> equal to <style=cIsUtility>100%</style> <style=cStack>(+100% per stack)</style> health lost. <style=cIsUtility>Upon death</style>, this item will be <style=cIsUtility>consumed</style>. <style=cIsUtility>Unaffected by luck</style>.",
+                "Chance to gain additional items... <style=cDeath>BUT chance of losing items or dying upon being attacked</style>. Upon death, this item will be consumed.",
+                "<style=cIsUtility>50%</style> <style=cStack>(+25% chance per stack)</style> chance to pick up <style=cIsUtility>1</style> additional item. You have a chance of <style=cDeath>snapping</style> equal to <style=cIsUtility>100%</style> <style=cStack>(+100% per stack)</style> of health lost. Snapping either <style=cDeath>breaks your items</style> or <style=cDeath>kills you</style>. <style=cIsUtility>Upon death</style>, this item will be <style=cIsUtility>consumed</style>. <style=cIsUtility>Unaffected by luck</style>.",
                 "The end of the abacus of life. A King's Riches Lays before you, but at the end of a strand which has been snapped intwine.",
                 ItemTier.Lunar,
                 UltAssets.SilverThreadSprite,
@@ -51,10 +56,8 @@ namespace UltitemsCyan.Items.Lunar
             // Gain additional items
             On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
 
-
             // Chance of Death
-            //IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamage;
-
+            IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
 
             // Increase cauldron and 3D printer cost
             On.RoR2.PurchaseInteraction.OnInteractionBegin += PurchaseInteraction_OnInteractionBegin;
@@ -70,28 +73,29 @@ namespace UltitemsCyan.Items.Lunar
         }
 
         // Chance of Death on hit
-        private void HealthComponent_TakeDamage(ILContext il)
+        private void HealthComponent_TakeDamageProcess(ILContext il)
         {
             ILCursor c = new(il); // Make new ILContext
 
-            int num12 = -1;
+            int num14 = -1;
 
             Log.Warning("Silver Thread Take Damage");
 
             // Inject code just before damage is subtracted from health
-            // Go just before the "if (num12 > 0f && this.barrier > 0f)" line, which is equal to the following instructions
+            // Go just before the "if (num14 > 0f && this.barrier > 0f)" line, which is equal to the following instructions
 
             // 1170 ldloc.s V_49 (49)             // Previous For loop k value
-            if (c.TryGotoNext(MoveType.Before,                        // 1171 blt.s 1161 (0D7E) ldarg.0     // Previous For Loop branch
-                x => x.MatchLdloc(out num12),                         // 1172 ldloc.s V_7 (7)
-                x => x.MatchLdcR4(0f),                                // 1173 ldc.r4 0
-                x => x.Match(OpCodes.Ble_Un_S),                       // 1174 ble.un.s 1200 (0DE8) ldloc.s V_7 (7)
-                x => x.MatchLdarg(0),                                 // 1175 ldarg.0
-                x => x.MatchLdfld<HealthComponent>("barrier"),        // 1176 ldfld float32 RoR2.HealthComponent::barrier
-                x => x.MatchLdcR4(0f),                                // 1177 ldc.r4 0
-                x => x.Match(OpCodes.Ble_Un_S))                       // 1178 ble.un.s 1200 (0DE8) ldloc.s V_7 (7)
+            if (c.TryGotoNext(MoveType.Before,                        // 1673 callvirt remove Buff... // Previous For Loop branch
+                x => x.MatchLdloc(out num14),                         // 1674 ldloc.s V_8 (8)
+                x => x.MatchLdcR4(0f),                                // 1675 ldc.r4 0
+                x => x.Match(OpCodes.Ble_Un_S),                       // 1676 ble.un.s 1200 (0DE8) ldloc.s V_8 (8)
+                x => x.MatchLdarg(0),                                 // 1677 ldarg.0
+                x => x.MatchLdfld<HealthComponent>("barrier"),        // 1678 ldfld float32 RoR2.HealthComponent::barrier
+                x => x.MatchLdcR4(0f),                                // 1679 ldc.r4 0
+                x => x.Match(OpCodes.Ble_Un_S))                       // 1680 ble.un.s 1200 (0DE8) ldloc.s V_8 (8)
             )
             {
+
                 Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
                 // [Warning:UltitemsCyan] * **Start C Index: 1173 > // ILCursor: System.Void DMD<RoR2.HealthComponent::TakeDamage>?-822050560::RoR2.HealthComponent::TakeDamage(RoR2.HealthComponent,RoR2.DamageInfo), 1173, Next
                 // IL_0e8a: blt.s IL_0e70
@@ -113,7 +117,7 @@ namespace UltitemsCyan.Items.Lunar
 
                 _ = c.Emit(OpCodes.Ldarg, 0);       // Load Health Component
                 _ = c.Emit(OpCodes.Ldloc, 1);       // Load Attacker Character Body
-                _ = c.Emit(OpCodes.Ldloc, num12);   // Load Total Damage
+                _ = c.Emit(OpCodes.Ldloc, num14);   // Load Total Damage
 
                 // Run custom code
                 _ = c.EmitDelegate<Action<HealthComponent, CharacterBody, float>>((hc, aCb, td) =>
@@ -128,39 +132,61 @@ namespace UltitemsCyan.Items.Lunar
                         if (grabCount > 0)
                         {
                             Log.Debug("Silver Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
-                            Log.Debug(aCb.GetUserName() + " is attacker");
+                            //Log.Debug(aCb.GetUserName() + " is attacker");
                             float deathChance = td / hc.fullCombinedHealth * 100f * grabCount;
                             if (deathChance > 100f)
                             {
                                 deathChance = 100f;
                             }
                             Log.Debug("Chance of Snapping: " + deathChance);
-                            if (Util.CheckRoll(deathChance, 0))
+                            if (Util.CheckRoll(deathChance))
                             {
                                 SnapBody(cb, aCb);
                             }
                         }
                     }
                 });
+                Log.Debug(il.ToString());
             }
             else
             {
-                Log.Warning("Silver cannot find '(num12 > 0f && this.barrier > 0f)'");
+                Log.Warning("Silver cannot find '(num14 > 0f && this.barrier > 0f)'");
             }
         }
 
         // Kill character body
         private static void SnapBody(CharacterBody body, CharacterBody killer)
         {
-            Log.Warning(body.GetUserName() + "'s thread snapped");
-            // If has item
-            //int grabCount = body.inventory.GetItemCount(item);
-            // Check generally even if actuall body doesn't have threads anymore
-            //deathCheckStealController(body);
-            //body.inventory.RemoveItem(item.itemIndex, grabCount);
-            //body.inventory.GiveItem(Untiered.SilverThreadConsumed.item, grabCount);
-            Chat.AddMessage("Your thread of life has snapped...");
-            body.healthComponent.Suicide(killer.gameObject);
+            Log.Warning(body.GetUserName() + "'s thread was damaged");
+
+            EffectManager.SpawnEffect(BrittleDeathEffect, new EffectData
+            {
+                origin = body.transform.position,
+                rotation = Quaternion.identity,
+                scale = 2f,
+            }, true);
+
+            if (Util.CheckRoll(50f, 0))
+            {
+                // Remove Item Stack
+                Log.Debug("An item snapped...");
+                List<ItemIndex> itemList = body.inventory.itemAcquisitionOrder;
+                ItemDef lastItem = ItemCatalog.GetItemDef(itemList[^1]);
+                body.inventory.RemoveItem(lastItem, body.inventory.GetItemCount(lastItem));
+                body.inventory.GiveItem(SilverThreadConsumed.item);
+                CharacterMasterNotificationQueue.SendTransformNotification(
+                    body.master,
+                    item.itemIndex,
+                    SilverThreadConsumed.item.itemIndex,
+                    CharacterMasterNotificationQueue.TransformationType.Default);
+            }
+            else
+            {
+                // Kill Player
+                Log.Debug("The player snapped...");
+                Chat.AddMessage("Your thread of life has snapped...");
+                body.healthComponent.Suicide(killer.gameObject);
+            }
         }
 
         // Remove Silver on Death
@@ -175,7 +201,7 @@ namespace UltitemsCyan.Items.Lunar
                 {
                     Log.Warning("Removing Silver threads from " + self.GetUserName());
                     self.master.inventory.RemoveItem(item.itemIndex, grabCount);
-                    self.master.inventory.GiveItem(Untiered.SilverThreadConsumed.item, grabCount);
+                    self.master.inventory.GiveItem(SilverThreadConsumed.item, grabCount);
                 }
             }
         }
@@ -253,7 +279,7 @@ namespace UltitemsCyan.Items.Lunar
                             else
                             {
                                 // return reduced amount
-                                Log.Debug("scrapCount: " + scrapCount + " returnCount: " + (scrapCount / costMultiplier));
+                                Log.Debug("scrapCount: " + scrapCount + " returnCount: " + scrapCount / costMultiplier);
                                 player.inventory.RemoveItem(pickupDef.itemIndex, scrapCount);
                                 self.itemsEaten += scrapCount / costMultiplier;
                                 for (int i = 0; i < scrapCount; i++)
@@ -316,15 +342,16 @@ namespace UltitemsCyan.Items.Lunar
             {
                 // Precaution incase something causes an infinity loop of items
                 //inSilverAlready = true;
-                Log.Debug("Do you have silver? ");
+                Log.Debug("Do you have silver?");
                 int grabCount = MaxStack(self);
                 if (grabCount > 0)
                 {
                     Log.Debug("yes I do");
                     //Log.Debug("Thread Chance: " + (baseThreadChance + (stackThreadChance * (grabCount - 1))));
-                    if (Util.CheckRoll(baseThreadChance + (stackThreadChance * (grabCount - 1))))
+                    if (Util.CheckRoll(baseThreadChance + stackThreadChance * (grabCount - 1)))
                     {
                         Log.Debug("Extra " + ItemCatalog.GetItemDef(itemIndex).name);
+                        // TODO add effect
                         count += extraItemAmount;
                     }
 

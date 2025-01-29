@@ -134,6 +134,8 @@ namespace UltitemsCyan
         public static Sprite PeelSprite;
         public static Sprite RottingSprite;
         public static Sprite SporkBleedSprite;
+        public static Sprite SuesTeethSprite;
+        public static Sprite TaffyChewSprite;
         public static Sprite TickCritSprite;
         public static Sprite ZorseStarveSprite;
 
@@ -336,6 +338,8 @@ namespace UltitemsCyan
             PeelSprite = mainBundle.LoadAsset<Sprite>("Peel");
             RottingSprite = mainBundle.LoadAsset<Sprite>("Rotting");
             SporkBleedSprite = mainBundle.LoadAsset<Sprite>("SporkBleed");
+            SuesTeethSprite = mainBundle.LoadAsset<Sprite>("SuesTeeth");
+            TaffyChewSprite = mainBundle.LoadAsset<Sprite>("TaffyChew");
             TickCritSprite = mainBundle.LoadAsset<Sprite>("TickCrit");
             ZorseStarveSprite = mainBundle.LoadAsset<Sprite>("ZorseStarve");
 

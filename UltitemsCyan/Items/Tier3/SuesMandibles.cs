@@ -1,6 +1,7 @@
 ﻿using RoR2;
 using UltitemsCyan.Items.Untiered;
 using BepInEx.Configuration;
+using UltitemsCyan.Buffs;
 
 namespace UltitemsCyan.Items.Tier3
 {
@@ -48,7 +49,7 @@ namespace UltitemsCyan.Items.Tier3
                 if (grabCount > 0)
                 {
                     Log.Warning(" ! ! ! Killing Blow ! ! ! ");
-                    Log.Debug("S Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage + " Alive? " + self.alive);
+                    Log.Debug("S Teeth Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage + " Alive? " + self.alive);
 
                     // Regain one health
                     self.health = 1;
@@ -57,8 +58,11 @@ namespace UltitemsCyan.Items.Tier3
                     victim.inventory.RemoveItem(item);
                     victim.inventory.GiveItem(SuesMandiblesConsumed.item);
 
-                    // Give Effects
-                    //self.TriggerOneShotProtection();
+                    // Sue's Teeth timer for duration
+                    for (int i = 1; i <= effectDuration; i++)
+                    {
+                        victim.AddTimedBuffAuthority(SuesTeethBuff.buff.buffIndex, i);
+                    }
                     victim.AddTimedBuffAuthority(RoR2Content.Buffs.Immune.buffIndex, effectDuration);
                     victim.AddTimedBuffAuthority(RoR2Content.Buffs.HealingDisabled.buffIndex, effectDuration); // Adds synergy with Ben's Raincoat and Genisis Loop
 

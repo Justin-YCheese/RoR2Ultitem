@@ -19,6 +19,7 @@ namespace UltitemsCyan.Items.Tier1
 
         public const float baseDuration = 1.2f;
         public const float durationPerStack = 0.6f;
+        public const float holdJumpBuffer = 0.1f;
 
         public override void Init(ConfigFile configs)
         {
@@ -105,6 +106,7 @@ namespace UltitemsCyan.Items.Tier1
             private const float durationPerStack = Frisbee.durationPerStack;
             public float flyingStopwatch = 0;
             private bool _canHaveBuff = false;
+            private bool _jumpBufferTimer = false;
 
             public void UpdateStopwatch(float newTime)
             {
@@ -140,6 +142,18 @@ namespace UltitemsCyan.Items.Tier1
                         {
                             body.SetBuffCount(FrisbeeGlidingBuff.buff.buffIndex, 0);
                         }
+                    }
+                }
+            }
+
+            public bool JumpBufferTimer
+            {
+                get { return _jumpBufferTimer; }
+                set
+                {
+                    if (_jumpBufferTimer != value)
+                    {
+                        
                     }
                 }
             }

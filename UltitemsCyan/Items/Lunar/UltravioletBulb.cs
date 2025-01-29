@@ -41,7 +41,7 @@ namespace UltitemsCyan.Items.Lunar
 
         private float GenericSkill_CalculateFinalRechargeInterval(On.RoR2.GenericSkill.orig_CalculateFinalRechargeInterval orig, GenericSkill self)
         {
-            return self.baseRechargeInterval > 0 ? Mathf.Max(0.5f, (self.baseRechargeInterval * self.cooldownScale) - self.flatCooldownReduction) : 0;
+            return self.baseRechargeInterval > 0 ? Mathf.Max(0.5f, self.baseRechargeInterval * self.cooldownScale - self.flatCooldownReduction) : 0;
         }
 
         protected void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)

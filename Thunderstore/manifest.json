@@ -1,8 +1,8 @@
 ﻿{
 	"name": "UltitemsCyan",
-	"version_number": "0.11.1",
+	"version_number": "0.12.0",
 	"website_url": "https://github.com/Justin-YCheese/RoR2Ultitem",
-	"description": "Adds 28 items that definitly don't cause singularities",
+	"description": "Adds 32 items that definitly don't cause singularities",
 	"dependencies": [
 		"bbepis-BepInExPack-5.4.2117",
 		"RiskofThunder-HookGenPatcher-1.2.5",

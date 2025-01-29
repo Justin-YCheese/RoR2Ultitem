@@ -1,8 +1,25 @@
-## 0.11.2
+## 0.12.0
 
-- Equipment with Xenon Ampoule subCooldown .4 -> .3
-- Base Grape drop chance 50% -> 40%
-    - item stacks still increase by 25%
+- Readded Koala Sticker
+- Readded Grapevine
+    - Block chance per status 85% -> 80%
+- Readded Silver Thread
+    - 50% chance to lose most recent item stack instead of dying
+- Readded Pig's Spork
+    - Radius of Hemmerage blast increase with stacks
+- Toy Robot
+    - Barrier gained 6 -> 8
+    - Now works with Elusive Antlers
+- Xenon Ampoule
+    - Mininum cooldown with Equipment .4 -> .3 seconds
+    - Equipments with <= 20 seconds base cooldown's laser: Damage 50% -> 70%, Size 1.5 -> 1.6
+- Birthday Candles
+    - Damage 32% -> 30%
+    - Stacks increase duration by 20 seconds. After stage start, lose one stack every 20 seconds starting at 5 minutes
+- 9 Ice Cubes Barrier changed 75% -> 100 + 50%
+- Sue's Madndibles was given a status timer for the duration of it's effect
+- Rocky Taffy gives barrier only after having a full shield using a buff, instead after you have any amount of shield
+- Hopefully fixed Yield Sign swapping bug
 
 ## 0.11.1
 

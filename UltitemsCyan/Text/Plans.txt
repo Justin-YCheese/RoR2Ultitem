@@ -1,42 +1,31 @@
 ﻿
-
 	Ask my Friends Questions:
-- Should Grape drop chance be affected by luck, or the whole item be unaffected by luck?
-- Relating to Warped Echo
-	- Should Grapes / Koala / Silver Thread work only for the delayed damage and not the initial damage?
-		- Koala is kind of useless because would need way too many for it to ever matter in a normal game
-		- Grapes would drain faster because more chances is less grapes
-		- Silver Thread would be deadlier as more smaller chances is deadlier than a single chance
-		- Medkit only triggers on first hit of delayed damage
-		- 
-- Should Scissors cut Tonic Affliction?
-- Should Yield Sign activate with Bottled Choas?
+- Rename Viral Smog to Viral Cure? Viral Lilac?
 
+	When Playing:
+- Try Zorse Pill with Noxious Thorn
+- Test Yield Sign swapping bug
 
-	Check Interaction:
-- Should Dream Fuel use amuptated Max Health (how does it interact with the Shine of Soul)
-- Use delayedDamageRefreshTime for Downloaded RAM like Chronic Expansion? (what does Chronic Expansion use?)
-- Pigs spork and Trancedence (does it trigger low health?)
-	- Might need: "this.IsHealthBelowThreshold(this.health - num14, 0.25f)"
-- Test Pot of Regolith's damage (halved by self damage?)
+	ToDo:
+- Add visual and audio effect for stacking onKillEffects with Jealous foe
+- Add visual and audio warning for Sue’s Mandibles buff running out
+- Complete Tests
 
 	When Testing:
-- Test Tiny Igloo with Turrets
-- Change Icecubes to be set to 75% barrier? (Test with Gesture of the Drowned)
-- Test DamageType for Macrosiesmograph
-- Test if Birthday Candles and Rotten Bones works when time is frozen...
+- Rotten Bones works when time is frozen...
 	- Because using Run.instance.time
 - Check that Mythrixs can apply starve
+- Test Obsolute in void fields and Newt shop Xenon Ampoule
+
+
+- Test Tiny Igloo with Turrets
+- Test All Items
 
 
 	My Item Add Order:
-- Pig's Spork
-- Quantum Peel
-- Grapevine
-- Silver Thread
-- Koala Sticker
+- Resin Whirlpool
 - Tiny Igloo
-- Plutotarium
+- Orbital Quark
 - Worm Holes
 - Power Chips
 - Trebuchet
@@ -52,8 +41,41 @@
 - Has the tags: Mods | Items | Survivors of the Void | Seekers of the Storm Update
 
 
+
 	For Future Consideration:
-- Make Obsolute and Igloo list read only?
+- Transcendence, Taffy, Sue’s Mandibles
+	- Doesn't work? Why?
+- Test Threads
+	- Offer to Rebirth check consumed items
+- Flea Bag rework..
+	- Too many drops when you have crits?
+- See how many Jealous Foes does it takes to activate each on kill frenzy effect
+	- Berserker's Pauldron, Resonant Disc, Chronic Expansion
+- Add sound for losing Birthdyay Buff
+- Macroseismograph won't launch sometimes?
+	- With MULT playing solo...
+	- Test DamageType for Macrosiesmograph
+- Pig's Spork doesn't activate with Unstable Transmitter
+- Rocky Taffy Downtime
+	- Use buff to keep track, if lose shield with buff gain barrier, gain buff with full shield
+- Should Dream Fuel use amuptated Max Health (how does it interact with the Shine of Soul)
+- Rework Obsolute
+	- Always give a Universal Solvent
+	- 50% chance to give a scrap of the dissolved item
+	- 100% chance?
+	- Obsolute
+	- For every item deleted, gain half a chest worth of gold
+		- A full normal chest worth?
+		- More gold for rarer items?		
+		- Match roll of pennies method		
+		- Test with free chest lunar & war bonds
+- Birthday Candle
+	- Test New Birthday Candles with gaining several new Birthday Candles at a time
+	- With 4 Birthday candles you have a 5:00, 5:20, 5:40, and 6:00 minute timer
+	- Gaining 3 more should give the same lengths of timers (except 6:00)
+		- Thus two buffs should be lost each interval until the last interval
+	- Does removing Birthday Candles remove the buff?
+- fix Rocky Taffy with Transcendence
 - Crysotope and Frisbee are disabled when gaining certain buffs (i.e. hunter's harpoon)
 - Use heal fraction for percent heals
 - Koala does nothing if player doesn't have one shot protection enabled?
@@ -73,14 +95,39 @@
 	- Visual Glitch with Blizzard (I picked up sonorous pail while haveing blizzard up)
 	- Getting Bands may not work?
 - Add VFX:
+	- Add visual affect for treads triggering (extra items and snap)
+	- Add visual and audio effect for picking up and using grapes
 	- Ultraviolet Bulb
+		- When triggered
 	- Ice Cubes
+		- When activated
 	- Pot of Regolith
+		- When activated
 	- Koala Sticker (Damage Color, VFX)
+		- When blocked
 	- Sues Mandibles (Warning Effect)
+		- When running out
 	- RAM
+		- When gaining 4 stacks and at max stacks
 	- CremeBrulee
+		- When healing
 	- RottenBones
+		- When increasing
+	- Jealous Foe
+		- Drowsy (Collecting effect)
+		- Awake (A wave upon each activation)
+		- Sleeping (???)
+	- Pigspork
+		- While you have the buff
+	- Rocky Taffy
+		- Granting barrier should have an effect and sound
+		- Recharging buff
+	- Dried Ham
+		- Hitting enemy
+	- Add Toy Robot radius, and other radius effects
+	- Birthday Candles
+		- Losing stacks
+
 - Change Fleabag and Grape orb color
 - Add Support for Simulacrum
 - Silver Thread still activating cauldron fireworks if have normal amount of items but not new cost
@@ -89,10 +136,12 @@
 - Downloaded RAM and Jealous Foe will not synergize with buff duration increase as they don't use addTimedBuff
 
 
+	Options for Code:
+- Pigs spork and Trancedence (does it trigger low health?)
+	- Might need: "this.IsHealthBelowThreshold(this.health - num14, 0.25f)"
 
 
-
-	Possible Changes for v0.10.1:
+	Possible Changes for v0.12.0:
 -/+	Nerf/Buff	? Question/Problem	]]	Shelved Note
 
  ** White **

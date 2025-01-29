@@ -1,10 +1,13 @@
 ﻿Known:
-- Rocky Taffy doesn't update it's shield granted when health changes (i.e. from stone flux pauldron) unlick personal shield
+- Grape's Pickup effect doesn't appear
+- Rocky Taffy doesn't update it's shield granted when health changes (i.e. from stone flux pauldron) unlike personal shield
 - Silver Thread and Cleansing Pools work weird if player has a lunar active
-- Toy Robot and Elusive Antlers, Pickups are pulled in but don't give barrier (allow this)
 - H.M.T and Breaching Fin, inflicting fin doesn't burn enemy even with 10 HMTs
-- Rocky Taffy Doesn't give sheilds when using Transcendenc unlike personal shiled generator
 - With 2 Rotten Bones, removing one doesn't reduce buff
+- Frisbee
+	- Why does it get canceled when there are any additional inputs?
+	- I think it's when other buffs are gained or lost that this also happens
+- Frisbee 3D icon is small when scrapping/pools
 
 Test:
 

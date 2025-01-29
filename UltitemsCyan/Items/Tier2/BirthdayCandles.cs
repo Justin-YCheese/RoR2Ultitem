@@ -9,13 +9,18 @@ namespace UltitemsCyan.Items.Tier2
 {
 
     // Can Buff by making buff non stackable, so always give power equal to number of candles held
+    // Picking up new candles will give extended duration based on number of existing birthdya candles you already have
+
     public class BirthdayCandles : ItemBase
     {
         public static ItemDef item;
         private const float birthdayDuration = 300f;
+        // private const float birthdayDuration = 20f;
+        private const float stackDuration = 20f;
+        // private const float stackDuration = 5f;
 
         // For Birthday Buff
-        public const float birthdayBuffMultiplier = 32f;
+        public const float birthdayBuffMultiplier = 30f;
 
         public override void Init(ConfigFile configs)
         {
@@ -28,7 +33,7 @@ namespace UltitemsCyan.Items.Tier2
                 "BIRTHDAYCANDLES",
                 itemName,
                 "Temporarily deal extra damage after pickup and at the start of each stage.",
-                "Increase damage by <style=cIsDamage>32%</style> <style=cStack>(+32% per stack)</style> for <style=cIsUtility>5 minutes</style> after pickup and after the start of each stage.",
+                "Increase damage by <style=cIsDamage>30%</style> <style=cStack>(+30% per stack)</style> for <style=cIsUtility>5 minutes</style> <style=cStack>(+20 seconds per stack)</style> after pickup and after the start of each stage.",
                 "I don't know what to get you for your birthday...",
                 ItemTier.Tier2,
                 UltAssets.BirthdayCandleSprite,
@@ -112,11 +117,15 @@ namespace UltitemsCyan.Items.Tier2
             }
         }
 
-        protected void ApplyBirthday(CharacterBody recipient, int count, int max)
+        protected void ApplyBirthday(CharacterBody recipient, int addCount, int max)
         {
-            for (int i = 0; i < count; i++)
+            Log.Debug("Previous Count: " + (max - addCount) + " Max: " + max);
+
+            for (int i = max - addCount; i < max; i++)
             {
-                recipient.AddTimedBuff(BirthdayBuff.buff, birthdayDuration, max);
+                // Each additional birthday Candle gives 20 more seconds than the previous candle
+                Log.Debug("Birthday Candles Count!  ||  " + (birthdayDuration + i * stackDuration));
+                recipient.AddTimedBuff(BirthdayBuff.buff, birthdayDuration + i * stackDuration, max);
             }
             _ = Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);
         }
