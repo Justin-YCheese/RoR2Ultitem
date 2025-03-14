@@ -1,6 +1,5 @@
 ﻿using R2API;
 using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -11,7 +10,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Rotting Buff", true, false, Color.white, UltAssets.RottingSprite, false, false);
+            buff = DefineBuff("Rotting Buff", true, false, UltAssets.RottingSprite);
             Hooks();
         }
 

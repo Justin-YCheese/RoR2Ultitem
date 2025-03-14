@@ -1,17 +1,21 @@
 ﻿
 	Ask my Friends Questions:
-- Rename Viral Smog to Viral Cure? Viral Lilac?
+- Rename Viral Smog to Viral Cure? Viral Eessence? Viral Lilac?
 
 	When Playing:
-- Try Zorse Pill with Noxious Thorn
-- Test Yield Sign swapping bug
+
+- Add jump buffer timer to Frisbee (because it's being janky, Test with Hunter's Harpoon)
 
 	ToDo:
-- Add visual and audio effect for stacking onKillEffects with Jealous foe
 - Add visual and audio warning for Sue’s Mandibles buff running out
+- Fix Yield Sign effect (reversed for clients)
+- Check revival order (Sue's Mandibles)
 - Complete Tests
 
+
 	When Testing:
+- Does Silver Thread work properly in multiplayer
+- Obsolute erase item in Newt Shop (then check future Newt Shops)
 - Rotten Bones works when time is frozen...
 	- Because using Run.instance.time
 - Check that Mythrixs can apply starve
@@ -21,16 +25,14 @@
 - Test Tiny Igloo with Turrets
 - Test All Items
 
-
 	My Item Add Order:
-- Resin Whirlpool
 - Tiny Igloo
 - Orbital Quark
+- Resin Whirlpool
 - Worm Holes
 - Power Chips
 - Trebuchet
 - Jelly Jail
-
 
 	When updating mod check:
 - Bugs / Tests
@@ -43,6 +45,12 @@
 
 
 	For Future Consideration:
+- Make Tiny Igloo also increase size of
+	- gilded money zone
+	- Healing wards
+
+- Make Macroseismograph launch all characters the same way
+- Use Jellyfish explosion instead (and increase range)
 - Transcendence, Taffy, Sue’s Mandibles
 	- Doesn't work? Why?
 - Test Threads

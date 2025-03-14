@@ -20,7 +20,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Zorse Starving Buff", false, true, Color.white, UltAssets.ZorseStarveSprite, false, false);
+            buff = DefineBuff("Zorse Starving Buff", false, true, UltAssets.ZorseStarveSprite, true);
 
             DotDef dotDef = new()
             {
@@ -61,6 +61,7 @@ namespace UltitemsCyan.Buffs
                     color = new Color(0.2392f, 0.8196f, 0.917647f) // Cyan Lunar color
                 }, true);
             }
+            //Log.Debug("OnBuffFinal Exclude From Thorns? " + buffDef.flags.HasFlag(BuffDef.Flags.ExcludeFromNoxiousThorns));
             //Log.Debug("OnBuffFinal Netowrking? " + NetworkServer.active);
         }
     }

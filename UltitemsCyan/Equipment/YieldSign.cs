@@ -37,7 +37,7 @@ namespace UltitemsCyan.Equipment
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Yield Sign";
+            const string itemName = "Yield Sign";
             if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
@@ -74,7 +74,7 @@ namespace UltitemsCyan.Equipment
                 // Stop Multipliers because item switches on server first
                 VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
                 YieldAttack(self.characterBody);
-                Log.Debug(" ))) --- ))) RPC ID: " + equipment.equipmentIndex);
+                //Log.Debug(" ))) --- ))) RPC ID: " + equipment.equipmentIndex);
             }
         }
 
@@ -83,8 +83,8 @@ namespace UltitemsCyan.Equipment
         {
             if (equipmentDef == equipment)
             {
-                Log.Warning("YIELD! Preform Equipment");
-                Log.Debug(" ))) --- ))) EquipmentSlot_PerformEquipmentAction ID: " + equipment.equipmentIndex);
+                //Log.Warning("YIELD! Preform Equipment");
+                //Log.Debug(" ))) --- ))) EquipmentSlot_PerformEquipmentAction ID: " + equipment.equipmentIndex);
                 // TODO: Keep change equipment here? or back to Rpc function
                 // Check how base game handles rpc equipment on switch
                 self.characterBody.inventory.SetEquipmentIndex(YieldSignStop.equipment.equipmentIndex);
@@ -110,16 +110,16 @@ namespace UltitemsCyan.Equipment
 
             float maxSpeed = moveSpeed * maxMultiplier; // / forceMultiplier
             float minSpeed = moveSpeed * minMultiplier; // / forceMultiplier
-            Log.Debug("Velocity exceeded bounds? | " + velocity.magnitude + " >< " + moveSpeed + " * " + maxMultiplier + " | " + velocity);// / 36
+            //Log.Debug("Velocity exceeded bounds? | " + velocity.magnitude + " >< " + moveSpeed + " * " + maxMultiplier + " | " + velocity);// / 36
             if (velocity.magnitude > maxSpeed)
             {
                 velocity = velocity.normalized * maxSpeed;
-                Log.Warning("New Max Velocity | " + velocity + " mag: " + velocity.magnitude);
+                //Log.Warning("New Max Velocity | " + velocity + " mag: " + velocity.magnitude);
             }
             else if (velocity.magnitude < minSpeed)
             {
                 velocity = velocity.normalized * minSpeed;
-                Log.Warning("new min Velocity | " + velocity + " mag: " + velocity.magnitude);
+                //Log.Warning("new min Velocity | " + velocity + " mag: " + velocity.magnitude);
             }
         }
 

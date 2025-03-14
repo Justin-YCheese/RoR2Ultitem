@@ -19,7 +19,7 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "1000 Degree Scissors";
+            const string itemName = "1000 Degree Scissors";
             if (!CheckItemEnabledConfig(itemName, "Green", configs))
             {
                 return;
@@ -47,12 +47,12 @@ namespace UltitemsCyan.Items.Tier2
 
         private void Stage_BeginServer(On.RoR2.Stage.orig_BeginServer orig, Stage self)
         {
-            Log.Debug(" / / / Into Server Begin");
+            //Log.Debug(" / / / Into Server Begin");
             orig(self);
-            Log.Debug(" / / / Out the Server Begin");
+            //Log.Debug(" / / / Out the Server Begin");
             if (!NetworkServer.active)
             {
-                Log.Debug("Running on Client... return...");
+                //Log.Debug("Running on Client... return...");
                 return;
             }
             foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)
@@ -62,7 +62,7 @@ namespace UltitemsCyan.Items.Tier2
                     int grabCount = master.inventory.GetItemCount(item.itemIndex) * consumedPerScissor; // 2 consumed items per Scissor
                     if (grabCount > 0)
                     {
-                        Log.Warning("Scissors on body start global..." + master.name);
+                        //Log.Warning("Scissors on body start global..." + master.name);
                         // Get inventory
                         List<ItemIndex> itemsInInventory = master.inventory.itemAcquisitionOrder;
 
@@ -80,9 +80,9 @@ namespace UltitemsCyan.Items.Tier2
         private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            Log.Debug(" . . . In Beginin Stage");
+            //Log.Debug(" . . . In Beginin Stage");
             orig(self);
-            Log.Debug(" . . . Outing the Begin Stage");
+            //Log.Debug(" . . . Outing the Begin Stage");
         }
 
         private List<ItemDef> GetUntieredItems(List<ItemIndex> list)
@@ -137,7 +137,7 @@ namespace UltitemsCyan.Items.Tier2
                         // If list is empty break loop
                         if (length == 0)
                         {
-                            Log.Debug("Scissors can't cut Empty List");
+                            //Log.Debug("Scissors can't cut Empty List");
                             break;
                         }
                     }
@@ -147,7 +147,7 @@ namespace UltitemsCyan.Items.Tier2
             else
             {
                 // Player doesn't have any consumed items
-                Log.Warning(master.name + " has no consumed items: Scissors cuts itself");
+                //Log.Warning(master.name + " has no consumed items: Scissors cuts itself");
                 // Remove a scissors (Garenteed to have at least scissors)
                 master.inventory.RemoveItem(item);
                 // Give 2 white scraps

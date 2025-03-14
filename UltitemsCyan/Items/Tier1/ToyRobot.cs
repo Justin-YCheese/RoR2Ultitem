@@ -20,7 +20,7 @@ namespace UltitemsCyan.Items.Tier1
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Toy Robot";
+            const string itemName = "Toy Robot";
             if (!CheckItemEnabledConfig(itemName, "White", configs))
             {
                 return;
@@ -207,7 +207,7 @@ namespace UltitemsCyan.Items.Tier1
 
             public void Start()
             {
-                Log.Warning("Got my some sphere!");
+                //Log.Warning("Got my some sphere!");
                 colliders = [];
                 sphereSearch = new SphereSearch()
                 {
@@ -221,7 +221,7 @@ namespace UltitemsCyan.Items.Tier1
             public void OnDestroy()
             {
                 sphereSearch = null;
-                Log.Warning("Sphere gone? " + sphereSearch.IsNullOrDestroyed());
+                //Log.Warning("Sphere gone? " + sphereSearch.IsNullOrDestroyed());
             }
         }
     }

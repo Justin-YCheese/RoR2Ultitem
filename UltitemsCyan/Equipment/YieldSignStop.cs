@@ -10,7 +10,7 @@ namespace UltitemsCyan.Equipment
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Yield Sign";
+            const string itemName = "Yield Sign";
             if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;

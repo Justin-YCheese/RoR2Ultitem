@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 using UltitemsCyan.Items.Tier2;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -12,7 +11,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("GPU Buff", true, false, Color.white, UltAssets.OverclockedSprite, false, false);
+            buff = DefineBuff("GPU Buff", true, false, UltAssets.OverclockedSprite);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();
@@ -28,10 +27,10 @@ namespace UltitemsCyan.Buffs
             if (sender && sender.inventory && sender.HasBuff(buff))
             {
                 int buffCount = sender.GetBuffCount(buff);
-                int grabCount = sender.inventory.GetItemCount(OverclockedGPU.item);
-                //Log.Debug("Overclocked Amount: " + (attackSpeedPerItem / 100f * grabCount * buffCount));
-                args.attackSpeedMultAdd += attackSpeedPerItem / 100f * grabCount * buffCount; //attackSpeedPerStack / 100f * buffCount;
-                //Debug.Log("Overclocked modifier: " + (attackSpeedPerItem / 100f * grabCount * buffCount));
+                //int grabCount = sender.inventory.GetItemCount(OverclockedGPU.item);
+                //Log.Debug("Overclocked Amount: " + attackSpeedPerItem / 100f * buffCount);
+                args.attackSpeedMultAdd += attackSpeedPerItem / 100f * buffCount; //attackSpeedPerStack / 100f * buffCount;
+                //Debug.Log("Overclocked modifier: " + (attackSpeedPerItem / 100f * buffCount));
             }
         }
     }

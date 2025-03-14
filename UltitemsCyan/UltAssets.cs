@@ -24,12 +24,14 @@ namespace UltitemsCyan
         public static Sprite DegreeScissorsSprite;
         public static Sprite HMTSprite;
         public static Sprite OverclockedGPUSprite;
+        public static Sprite TinyIglooSprite;
         //public static Sprite TippedArrowSprite;
         public static Sprite XenonAmpouleSprite;
         public static GameObject BirthdayCandlePrefab;
         public static GameObject DegreeScissorsPrefab;
         public static GameObject HMTPrefab;
         public static GameObject OverclockedGPUPrefab;
+        public static GameObject TinyIglooPrefab;
         //public static GameObject TippedArrowPrefab;
         public static GameObject XenonAmpoulePrefab;
 
@@ -101,12 +103,14 @@ namespace UltitemsCyan
         // Equipment
         //public static Sprite JellyJailSprite;
         public static Sprite IceCubesSprite;
+        public static Sprite OrbitalQuarkSprite;
         public static Sprite YieldSignSprite;
         public static Sprite YieldSignStopSprite;
         //public static Sprite PetRockSprite;
         //public static Sprite TrebuchetSprite;
         //public static GameObject JellyJailPrefab;
         public static GameObject IceCubesPrefab;
+        public static GameObject OrbitalQuarkPrefab;
         public static GameObject YieldSignPrefab;
         public static GameObject YieldSignStopPrefab;
 
@@ -131,7 +135,9 @@ namespace UltitemsCyan
         public static Sprite FrisbeeGlideSprite;
         public static Sprite GrapeSprite;
         public static Sprite OverclockedSprite;
-        public static Sprite PeelSprite;
+        //public static Sprite PeelSprite;
+        public static Sprite QuarkGravitySprite;
+        public static Sprite ResinBounceSprite;
         public static Sprite RottingSprite;
         public static Sprite SporkBleedSprite;
         public static Sprite SuesTeethSprite;
@@ -179,12 +185,14 @@ namespace UltitemsCyan
             DegreeScissorsSprite = mainBundle.LoadAsset<Sprite>("DegreeScissors.png");
             HMTSprite = mainBundle.LoadAsset<Sprite>("HMT.png");
             OverclockedGPUSprite = mainBundle.LoadAsset<Sprite>("OverclockedGPU.png");
+            TinyIglooSprite = mainBundle.LoadAsset<Sprite>("TinyIgloo.png");
             //TippedArrowSprite = mainBundle.LoadAsset<Sprite>("TippedArrow.png");
             XenonAmpouleSprite = mainBundle.LoadAsset<Sprite>("XenonAmpoule.png");
             BirthdayCandlePrefab = mainBundle.LoadAsset<GameObject>("BirthdayCandle.prefab");
             DegreeScissorsPrefab = mainBundle.LoadAsset<GameObject>("DegreeScissors.prefab");
             HMTPrefab = mainBundle.LoadAsset<GameObject>("HMT.prefab");
             OverclockedGPUPrefab = mainBundle.LoadAsset<GameObject>("OverclockedGPU.prefab");
+            TinyIglooPrefab = mainBundle.LoadAsset<GameObject>("TinyIgloo.prefab");
             //TippedArrowPrefab = mainBundle.LoadAsset<GameObject>("TippedArrow.prefab");
             XenonAmpoulePrefab = mainBundle.LoadAsset<GameObject>("XenonAmpoule.prefab");
 
@@ -295,12 +303,14 @@ namespace UltitemsCyan
             IceCubesSprite = mainBundle.LoadAsset<Sprite>("IceCubes.png");
             //PetRockSprite = mainBundle.LoadAsset<Sprite>("PetRock.png");
             //TrebuchetSprite = mainBundle.LoadAsset<Sprite>("Trebuchet.png");
+            OrbitalQuarkSprite = mainBundle.LoadAsset<Sprite>("OrbitalQuark.png");
             YieldSignSprite = mainBundle.LoadAsset<Sprite>("YieldSign.png");
             YieldSignStopSprite = mainBundle.LoadAsset<Sprite>("YieldSignStop.png");
             //JellyJailPrefab = mainBundle.LoadAsset<GameObject>("JellyJail.prefab");
             IceCubesPrefab = mainBundle.LoadAsset<GameObject>("IceCubes.prefab");
             //PetRockPrefab = mainBundle.LoadAsset<GameObject>("PetRock.prefab");
             //TrebuchetPrefab = mainBundle.LoadAsset<GameObject>("Trebuchet.prefab");
+            OrbitalQuarkPrefab = mainBundle.LoadAsset<GameObject>("OrbitalQuark.prefab");
             YieldSignPrefab = mainBundle.LoadAsset<GameObject>("YieldSign.prefab");
             YieldSignStopPrefab = mainBundle.LoadAsset<GameObject>("YieldSignStop.prefab");
 
@@ -335,7 +345,9 @@ namespace UltitemsCyan
             FrisbeeGlideSprite = mainBundle.LoadAsset<Sprite>("FrisbeeGlide");
             GrapeSprite = mainBundle.LoadAsset<Sprite>("Grape");
             OverclockedSprite = mainBundle.LoadAsset<Sprite>("Overclocked");
-            PeelSprite = mainBundle.LoadAsset<Sprite>("Peel");
+            //PeelSprite = mainBundle.LoadAsset<Sprite>("Peel");
+            QuarkGravitySprite = mainBundle.LoadAsset<Sprite>("QuarkGravity");
+            ResinBounceSprite = mainBundle.LoadAsset<Sprite>("ResinBounce");
             RottingSprite = mainBundle.LoadAsset<Sprite>("Rotting");
             SporkBleedSprite = mainBundle.LoadAsset<Sprite>("SporkBleed");
             SuesTeethSprite = mainBundle.LoadAsset<Sprite>("SuesTeeth");

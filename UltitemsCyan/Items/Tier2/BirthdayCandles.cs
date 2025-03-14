@@ -24,7 +24,7 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Birthday Candles";
+            const string itemName = "Birthday Candles";
             if (!CheckItemEnabledConfig(itemName, "Green", configs))
             {
                 return;
@@ -67,7 +67,7 @@ namespace UltitemsCyan.Items.Tier2
                 int grabCount = self.inventory.GetItemCount(item.itemIndex);
                 if (grabCount > 0)
                 {
-                    Log.Debug("Birthday Candles On Body Start Global for " + self.GetUserName() + " | Candles: " + grabCount);
+                    //Log.Debug("Birthday Candles On Body Start Global for " + self.GetUserName() + " | Candles: " + grabCount);
                     ApplyBirthday(self, grabCount, grabCount);
                 }
             }
@@ -98,16 +98,10 @@ namespace UltitemsCyan.Items.Tier2
 
             if (self && itemIndex == item.itemIndex)
             {
-                Log.Debug("Give Birthday Candles");
+                //Log.Debug("Give Birthday Candles");
                 // Log.Debug("Count Birthday Candles on Pickup: " + count);
 
                 CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body) => body.inventory == self);
-
-                if (player) { }
-                else
-                {
-                    Log.Warning("Null Player has Birthday");
-                }
 
                 // If you don't have any Rotten Bones
                 if (player && player.inventory && player.inventory.GetItemCount(Void.RottenBones.item) <= 0)
@@ -119,12 +113,12 @@ namespace UltitemsCyan.Items.Tier2
 
         protected void ApplyBirthday(CharacterBody recipient, int addCount, int max)
         {
-            Log.Debug("Previous Count: " + (max - addCount) + " Max: " + max);
+            //Log.Debug("Previous Count: " + (max - addCount) + " Max: " + max);
 
             for (int i = max - addCount; i < max; i++)
             {
                 // Each additional birthday Candle gives 20 more seconds than the previous candle
-                Log.Debug("Birthday Candles Count!  ||  " + (birthdayDuration + i * stackDuration));
+                //Log.Debug("Birthday Candles Count!  ||  " + (birthdayDuration + i * stackDuration));
                 recipient.AddTimedBuff(BirthdayBuff.buff, birthdayDuration + i * stackDuration, max);
             }
             _ = Util.PlaySound("Play_item_proc_igniteOnKill", recipient.gameObject);

@@ -58,15 +58,11 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Xenon Ampoule";
+            const string itemName = "Xenon Ampoule";
             if (!CheckItemEnabledConfig(itemName, "Green", configs))
             {
                 return;
             }
-
-            //damagePerStack /= 3f;   // Counter WeakPointHit and Crit bonus
-            //baseDamage /= 3f;       // Counter WeakPointHit and Crit bonus
-
             item = CreateItemDef(
                 "XENONAMPOULE",
                 itemName,
@@ -177,7 +173,7 @@ namespace UltitemsCyan.Items.Tier2
             }
             else
             {
-                Log.Warning("Xe Equipment not fired?");
+                //Log.Warning("Xe Equipment not fired?");
             }
         }
     }

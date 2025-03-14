@@ -3,7 +3,6 @@ using MonoMod.Cil;
 using RoR2;
 using System;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace UltitemsCyan.Buffs
 {
@@ -18,7 +17,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Slippery Grape Buff", true, false, Color.white, UltAssets.GrapeSprite, false, false);
+            buff = DefineBuff("Slippery Grape Buff", true, false, UltAssets.GrapeSprite);
             //Log.Info(buff.name + " Initialized");
             Hooks();
         }
@@ -75,10 +74,10 @@ namespace UltitemsCyan.Buffs
                             {
                                 //Log.Debug(" - " + i);
                                 cb.RemoveBuff(buff);
-                                Log.Debug("Got some Grapes!");
+                                //Log.Debug("Got some Grapes!");
                                 if (Util.CheckRoll(grapeBlockChance, 0))
                                 {
-                                    Log.Debug("Slip Grape Avoidance!");
+                                    //Log.Debug("Slip Grape Avoidance!");
                                     di.rejected = true;     // Can set value here because it's a reference. Cannot do the same for primative types?
 
                                     //EffectManager.SpawnEffect(HealthComponent.AssetReferences.damageRejectedPrefab, new EffectData

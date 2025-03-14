@@ -13,6 +13,10 @@ namespace UltitemsCyan.Equipment
 
         public override void Init(ConfigFile configs)
         {
+            if (!CheckItemEnabledConfig("Macroseismograph", "Equipment", configs))
+            {
+                return;
+            }
             equipment = CreateItemDef(
                 "MACROSEISMOGRAPHCONSUMED",
                 "Macro Friend",
@@ -43,7 +47,7 @@ namespace UltitemsCyan.Equipment
 
         private void EquipmentDef_AttemptGrant(On.RoR2.EquipmentDef.orig_AttemptGrant orig, ref PickupDef.GrantContext context)
         {
-            Log.Warning(" * * * Macroseismograph is in the house!");
+            //Log.Warning(" * * * Macroseismograph is in the house!");
             // If player has Macroseismograph as their current item
             if (context.body && context.body.inventory.currentEquipmentIndex == equipment.equipmentIndex)
             {
@@ -77,7 +81,7 @@ namespace UltitemsCyan.Equipment
             else
             {
                 orig(ref context);
-                Log.Warning(" * * * Macroseismograph has left the building...");
+                //Log.Warning(" * * * Macroseismograph has left the building...");
             }
         }
 

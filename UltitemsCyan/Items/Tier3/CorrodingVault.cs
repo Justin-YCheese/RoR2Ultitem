@@ -15,7 +15,7 @@ namespace UltitemsCyan.Items.Tier3
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Corroding Vault";
+            const string itemName = "Corroding Vault";
             if (!CheckItemEnabledConfig(itemName, "Red", configs))
             {
                 return;
@@ -46,7 +46,7 @@ namespace UltitemsCyan.Items.Tier3
             orig(self);
             if (!NetworkServer.active)
             {
-                Log.Debug("Running on Client... return...");
+                //Log.Debug("Running on Client... return...");
                 return;
             }
             foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)

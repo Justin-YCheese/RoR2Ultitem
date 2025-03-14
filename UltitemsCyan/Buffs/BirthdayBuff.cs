@@ -1,6 +1,5 @@
 ﻿using R2API;
 using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -12,7 +11,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Birthday Buff", true, false, Color.white, UltAssets.BirthdaySprite, false, false);
+            buff = DefineBuff("Birthday Buff", true, false, UltAssets.BirthdaySprite);
             //Log.Info(buff.name + " Initialized");
             Hooks();
         }

@@ -23,7 +23,7 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Crysotope";
+            const string itemName = "Crysotope";
             if (!CheckItemEnabledConfig(itemName, "Void", configs))
             {
                 return;

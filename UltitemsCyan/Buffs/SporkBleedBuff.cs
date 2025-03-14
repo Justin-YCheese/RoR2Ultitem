@@ -1,6 +1,5 @@
 ﻿using RoR2;
 using UltitemsCyan.Items.Tier3;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -11,7 +10,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Spork Bleed Buff", false, false, Color.white, UltAssets.SporkBleedSprite, false, false);
+            buff = DefineBuff("Spork Bleed Buff", false, false, UltAssets.SporkBleedSprite);
             //Log.Info(buff.name + " Initialized");
             Hooks();
         }
@@ -28,9 +27,9 @@ namespace UltitemsCyan.Buffs
             orig(self);
             if (self && self.HasBuff(buff))
             {
-                Log.Debug("Orig Bleed Chance: " + self.bleedChance);
+                //Log.Debug("Orig Bleed Chance: " + self.bleedChance);
                 self.bleedChance += bleedChance;
-                Log.Debug("New Bleed Chance: " + self.bleedChance);
+                //Log.Debug("New Bleed Chance: " + self.bleedChance);
                 //Debug.Log(sender.name + "Birthday modifier: " + (rottingBuffMultiplier / 100f * buffCount));
             }
         }

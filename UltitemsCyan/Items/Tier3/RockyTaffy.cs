@@ -17,7 +17,7 @@ namespace UltitemsCyan.Items.Tier3
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Rocky Taffy";
+            const string itemName = "Rocky Taffy";
             if (!CheckItemEnabledConfig(itemName, "Red", configs))
             {
                 return;
@@ -84,7 +84,7 @@ namespace UltitemsCyan.Items.Tier3
 
                     if (initialShield && !newShield && self.body.HasBuff(Buffs.TaffyChewBuff.buff))
                     {
-                        Log.Debug("Taffy Shield lost! Gain Barrier");
+                        //Log.Debug("Taffy Shield lost! Gain Barrier");
                         self.body.RemoveBuff(Buffs.TaffyChewBuff.buff);
                         self.AddBarrier(self.fullShield);
                         _ = Util.PlaySound("Play_gup_death", self.body.gameObject);

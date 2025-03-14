@@ -14,7 +14,7 @@ namespace UltitemsCyan.Items.Lunar
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Ultraviolet Bulb";
+            const string itemName = "Ultraviolet Bulb";
             if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
@@ -68,7 +68,7 @@ namespace UltitemsCyan.Items.Lunar
                     bool reset = Util.CheckRoll(procChance);
                     if (reset)
                     {
-                        Log.Debug("New Bulb Reseting for: " + self.GetUserName());
+                        //Log.Debug("New Bulb Reseting for: " + self.GetUserName());
                         //skill.RestockContinuous(); // Doesn't do anything?
                         //skill.RestockSteplike();
                         skill.ApplyAmmoPack();

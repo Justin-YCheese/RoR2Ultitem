@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -10,7 +9,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Crysotope Flying Buff", false, false, Color.white, UltAssets.CrysotopeFlySprite, false, false);
+            buff = DefineBuff("Crysotope Flying Buff", false, false, UltAssets.CrysotopeFlySprite);
 
             //Hooks();
         }

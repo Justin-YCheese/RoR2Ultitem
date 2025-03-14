@@ -23,7 +23,7 @@ namespace UltitemsCyan.Items.Tier1
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Koala Sticker";
+            const string itemName = "Koala Sticker";
             if (!CheckItemEnabledConfig(itemName, "White", configs))
             {
                 return;

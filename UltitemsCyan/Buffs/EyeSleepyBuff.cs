@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using UnityEngine;
 using static UltitemsCyan.Items.Void.JealousFoe;
 
 namespace UltitemsCyan.Buffs
@@ -10,7 +9,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Eye Sleepy Buff", false, false, Color.white, UltAssets.EyeSleepySprite, true, false);
+            buff = DefineBuff("Eye Sleepy Buff", false, false, UltAssets.EyeSleepySprite, false, true);
             Hooks();
         }
 
@@ -27,7 +26,7 @@ namespace UltitemsCyan.Buffs
                 JealousFoeBehaviour behavior = self.GetComponent<JealousFoeBehaviour>();
                 if (behavior)
                 {
-                    Log.Debug("The thing sleepy did the thing ! ! !");
+                    //Log.Debug("The thing sleepy did the thing ! ! !");
                     behavior.SetCollectingPhase();
                     // next is JealousFoeBehaviour GotPickup
                 }
