@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 using UltitemsCyan.Items.Tier1;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -12,7 +11,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Frisbee Gliding Buff", false, false, Color.white, UltAssets.FrisbeeGlideSprite, false, false);
+            buff = DefineBuff("Frisbee Gliding Buff", false, false, UltAssets.FrisbeeGlideSprite);
 
             Hooks();
         }

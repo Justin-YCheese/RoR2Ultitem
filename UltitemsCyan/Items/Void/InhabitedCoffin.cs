@@ -19,7 +19,7 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Inhabited Coffin";
+            const string itemName = "Inhabited Coffin";
             if (!CheckItemEnabledConfig(itemName, "Void", configs))
             {
                 return;
@@ -50,7 +50,7 @@ namespace UltitemsCyan.Items.Void
             orig(self);
             if (!NetworkServer.active)
             {
-                Log.Debug("Running on Client... return...");
+                //Log.Debug("Running on Client... return...");
                 return;
             }
             foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)
@@ -76,7 +76,7 @@ namespace UltitemsCyan.Items.Void
                             ];
 
                         int length = allVoidDropList[0].Count + allVoidDropList[1].Count + allVoidDropList[2].Count + allVoidDropList[3].Count;
-                        Log.Debug("All Void Items Length: " + length);
+                        //Log.Debug("All Void Items Length: " + length);
 
                         // 14 Vanilla void items
                         // 4 modded void items

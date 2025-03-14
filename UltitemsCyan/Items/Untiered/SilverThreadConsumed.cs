@@ -14,8 +14,8 @@ namespace UltitemsCyan.Items.Untiered
             item = CreateItemDef(
                 "SILVERTHREADCONSUMED",
                 "Silver Thread (Snapped)",
-                "Proof of death",
-                "DESCRIPTION Proof of death",
+                "Proof of loss",
+                "DESCRIPTION Proof of loss",
                 "This is a garbage death zone. How did you get here?",
                 ItemTier.NoTier,
                 UltAssets.SilverThreadConsumedSprite,

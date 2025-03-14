@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -9,7 +8,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Taffy Chew Buff", false, false, Color.white, UltAssets.TaffyChewSprite, false, false);
+            buff = DefineBuff("Taffy Chew Buff", false, false, UltAssets.TaffyChewSprite);
             //Log.Info(buff.name + " Initialized");
             //Hooks();
         }

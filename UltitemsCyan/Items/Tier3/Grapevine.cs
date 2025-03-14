@@ -23,7 +23,7 @@ namespace UltitemsCyan.Items.Tier3
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Grapevine";
+            const string itemName = "Grapevine";
             if (!CheckItemEnabledConfig(itemName, "Red", configs))
             {
                 return;
@@ -59,7 +59,7 @@ namespace UltitemsCyan.Items.Tier3
                 {
                     if (Util.CheckRoll(baseGrapeDropChance + (stackGrapeDropChance - 1) * grabCount, killer.master.luck))
                     {
-                        Log.Warning("Dropping grape from " + victim.name);
+                        //Log.Warning("Dropping grape from " + victim.name);
                         //RoR2.BuffPickup.Instantiate(item);
                         //Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);
                         //Util.PlaySound("Play_hermitCrab_idle_VO", victim.gameObject);

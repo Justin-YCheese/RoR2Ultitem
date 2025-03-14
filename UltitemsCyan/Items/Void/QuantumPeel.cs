@@ -28,7 +28,7 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Quantum Peel";
+            const string itemName = "Quantum Peel";
             if (!CheckItemEnabledConfig(itemName, "Void", configs))
             {
                 return;

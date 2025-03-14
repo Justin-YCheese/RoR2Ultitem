@@ -10,17 +10,22 @@ namespace UltitemsCyan.Buffs
 
         //protected abstract void Hooks();
 
-        protected static BuffDef DefineBuff(string name, bool canStack, bool isDebuff, Color color, Sprite icon, bool isCooldown, bool isHidden)
+        protected static BuffDef DefineBuff(string name, bool canStack, bool isDebuff, Sprite icon, bool isDOT = false, bool isCooldown = false, bool isHidden = false) //, Color color
         {
             BuffDef definition = ScriptableObject.CreateInstance<BuffDef>();
             definition.name = name;
             definition.canStack = canStack;
             definition.isDebuff = isDebuff;
-            definition.buffColor = color;
+            //definition.buffColor = color;
             definition.iconSprite = icon;
             definition.eliteDef = null;
+            definition.isDOT = isDebuff && isDOT;
             definition.isCooldown = isCooldown;
             definition.isHidden = isHidden;
+            //definition.eliteDef = ;
+            //definition.ignoreGrowthNectar = ;
+            //definition.startSfx = ;
+            //definition.flags
 
             if (ContentAddition.AddBuffDef(definition))
             {

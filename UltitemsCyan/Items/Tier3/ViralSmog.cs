@@ -15,7 +15,7 @@ namespace UltitemsCyan.Items.Tier3
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Viral Smog";
+            const string itemName = "Viral Smog";
             if (!CheckItemEnabledConfig(itemName, "Red", configs))
             {
                 return;

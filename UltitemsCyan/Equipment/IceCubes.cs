@@ -14,7 +14,7 @@ namespace UltitemsCyan.Equipment
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "9 Ice Cubes";
+            const string itemName = "9 Ice Cubes";
             if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
@@ -45,7 +45,7 @@ namespace UltitemsCyan.Equipment
             {
                 CharacterBody activator = self.characterBody;
                 activator.healthComponent.AddBarrier(activator.healthComponent.fullBarrier * percentOfBarrier / 100f + flatBarrier);
-                Log.Debug("Ice Gained: " + activator.healthComponent.fullBarrier * percentOfBarrier / 100f + flatBarrier);
+                //Log.Debug("Ice Gained: " + activator.healthComponent.fullBarrier * percentOfBarrier / 100f + flatBarrier);
                 _ = Util.PlaySound("Play_item_proc_iceRingSpear", self.gameObject);
                 return true;
             }

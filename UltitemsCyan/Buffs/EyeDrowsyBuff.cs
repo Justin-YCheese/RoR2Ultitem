@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -9,7 +8,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Eye Drowsy Buff", true, false, Color.white, UltAssets.EyeDrowsySprite, false, false);
+            buff = DefineBuff("Eye Drowsy Buff", true, false, UltAssets.EyeDrowsySprite);
             //Hooks();
         }
 

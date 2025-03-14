@@ -35,7 +35,7 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Jealous Foe";
+            const string itemName = "Jealous Foe";
             if (!CheckItemEnabledConfig(itemName, "Void", configs))
             {
                 return;
@@ -186,7 +186,14 @@ namespace UltitemsCyan.Items.Void
                     if (body.GetBuffCount(EyeDrowsyBuff.buff) < stack * maxBuffsPerStack)
                     {
                         body.AddBuff(EyeDrowsyBuff.buff);
+                        EffectData effectData = new()
+                        {
+                            origin = body.corePosition,
+                            rotation = Quaternion.identity
+                        };
+                        EffectManager.SpawnEffect(fmpEffectPrefab, effectData, false);
                         _ = Util.PlaySound("Play_UI_arenaMode_voidCollapse_select", body.gameObject);
+
                     }
                 }
             }

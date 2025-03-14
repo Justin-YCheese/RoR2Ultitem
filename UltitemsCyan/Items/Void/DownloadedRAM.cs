@@ -27,7 +27,7 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Downloaded RAM";
+            const string itemName = "Downloaded RAM";
             if (!CheckItemEnabledConfig(itemName, "Void", configs))
             {
                 return;
@@ -109,7 +109,7 @@ namespace UltitemsCyan.Items.Void
                         behavior.UpdateStopwatch(Run.instance.time);
                         if (Util.CheckRoll(downloadChance, inflictor.master.luck))
                         {
-                            Log.Debug("downloading");
+                            //Log.Debug("downloading");
                             // If you have fewer than the max number of downloads, then grant buff
                             if (inflictor.GetBuffCount(DownloadedBuff.buff) < grabCount * downloadsPerItem)
                             {
@@ -187,13 +187,6 @@ namespace UltitemsCyan.Items.Void
                 //Log.Debug("RAM Times: " + attackingStopwatch);
                 DealingDamage = Run.instance.time <= attackingStopwatch + notAttackingDelay;
             }
-#pragma warning disable IDE0060 // Remove unused parameter
-            private void OnCharacterDeathGlobal(DamageReport damageReport)
-#pragma warning restore IDE0060 // Remove unused parameter
-            {
-                Log.Warning("RAM ran this on death?");
-            }
-#pragma warning restore IDE0051 // Remove unused private members
         }
         ///
     }

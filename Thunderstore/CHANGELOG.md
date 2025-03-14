@@ -1,3 +1,14 @@
+## 0.12.1
+
+- Add Tiny Igloo
+- Add Orbital Quark
+- Added visual effects for various items
+- Added item notifications to Silver Thread
+- Reduced Macroseismograph launch so that on the moon you can pillar skip
+- Reworked Overclocked GPU to increase max stack instead of stats per buff
+    - Because I over estimated the power of bolstering lantern
+- Removed nearly all debug messages (Silver Thread and other items)
+
 ## 0.12.0
 
 - Readded Koala Sticker

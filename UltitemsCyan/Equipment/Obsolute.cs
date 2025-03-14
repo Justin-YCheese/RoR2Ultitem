@@ -31,7 +31,7 @@ namespace UltitemsCyan.Equipment
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Obsolute";
+            const string itemName = "Obsolute";
             if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
@@ -73,7 +73,7 @@ namespace UltitemsCyan.Equipment
             PickupIndex pickup = orig(self, rng);
             if (dissolvedList.Contains(PickupCatalog.GetPickupDef(pickup).itemIndex))
             {
-                Log.Debug("Pickup " + PickupCatalog.GetPickupDef(pickup).nameToken + " was dissolved...");
+                //Log.Debug("Pickup " + PickupCatalog.GetPickupDef(pickup).nameToken + " was dissolved...");
                 return pickup;
             }
             else
@@ -84,7 +84,7 @@ namespace UltitemsCyan.Equipment
 
         private void Run_BeginStage(On.RoR2.Run.orig_BeginStage orig, Run self)
         {
-            Log.Debug("Universal Dissolved cleared");
+            //Log.Debug("Universal Dissolved cleared");
             dissolvedList.Clear();
 
             orig(self);
@@ -95,6 +95,7 @@ namespace UltitemsCyan.Equipment
         {
             if (equipmentDef == equipment)
             {
+                /*
                 if (NetworkServer.active)
                 {
                     Log.Debug("Running Solute on Server");
@@ -102,7 +103,7 @@ namespace UltitemsCyan.Equipment
                 else
                 {
                     Log.Debug("Running Solute on Client");
-                }
+                }*/
 
                 /*/
                 if (self.gameObject && self.gameObject.name.Contains("EquipmentDrone"))
@@ -125,21 +126,21 @@ namespace UltitemsCyan.Equipment
 
                         if (thisRun.isRunStopwatchPaused)
                         {
-                            Log.Debug("In time paused");
+                            //Log.Debug("In time paused");
                             equipment.cooldown = shortCooldown;
                         }
                         else
                         {
-                            Log.Debug("Outside time paused");
+                            //Log.Debug("Outside time paused");
                             equipment.cooldown = cooldown;
                         }
 
-                        Log.Debug("Last Item: " + lastItem.name);
+                        //Log.Debug("Last Item: " + lastItem.name);
 
                         // * * * For Every player and monster remove the item
                         foreach (CharacterMaster body in CharacterMaster.readOnlyInstancesList)
                         {
-                            Log.Debug("who? " + body.name);
+                            //Log.Debug("who? " + body.name);
                             // Checks inventory in function
                             DissolveItem(body, lastItem);
                         }
@@ -318,7 +319,7 @@ namespace UltitemsCyan.Equipment
                 int grabCount = inventory.GetItemCount(item);
                 if (inventory.GetItemCount(item) > 0)
                 {
-                    Log.Debug("Dissolving item into grey mush...");
+                    //Log.Debug("Dissolving item into grey mush...");
                     inventory.RemoveItem(item, grabCount);
                     inventory.GiveItem(GreySolvent.item, grabCount);
                     CharacterMasterNotificationQueue.SendTransformNotification(
@@ -371,7 +372,7 @@ namespace UltitemsCyan.Equipment
             }
             if (list.Count == 0)
             {
-                Log.Debug(list.ToString() + " | replace with Solute");
+                //Log.Debug(list.ToString() + " | replace with Solute");
                 list.Add(PickupCatalog.itemIndexToPickupIndex[(int)GreySolvent.item.itemIndex]);
             }
         }

@@ -11,9 +11,23 @@ using static RoR2.DotController;
 
 namespace UltitemsCyan.Items.Void
 {
-    // Notes:
-    // Moves which deal zero damage will still trigger Zorse and deal a non zero amount of damage
-    // Is great with KNockback fin because both multiply total damage dealt (but it's real hard to proc both)
+    /* Notes:
+     * 
+     * Moves which deal zero damage will still trigger Zorse and deal a non zero amount of damage
+     * Is great with KNockback fin because both multiply total damage dealt (but it's real hard to proc both)
+     * 
+     * Can spread with Noxious Thorns but doesn't transfer damage multiplier (only base damage transfered)
+     *      Check: public void TriggerEnemyDebuffs(DamageReport damageReport)
+     *             VineOrb::OnArrival | damageMultiplier = 1f
+     * 
+     * Use SendDamageDealt instead of DamageReport_ctor?
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+
 
     // TODO: check if Item classes needs to be public
     public class ZorsePill : ItemBase
@@ -30,7 +44,7 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "ZorsePill";
+            const string itemName = "ZorsePill";
             if (!CheckItemEnabledConfig(itemName, "Void", configs))
             {
                 return;
@@ -52,7 +66,15 @@ namespace UltitemsCyan.Items.Void
         protected override void Hooks()
         {
             On.RoR2.DamageReport.ctor += DamageReport_ctor; // Gets TOTAL damage
+            //On.RoR2.HealthComponent.SendDamageDealt += HealthComponent_SendDamageDealt;
         }
+
+        /*
+        private void HealthComponent_SendDamageDealt(On.RoR2.HealthComponent.orig_SendDamageDealt orig, DamageReport damageReport)
+        {
+            throw new NotImplementedException();
+        }
+        //*/
 
         private void DamageReport_ctor(On.RoR2.DamageReport.orig_ctor orig, DamageReport self, DamageInfo damageInfo, HealthComponent victim, float damageDealt, float combinedHealthBeforeDamage)
         {
@@ -72,9 +94,9 @@ namespace UltitemsCyan.Items.Void
                         // If you have fewer than the max number of downloads, then grant buff
 
                         //float damageMultiplier = (basePercentHealth + (percentHealthPerStack * (grabCount - 1))) / 100f;
-                        Log.Debug("Damage = " + damageDealt + " | i.damage: " + inflictor.damage + " i.damageRecalc: " + inflictor.damageFromRecalculateStats
-                            + " di.damage: " + damageInfo.damage + " di.crit: " + damageInfo.crit
-                            + " multiplier:" + damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f);
+                        //Log.Debug("Damage = " + damageDealt + " | i.damage: " + inflictor.damage + " i.damageRecalc: " + inflictor.damageFromRecalculateStats
+                        //    + " di.damage: " + damageInfo.damage + " di.crit: " + damageInfo.crit
+                        //    + " multiplier:" + damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f);
                         InflictDotInfo inflictDotInfo = new()
                         {
                             victimObject = victimObject,
@@ -95,7 +117,7 @@ namespace UltitemsCyan.Items.Void
             }
             catch (NullReferenceException)
             {
-                Log.Debug(" oh...  Zorse Pill had an expected null error");
+                //Log.Debug(" oh...  Zorse Pill had an expected null error");
             }
         }
     }

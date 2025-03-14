@@ -24,7 +24,7 @@ namespace UltitemsCyan.Equipment
 
         private const int radius = 110;
         private const float delay = 1.25f;
-        private const float force = 10500f; //7450f
+        private const float force = 8000f; //7450f //10500f (too high)
         private const float earthquakeDamage = 10000f; // 1,000,000% = 10,000
 
         private static readonly GameObject willOWisp = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/ExplodeOnDeath/WilloWispDelay.prefab").WaitForCompletion();
@@ -45,7 +45,7 @@ namespace UltitemsCyan.Equipment
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Macroseismograph";
+            const string itemName = "Macroseismograph";
             if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
@@ -81,7 +81,7 @@ namespace UltitemsCyan.Equipment
                 // If activator and (on ground or is equipment drone)
                 if (activator && ((activator.characterMotor && activator.characterMotor.isGrounded) || (self.gameObject && self.gameObject.name.Contains("EquipmentDrone"))))
                 {
-                    Log.Warning(self.gameObject.name + " Pulled the Trigger!");
+                    //Log.Warning(self.gameObject.name + " Pulled the Trigger!");
                     //Log.Warning(" | / ! Pulled the Trigger ! | / ");
 
                     // Get position below player
@@ -98,8 +98,8 @@ namespace UltitemsCyan.Equipment
                     //BlastAttack impactDamage = new()
 
                     //Xoroshiro128Plus rng = new(Run.instance.stageRng.nextUlong);
-                    //float force = rng.RangeFloat(9400f, 11000f);
-                    //Log.Warning(" - - - - - Force? " + force);
+                    //float force = rng.RangeFloat(7300f, 8400f);
+                    //Log.Debug(" - - - - - Force? " + force);
 
                     // < 10250
 
@@ -195,7 +195,7 @@ namespace UltitemsCyan.Equipment
 
             public MacroseismoController(float delay, BlastAttack impact)
             {
-                Log.Debug(" ) ) ) M A C R O started");
+                //Log.Debug(" ) ) ) M A C R O started");
                 this.impact = impact;
                 impactTime = Run.instance.time + delay;
                 //gameObject = base.gameObject;
@@ -209,11 +209,11 @@ namespace UltitemsCyan.Equipment
                 {
                     return;
                 }
-                Log.Debug(impactTime + " < " + Run.instance.time);
+                //Log.Debug(impactTime + " < " + Run.instance.time);
                 if (impactTime < Run.instance.time)
                 {
                     //Explostion!
-                    Log.Debug(" ) ) ) M A C R O explostion ! ! !");
+                    //Log.Debug(" ) ) ) M A C R O explostion ! ! !");
                     _ = impact.Fire();
                     Destroy(gameObject);
                 }

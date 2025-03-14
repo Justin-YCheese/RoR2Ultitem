@@ -14,14 +14,14 @@ namespace UltitemsCyan.Items.Tier2
     {
         public static ItemDef item;
 
-        private const int maxOverclocked = 10;
+        private const int maxOverclockedPerItem = 10;
 
         // For Overclocked Buff
         public const float buffAttackSpeedPerItem = 3.5f;
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Overclocked GPU";
+            const string itemName = "Overclocked GPU";
             if (!CheckItemEnabledConfig(itemName, "Green", configs))
             {
                 return;
@@ -30,7 +30,7 @@ namespace UltitemsCyan.Items.Tier2
                 "OVERCLOCKEDGPU",
                 itemName,
                 "Increase attack speed on kill. Stacks 10 times. Resets upon getting hurt.",
-                "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3.5%</style> <style=cStack>(+3.5% per stack)</style>. Maximum cap of <style=cIsDamage>10</style> stacks. Lose stacks upon getting hit.",
+                "Killing an enemy increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>3.5%</style>. Maximum cap of <style=cIsDamage>10</style> <style=cStack>(+10% per stack)</style> stacks. Lose stacks upon getting hit.",
                 "GPU GPU",
                 ItemTier.Tier2,
                 UltAssets.OverclockedGPUSprite,
@@ -56,7 +56,7 @@ namespace UltitemsCyan.Items.Tier2
                 int grabCount = killer.inventory.GetItemCount(item);
                 int buffCount = killer.GetBuffCount(Buffs.OverclockedBuff.buff);
                 // If body has the item and has fewer than the max stack then add buff
-                if (grabCount > 0 && buffCount < maxOverclocked) // maxOverclockedPerStack * grabCount
+                if (grabCount > 0 && buffCount < maxOverclockedPerItem * grabCount) // maxOverclockedPerStack * grabCount
                 {
                     // Don't have any buffs yet
                     if (buffCount == 0)
@@ -95,7 +95,7 @@ namespace UltitemsCyan.Items.Tier2
             }
             catch
             {
-                Log.Warning("Overloading GPU Hit Error?");
+                //Log.Warning("Overloading GPU Hit Error?");
             }
         }
     }

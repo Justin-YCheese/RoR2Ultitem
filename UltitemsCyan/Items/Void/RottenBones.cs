@@ -19,7 +19,7 @@ namespace UltitemsCyan.Items.Void
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Rotten Bones";
+            const string itemName = "Rotten Bones";
             if (!CheckItemEnabledConfig(itemName, "Void", configs))
             {
                 return;
@@ -144,7 +144,7 @@ namespace UltitemsCyan.Items.Void
                         ApplyRot(body, _intervalsPassed);
                         if (_intervalsPassed >= rotsPerItem)
                         {
-                            Log.Debug("Pass rot Time Interval But Behavior!");
+                            //Log.Debug("Pass rot Time Interval But Behavior!");
                             enabled = false; // Not sure if removes, but at least stop FixedUpdate for this item from running
                         }
                     }

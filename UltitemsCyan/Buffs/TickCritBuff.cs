@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 using UltitemsCyan.Items.Tier1;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -14,7 +13,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Tick Crit Buff", true, false, Color.white, UltAssets.TickCritSprite, false, false);
+            buff = DefineBuff("Tick Crit Buff", true, false, UltAssets.TickCritSprite);
             //Log.Info(buff.name + " Initialized");
             Hooks();
         }

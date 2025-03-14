@@ -20,7 +20,7 @@ namespace UltitemsCyan.Items.Tier2
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "H.M.T";
+            const string itemName = "H.M.T";
             if (!CheckItemEnabledConfig(itemName, "Green", configs))
             {
                 return;
@@ -123,7 +123,7 @@ namespace UltitemsCyan.Items.Tier2
 
         private void InflictBurn(GameObject victimObject, GameObject attackerObject, Inventory inventory, int grabCount)
         {
-            Log.Debug("Hot Burns! HMT");
+            //Log.Debug("Hot Burns! HMT");
             InflictDotInfo inflictDotInfo = new()
             {
                 victimObject = victimObject,

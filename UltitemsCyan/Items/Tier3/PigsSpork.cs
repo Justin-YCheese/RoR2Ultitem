@@ -144,7 +144,7 @@ namespace UltitemsCyan.Items.Tier3
             }
             catch
             {
-                Log.Warning("Spork On Hit Expected Error");
+                //Log.Warning("Spork On Hit Expected Error");
             }
         }
 
@@ -153,7 +153,7 @@ namespace UltitemsCyan.Items.Tier3
         private void DotController_InflictDot_refInflictDotInfo(On.RoR2.DotController.orig_InflictDot_refInflictDotInfo orig, ref InflictDotInfo inflictDotInfo)
         {
             orig(ref inflictDotInfo);
-            Log.Debug("Dot Controller Spork: " + inflictDotInfo.dotIndex + " = " + DotController.DotIndex.Bleed + " | " + DotController.DotIndex.SuperBleed);
+            //Log.Debug("Dot Controller Spork: " + inflictDotInfo.dotIndex + " = " + DotController.DotIndex.Bleed + " | " + DotController.DotIndex.SuperBleed);
             if (inflictDotInfo.dotIndex is DotController.DotIndex.Bleed or DotController.DotIndex.SuperBleed)
             {
                 CharacterBody inflictor = inflictDotInfo.attackerObject.GetComponent<CharacterBody>();
@@ -173,7 +173,7 @@ namespace UltitemsCyan.Items.Tier3
             if (self && self.victimObject && self.victimBody &&
                 dotIndex is DotController.DotIndex.Bleed or DotController.DotIndex.SuperBleed)
             {
-                Log.Debug("Evaluating...");
+                //Log.Debug("Evaluating...");
                 SporkBleedBehavior behavior = self.victimObject.GetComponent<SporkBleedBehavior>();
                 if (behavior)
                 {
@@ -188,10 +188,10 @@ namespace UltitemsCyan.Items.Tier3
                         }
                     }
                 }
-                Log.Debug("Has inflictors?");
+                //Log.Debug("Has inflictors?");
             }
             orig(self, dotIndex, dt, out remainingActive);
-            Log.Debug(" ? but How inflictors");
+            //Log.Debug(" ? but How inflictors");
         }
 
         // Used to keep track of who heals from bleed damage
@@ -201,7 +201,7 @@ namespace UltitemsCyan.Items.Tier3
 
             public void AddInflictor(CharacterBody inflictor)
             {
-                Log.Debug("Adding " + inflictor.name + " to inflictors");
+                //Log.Debug("Adding " + inflictor.name + " to inflictors");
                 if (!_inflictors.Contains(inflictor))
                 {
                     _inflictors.Add(inflictor);
@@ -210,13 +210,13 @@ namespace UltitemsCyan.Items.Tier3
 
             public CharacterBody[] GetInflictors()
             {
-                Log.Debug("In Inflictor get method");
+                //Log.Debug("In Inflictor get method");
                 return [.. _inflictors];
             }
 
             public void OnDestroy()
             {
-                Log.Warning(" , Spork Bleed ended...");
+                //Log.Warning(" , Spork Bleed ended...");
                 _inflictors.Clear();
             }
         }

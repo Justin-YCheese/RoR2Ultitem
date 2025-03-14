@@ -78,9 +78,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.12.0";
+        public const string PluginVersion = "0.12.1";
 
-        public const string PluginSuffix = "Restoring hurt items";
+        public const string PluginSuffix = "Touchdown on the Zone! new";
 
         private static ConfigFile UltitemsConfig { get; set; }
 
@@ -134,6 +134,7 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new SlipperyGrapeBuff()); // TAKEDAMAGEPROCESS
 
             //ultitemBuffs.Add(new PeelBuff());
+            ultitemBuffs.Add(new QuarkGravityBuff());
             ultitemBuffs.Add(new SuesTeethBuff());
             ultitemBuffs.Add(new SporkBleedBuff());
             ultitemBuffs.Add(new TaffyChewBuff());
@@ -177,7 +178,7 @@ namespace UltitemsCyan
             //ultitemItems.Add(new DegreeScissors()); // Last Priority
             ultitemItems.Add(new HMT());
             ultitemItems.Add(new OverclockedGPU());
-            //ultitemItems.Add(new TinyIgloo());
+            ultitemItems.Add(new TinyIgloo());
             ultitemItems.Add(new XenonAmpoule());
 
             // Red
@@ -195,13 +196,14 @@ namespace UltitemsCyan
             ultitemItems.Add(new UltravioletBulb());
             //ultitemItems.Add(new PowerChip());
 
-            ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail?  . // TAKEDAMAGEPROCESS
+            ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail? // TAKEDAMAGEPROCESS
 
             ultitemItems.Add(new DelugedPail());
 
             // Equipments
             ultitemItems.Add(new IceCubes());
             //ultitemItems.Add(new JellyJail());
+            ultitemItems.Add(new OrbitalQuark());
             ultitemItems.Add(new YieldSign());
             ultitemItems.Add(new YieldSignStop());
 
@@ -216,7 +218,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new Crysotope());
             ultitemItems.Add(new DriedHam());
             ultitemItems.Add(new RottenBones());
-            //ultitemItems.Add(new QuantumPeel());  .   . . .   .  .    .   .   .    .      //HealthComponent_UpdateLastHitTime
+            //ultitemItems.Add(new QuantumPeel());
             ultitemItems.Add(new DownloadedRAM());
             ultitemItems.Add(new JealousFoe());
             ultitemItems.Add(new InhabitedCoffin());
@@ -244,7 +246,6 @@ namespace UltitemsCyan
                 }
             }
             Log.Debug("Items Done");
-
 
             // Add Hooks
             Stage.onStageStartGlobal += Stage_onStageStartGlobal;

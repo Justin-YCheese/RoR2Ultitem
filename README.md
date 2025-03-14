@@ -17,6 +17,7 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/Zdjwt4L.png) | Birthday Candles    | Temporarily deal extra damage after pickup and at the start of each stage.                                              |      Green      |
 | ![Imgur](https://i.imgur.com/KERPnX6.png) | H.M.T               | Chance to ignite enemies when you inflict something else                                                                |      Green      |
 | ![Imgur](https://i.imgur.com/PRYmaiW.png) | Overclocked GPU     | Increase attack speed on kill. Stacks 10 times. Resets upon getting hurt.                                               |      Green      |
+| ![Imgur](https://i.imgur.com/ns8dF2w.png) | Tiny Igloo          | Increase healing per zones occupied. Overhealing increases zone size.                                                   |      Green      |
 | ![Imgur](https://i.imgur.com/7nCsVaj.png) | Xenon Ampoule       | Activating your Equipment also fires a laser. Damage and size scale with equipment duration.                            |      Green      |
 | ![Imgur](https://i.imgur.com/4DFayZF.png) | Corroding Vault     | Breaks at the start of the next stage. Contains white items.                                                            |       Red       |
 | ![Imgur](https://i.imgur.com/t7YNoVY.png) | Grapevine           | Chance on kill to drop grapes that block damage.                                                                        |       Red       |
@@ -26,7 +27,7 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/70oQsj7.png) | Rocky Taffy         | Gain a recharging shield. Buff gives a stable barrier without your shield. Buff gained with full shield.                |       Red       |
 | ![Imgur](https://i.imgur.com/ClXO89c.png) | Dream Fuel          | Increase speed at full health... **BUT get rooted when hit.**                                                           |      Lunar      |
 | ![Imgur](https://i.imgur.com/ASsZX2z.png) | Silver Thread       | Chance to gain additional items... **BUT chance of losing items or dying upon being attacked**. Upon death, this item will be consumed. |      Lunar      |
-| ![Imgur](https://i.imgur.com/OM2CjLT.png) | Deluged Pail       | Gain stats for each item held... **BUT picking up an item triggers a restack.**                                         |      Lunar      |
+| ![Imgur](https://i.imgur.com/OM2CjLT.png) | Deluged Pail        | Gain stats for each item held... **BUT picking up an item triggers a restack.**                                         |      Lunar      |
 | ![Imgur](https://i.imgur.com/wYLzvng.png) | Ultraviolet Bulb    | Chance to instantly reset a skill after it's used... **BUT triples all cooldown**                                       |      Lunar      |
 | ![Imgur](https://i.imgur.com/XnoYzTk.png) | Crysotope           | Rise after jumping. Hold jump to continue flying. **Corrupts all Frisbees**.                                            |    Void White   |
 | ![Imgur](https://i.imgur.com/5fZqteh.png) | Dried Ham           | Heal when hitting enemies below 35% health. **Corrupts all Crème Brûlées**.                                             |    Void White   |
@@ -35,12 +36,13 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/rNTV1Tx.png) | Rotten Bones        | Deal more damage over time. **Corrupts all Birthday Candles**.                                                          |    Void Green   |
 | ![Imgur](https://i.imgur.com/pkuZxAg.png) | Zorse Pill          | Starve enemies on hit dealing percent TOTAL damage. **Corrupts all HMTs**.                                              |    Void Green   |
 | ![Imgur](https://i.imgur.com/D8sAljB.png) | Inhabited Coffin    | Breaks at the start of the next stage. Contains void items. **Corrupts all Corroding Vaults**.                          |     Void Red    |
-| ![Imgur](https://i.imgur.com/ESyUfae.png) | Quantum Peel\n(removed)       | Gain speed and jump power when damaged. **Corrupts all Viral Smogs**.                                          |     Void Red    |
+| ![Imgur](https://i.imgur.com/ESyUfae.png) | Quantum Peel (removed)       | Gain speed and jump power when damaged. **Corrupts all Viral Smogs**.                                         |     Void Red    |
 
 | Icon | Equipment| Cooldown | Description | Type |
 |:--:|--|:--:|--|:--:|
+| ![Imgur](https://i.imgur.com/7tlpOSq.png) | 9 Ice Cubes         | 60  | Spawn a zero gravity zone. Can place up to 3.                                                                           | Normal |
+| ![Imgur](https://i.imgur.com/1ihwNDY.png) | Orbial Quark        | 60  | Gain barrier on use                                                                                                     | Normal |
 | ![Imgur](https://i.imgur.com/seg2YFF.png) | Yield Sign          | 10  | Alternate between multiplying speed and canceling it. Hit nearby enemies each time.                                     | Normal |
-| ![Imgur](https://i.imgur.com/7tlpOSq.png) | 9 Ice Cubes         | 60  | Gain barrier on use                                                                                                     | Normal |
 | ![Imgur](https://i.imgur.com/dVK9J9h.png) | Macroseismograph    | 300 | While on the ground, summons a tremendious power... **BUT forgo all equipments**                                        | Lunar  |
 | ![Imgur](https://i.imgur.com/CfvSgjp.png) | Pot of Regolith     | 2   | **Take damage** on use.                                                                                                 | Lunar  |
 | ![Imgur](https://i.imgur.com/IrEnroy.png) | Universal Solute    | 60  | **Erase** your last item from existence.                                                                                | Lunar  |

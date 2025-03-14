@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 using UltitemsCyan.Items.Lunar;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -12,7 +11,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Dream Fuel buff", false, false, Color.white, UltAssets.DreamSpeedSprite, false, false);
+            buff = DefineBuff("Dream Fuel buff", false, false, UltAssets.DreamSpeedSprite);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();

@@ -7,7 +7,12 @@
 - Frisbee
 	- Why does it get canceled when there are any additional inputs?
 	- I think it's when other buffs are gained or lost that this also happens
+	- jumping After Acrid's leap? (As Client not Host?)
 - Frisbee 3D icon is small when scrapping/pools
+- Zorse hurts Railgunner's repulsion mine
+- Noxiosu Throns doesn't transfer damage of original Zorse Starve DOT: public void TriggerEnemyDebuffs(DamageReport damageReport)
+- Fix Frisbee's Item description?
+	- Once it was just question makrs. not sure why. couldn't reproduce
 
 Test:
 

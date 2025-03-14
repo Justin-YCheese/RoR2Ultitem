@@ -19,11 +19,10 @@ namespace UltitemsCyan.Items.Tier1
 
         public const float baseDuration = 1.2f;
         public const float durationPerStack = 0.6f;
-        public const float holdJumpBuffer = 0.1f;
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Frisbee";
+            const string itemName = "Frisbee";
             if (!CheckItemEnabledConfig(itemName, "White", configs))
             {
                 return;
@@ -64,6 +63,7 @@ namespace UltitemsCyan.Items.Tier1
 
         private void GenericCharacterMain_ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump orig, EntityStates.GenericCharacterMain self)
         {
+            
             if (self.characterBody && self.characterBody.inventory)
             {
                 CharacterBody body = self.characterBody;
@@ -76,7 +76,7 @@ namespace UltitemsCyan.Items.Tier1
                     // True | False | True | rigidbody
 
                     //Log.Debug("characterMotor, jumpInput, body: " + self.hasCharacterMotor + " | " + self.jumpInputReceived + " | " + self.characterBody);
-                    //Log.Debug("Jumps: " + self.characterMotor.jumpCount + " < " + self.characterBody.maxJumpCount);
+                    Log.Debug("Jumps: " + self.characterMotor.jumpCount + " < " + self.characterBody.maxJumpCount);
                     if (self.characterMotor.jumpCount < self.characterBody.maxJumpCount)
                     {
                         //   *   *   *   ADD EFFECT   *   *   *   //
@@ -87,7 +87,7 @@ namespace UltitemsCyan.Items.Tier1
                         FrisbeeBehavior behavior = self.characterBody.GetComponent<FrisbeeBehavior>();
                         behavior.enabled = true;
                         behavior.UpdateStopwatch(Run.instance.time);
-                        body.SetBuffCount(FrisbeeGlidingBuff.buff.buffIndex, 1);
+                        body.SetBuffCount(FrisbeeGlidingBuff.buff.buffIndex, 1); // TODO Change to add buff?
 
                         Log.Debug("Has Timed def Buff? " + self.HasBuff(FrisbeeGlidingBuff.buff));
                     }
@@ -106,7 +106,7 @@ namespace UltitemsCyan.Items.Tier1
             private const float durationPerStack = Frisbee.durationPerStack;
             public float flyingStopwatch = 0;
             private bool _canHaveBuff = false;
-            private bool _jumpBufferTimer = false;
+            private bool _jumpBuffer = false;
 
             public void UpdateStopwatch(float newTime)
             {
@@ -122,38 +122,31 @@ namespace UltitemsCyan.Items.Tier1
                     // If not already the same value
                     if (_canHaveBuff != value)
                     {
-                        _canHaveBuff = value;
-                        // If if air and holding jump
-                        /*
-                        if (_canHaveBuff)
+                        Log.Debug("Frisbee!!! grounded? " + !motor.isGrounded + " jumping? " + body.inputBank.jump.down);
+
+                        /*/
+                        if (value)
                         {
-                            Log.Debug(" * * * Lift Off ! !");
-                            // Add Buff if running of edge?
-                            //self.characterBody.AddTimedBuff(FrisbeeFlyingBuff.buff, durationPerStack * grabCount);
+                            _canHaveBuff = true;
+                            _jumpBuffer = true;
+                        }
+                        else if (_jumpBuffer)
+                        {
+                            _jumpBuffer = false;
                         }
                         else
                         {
-                            Log.Debug("Fell? / / /");
-                            //body.ClearTimedBuffs(FrisbeeFlyingBuff.buff);
-                            body.SetBuffCount(FrisbeeFlyingBuff.buff.buffIndex, 0);
+                            _canHaveBuff = false;
                         }
                         //*/
+
+                        _canHaveBuff = value;
+
                         if (!_canHaveBuff)
                         {
+                            Log.Warning("Frisbee!!! Can't have buff, removing buff");
                             body.SetBuffCount(FrisbeeGlidingBuff.buff.buffIndex, 0);
                         }
-                    }
-                }
-            }
-
-            public bool JumpBufferTimer
-            {
-                get { return _jumpBufferTimer; }
-                set
-                {
-                    if (_jumpBufferTimer != value)
-                    {
-                        
                     }
                 }
             }

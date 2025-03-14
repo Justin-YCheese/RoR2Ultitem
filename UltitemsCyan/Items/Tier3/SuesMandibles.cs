@@ -49,7 +49,7 @@ namespace UltitemsCyan.Items.Tier3
                 if (grabCount > 0)
                 {
                     Log.Warning(" ! ! ! Killing Blow ! ! ! ");
-                    Log.Debug("S Teeth Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage + " Alive? " + self.alive);
+                    //Log.Debug("S Teeth Combined: " + self.combinedHealth + " FullCombined: " + self.fullCombinedHealth + " Damage: " + damageInfo.damage + " Alive? " + self.alive);
 
                     // Regain one health
                     self.health = 1;

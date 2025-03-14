@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using UnityEngine;
 using static UltitemsCyan.Items.Void.JealousFoe;
 
 namespace UltitemsCyan.Buffs
@@ -10,7 +9,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Eye Awake Buff", true, false, Color.white, UltAssets.EyeAwakeSprite, false, false);
+            buff = DefineBuff("Eye Awake Buff", true, false, UltAssets.EyeAwakeSprite);
             Hooks();
         }
 
@@ -26,10 +25,10 @@ namespace UltitemsCyan.Buffs
             if (self && buffDef == buff && self.inventory) // && list.Count > 0
             {
                 JealousFoeBehaviour behavior = self.GetComponent<JealousFoeBehaviour>();
-                Log.Warning("   ?   Do you have a Jelly Foe   ?");
+                //Log.Warning("   ?   Do you have a Jelly Foe   ?");
                 if (behavior)
                 {
-                    Log.Debug("Oh ! !!! ! you just lost it...");
+                    //Log.Debug("Oh ! !!! ! you just lost it...");
                     behavior.SetCooldownPhase();
                     // next is Sleepy LastStackRemoved
                 }

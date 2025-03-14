@@ -17,7 +17,7 @@ namespace UltitemsCyan.Equipment
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Pot of Regolith";
+            const string itemName = "Pot of Regolith";
             if (!CheckItemEnabledConfig(itemName, "Equipment", configs))
             {
                 return;
@@ -56,7 +56,7 @@ namespace UltitemsCyan.Equipment
                 }
                 else
                 {
-                    Log.Debug("Pot High Damage");
+                    //Log.Debug("Pot High Damage");
                 }
 
                 DamageInfo damageSelf = new()
@@ -70,7 +70,7 @@ namespace UltitemsCyan.Equipment
                 };
                 //if (damageSelf.crit) { damageSelf.damage *= 2; }
 
-                Log.Debug("Pot activator damage: " + damageSelf.damage);
+                //Log.Debug("Pot activator damage: " + damageSelf.damage);
 
                 activator.healthComponent.TakeDamage(damageSelf);
                 //self.subcooldownTimer += 5f;

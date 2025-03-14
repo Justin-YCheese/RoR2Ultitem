@@ -30,7 +30,7 @@ namespace UltitemsCyan.Items.Lunar
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Deluged Pail";
+            const string itemName = "Deluged Pail";
             if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
@@ -163,7 +163,7 @@ namespace UltitemsCyan.Items.Lunar
                     CharacterBody player = CharacterBody.readOnlyInstancesList.ToList().Find((body) => body.inventory == self);
                     if (player && self.GetItemCount(item) > 0) // Valid Check
                     {
-                        Log.Warning("Spork the inventory");
+                        //Log.Warning("Spork the inventory");
                         SporkRestackInventory(self, new Xoroshiro128Plus(Run.instance.stageRng.nextUlong));
                         // Effect after restock
                         EffectManager.SpawnEffect(ShrineUseEffect, new EffectData

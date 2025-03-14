@@ -18,7 +18,7 @@ namespace UltitemsCyan.Items.Lunar
 
         public override void Init(ConfigFile configs)
         {
-            string itemName = "Dream Fuel";
+            const string itemName = "Dream Fuel";
             if (!CheckItemEnabledConfig(itemName, "Lunar", configs))
             {
                 return;
@@ -127,7 +127,7 @@ namespace UltitemsCyan.Items.Lunar
             }
             catch (NullReferenceException)
             {
-                Log.Warning("What Dream Hit?");
+                //Log.Warning("What Dream Hit?");
                 //Log.Debug("Victum " + victim.name);
                 //Log.Debug("CharacterBody " + victim.GetComponent<CharacterBody>().name);
                 //Log.Debug("Inventory " + victim.GetComponent<CharacterBody>().inventory);

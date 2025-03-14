@@ -1,5 +1,4 @@
 ﻿using RoR2;
-using UnityEngine;
 
 namespace UltitemsCyan.Buffs
 {
@@ -9,7 +8,7 @@ namespace UltitemsCyan.Buffs
 
         public override void Init()
         {
-            buff = DefineBuff("Peel buff", true, false, Color.white, UltAssets.PeelSprite, false, false);
+            //buff = DefineBuff("Peel buff", true, false, UltAssets.PeelSprite);
             //Log.Info(buff.name + " Initialized");
 
             Hooks();
