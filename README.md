@@ -41,7 +41,7 @@ There is a config file to enable or disable specific items.
 | Icon | Equipment| Cooldown | Description | Type |
 |:--:|--|:--:|--|:--:|
 | ![Imgur](https://i.imgur.com/7tlpOSq.png) | 9 Ice Cubes         | 60  | Spawn a zero gravity zone. Can place up to 3.                                                                           | Normal |
-| ![Imgur](https://i.imgur.com/1ihwNDY.png) | Orbial Quark        | 60  | Gain barrier on use                                                                                                     | Normal |
+| ![Imgur](https://i.imgur.com/1ihwNDY.png) | Orbital Quark       | 60  | Gain barrier on use                                                                                                     | Normal |
 | ![Imgur](https://i.imgur.com/seg2YFF.png) | Yield Sign          | 10  | Alternate between multiplying speed and canceling it. Hit nearby enemies each time.                                     | Normal |
 | ![Imgur](https://i.imgur.com/dVK9J9h.png) | Macroseismograph    | 300 | While on the ground, summons a tremendious power... **BUT forgo all equipments**                                        | Lunar  |
 | ![Imgur](https://i.imgur.com/CfvSgjp.png) | Pot of Regolith     | 2   | **Take damage** on use.                                                                                                 | Lunar  |
