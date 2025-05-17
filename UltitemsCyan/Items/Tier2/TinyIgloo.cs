@@ -3,8 +3,14 @@ using UnityEngine;
 using BepInEx.Configuration;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.UIElements.StyleSheets.Syntax;
+using static Facepunch.Steamworks.Inventory.Item;
+using static TurboEdition.Items.TeleporterRadius;
+using MonoMod.Cil;
 
-
+//using Mono.Cecil.Cil;
+using Mono.Cecil.Cil;
+using System;
 
 namespace UltitemsCyan.Items.Tier2
 {
@@ -12,7 +18,6 @@ namespace UltitemsCyan.Items.Tier2
      * 
      * Works with Focused Convergence,
      * 
-     * TODO: Doesn't get initial increased size of stacked Warbanners
      * 
      *  Test // Void fields cells // NullWardBaseState.wardRadiusOff = 0.2f + (0.2f * FindTotalMultiplier());
      *  Test Gold Fields
@@ -22,31 +27,11 @@ namespace UltitemsCyan.Items.Tier2
 
     public class TinyIgloo : ItemBase
     {
-        private readonly struct InitialZone(NetworkBehaviour zone, float startRadius = -1f)
-        {
-            public readonly NetworkBehaviour zone = zone;
-            public readonly float startRadius = startRadius;
-
-            static public bool operator ==(InitialZone lInitZone, InitialZone rInitZone) { return lInitZone.zone == rInitZone.zone; }
-            static public bool operator !=(InitialZone lInitZone, InitialZone rInitZone) { return lInitZone.zone != rInitZone.zone; }
-
-            // override Equals() So InitialZone gets properly removed from zoneList
-            public override bool Equals(object obj)
-            {
-                if (obj is InitialZone other)
-                {
-                    return zone == other.zone;
-                }
-                return false;
-            } 
-            public override int GetHashCode()
-            {
-                return zone?.GetHashCode() ?? 0;
-            }
-        }
 
         public static ItemDef item;
-        private readonly List<InitialZone> zoneList = [];
+
+        //private readonly List<InitialZone> zoneList = [];
+        public static readonly List<NetworkBehaviour> zoneList = [];
 
         // Healing
         private const int basePercent = 30;
@@ -55,13 +40,13 @@ namespace UltitemsCyan.Items.Tier2
 
         // Counting Zones
         private const int maxZoneCount = 15;
-        private const float radiusPerOverheal = .5f; // How much percentage of radius increase from each percentage of overheal
+        private const float radiusPerOverheal = 50f; // How much percentage of radius increase from 100 percentage of overheal
 
         // Max Zone Radius
         private const float baseMaxRadius = 60f; // +60% radius size
         private const float perStackMaxRadius = 30f;
 
-        private float storeToFullHealth = 0f; // To store health value between functions
+        //private float storeToFullHealth = 0f; // To store health value between functions
 
         public override void Init(ConfigFile configs)
         {
@@ -74,7 +59,7 @@ namespace UltitemsCyan.Items.Tier2
                 "TINYIGLOO",
                 itemName,
                 "Increase healing per zones occupied. Overhealing increases zone size.",
-                "While in a zone, <style=cIsHealing>heal 30%</style> <style=cStack>(+10% per stack)</style> more plus half as much for each <style=cIsDamage>additional zone</style> occupied. Overhealing will <style=cIsDamage>increases the size</style> of the zone for <style=cIsHealing>50%</style> of the amount <style=cIsHealing>healed</style>. Increase max size by <style=cIsDamage>60%</style> <style=cStack>(+30% per stack)</style>.",
+                "While in a zone, <style=cIsHealing>heal 30%</style> <style=cStack>(+10% per stack)</style> more plus half as much for each <style=cIsDamage>additional zone</style> occupied. Healing will <style=cIsDamage>increases the size</style> of the zone for <style=cIsHealing>50%</style> of the amount <style=cIsHealing>healed</style>. Increase max size by <style=cIsDamage>60%</style> <style=cStack>(+30% per stack)</style>.",
                 "It's like a snowball effect but for zones. Get it? But there already existed a snow globe item, so I went for something similar",
                 ItemTier.Tier2,
                 UltAssets.TinyIglooSprite,
@@ -83,187 +68,289 @@ namespace UltitemsCyan.Items.Tier2
             );
         }
 
-
         protected override void Hooks()
         {
-            On.RoR2.HoldoutZoneController.OnEnable += HoldoutZoneController_OnEnable;
-            //On.RoR2.HoldoutZoneController.Start += HoldoutZoneController_Start;
-            On.RoR2.HoldoutZoneController.OnDisable += HoldoutZoneController_OnDisable;
+            On.RoR2.HoldoutZoneController.Start += HoldoutZoneController_Start;
             On.RoR2.BuffWard.OnEnable += BuffWard_Start;
-            On.RoR2.BuffWard.OnDisable += BuffWard_OnDisable;
             On.RoR2.HealthComponent.Heal += HealthComponent_Heal;
-            On.RoR2.HealthComponent.SendHeal += HealthComponent_SendHeal;
+            IL.RoR2.HealthComponent.HandleHeal += HealthComponent_HandleHeal;
         }
 
-        // Add or remove zones from global list
-        // startRadius will be set when first added to
+        // Add buff wards to global list
         private void BuffWard_Start(On.RoR2.BuffWard.orig_OnEnable orig, BuffWard self)
         {
             orig(self);
-            zoneList.Add(new InitialZone(self));
-            //Log.Debug(" + + + ++++++ + + + Adding B U F F | Count " + zoneList.Count + " | N E W radius = " + self.radius + " calcRadius " + self.calculatedRadius);
+            self.gameObject.AddComponent<IglooBuffWardController>().SetWard(self);
         }
-        private void BuffWard_OnDisable(On.RoR2.BuffWard.orig_OnDisable orig, BuffWard self)
+
+        // Add zone to global list
+        private void HoldoutZoneController_Start(On.RoR2.HoldoutZoneController.orig_Start orig, HoldoutZoneController self)
         {
-            _ = zoneList.Remove(new InitialZone(self));
-            //Log.Debug(" + + + +----+ + + + B U F F SUBtraction? | Count " + zoneList.Count + " | " + !zoneList.Contains(new InitialZone(self)));
-            orig(self);
-        }
-        private void HoldoutZoneController_OnEnable(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
-        {
-            orig(self);
-            zoneList.Add(new InitialZone(self));
-            //Log.Debug(" + + + ++++++ + + + Adding Zone | radius = " + self.baseRadius);
-        }
-        private void HoldoutZoneController_OnDisable(On.RoR2.HoldoutZoneController.orig_OnDisable orig, HoldoutZoneController self)
-        {
-            _ = zoneList.Remove(new InitialZone(self));
-            //Log.Debug(" + + + +----+ + + + Zone SUBtraction? " + !zoneList.Contains(new InitialZone(self)));
+            Log.Debug(" <><><><> Tiny Igloo Start");
+            if (self.applyFocusConvergence) //If zone can get shrunk, it can grow too
+            {
+                _ = self.gameObject.AddComponent<IglooHoldoutZoneController>();
+            }
+            else
+            {
+                Log.Warning(" >      < No focus convergence?");
+            }
             orig(self);
         }
 
         // Increase amount healed
         private float HealthComponent_Heal(On.RoR2.HealthComponent.orig_Heal orig, HealthComponent self, float amount, ProcChainMask procChainMask, bool nonRegen)
         {
-            if (nonRegen && self && self.body && self.body.inventory)
+            if (nonRegen)
             {
-                int grabCount = self.body.inventory.GetItemCount(item);
-                if (grabCount > 0)
-                {
-                    storeToFullHealth = self.fullHealth - self.health;
-                    // Increase amount healed
-                    //Log.Warning("  +++  Healing igloo | initial amount = " + amount);
-
-                    int zoneCount = GetInZoneList(self.body).Length;
-
-                    float zoneMultiplier = zoneCount == 0 ? 0 : (zoneCount + 1) * extraZoneMul;
-                    float itemMultiplier = (basePercent + (grabCount - 1) * perStackPercent) / 100f;
-
-                    //float multiplier = 1 + (basePercent + (grabCount - 1) * perStackPercent) * zoneCount / 100f;
-                    float multiplier = 1 + itemMultiplier * zoneMultiplier;
-                    amount *= multiplier;
-                    //Log.Debug(" ^ ^ ^ itemMultiplier = " + itemMultiplier + "\tzoneCount = " + zoneCount + "\tzoneMultiplier = " + zoneMultiplier + "\ttotalMult = " + multiplier + "\tinitialToFull = " + storeToFullHealth + "\tamount = " + amount);
-
-                    return orig(self, amount, procChainMask, nonRegen);
-                }
+                amount = ZoneHealAmountMultiplier(self, amount);
             }
             return orig(self, amount, procChainMask, nonRegen);
         }
 
-        // Get amount healed and increase zone radius
-        private void HealthComponent_SendHeal(On.RoR2.HealthComponent.orig_SendHeal orig, GameObject target, float amount, bool isCrit)
+        private float ZoneHealAmountMultiplier(HealthComponent self, float amount)
         {
-            //Log.Warning(" +++ Sending Healing Wishes");
-            orig(target, amount, isCrit);
-
-            CharacterBody characterBody = target.GetComponent<CharacterBody>();
-            int grabCount = characterBody.inventory.GetItemCount(item);
-            if (grabCount > 0)
+            if (self && self.body && self.body.inventory)
             {
-                HealthComponent healthComponent = characterBody.healthComponent;
+                int grabCount = self.body.inventory.GetItemCount(item);
+                if (grabCount > 0)
+                {
+                    int zoneCount = GetOccupiedZoneList(self.body, true).Length;
 
-                //Log.Debug(" +++ Send Heal +++ | Full Health = " + healthComponent.fullHealth + " ToFull = " + storeToFullHealth);
+                    float zoneMultiplier = zoneCount == 0 ? 0 : (zoneCount + 1) * extraZoneMul;
+                    float itemMultiplier = (basePercent + (grabCount - 1) * perStackPercent) / 100f;
 
-                //float overHeal = amount - Mathf.Max(Mathf.Min(amount, healthComponent.fullHealth - healthComponent.health), 0f);
+                    float multiplier = 1 + itemMultiplier * zoneMultiplier;
 
-                // Healed Amount - Amount to full health (min zero)
-                float overHeal = Mathf.Max(amount - storeToFullHealth, 0);
-                Log.Debug(" +++ Send Heal +++ | toFullHealth = " + storeToFullHealth + " Overheal: " + overHeal + " Overheal Percent: " + overHeal / healthComponent.fullHealth * 100);
+                    return amount * multiplier;
+                }
+            }
+            return amount;
+        }
 
-                // Increase radius for over heals
-                IncreaseEachRadius(GetInZoneList(characterBody), overHeal / healthComponent.fullHealth, grabCount);
+        private void HealthComponent_HandleHeal(ILContext il)
+        {
+            ILCursor c = new(il); // Make new ILContext
 
-                //Log.Warning("  +++  | Multiplier: " + multiplier + "\t| returnAmount " + returnAmount + "\t| overHeal " + overHeal);
-                storeToFullHealth = 0;
+            // Inject code just after loading healMessage
+            // just reading values, should break anything else
+
+            // After HealthComponent.HealMessage healMessage = netMsg.ReadMessage<HealthComponent.HealMessage>();
+            if (c.TryGotoNext(MoveType.After,
+                x => x.Match(OpCodes.Callvirt),     // 1   0001    callvirt instance !!0['com.unity.multiplayer-hlapi.Runtime']UnityEngine.Networking.NetworkMessage::ReadMessage <class RoR2.HealthComponent/HealMessage>()
+                x => x.MatchStloc(0)                // 2	0006	stloc.0
+            ))
+            {
+
+                Log.Debug(" * * * Start C Index: " + c.Index + " > " + c.ToString());
+
+                c.Index++;
+
+                Log.Debug(" * * *       C Index: " + c.Index + " > " + c.ToString());
+
+                _ = c.Emit(OpCodes.Ldloc, 0);     // Load HealthComponent.HealMessage
+                // Run custom code
+                _ = c.EmitDelegate<Action<HealthComponent.HealMessage>>((hm) =>
+                {
+                    GameObject tO = hm.target;
+                    if (tO)
+                    {
+                        CharacterBody cB = tO.GetComponent<CharacterBody>();
+                        int gC = cB.inventory.GetItemCount(item);
+                        if (gC > 0)
+                        {
+                            HealthComponent hC = tO.GetComponent<HealthComponent>();
+
+                            //Log.Debug(" +++ Send Heal +++ | Healed = " + hm.amount);
+                            //Log.Warning(" +++ Send Heal +++ | Heal Percent: " + hm.amount / hC.fullHealth * 100 + " include Wards?: " + NetworkServer.active);
+
+                            // Increase radius for over heals
+                            // Only include ward zones if network is active
+                            IncreaseEachRadius(GetOccupiedZoneList(cB, NetworkServer.active), hm.amount / hC.fullHealth, gC);
+                        }
+                    }
+                });
+
+                //_ = c.Emit(OpCodes.Stloc, num14); // Store Total Damage
+                //
+                //}
+                //else
+                //{
+                //    Log.Warning("Koala cannot find 'for (int k = 0; k < num15; k++){}'");
+                //}
+            }
+            else
+            {
+                Log.Warning("TinyIgloo cannot find 'HealthComponent.HealMessage healMessage = netMsg.ReadMessage<HealthComponent.HealMessage>();'");
             }
         }
 
         // Get list of zones the body is in
-        private InitialZone[] GetInZoneList(CharacterBody body)
+        private NetworkBehaviour[] GetOccupiedZoneList(CharacterBody body, bool includeWards)
         {
-            List<InitialZone> list = new(maxZoneCount);
-            //int zoneCount = 0;
-            foreach (InitialZone initZone in zoneList)
+            List<NetworkBehaviour> occupiedZones = new(maxZoneCount);
+            foreach (NetworkBehaviour initZone in zoneList)
             {
                 // Randomize list??? (otherwise prioritize oldest zone over newer zones)
                 // If already counted max number of zones
                 // If body is in buffward
-                if (initZone.zone is BuffWard ward
+                if (includeWards && initZone is BuffWard ward
                     && (body.transform.position - ward.transform.position).magnitude <= Mathf.Abs(ward.calculatedRadius))
                 {
-                    //Log.Debug(" . " + (body.transform.position - ward.transform.position).magnitude + " BUFF less then " + Mathf.Abs(ward.calculatedRadius));
-                    list.Add(initZone);
+                    occupiedZones.Add(initZone);
                 }
                 // If body is in holdout zone
-                else if (initZone.zone is HoldoutZoneController holdout
+                else if (initZone is HoldoutZoneController holdout
                     && holdout.IsBodyInChargingRadius(body))
                 {
-                    //Log.Debug(" . in Holdout");
-                    list.Add(initZone);
+                    occupiedZones.Add(initZone);
                 }
                 // break if already found max amount
-                if (list.Count >= maxZoneCount)
+                if (occupiedZones.Count >= maxZoneCount)
                 {
                     break;
                 }
             }
-            //Log.Debug(" ^ ^ ^ list.Count = " + list.Count);
-            return [.. list];
+            Log.Debug(" ^ ^ ^ list.Count = " + occupiedZones.Count);
+            return [.. occupiedZones];
         }
 
-        private void IncreaseEachRadius(InitialZone[] inZoneList, float overhealPer, int grabCount)
+        private void IncreaseEachRadius(NetworkBehaviour[] inZoneList, float overhealPer, int grabCount)
         {
+            if (inZoneList.Length <= 0)
+            {
+                return;
+            }
             Log.Warning(" +++++ +++++ +++++ Increasing radius");
             overhealPer *= radiusPerOverheal;
             // Try to increase size of each zone the player is in
-            foreach (InitialZone initZone in inZoneList)
+            foreach (NetworkBehaviour initZone in inZoneList)
             {
                 // If body is in buff ward
-                if (initZone.zone is BuffWard ward)
+                if (initZone is BuffWard ward)
                 {
                     Log.Debug(" . in Ward");
-                    ward.radius += RadiusChange(initZone, ward.radius, overhealPer, grabCount);
-                    Log.Debug(" _ _ _ _ N E W Ward radius " + ward.radius);
+
+                    ward.GetComponent<IglooBuffWardController>().IncreaseSize(overhealPer, grabCount);
+                    /*float radiusIncrease = RadiusChange(initZone, ward.radius, overhealPer, grabCount);
+                    //ward.radius += radiusIncrease;
+                    ward.Networkradius += radiusIncrease;
+                    Log.Debug(" _ _ _ _ N E W Ward radius " + ward.radius);*/
                 }
                 // If body is in holdout zone
-                else if (initZone.zone is HoldoutZoneController holdout)
+                else if (initZone is HoldoutZoneController holdout)
                 {
                     Log.Debug(" . in Holdout");
-                    holdout.baseRadius += RadiusChange(initZone, holdout.baseRadius, overhealPer, grabCount);
-                    Log.Debug(" _ _ _ _ N E W Ward radius " + holdout.baseRadius);
-                    /*
-                    Log.Debug(" . in Holdout");
-                    initZone.SetStartRadius(holdout.baseRadius);
-                    maxRadius *= initZone.startRadius;
-                    Log.Debug(" _ _ _ _ initZone.initialRadius = " + initZone.startRadius);
-                    Log.Debug(" _ _ _ _ Holdout radius " + holdout.baseRadius + " increased by " + overhealPer * 100 + "% = " + initZone.startRadius * overhealPer);
-                    // Min between added radius and max radius
-                    holdout.baseRadius = Mathf.Min(0, Mathf.Min(holdout.baseRadius + initZone.startRadius * overhealPer, maxRadius - holdout.baseRadius));
-                    Log.Debug(" _ _ _ _ N E W Ward radius " + holdout.baseRadius + " | max: " + maxRadius);
-                    */
+
+                    holdout.GetComponent<IglooHoldoutZoneController>().IncreaseSize(overhealPer, grabCount);
+
+                    /*holdout.baseRadius += RadiusChange(initZone, holdout.baseRadius, overhealPer, grabCount);
+                    Log.Debug(" _ _ _ _ N E W Ward radius " + holdout.baseRadius + " | current " + holdout.currentRadius + " | velocity " + holdout.radiusVelocity);*/
                 }
             }
         }
 
-        private float RadiusChange(InitialZone initZone, float currentRadius, float overhealPer, int grabCount)
+        public class IglooBuffWardController : MonoBehaviour
         {
-            float maxRadius = 1 + (baseMaxRadius + (grabCount - 1) * perStackMaxRadius) / 100;
-            float baseRadius = initZone.startRadius;
-            // If the startRadius hasn't been initilized
-            if (initZone.startRadius == -1f)
+            private BuffWard ward = null!;
+            private float currentPercent = 100f;
+
+            private void Awake()
             {
-                // Remove old immutable struct, replace with struct that has current Radius
-                _ = zoneList.Remove(new InitialZone(initZone.zone));
-                zoneList.Add(new InitialZone(initZone.zone, currentRadius));
-                baseRadius = currentRadius;
-                Log.Debug(" . . . initialRadius " + currentRadius);
+                currentPercent = 100f;
             }
-            maxRadius *= baseRadius;
-            //Log.Debug(" _ _ _ _ initZone.initialRadius = " + baseRadius);
-            //Log.Debug(" _ _ _ _ currentRadius " + currentRadius + " increased by " + overhealPer * 100 + "% = " + baseRadius * overhealPer + " MAX: " + maxRadius);
-            //Log.Debug(" . " + (body.transform.position - ward.transform.position).magnitude + " BUFF less then " + Mathf.Abs(ward.calculatedRadius));
-            // Min between added radius and max radius
-            return Mathf.Max(0, Mathf.Min(baseRadius * overhealPer, maxRadius - currentRadius));
+
+            // Called on Startup
+            public void SetWard(BuffWard aWard)
+            {
+                Log.Debug(" ()() Add Buffward");
+                ward = aWard;
+                zoneList.Add(ward);
+            }
+
+            private void OnDisable()
+            {
+                Log.Debug(" ()() Remove Buffward");
+                _ = zoneList.Remove(ward);
+            }
+
+            public void IncreaseSize(float overhealPer, int grabCount)
+            {
+                float maxRadiusPercent = 100 + (baseMaxRadius + (grabCount - 1) * perStackMaxRadius);
+                if (currentPercent < maxRadiusPercent)
+                {
+                    // Get Radius, divide, then multiply
+                    float setRadius = ward.Networkradius;
+                    //Log.Debug(" _ _ + + WARD setRadius old: " + setRadius + " | currentPercent: " + currentPercent);
+                    setRadius /= currentPercent / 100f;
+                    currentPercent = Mathf.Min(currentPercent + overhealPer, maxRadiusPercent);
+                    setRadius *= currentPercent / 100f;
+                    ward.Networkradius = Mathf.Max(ward.Networkradius, setRadius);
+                    //Log.Debug(" _ _ + + WARD setRadius new = " + ward.Networkradius + " | currentPercent: " + currentPercent + " | maxPercent: " + maxRadiusPercent);
+                }
+            }
+        }
+
+
+        // Original
+        public class IglooHoldoutZoneController : MonoBehaviour
+        {
+            private HoldoutZoneController _holdoutZoneController = null!;
+            private float currentMultiplier = 100f;
+
+            private Run.FixedTimeStamp _enabledTime;
+            private readonly static Color _materialColor = new(0.7f, 0.7f, 1f, 0.8f);
+            private readonly static float currentMultMaxColor = 300f; // Max color when current mult 100 + 300 = 400%
+            private readonly static float colorMix = .7f; // the ratio of base color and tiny Igloo color (1 = full igloo color)
+            private readonly static float startupDelay = 3f; // delay before size change
+
+            private void Awake()
+            {
+                currentMultiplier = 100f;
+                _holdoutZoneController = GetComponent<HoldoutZoneController>();
+                //_materialColor = _holdoutZoneController.baseIndicatorColor;
+            }
+
+            private void OnEnable()
+            {
+                Log.Debug(" ()() Add Holdout Zone");
+                _enabledTime = Run.FixedTimeStamp.now;
+                zoneList.Add(_holdoutZoneController);
+                _holdoutZoneController.calcRadius += ApplyRadius;
+                _holdoutZoneController.calcColor += ApplyColor;
+            }
+
+            private void OnDisable()
+            {
+                var print = zoneList.Remove(_holdoutZoneController);
+                Log.Warning(" ==== ++++ Remove Igloo from List (Never Called?)" + print);
+                _holdoutZoneController.calcRadius -= ApplyRadius;
+                _holdoutZoneController.calcColor -= ApplyColor;
+            }
+
+            public void IncreaseSize(float overhealPer, int grabCount)
+            {
+                float maxRadiusPercent = 100 + (baseMaxRadius + (grabCount - 1) * perStackMaxRadius);
+                if (currentMultiplier < maxRadiusPercent)
+                {
+                    //Log.Debug(" _ _ + + ZONE currentMultiplier old: " + currentMultiplier);
+                    currentMultiplier = Mathf.Min(currentMultiplier + overhealPer, maxRadiusPercent);
+                    //Log.Debug(" _ _ + + ZONE currentMultiplier new: " + currentMultiplier + " | maxPercent: " + maxRadiusPercent);
+                }
+            }
+
+            private void ApplyRadius(ref float radius)
+            {
+                if (_enabledTime.timeSince > startupDelay)
+                {
+                    radius *= currentMultiplier / 100;
+                }
+            }
+
+            private void ApplyColor(ref Color color)
+            {
+                color = Color.Lerp(color, _materialColor, Mathf.Min((currentMultiplier - 100f) / currentMultMaxColor, 1f) * colorMix);
+            }
         }
     }
 }

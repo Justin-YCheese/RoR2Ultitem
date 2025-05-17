@@ -21,8 +21,12 @@ EntityStates.GenericCharacterMain.AddRecoil()
 Util.FindNetworkObject() // Get Object from Network Instance ID
 
 Item Behavior Order:
-Adding -> OnAwake(), OnEnable(), Start()
-Removing -> OnDisable(), Destory()
+	Adding -> OnAwake(), OnEnable(), Start()
+	Removing -> OnDisable(), Destory()
+
+	When setting item behavior count to either positive or zero
+		positive will run OnEnable(), Start()
+		zero will run OnDisable()
 
 ChatMessageBase.GetObjectName(GameObject)
 To get name of objects, returns player username or object name

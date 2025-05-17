@@ -8,7 +8,9 @@ using UnityEngine.Networking;
 
 namespace UltitemsCyan.Equipment
 {
-    // TODO: check if Item classes needs to be public
+    // TODO: Make visible for all players
+    // Check other mods which spawn things (who's spawning it? how does everyone see it?)
+    // Maybe I'm missing a component for the spawned Quartz Ward
     public class OrbitalQuark : EquipmentBase
     {
         public static EquipmentDef equipment;
@@ -17,11 +19,14 @@ namespace UltitemsCyan.Equipment
         private static readonly GameObject QuartzWard = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/CrippleWard/CrippleWard.prefab").WaitForCompletion();
 
         public const float buffSpeed = 40f;
-        public const float buffDampening = 0.92f;
+        public const float buffDampening = 0.99f;
+        public const float buffFallSpeed = 2f;
+        public const float buffMinFallSpeed = 0.12f;
 
-        public const float wardSize = 24f;
+        public const float wardSize = 25f;
         public const int maxOrbits = 3;
-        public const float wardDuration = 25f;
+        public const float wardDuration = 30f;
+        public const float wardAboveOffset = 5f;
 
         public override void Init(ConfigFile configs)
         {
@@ -33,9 +38,9 @@ namespace UltitemsCyan.Equipment
             equipment = CreateItemDef(
                 "ORBITALQUARK",
                 itemName,
-                "Spawn a zero gravity zone. Can place up to 3.",
-                "Create a <style=cIsUtility>zero gravity</style> space for players and enemies. Grants <style=cIsUtility>40% movement speed</style> to players. Can place up to 3.",
-                "In space I... can do at least 3 flips before landing.",
+                "Spawn a zero gravity zone for 30 seconds.",
+                "Create a <style=cIsUtility>zero gravity</style> space for players and enemies. Last <style=cIsUtility>30 seconds</style>. Grants <style=cIsUtility>40% movement speed</style> to players.",
+                "In space... I can do at least 3 flips before landing.",
                 60f,
                 false,
                 true,
@@ -65,18 +70,19 @@ namespace UltitemsCyan.Equipment
                 }
 
                 Vector3 position = activator.corePosition;
-                position.y += 4;
+                position.y += wardAboveOffset;
 
                 // Keep track of Orbits
-                GameObject gravityZone = UnityEngine.Object.Instantiate(QuartzWard);
+                GameObject gravityZone = UnityEngine.Object.Instantiate(QuartzWard, position, Util.QuaternionSafeLookRotation(Vector3.left));
 
-                gravityZone.transform.position = position;
+                //gravityZone.transform.position = position;
                 gravityZone.transform.rotation = Util.QuaternionSafeLookRotation(Vector3.down);
 
                 UnityEngine.Object.Destroy(gravityZone.GetComponent<Deployable>());
 
-                Rigidbody rigidBody = gravityZone.GetComponent<Rigidbody>();
+                /*Rigidbody rigidBody = gravityZone.GetComponent<Rigidbody>();
                 rigidBody.detectCollisions = false;
+                Log.Debug(" ###* ###* Has Collisions? " + gravityZone.GetComponent<Rigidbody>().detectCollisions + " | Network?" + NetworkServer.active);*/
 
                 TeamFilter teamFilter = gravityZone.GetComponent<TeamFilter>();
                 teamFilter.teamIndex = TeamIndex.None;
@@ -86,7 +92,7 @@ namespace UltitemsCyan.Equipment
                 buffWard.Networkradius = wardSize;
                 buffWard.buffDef = Buffs.QuarkGravityBuff.buff;
                 buffWard.buffDuration = 0.1f;
-                buffWard.interval = 0.1f;
+                buffWard.interval = 0.08f;
                 buffWard.floorWard = false; //default: true
                 buffWard.invertTeamFilter = true;
                 buffWard.expires = true;
@@ -101,6 +107,7 @@ namespace UltitemsCyan.Equipment
                 //light.shadowStrength = 10f;*/
 
                 OrbitalToken.ownedOrbits.Enqueue(gravityZone);
+                NetworkServer.Spawn(gravityZone);
 
                 try
                 {

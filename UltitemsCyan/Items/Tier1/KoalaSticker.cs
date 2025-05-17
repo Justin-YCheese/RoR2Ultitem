@@ -99,19 +99,21 @@ namespace UltitemsCyan.Items.Tier1
                         //Log.Debug("Health: " + hc.fullCombinedHealth + "\t Body: " + cb.GetUserName() + "\t Damage: " + td);
                         if (cb.master && cb.master.inventory)
                         {
-                            int grabCount = cb.master.inventory.GetItemCount(item);
-                            if (grabCount > 0)
+                            // grab Count
+                            int gC = cb.master.inventory.GetItemCount(item);
+                            if (gC > 0)
                             {
                                 //Log.Debug("Koala Taken Damage for " + cb.GetUserName() + " with " + hc.fullCombinedHealth + "\t health");
                                 //Log.Debug("Max Percent: " + ((hyperbolicPercent / 100 * grabCount) + 1) + " of " + hc.fullCombinedHealth);
-                                float maxDamage = hc.fullCombinedHealth / (hyperbolicPercent / 100 * grabCount + 1);
+                                // max Damage
+                                float mD = hc.fullCombinedHealth / (hyperbolicPercent / 100 * gC + 1);
                                 //Util.ConvertAmplificationPercentageIntoReductionNormalized(hyperbolicPercent / 100 );
-                                if (maxDamage < minDamage)
+                                if (mD < minDamage)
                                 {
-                                    maxDamage = minDamage;
+                                    mD = minDamage;
                                 }
                                 //Log.Debug("Is " + td + "\t > " + maxDamage + "?");
-                                if (td > maxDamage)
+                                if (td > mD)
                                 {
                                     Log.Warning("Koala BLOCK ! ! for " + cb.name);
                                     EffectManager.SpawnEffect(HealthComponent.AssetReferences.bearEffectPrefab, new EffectData
@@ -120,7 +122,7 @@ namespace UltitemsCyan.Items.Tier1
                                         rotation = Util.QuaternionSafeLookRotation((di.force != Vector3.zero) ? di.force : UnityEngine.Random.onUnitSphere),
                                         //color = new Color(10, 64, 95) // Koala Skin Colors Deson't Do Anything
                                     }, true);
-                                    return maxDamage;
+                                    return mD;
                                 }
                             }
                         }

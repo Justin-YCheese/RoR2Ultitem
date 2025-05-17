@@ -12,7 +12,7 @@ namespace UltitemsCyan.Items.Tier2
         private static ItemDef item;
 
         public static GameObject TracerRailgun = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/Railgunner/TracerRailgun.prefab").WaitForCompletion();
-        public static GameObject TracerRailgunCryo = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/Railgunner/TracerRailgunCryo.prefab").WaitForCompletion();
+        //public static GameObject TracerRailgunCryo = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/Railgunner/TracerRailgunCryo.prefab").WaitForCompletion();
         public static GameObject TracerRailgunSuper = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/Railgunner/TracerRailgunSuper.prefab").WaitForCompletion();
 
         //public static GameObject Tracer2 = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/OrbitalLaser/TracerAncientWisp.prefab").WaitForCompletion();
@@ -119,7 +119,7 @@ namespace UltitemsCyan.Items.Tier2
                     {
                         //Log.Debug("Normal");
                         _ = Util.PlaySound("Play_voidRaid_snipe_shoot_final", activator.gameObject);
-                        tracer = TracerRailgunCryo;
+                        tracer = TracerRailgunSuper;
                         damage = baseDamage + damagePerStack * (grabCount - 1);
                         radius = laserRadius;
                         force = forceFromCooldown * 2;

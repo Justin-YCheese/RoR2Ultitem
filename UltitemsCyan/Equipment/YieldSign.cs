@@ -2,6 +2,7 @@
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 
 namespace UltitemsCyan.Equipment
 {
@@ -63,21 +64,6 @@ namespace UltitemsCyan.Equipment
             On.RoR2.EquipmentSlot.RpcOnClientEquipmentActivationRecieved += EquipmentSlot_RpcOnClientEquipmentActivationRecieved;
         }
 
-
-        private void EquipmentSlot_RpcOnClientEquipmentActivationRecieved(On.RoR2.EquipmentSlot.orig_RpcOnClientEquipmentActivationRecieved orig, EquipmentSlot self)
-        {
-            orig(self);
-            if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
-            {
-                Log.Debug("RPC Equipment");
-                //VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
-                // Stop Multipliers because item switches on server first
-                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
-                YieldAttack(self.characterBody);
-                //Log.Debug(" ))) --- ))) RPC ID: " + equipment.equipmentIndex);
-            }
-        }
-
         //
         private bool EquipmentSlot_PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
         {
@@ -85,8 +71,6 @@ namespace UltitemsCyan.Equipment
             {
                 //Log.Warning("YIELD! Preform Equipment");
                 //Log.Debug(" ))) --- ))) EquipmentSlot_PerformEquipmentAction ID: " + equipment.equipmentIndex);
-                // TODO: Keep change equipment here? or back to Rpc function
-                // Check how base game handles rpc equipment on switch
                 self.characterBody.inventory.SetEquipmentIndex(YieldSignStop.equipment.equipmentIndex);
                 return true;
             }
@@ -96,6 +80,39 @@ namespace UltitemsCyan.Equipment
             }
         }
         //*/
+
+        private void EquipmentSlot_RpcOnClientEquipmentActivationRecieved(On.RoR2.EquipmentSlot.orig_RpcOnClientEquipmentActivationRecieved orig, EquipmentSlot self)
+        {
+            orig(self);
+            if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
+            {
+                Log.Debug("RPC Equipment | Net? " + NetworkServer.active);
+                if (NetworkServer.active)
+                {
+                    // Stop Multipliers because item switches on server first
+                    YieldStopActivation(self);
+                }
+                else
+                {
+                    YieldBoostActivation(self);
+                }
+                //VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
+                
+                //Log.Debug(" ))) --- ))) RPC ID: " + equipment.equipmentIndex);
+            }
+        }
+
+        public static void YieldBoostActivation(EquipmentSlot self)
+        {
+            VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
+            YieldAttack(self.characterBody);
+        }
+
+        public static void YieldStopActivation(EquipmentSlot self)
+        {
+            VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
+            YieldAttack(self.characterBody);
+        }
 
         public static void VelocityMultiplier(ref Vector3 velocity, float multiplier, float horizontalMultiplier, float maxMultiplier, float minMultiplier, float moveSpeed)
         {

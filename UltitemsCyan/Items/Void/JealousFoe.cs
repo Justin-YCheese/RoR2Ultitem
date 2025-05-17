@@ -272,7 +272,7 @@ namespace UltitemsCyan.Items.Void
                     Destroy(FakeFoe.GetComponent<ProjectileStickOnImpact>());
                     Destroy(FakeFoe.GetComponent<ProjectileController>());
                 }
-                FakeFoe.transform.position = body.footPosition;
+                FakeFoe.transform.position = body.footPosition; // Not needed?
 
                 HealthComponent health = FakeFoe.GetComponent<HealthComponent>();
 

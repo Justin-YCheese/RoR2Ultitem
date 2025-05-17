@@ -13,7 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Text\.archives\ArchivedCode.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="Text\.archives\AiList.txt" />
+    <None Include="Text\.archives\Bugs.txt" />
+    <None Include="Text\.archives\DeathMessageOrder.png" />
+    <None Include="Text\.archives\Errors.txt" />
+    <None Include="Text\.archives\TakeDamageProcess.cpp" />
+    <None Include="Text\.archives\TakeDamageProcess_Commented.cpp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +41,7 @@
 	<PackageReference Include="R2API.RecalculateStats" Version="1.5.0" />
 
 	<PackageReference Include="UnityEngine.Modules" Version="2021.3.33" IncludeAssets="compile" />
-	<PackageReference Include="RiskOfRain2.GameLibs" Version="1.3.6-r.0" />
+	<PackageReference Include="RiskOfRain2.GameLibs" Version="1.3.7-r.0" />
   </ItemGroup>
 
   <ItemGroup>

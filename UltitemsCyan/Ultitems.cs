@@ -30,6 +30,7 @@ using BepInEx.Configuration;
 //using System;
 using UltitemsCyan.Items;
 using RoR2.ExpansionManagement;
+using TurboEdition.Items;
 
 namespace UltitemsCyan
 {
@@ -78,9 +79,9 @@ namespace UltitemsCyan
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "SporkySpig";
         public const string PluginName = "UltitemsCyan";
-        public const string PluginVersion = "0.12.1";
+        public const string PluginVersion = "0.12.2";
 
-        public const string PluginSuffix = "Touchdown on the Zone! new";
+        public const string PluginSuffix = "Clients can see stars too!";
 
         private static ConfigFile UltitemsConfig { get; set; }
 
@@ -113,12 +114,9 @@ namespace UltitemsCyan
             //ConfigInit();
             UltitemsConfig = new ConfigFile(Paths.ConfigPath + "\\Ultitems_ConfigFile.cfg", true);
 
-            // Load assets TODO when making a final version
-            //Log.Debug("Populating Assets...");
-            //Assets.PopulateAssets();
             UltAssets.Init();
 
-            // Add buffs to the game
+            // *** *** Add buffs to the game
             List<BuffBase> ultitemBuffs = [];
             ultitemBuffs.Add(new BirthdayBuff());
             ultitemBuffs.Add(new CrysotopeFlyingBuff());
@@ -131,105 +129,92 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new OverclockedBuff());
             ultitemBuffs.Add(new RottingBuff());
 
-            ultitemBuffs.Add(new SlipperyGrapeBuff()); // TAKEDAMAGEPROCESS
+            ultitemBuffs.Add(new SlipperyGrapeBuff()); // % TAKEDAMAGEPROCESS
 
-            //ultitemBuffs.Add(new PeelBuff());
+            ////// ultitemBuffs.Add(new PeelBuff());
             ultitemBuffs.Add(new QuarkGravityBuff());
             ultitemBuffs.Add(new SuesTeethBuff());
             ultitemBuffs.Add(new SporkBleedBuff());
             ultitemBuffs.Add(new TaffyChewBuff());
             ultitemBuffs.Add(new TickCritBuff());
-            ultitemBuffs.Add(new ZorseStarvingBuff());
-            //ultitemBuffs.Add(new ());
+            //ultitemBuffs.Add(new ZorseStarvingBuff());
+
             foreach (BuffBase newBuff in ultitemBuffs)
             {
-                //Log.Debug("Adding " + newItem.item.name); // This cause the mod to crash. Trying to access the name of the item definition
-                //Log.Debug("Adding buffs...");
                 newBuff.Init();
             }
-            Log.Debug("Buffs Done");
 
-            // Add items to the game
-            // Tiered Items
+            // *** *** Add items to the game
             List<ItemBase> ultitemItems = [];
-            //ultitems.Add(new TestItem());
 
-            // First Priority
-
-            // Untiered
+            // *** Untiered
             ultitemItems.Add(new CorrodingVaultConsumed());
             ultitemItems.Add(new InhabitedCoffinConsumed());
             ultitemItems.Add(new SuesMandiblesConsumed());
-            ultitemItems.Add(new SilverThreadConsumed()); // TAKEDAMAGEPROCESS
-
+            ultitemItems.Add(new SilverThreadConsumed()); // % TAKEDAMAGEPROCESS
             ultitemItems.Add(new GreySolvent());
 
-            // White
+            // *** White
             ultitemItems.Add(new CremeBrulee());
 
-            ultitemItems.Add(new KoalaSticker()); // TAKEDAMAGEPROCESS
+            ultitemItems.Add(new KoalaSticker()); // % TAKEDAMAGEPROCESS
 
             ultitemItems.Add(new ToyRobot());
             ultitemItems.Add(new FleaBag());
             ultitemItems.Add(new Frisbee());
 
-            // Green
+            // *** Green
             ultitemItems.Add(new BirthdayCandles());
-            //ultitemItems.Add(new DegreeScissors()); // Last Priority
+            // moved Last Priority // ultitemItems.Add(new DegreeScissors());
             ultitemItems.Add(new HMT());
             ultitemItems.Add(new OverclockedGPU());
             ultitemItems.Add(new TinyIgloo());
+            //ultitemItems.Add(new TeleporterRadius());
             ultitemItems.Add(new XenonAmpoule());
 
-            // Red
-            ultitemItems.Add(new CorrodingVault());
-
-            ultitemItems.Add(new Grapevine()); // TAKEDAMAGEPROCESS
-
+            // *** Red
+            ultitemItems.Add(new CorrodingVault()); // Has Consumed Item
+            ultitemItems.Add(new Grapevine()); // % TAKEDAMAGEPROCESS
             ultitemItems.Add(new PigsSpork()); // HealthComponent_UpdateLastHitTime
             ultitemItems.Add(new RockyTaffy());
-            ultitemItems.Add(new SuesMandibles());
+            ultitemItems.Add(new SuesMandibles()); // Has Consumed Item
             ultitemItems.Add(new ViralSmog());
 
-            // Lunar Items
+            // *** Lunar Items
             ultitemItems.Add(new DreamFuel());
             ultitemItems.Add(new UltravioletBulb());
-            //ultitemItems.Add(new PowerChip());
+            ////// ultitemItems.Add(new PowerChip());
 
-            ultitemItems.Add(new SilverThread()); // Need to be before Sonorous Pail? // TAKEDAMAGEPROCESS
+            ultitemItems.Add(new SilverThread()); // % TAKEDAMAGEPROCESS // Has Consumed Item
 
             ultitemItems.Add(new DelugedPail());
 
-            // Equipments
+            // *** Equipments
             ultitemItems.Add(new IceCubes());
-            //ultitemItems.Add(new JellyJail());
+            ////// ultitemItems.Add(new JellyJail());
             ultitemItems.Add(new OrbitalQuark());
             ultitemItems.Add(new YieldSign());
             ultitemItems.Add(new YieldSignStop());
 
-            // Lunar Equipment
+            // *** Lunar Equipment
             ultitemItems.Add(new Macroseismograph());
             ultitemItems.Add(new MacroseismographConsumed());
             ultitemItems.Add(new PotOfRegolith());
-            ultitemItems.Add(new Obsolute());
+            ultitemItems.Add(new Obsolute()); // Has Consumed Item (creates consumed items from other items)
 
 
-            // Void Items
+            // *** Void Items
             ultitemItems.Add(new Crysotope());
             ultitemItems.Add(new DriedHam());
             ultitemItems.Add(new RottenBones());
-            //ultitemItems.Add(new QuantumPeel());
+            ////// ultitemItems.Add(new QuantumPeel());
             ultitemItems.Add(new DownloadedRAM());
             ultitemItems.Add(new JealousFoe());
-            ultitemItems.Add(new InhabitedCoffin());
-            ultitemItems.Add(new ZorsePill());
-            //ultitemItems.Add(new InhabitedCoffinConsumed()); // Untiered
+            ultitemItems.Add(new InhabitedCoffin()); // Has Consumed Item
+            //ultitemItems.Add(new ZorsePill());
 
             // Last Priority
             ultitemItems.Add(new DegreeScissors()); // After Vault and Coffin to grab consumed items
-
-            //ultitemItems.Add(new ());
-            Log.Debug("List Done");
 
             foreach (ItemBase newItem in ultitemItems)
             {
@@ -245,7 +230,6 @@ namespace UltitemsCyan
                     });
                 }
             }
-            Log.Debug("Items Done");
 
             // Add Hooks
             Stage.onStageStartGlobal += Stage_onStageStartGlobal;
@@ -257,7 +241,7 @@ namespace UltitemsCyan
         private void Stage_onStageStartGlobal(Stage obj)
         {
             stageStartTime = Run.instance.time;
-            Log.Warning("Ultitem Starts at: " + stageStartTime);
+            //Log.Warning("Ultitem Starts at: " + stageStartTime);
         }
 
 
@@ -265,17 +249,10 @@ namespace UltitemsCyan
         public void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
         {
             // Add ultiCorruptionPairs to base game corruption pairs
-            Log.Warning("Ultitem Create Void Transformations!");
             List<ItemDef.Pair> voidPairs = [.. ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem]]; // Collection Expression?
-            /*/
-            Log.Debug("Base Void Items:");
-            printPairList(voidPairs);
-            //*/
-            Log.Debug("My Void Items:");
             PrintPairList(CorruptionPairs);
-
             ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = voidPairs.Union(CorruptionPairs).ToArray();
-            Log.Debug("Error?");
+            Log.Debug("End of Ultitems init");
             orig();
         }
 
@@ -285,7 +262,6 @@ namespace UltitemsCyan
             {
                 Log.Debug(". " + pair.itemDef1.name + " -> " + pair.itemDef2.name);
             }
-            Log.Debug("end");
         }
 
         //Static class for ease of access

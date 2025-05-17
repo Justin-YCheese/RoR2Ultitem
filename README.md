@@ -36,12 +36,12 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/rNTV1Tx.png) | Rotten Bones        | Deal more damage over time. **Corrupts all Birthday Candles**.                                                          |    Void Green   |
 | ![Imgur](https://i.imgur.com/pkuZxAg.png) | Zorse Pill          | Starve enemies on hit dealing percent TOTAL damage. **Corrupts all HMTs**.                                              |    Void Green   |
 | ![Imgur](https://i.imgur.com/D8sAljB.png) | Inhabited Coffin    | Breaks at the start of the next stage. Contains void items. **Corrupts all Corroding Vaults**.                          |     Void Red    |
-| ![Imgur](https://i.imgur.com/ESyUfae.png) | Quantum Peel (removed)       | Gain speed and jump power when damaged. **Corrupts all Viral Smogs**.                                         |     Void Red    |
+| ![Imgur](https://i.imgur.com/ESyUfae.png) | Quantum Peel (removed)       | Gain speed and jump power when damaged. **Corrupts all Viral Smogs**.                                          |     Void Red    |
 
 | Icon | Equipment| Cooldown | Description | Type |
 |:--:|--|:--:|--|:--:|
-| ![Imgur](https://i.imgur.com/7tlpOSq.png) | 9 Ice Cubes         | 60  | Spawn a zero gravity zone. Can place up to 3.                                                                           | Normal |
-| ![Imgur](https://i.imgur.com/1ihwNDY.png) | Orbital Quark       | 60  | Gain barrier on use                                                                                                     | Normal |
+| ![Imgur](https://i.imgur.com/7tlpOSq.png) | 9 Ice Cubes         | 60  | Gain barrier on use																									  | Normal |
+| ![Imgur](https://i.imgur.com/1ihwNDY.png) | Orbital Quark       | 60  | Spawn a zero gravity zone for 30 seconds.    																			  | Normal |
 | ![Imgur](https://i.imgur.com/seg2YFF.png) | Yield Sign          | 10  | Alternate between multiplying speed and canceling it. Hit nearby enemies each time.                                     | Normal |
 | ![Imgur](https://i.imgur.com/dVK9J9h.png) | Macroseismograph    | 300 | While on the ground, summons a tremendious power... **BUT forgo all equipments**                                        | Lunar  |
 | ![Imgur](https://i.imgur.com/CfvSgjp.png) | Pot of Regolith     | 2   | **Take damage** on use.                                                                                                 | Lunar  |

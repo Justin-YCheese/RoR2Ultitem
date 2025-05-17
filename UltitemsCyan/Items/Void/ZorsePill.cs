@@ -14,17 +14,13 @@ namespace UltitemsCyan.Items.Void
     /* Notes:
      * 
      * Moves which deal zero damage will still trigger Zorse and deal a non zero amount of damage
-     * Is great with KNockback fin because both multiply total damage dealt (but it's real hard to proc both)
+     * Is great with Knockback fin because both multiply total damage dealt (but it's real hard to proc both)
      * 
      * Can spread with Noxious Thorns but doesn't transfer damage multiplier (only base damage transfered)
      *      Check: public void TriggerEnemyDebuffs(DamageReport damageReport)
      *             VineOrb::OnArrival | damageMultiplier = 1f
      * 
      * Use SendDamageDealt instead of DamageReport_ctor?
-     * 
-     * 
-     * 
-     * 
      * 
      */
 
@@ -65,18 +61,59 @@ namespace UltitemsCyan.Items.Void
 
         protected override void Hooks()
         {
-            On.RoR2.DamageReport.ctor += DamageReport_ctor; // Gets TOTAL damage
-            //On.RoR2.HealthComponent.SendDamageDealt += HealthComponent_SendDamageDealt;
+            //On.RoR2.DamageReport.ctor += DamageReport_ctor; // Gets TOTAL damage
+            On.RoR2.HealthComponent.SendDamageDealt += HealthComponent_SendDamageDealt;
         }
 
-        /*
         private void HealthComponent_SendDamageDealt(On.RoR2.HealthComponent.orig_SendDamageDealt orig, DamageReport damageReport)
         {
-            throw new NotImplementedException();
-        }
-        //*/
+            orig(damageReport);
+            try
+            {
+                GameObject victimObject = damageReport.victimBody.gameObject;
+                // If the victum has an inventory
+                // and damage isn't rejected?
+                if (victimObject && damageReport.attackerBody && damageReport.attackerBody.inventory &&
+                    !damageReport.damageInfo.rejected && damageReport.damageInfo.damageType != DamageType.DoT &&
+                    damageReport.damageDealt > 0)
+                {
+                    CharacterBody inflictor = damageReport.attackerBody;
+                    int grabCount = inflictor.inventory.GetItemCount(item);
+                    if (grabCount > 0)
+                    {
+                        //Log.Debug("  ...Starving enemy with reports...");
+                        // If you have fewer than the max number of downloads, then grant buff
 
-        private void DamageReport_ctor(On.RoR2.DamageReport.orig_ctor orig, DamageReport self, DamageInfo damageInfo, HealthComponent victim, float damageDealt, float combinedHealthBeforeDamage)
+                        //float damageMultiplier = (basePercentHealth + (percentHealthPerStack * (grabCount - 1))) / 100f;
+                        //Log.Debug("Damage = " + damageDealt + " | i.damage: " + inflictor.damage + " i.damageRecalc: " + inflictor.damageFromRecalculateStats
+                        //    + " di.damage: " + damageInfo.damage + " di.crit: " + damageInfo.crit
+                        //    + " multiplier:" + damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f);
+                        InflictDotInfo inflictDotInfo = new()
+                        {
+                            victimObject = victimObject,
+                            attackerObject = inflictor.gameObject,
+                            //totalDamage = 0,
+                            dotIndex = ZorseStarvingBuff.index,
+                            duration = duration,
+                            //damageMultiplier = damageInfo.damage / inflictor.damage * grabCount * percentPerStack / 100f,
+                            damageMultiplier = damageReport.damageDealt / inflictor.damageFromRecalculateStats
+                                               * (damageReport.damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f,
+                            maxStacksFromAttacker = null
+                        };
+                        InflictDot(ref inflictDotInfo);
+                        //EffectManager.SimpleEffect(biteEffect, victim.transform.position, Quaternion.identity, true);
+                        //EffectManager.SimpleEffect(biteEffect, victim.transform.position, Quaternion.identity, true);
+                        //victim.GetComponent<CharacterBody>().AddTimedBuff();
+                    }
+                }
+            }
+            catch (NullReferenceException)
+            {
+                Log.Debug(" oh...  Zorse Pill had an expected null error");
+            }
+        }
+
+        /*private void DamageReport_ctor(On.RoR2.DamageReport.orig_ctor orig, DamageReport self, DamageInfo damageInfo, HealthComponent victim, float damageDealt, float combinedHealthBeforeDamage)
         {
             orig(self, damageInfo, victim, damageDealt, combinedHealthBeforeDamage);
             try
@@ -84,7 +121,9 @@ namespace UltitemsCyan.Items.Void
                 GameObject victimObject = victim.body.gameObject;
                 // If the victum has an inventory
                 // and damage isn't rejected?
-                if (victimObject && damageInfo.attacker.GetComponent<CharacterBody>() && damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected && damageInfo.damageType != DamageType.DoT)
+                if (victimObject && damageInfo.attacker.GetComponent<CharacterBody>() &&
+                    damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected &&
+                    damageInfo.damageType != DamageType.DoT)
                 {
                     CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
                     int grabCount = inflictor.inventory.GetItemCount(item);
@@ -119,6 +158,6 @@ namespace UltitemsCyan.Items.Void
             {
                 //Log.Debug(" oh...  Zorse Pill had an expected null error");
             }
-        }
+        }*/
     }
 }

@@ -1,7 +1,12 @@
 ﻿using R2API;
 using RoR2;
+using System;
 using UltitemsCyan.Equipment;
+using UltitemsCyan.Items;
+using UltitemsCyan.Items.Tier1;
+using UnityEngine.Networking;
 using static RoR2.DotController;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace UltitemsCyan.Buffs
 {
@@ -10,14 +15,11 @@ namespace UltitemsCyan.Buffs
         public static BuffDef buff;
         public static DotIndex index;
 
-        //private readonly float duration = ZorsePill.duration;
-
         //private const float airSpeed = Chrysotope.airSpeed;
-        private readonly float speed = OrbitalQuark.buffSpeed;
-        private readonly float dampening = OrbitalQuark.buffDampening;
-
-        //private readonly float gravity = OrbitalQuark.buffGravity;
-        //private readonly int jumpCount = OrbitalQuark.buffJumps;
+        private static readonly float speed = OrbitalQuark.buffSpeed;
+        private static readonly float dampening = OrbitalQuark.buffDampening;
+        private static readonly float fallSpeed = OrbitalQuark.buffFallSpeed;
+        private static readonly float minFallSpeed = OrbitalQuark.buffMinFallSpeed;
 
         public override void Init()
         {
@@ -45,8 +47,10 @@ namespace UltitemsCyan.Buffs
                     CharacterGravityParameters gravPrarameters = chMotor.gravityParameters;
                     gravPrarameters.channeledAntiGravityGranterCount++;
                     chMotor.gravityParameters = gravPrarameters;
-                    chMotor.velocity *= dampening;
+                    //chMotor.velocity *= dampening;
                     self.statsDirty = true;
+
+                    _ = self.AddItemBehavior<QuarkGravityBehavior>(1);
                 }
             }
             orig(self, buffDef);
@@ -63,6 +67,8 @@ namespace UltitemsCyan.Buffs
                     gravPrarameters.channeledAntiGravityGranterCount--;
                     chMotor.gravityParameters = gravPrarameters;
                     self.statsDirty = true;
+
+                    _ = self.AddItemBehavior<QuarkGravityBehavior>(0);
                 }
             }
             orig(self, buffDef);
@@ -84,20 +90,74 @@ namespace UltitemsCyan.Buffs
             }
         }
 
-        /*
-        private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
+        public class QuarkGravityBehavior : CharacterBody.ItemBehavior
         {
-            orig(self);
-            if (self && self.HasBuff(buff))
+            private CharacterMotor motor;
+            private bool _hasQuarkBuff = false;
+
+            public bool QuarkBuff
             {
-                
-                self.
-                Log.Debug("Orig Bleed Chance: " + self.bleedChance);
-                self.bleedChance += bleedChance;
-                Log.Debug("New Bleed Chance: " + self.bleedChance);
-                //Debug.Log(sender.name + "Birthday modifier: " + (rottingBuffMultiplier / 100f * buffCount));
+                get { return _hasQuarkBuff; }
+                set
+                {
+                    // If not already the same value
+                    if (_hasQuarkBuff != value)
+                    {
+                        Log.Warning(body.name + " " + value + " gravity toggled!: " + _hasQuarkBuff);
+
+                        _hasQuarkBuff = value;
+                    }
+                }
+            }
+
+            public void FixedUpdate()
+            {
+                if (motor)
+                {
+                    QuarkBuff = body.HasBuff(buff);
+                    if (QuarkBuff)
+                    {
+                        //Log.Warning(body.name + " >>*>>*>> Is on server? " + NetworkServer.active + " old Grave motor (" + motor.velocity.x + " ," + motor.velocity.y + " ," + motor.velocity.z + ")");
+                        motor.velocity.x *= dampening;
+                        motor.velocity.z *= dampening;
+
+                        // Player is stalling
+                        if (Math.Abs(motor.velocity.y) < fallSpeed)
+                        {
+                            
+                            motor.velocity.y = (motor.velocity.y + fallSpeed) * dampening - fallSpeed;
+                            // Floating point inaccuracy requires something to pass -.01 fall speed
+                            if (Math.Abs(motor.velocity.y) < minFallSpeed)
+                            {
+                                motor.velocity.y -= minFallSpeed / 5f;
+                            }
+                        }
+                        else
+                        {
+                            motor.velocity.y *= dampening;
+                        }
+                        //Log.Warning(body.name + " >>*>>*>> NEW Grave motor (" + motor.velocity.x + " ," + motor.velocity.y + " ," + motor.velocity.z + ")");
+                    }
+                }
+            }
+
+            public void Start()
+            {
+                motor = body.characterMotor;
+                //enabled = false;
+            }
+
+#pragma warning disable IDE0051 // Remove unused private members
+            private void OnDisable()
+#pragma warning restore IDE0051 // Remove unused private members
+            {
+                QuarkBuff = false;
+            }
+
+            public void OnDestroy()
+            {
+                QuarkBuff = false;
             }
         }
-        //*/
     }
 }

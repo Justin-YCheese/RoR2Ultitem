@@ -11,7 +11,7 @@ namespace UltitemsCyan.Items.Tier3
     public class RockyTaffy : ItemBase
     {
         public static ItemDef item;
-        private const float shieldPercent = 40f;
+        private const float shieldPercent = 32f;
 
         public static GameObject CaptainBodyArmorBlockEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Junk/Captain/CaptainBodyArmorBlockEffect.prefab").WaitForCompletion();
 
@@ -26,7 +26,7 @@ namespace UltitemsCyan.Items.Tier3
                 "ROCKYTAFFY",
                 itemName,
                 "Gain a recharging shield. Buff gives a stable barrier without your shield. Buff gained with full shield.",
-                "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>40%</style> <style=cStack>(+40% per stack)</style> of your maximum health. On losing your shield with the buff, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield and regain buff with a full shield.",
+                "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>32%</style> <style=cStack>(+32% per stack)</style> of your maximum health. On losing your shield with the buff, gain a <style=cIsHealing>stable barrier</style> for 100% of your <style=cIsHealing>max shield</style>. No barrier decay without a shield and regain buff with a full shield.",
                 "This vault is sturdy, but over time the rust will just crack it open. Oh wait this is the wrong description...\n" +
                 "Give me a second...\n\num...\n\nSomething about laughing but harder so for shields? I don't know...",
                 ItemTier.Tier3,

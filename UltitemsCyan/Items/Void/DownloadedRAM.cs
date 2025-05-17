@@ -105,6 +105,7 @@ namespace UltitemsCyan.Items.Void
                         //   *   *   *   ADD EFFECT   *   *   *   //
 
                         DownloadedVoidBehavior behavior = inflictor.GetComponent<DownloadedVoidBehavior>();
+                        // Check if behavior valid?
                         behavior.enabled = true;
                         behavior.UpdateStopwatch(Run.instance.time);
                         if (Util.CheckRoll(downloadChance, inflictor.master.luck))

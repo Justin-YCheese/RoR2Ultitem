@@ -1,5 +1,6 @@
 ﻿using BepInEx.Configuration;
 using RoR2;
+using UnityEngine.Networking;
 using static UltitemsCyan.Equipment.YieldSign;
 
 namespace UltitemsCyan.Equipment
@@ -41,10 +42,16 @@ namespace UltitemsCyan.Equipment
             orig(self);
             if (self.equipmentIndex == equipment.equipmentIndex && self.characterBody && self.characterBody.characterMotor)
             {
-                //VelocityMultiplier(ref self.characterBody.characterMotor.velocity, stopMultiplier, stopHorizontalMultiplier, stopMaxMultiplier, stopMinMultiplier, self.characterBody.moveSpeed);
-                // Boost Multipliers because item switches on server first
-                VelocityMultiplier(ref self.characterBody.characterMotor.velocity, boostMultiplier, boostHorizontalMultiplier, boostMaxMultiplier, boostMinMultiplier, self.characterBody.moveSpeed);
-                YieldAttack(self.characterBody);
+                Log.Debug("RPC Equipment | Net? " + NetworkServer.active);
+                if (NetworkServer.active)
+                {
+                    // Boost Multipliers because item switches on server first
+                    YieldBoostActivation(self);
+                }
+                else
+                {
+                    YieldStopActivation(self);
+                }
             }
         }
 
