@@ -8,6 +8,9 @@ namespace UltitemsCyan.Items.Tier3
 {
 
     // TODO: check if Item classes needs to be public
+    // Fix with transcendance
+    // num59 += (float)num4 * 0.08f * this.maxHealth;
+
     public class RockyTaffy : ItemBase
     {
         public static ItemDef item;

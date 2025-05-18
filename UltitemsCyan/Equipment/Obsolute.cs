@@ -1,9 +1,11 @@
 ﻿using RoR2;
 using UltitemsCyan.Items.Untiered;
 using System.Collections.Generic;
-using UnityEngine.Networking;
+//using UnityEngine.Networking;
 using UltitemsCyan.Items.Lunar;
 using BepInEx.Configuration;
+using RoR2.Orbs;
+using UnityEngine;
 
 namespace UltitemsCyan.Equipment
 {
@@ -24,7 +26,15 @@ namespace UltitemsCyan.Equipment
         public static EquipmentDef equipment;
 
         private const float shortCooldown = 6f;
-        private const float cooldown = 60f;
+        private const float cooldown = 30f;
+
+        // Ratio of total cost 'refunded'
+        private const float goldRatio = 0.8f;
+        // Base money gained when deleting items
+        private const float smallChestCost = 25f; // White and Lunar
+        private const float largeChestCost = 50f; // Green
+        private const float legendaryChestCost = 400f; // Red
+        private const float voidCostMultiplier = 1.5f; // Void variant multiplier
 
         // Keeps track of the dissolved items of the current stage
         private readonly List<ItemIndex> dissolvedList = [];
@@ -39,8 +49,8 @@ namespace UltitemsCyan.Equipment
             equipment = CreateItemDef(
                 "OBSOLUTE",
                 itemName,
-                "<style=cDeath>Erase</style> your last item from existence.",
-                "<style=cDeath>Erase</style> the last item in your inventory from the run. It will no longer appear, and any instances of the items will <style=cDeath>dissolve</style>.",
+                "<style=cDeath>Erase</style> your last item from existence and gain some gold.",
+                "<style=cDeath>Erase</style> the last item in your inventory from the run. It will no longer appear, and any instances of the items will <style=cDeath>dissolve</style>. Gain <style=cIsUtility>gold</style> corrisponding to item dissolved. Cannot dissolve scraped or boss items.",
                 "Everything returns to grey",
                 cooldown,
                 true,
@@ -95,16 +105,6 @@ namespace UltitemsCyan.Equipment
         {
             if (equipmentDef == equipment)
             {
-                /*
-                if (NetworkServer.active)
-                {
-                    Log.Debug("Running Solute on Server");
-                }
-                else
-                {
-                    Log.Debug("Running Solute on Client");
-                }*/
-
                 /*/
                 if (self.gameObject && self.gameObject.name.Contains("EquipmentDrone"))
                 {
@@ -114,7 +114,6 @@ namespace UltitemsCyan.Equipment
                 CharacterBody activator = self.characterBody;
                 List<ItemIndex> itemList = activator.inventory.itemAcquisitionOrder;
 
-                // Make delete self when you have no items?
                 if (itemList.Count > 0)
                 {
                     // Null if player has only untiered items, or no items
@@ -126,21 +125,21 @@ namespace UltitemsCyan.Equipment
 
                         if (thisRun.isRunStopwatchPaused)
                         {
-                            //Log.Debug("In time paused");
+                            Log.Debug("In time paused");
                             equipment.cooldown = shortCooldown;
                         }
                         else
                         {
-                            //Log.Debug("Outside time paused");
+                            Log.Debug("Outside time paused");
                             equipment.cooldown = cooldown;
                         }
 
-                        //Log.Debug("Last Item: " + lastItem.name);
+                        Log.Debug("Last Item: " + lastItem.name);
 
                         // * * * For Every player and monster remove the item
                         foreach (CharacterMaster body in CharacterMaster.readOnlyInstancesList)
                         {
-                            //Log.Debug("who? " + body.name);
+                            Log.Debug("who? " + body.name);
                             // Checks inventory in function
                             DissolveItem(body, lastItem);
                         }
@@ -154,18 +153,26 @@ namespace UltitemsCyan.Equipment
                         _ = thisRun.availableItems.Remove(lastItem.itemIndex);
                         CheckEmptyTierList(lastItem); // also check if empty, if so then add solute to item tier
                         dissolvedList.Add(lastItem.itemIndex);
-                        thisRun.RefreshLunarCombinedDropList();
+                        Log.Debug(" &&& &&& Refresh Items ");
+
+                        //thisRun.BuildDropTable();
+
+                        Log.Debug(" &&& &&& Refresh Items end ");
 
                         Log.Debug(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex] + " is in? "
                             + thisRun.availableLunarCombinedDropList.Contains(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex]));
 
-                        /*/ Refresh chest and lunar pools
+                        thisRun.RefreshLunarCombinedDropList(); // Might need to be ran on next frame instead
+
+                        Log.Debug(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex] + " is in? "
+                            + thisRun.availableLunarCombinedDropList.Contains(PickupCatalog.itemIndexToPickupIndex[(int)DreamFuel.item.itemIndex]));
+
+                        // Refresh chest and lunar pools
                         Log.Warning("Refresing ALL ! ! !");
-                        foreach (var dropTable in PickupDropTable.instancesList)
+                        /*foreach (PickupDropTable dropTable in PickupDropTable.instancesList)
                         {
                             Log.Debug(" . " + dropTable.GetType().ToString() + " | " + dropTable.GetPickupCount());
-                        }
-                        //*/
+                        }*/
 
 
 
@@ -189,17 +196,17 @@ namespace UltitemsCyan.Equipment
 
                         //Run.instance.shopPortalCount;
                         //Run.instance.
-                        /*
-                        var Interactors = Run.instance.GetComponents<Interactor>();
+
+                        /*Interactor[] Interactors = Run.instance.GetComponents<Interactor>();
                         Log.Debug("Length: " + Interactors.Length);
                         foreach (Interactor interactor in Interactors)
                         {
                             Log.Debug("Interactor name: " + interactor.name);
                             if (interactor.GetComponent<ShopTerminalBehavior>())
                             {
-                                Log.Debug("has Shop");
+                                Log.Warning(" !!!! !!!! !!!! has Shop");
                             }
-                        }//*/
+                        }*/
 
                         //ShopTerminalBehavior.GenerateNewPickupServer(true);
 
@@ -209,13 +216,16 @@ namespace UltitemsCyan.Equipment
 
                         //DisableItemDisplay(ItemIndex itemIndex)
 
+                        // Used Obsolute
                         return true;
                     }
                 }
+                // Have no valid items
                 return false;
             }
             else
             {
+                // Not Obsolute
                 return orig(self, equipmentDef);
             }
         }
@@ -296,7 +306,7 @@ namespace UltitemsCyan.Equipment
             for (int i = list.Count - 1; i >= 0; i--)
             {
                 ItemDef item = ItemCatalog.GetItemDef(list[i]);
-                if (item.tier is not ItemTier.NoTier and not ItemTier.Boss)
+                if (item.tier is not ItemTier.NoTier and not ItemTier.Boss and not ItemTier.VoidBoss)
                 {
                     // Don't dissolve world unique items
                     List<ItemTag> tagList = [.. item.tags];
@@ -327,10 +337,60 @@ namespace UltitemsCyan.Equipment
                         item.itemIndex,
                         GreySolvent.item.itemIndex,
                         CharacterMasterNotificationQueue.TransformationType.Default);
+                    if (body.GetBody())
+                    {
+                        RefundGoldForItem(body.GetBody(), grabCount, item.tier);
+                    }
                 }
             }
         }
 
+        private void RefundGoldForItem(CharacterBody characterBody, int grabCount, ItemTier tier)
+        {
+            float chestCost = 1f;
+            switch (tier)
+            {
+                // Multiply cost if a void item
+                case ItemTier.VoidTier1:
+                    chestCost *= voidCostMultiplier;
+                    goto case ItemTier.Tier1;
+                case ItemTier.VoidTier2:
+                    chestCost *= voidCostMultiplier;
+                    goto case ItemTier.Tier2;
+                case ItemTier.VoidTier3:
+                    chestCost *= voidCostMultiplier;
+                    goto case ItemTier.Tier3;
+                // Base chest cost of items
+                case ItemTier.Tier1:
+                case ItemTier.Lunar:
+                    chestCost *= smallChestCost;
+                    break;
+                case ItemTier.Tier2:
+                    chestCost *= largeChestCost;
+                    break;
+                case ItemTier.Tier3:
+                    chestCost *= legendaryChestCost;
+                    break;
+                case ItemTier.Boss:
+                case ItemTier.NoTier:
+                case ItemTier.VoidBoss:
+                case ItemTier.AssignedAtRuntime:
+                default:
+                    break;
+            }
+            
+            GoldOrb goldOrb = new()
+            {
+                origin = characterBody.corePosition,
+                target = characterBody.mainHurtBox,
+                goldAmount = (uint)((float)(grabCount * chestCost * goldRatio) * Run.instance.difficultyCoefficient)
+            };
+            //Log.Warning(" $.$ $.$ Gold Earned! chestCost: " + chestCost + " totalRefund: " + (uint)((float)(grabCount * chestCost * goldRatio) * Run.instance.difficultyCoefficient));
+            OrbManager.instance.AddOrb(goldOrb);
+            EffectManager.SimpleImpactEffect(HealthComponent.AssetReferences.gainCoinsImpactEffectPrefab, characterBody.corePosition, Vector3.up, true);
+        }
+
+        // Will properly replace tier across run unless Run.BuildDropTable() is called
         private void CheckEmptyTierList(ItemDef item)
         {
             List<PickupIndex> list = null;
@@ -348,9 +408,6 @@ namespace UltitemsCyan.Equipment
                 case ItemTier.Lunar:
                     list = Run.instance.availableLunarItemDropList;
                     break;
-                case ItemTier.Boss:
-                    list = Run.instance.availableBossDropList;
-                    break;
                 case ItemTier.VoidTier1:
                     list = Run.instance.availableVoidTier1DropList;
                     break;
@@ -360,20 +417,22 @@ namespace UltitemsCyan.Equipment
                 case ItemTier.VoidTier3:
                     list = Run.instance.availableVoidTier3DropList;
                     break;
+                case ItemTier.Boss:
                 case ItemTier.VoidBoss:
-                    list = Run.instance.availableVoidBossDropList;
-                    break;
                 case ItemTier.NoTier:
+                    Log.Warning(" !!! " + item.name + " Shouldn't have been removed by Obsolute because of tier");
                     break;
                 case ItemTier.AssignedAtRuntime:
+                    Log.Warning(" !!! " + item.name + " Oh! Didn't expect AssignedAtRuntime tier item after runtime?");
                     break;
                 default:
                     break;
             }
             if (list.Count == 0)
             {
-                //Log.Debug(list.ToString() + " | replace with Solute");
+                Log.Debug(item.tier.ToString() + " | replace with Solute");
                 list.Add(PickupCatalog.itemIndexToPickupIndex[(int)GreySolvent.item.itemIndex]);
+                Log.Warning("Solute is " + (list.Contains(PickupCatalog.itemIndexToPickupIndex[(int)GreySolvent.item.itemIndex]) ? "in" : "NOT IN") + " list now...");
             }
         }
     }

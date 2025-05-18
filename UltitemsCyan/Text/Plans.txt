@@ -7,15 +7,10 @@
 
 	When Testing:
 - Test Landing on quartz to reset jumps
-- Obsolute erase item in Newt Shop (then check future Newt Shops)
-- Test Yeild Sign (Host vs Client)
 - Rotten Bones works when time is frozen...
 	- Because using Run.instance.time
 - Check that Mythrixs can apply starve
-
 - Test Obsolute in void fields and Newt shop Xenon Ampoule
-
-
 - Test Tiny Igloo with Turrets
 - Test All Items
 
@@ -32,16 +27,19 @@
 - Readme
 - Update DLL and Bundle
 - Update Manifest dependencies
+- zip
 - Has the tags: Mods | Items | Survivors of the Void | Seekers of the Storm Update
 
 
 
 	For Future Consideration:
+- If hit with flea bag greater than 200% double flea bag drop chance (now that crit is only x2)
 - Make Pot of Regolith give lots of armor for a second after use
 	- Or some other thing so it's like a parry in a way
 - Blast showers on bandit has visual glitch? Doesn't appear and put on special (perhaps because I switched equipment after using)
 - Make Tiny Igloo also increase size of
 	- gilded money zone
+		- (Works mechanicaly but dosen't change visually)
 	- Healing wards
 	- Count total igloos within specific zone? (so seperating stacks is okay?)
 
@@ -59,15 +57,12 @@
 - Change Rocky Taffy to only give buff at Full Heath?
 - Should Dream Fuel use amuptated Max Health (how does it interact with the Shine of Soul)
 - Rework Obsolute
-	- Always give a Universal Solvent
-	- 50% chance to give a scrap of the dissolved item
-	- 100% chance?
-	- Obsolute
 	- For every item deleted, gain half a chest worth of gold
 		- A full normal chest worth?
 		- More gold for rarer items?		
-		- Match roll of pennies method		
+		- Match roll of pennies method
 		- Test with free chest lunar & war bonds
+	- Make delete self when you have no items?
 - Birthday Candle
 	- Test New Birthday Candles with gaining several new Birthday Candles at a time
 	- With 4 Birthday candles you have a 5:00, 5:20, 5:40, and 6:00 minute timer

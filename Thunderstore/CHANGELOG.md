@@ -2,13 +2,22 @@
 
 - Fixed Tiny Igloo for multiplayer
 - Fixed Orbital Quark for multiplayer
-- Fix Yield Sign effect (was using opposite equipment for clients)
-- Removed Zorse Pill (Phase 3 currently breaks item)
+- Fixed Yield Sign effect (was using opposite equipment for clients)
+- Fixed Zorse Pill (Phase 3 randomly broke it with damage displays)
+- Zorse Pill affect changed to be more visible
 - Tiny Igloo now works with regular healing instead of just over healing
     - (because it was easier to implement for multiplayer)
 - Change Xenon to visually use big laser for normal length equipments
     - But hitbox size is unchanged for normal and long delay equipments
+- Renamed Viral Smog -> Viral Essence
 - Rocky Taffy Shield 40% -> 32%
+- Flea Bag
+    - drop chance of crit attacks 300% -> 200%
+    - buff duraction 12 -> 15 seconds
+    - crit per buff 15 -> 16 percent
+- Obsolute
+    - Cooldown 60 -> 30 seconds
+    - Added earning money when deleting items
 
 ## 0.12.1
 

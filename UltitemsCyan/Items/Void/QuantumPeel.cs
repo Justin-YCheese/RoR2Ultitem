@@ -43,7 +43,7 @@ namespace UltitemsCyan.Items.Void
                 UltAssets.QuantumPeelSprite,
                 UltAssets.QuantumPeelPrefab,
                 [ItemTag.Utility],
-                ViralSmog.item
+                ViralEssence.item
             );
         }
 

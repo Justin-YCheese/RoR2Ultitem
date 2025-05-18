@@ -8,20 +8,20 @@ namespace UltitemsCyan.Items.Tier3
     // Luminous Shot's counting status isn't a cooldown buff so it counts for smog
 
     // TODO: check if Item classes needs to be public
-    public class ViralSmog : ItemBase
+    public class ViralEssence : ItemBase
     {
         public static ItemDef item;
         private const float speedPerStackStatus = 20f;
 
         public override void Init(ConfigFile configs)
         {
-            const string itemName = "Viral Smog";
+            const string itemName = "Viral Essence";
             if (!CheckItemEnabledConfig(itemName, "Red", configs))
             {
                 return;
             }
             item = CreateItemDef(
-                "VIRALSMOG",
+                "VIRALESSENCE",
                 itemName,
                 "Increase speed per unique status effect.",
                 "Increases <style=cIsUtility>movement speed</style> by <style=cIsUtility>20%</style> <style=cStack>(+20% per stack)</style> per <style=cIsDamage>unique status</style> you have.",

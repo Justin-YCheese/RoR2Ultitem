@@ -19,15 +19,15 @@ namespace UltitemsCyan.Items.Tier1
         //public static GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Beetle/BeetleWardOrbEffect.prefab").WaitForCompletion();
         private static readonly GameObject FleaEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/HealthOrbEffect.prefab").WaitForCompletion();
         private const float fleaDropChance = 3f;
-        private const int fleaDropCritMultiplier = 3;
+        private const int fleaDropCritMultiplier = 2;
 
         // For Flea Pickup
-        public const float baseBuffDuration = 12f;
+        public const float baseBuffDuration = 15f;
         //public const float buffDurationPerItem = 0f; // Increase for buff?
 
         // For Tick Crit Buff
         public const float baseTickMultiplier = 0f;
-        public const float tickPerStack = 15f;
+        public const float tickPerStack = 16f;
 
         public override void Init(ConfigFile configs)
         {
@@ -40,8 +40,8 @@ namespace UltitemsCyan.Items.Tier1
                 "FLEABAG",
                 itemName,
                 "Chance on hit to drop a tick which gives critical chance. Critical Strikes drop more ticks.",
-                "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> <style=cIsDamage>critical chance</style> for 18 seconds. <style=cIsDamage>Critical strikes</style> are thrice as likely to drop a bag.",
-                "Is this movie popcorn?",
+                "<style=cIsDamage>3%</style> chance on hit to drop a bag which gives a max of <style=cIsDamage>16%</style> <style=cStack>(+16% per stack)</style> <style=cIsDamage>critical chance</style> for 15 seconds. <style=cIsDamage>Critical strikes</style> are twice as likely to drop a bag.",
+                "Is this movie popcorn? oh, no it isn't",
                 ItemTier.Tier1,
                 UltAssets.FleaBagSprite,
                 UltAssets.FleaBagPrefab,
@@ -132,17 +132,8 @@ namespace UltitemsCyan.Items.Tier1
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
-                        //Log.Warning("FleaBag on Hit");
-                        bool drop;
-                        if (damageInfo.crit)
-                        {
-                            drop = Util.CheckRoll(fleaDropChance * fleaDropCritMultiplier, inflictor.master.luck);
-                        }
-                        else
-                        {
-                            drop = Util.CheckRoll(fleaDropChance, inflictor.master.luck);
-                        }
-                        if (drop)
+                        //Log.Warning("FleaBag on Hit chance: " + fleaDropChance * (damageInfo.crit ? fleaDropCritMultiplier : 1));
+                        if (Util.CheckRoll(fleaDropChance * (damageInfo.crit ? fleaDropCritMultiplier : 1), inflictor.master.luck))
                         {
                             //Log.Warning("Dropping flea from " + victim.name);
                             //RoR2.BuffPickup.Instantiate(item);
@@ -164,14 +155,14 @@ namespace UltitemsCyan.Items.Tier1
         }
 
         // From Mystic Items Utils
-        public static GameObject CreateBlankPrefab(string name)
+        /*public static GameObject CreateBlankPrefab(string name)
         {
             GameObject gameObject = PrefabAPI.InstantiateClone(new GameObject(name), name, false);
             _ = gameObject.AddComponent<NetworkIdentity>();
             //gameObject.AddComponent<NetworkHelper.MysticsRisky2UtilsNetworkHelper>(); // Probably don't need
             PrefabAPI.RegisterNetworkPrefab(gameObject);
             return gameObject;
-        }
+        }*/
 
         //
         public static void SpawnOrb(Vector3 position, Quaternion rotation, TeamIndex teamIndex, int itemCount)

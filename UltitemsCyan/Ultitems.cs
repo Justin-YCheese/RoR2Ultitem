@@ -30,7 +30,6 @@ using BepInEx.Configuration;
 //using System;
 using UltitemsCyan.Items;
 using RoR2.ExpansionManagement;
-using TurboEdition.Items;
 
 namespace UltitemsCyan
 {
@@ -137,7 +136,7 @@ namespace UltitemsCyan
             ultitemBuffs.Add(new SporkBleedBuff());
             ultitemBuffs.Add(new TaffyChewBuff());
             ultitemBuffs.Add(new TickCritBuff());
-            //ultitemBuffs.Add(new ZorseStarvingBuff());
+            ultitemBuffs.Add(new ZorseStarvingBuff());
 
             foreach (BuffBase newBuff in ultitemBuffs)
             {
@@ -178,7 +177,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new PigsSpork()); // HealthComponent_UpdateLastHitTime
             ultitemItems.Add(new RockyTaffy());
             ultitemItems.Add(new SuesMandibles()); // Has Consumed Item
-            ultitemItems.Add(new ViralSmog());
+            ultitemItems.Add(new ViralEssence());
 
             // *** Lunar Items
             ultitemItems.Add(new DreamFuel());
@@ -211,7 +210,7 @@ namespace UltitemsCyan
             ultitemItems.Add(new DownloadedRAM());
             ultitemItems.Add(new JealousFoe());
             ultitemItems.Add(new InhabitedCoffin()); // Has Consumed Item
-            //ultitemItems.Add(new ZorsePill());
+            ultitemItems.Add(new ZorsePill());
 
             // Last Priority
             ultitemItems.Add(new DegreeScissors()); // After Vault and Coffin to grab consumed items

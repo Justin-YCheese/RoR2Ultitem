@@ -3,9 +3,6 @@ using UnityEngine;
 using BepInEx.Configuration;
 using System.Collections.Generic;
 using UnityEngine.Networking;
-using UnityEngine.UIElements.StyleSheets.Syntax;
-using static Facepunch.Steamworks.Inventory.Item;
-using static TurboEdition.Items.TeleporterRadius;
 using MonoMod.Cil;
 
 //using Mono.Cecil.Cil;
@@ -58,7 +55,7 @@ namespace UltitemsCyan.Items.Tier2
             item = CreateItemDef(
                 "TINYIGLOO",
                 itemName,
-                "Increase healing per zones occupied. Overhealing increases zone size.",
+                "Increase healing per zones occupied. Healing increases zone size.",
                 "While in a zone, <style=cIsHealing>heal 30%</style> <style=cStack>(+10% per stack)</style> more plus half as much for each <style=cIsDamage>additional zone</style> occupied. Healing will <style=cIsDamage>increases the size</style> of the zone for <style=cIsHealing>50%</style> of the amount <style=cIsHealing>healed</style>. Increase max size by <style=cIsDamage>60%</style> <style=cStack>(+30% per stack)</style>.",
                 "It's like a snowball effect but for zones. Get it? But there already existed a snow globe item, so I went for something similar",
                 ItemTier.Tier2,
@@ -70,14 +67,16 @@ namespace UltitemsCyan.Items.Tier2
 
         protected override void Hooks()
         {
+            On.RoR2.BuffWard.Start += BuffWard_Start;
             On.RoR2.HoldoutZoneController.Start += HoldoutZoneController_Start;
-            On.RoR2.BuffWard.OnEnable += BuffWard_Start;
+            //On.RoR2.HalcyoniteShrineInteractable.Start += HalcyoniteShrineInteractable_Start;
             On.RoR2.HealthComponent.Heal += HealthComponent_Heal;
             IL.RoR2.HealthComponent.HandleHeal += HealthComponent_HandleHeal;
         }
 
+
         // Add buff wards to global list
-        private void BuffWard_Start(On.RoR2.BuffWard.orig_OnEnable orig, BuffWard self)
+        private void BuffWard_Start(On.RoR2.BuffWard.orig_Start orig, BuffWard self)
         {
             orig(self);
             self.gameObject.AddComponent<IglooBuffWardController>().SetWard(self);
@@ -86,7 +85,7 @@ namespace UltitemsCyan.Items.Tier2
         // Add zone to global list
         private void HoldoutZoneController_Start(On.RoR2.HoldoutZoneController.orig_Start orig, HoldoutZoneController self)
         {
-            Log.Debug(" <><><><> Tiny Igloo Start");
+            Log.Debug(" <><><><> Tiny Igloo Start Zone");
             if (self.applyFocusConvergence) //If zone can get shrunk, it can grow too
             {
                 _ = self.gameObject.AddComponent<IglooHoldoutZoneController>();
@@ -97,6 +96,14 @@ namespace UltitemsCyan.Items.Tier2
             }
             orig(self);
         }
+
+        /*// Add gold zones to global list
+        private void HalcyoniteShrineInteractable_Start(On.RoR2.HalcyoniteShrineInteractable.orig_Start orig, HalcyoniteShrineInteractable self)
+        {
+            Log.Debug(" <><><><> Tiny Igloo Start HalcyoniteShrine");
+            self.gameObject.AddComponent<IglooHalcyoniteShrineController>().SetShrine(self);
+            orig(self);
+        }*/
 
         // Increase amount healed
         private float HealthComponent_Heal(On.RoR2.HealthComponent.orig_Heal orig, HealthComponent self, float amount, ProcChainMask procChainMask, bool nonRegen)
@@ -205,13 +212,19 @@ namespace UltitemsCyan.Items.Tier2
                 {
                     occupiedZones.Add(initZone);
                 }
+                /*// If body is in Halcyonite Shrine zone
+                else if (initZone is HalcyoniteShrineInteractable halshrine
+                    && (body.transform.position - halshrine.transform.position).magnitude <= Mathf.Abs(halshrine.radius))
+                {
+                    occupiedZones.Add(initZone);
+                }*/
                 // break if already found max amount
                 if (occupiedZones.Count >= maxZoneCount)
                 {
                     break;
                 }
             }
-            Log.Debug(" ^ ^ ^ list.Count = " + occupiedZones.Count);
+            //Log.Debug(" ^ ^ ^ list.Count = " + occupiedZones.Count);
             return [.. occupiedZones];
         }
 
@@ -221,7 +234,7 @@ namespace UltitemsCyan.Items.Tier2
             {
                 return;
             }
-            Log.Warning(" +++++ +++++ +++++ Increasing radius");
+            //Log.Warning(" +++++ +++++ +++++ Increasing radius");
             overhealPer *= radiusPerOverheal;
             // Try to increase size of each zone the player is in
             foreach (NetworkBehaviour initZone in inZoneList)
@@ -229,7 +242,7 @@ namespace UltitemsCyan.Items.Tier2
                 // If body is in buff ward
                 if (initZone is BuffWard ward)
                 {
-                    Log.Debug(" . in Ward");
+                    //Log.Debug(" . in Ward");
 
                     ward.GetComponent<IglooBuffWardController>().IncreaseSize(overhealPer, grabCount);
                     /*float radiusIncrease = RadiusChange(initZone, ward.radius, overhealPer, grabCount);
@@ -240,24 +253,35 @@ namespace UltitemsCyan.Items.Tier2
                 // If body is in holdout zone
                 else if (initZone is HoldoutZoneController holdout)
                 {
-                    Log.Debug(" . in Holdout");
+                    //Log.Debug(" . in Holdout");
 
                     holdout.GetComponent<IglooHoldoutZoneController>().IncreaseSize(overhealPer, grabCount);
 
                     /*holdout.baseRadius += RadiusChange(initZone, holdout.baseRadius, overhealPer, grabCount);
                     Log.Debug(" _ _ _ _ N E W Ward radius " + holdout.baseRadius + " | current " + holdout.currentRadius + " | velocity " + holdout.radiusVelocity);*/
                 }
+                /*// If body is in buff ward
+                else if (initZone is HalcyoniteShrineInteractable halshrine)
+                {
+                    Log.Debug(" . in Shrine");
+
+                    halshrine.GetComponent<IglooHalcyoniteShrineController>().IncreaseSize(overhealPer, grabCount);
+                    *//*float radiusIncrease = RadiusChange(initZone, ward.radius, overhealPer, grabCount);
+                    //ward.radius += radiusIncrease;
+                    ward.Networkradius += radiusIncrease;
+                    Log.Debug(" _ _ _ _ N E W Ward radius " + ward.radius);*//*
+                }*/
             }
         }
 
         public class IglooBuffWardController : MonoBehaviour
         {
             private BuffWard ward = null!;
-            private float currentPercent = 100f;
+            private float currentMultiplier = 100f;
 
             private void Awake()
             {
-                currentPercent = 100f;
+                currentMultiplier = 100f;
             }
 
             // Called on Startup
@@ -277,14 +301,14 @@ namespace UltitemsCyan.Items.Tier2
             public void IncreaseSize(float overhealPer, int grabCount)
             {
                 float maxRadiusPercent = 100 + (baseMaxRadius + (grabCount - 1) * perStackMaxRadius);
-                if (currentPercent < maxRadiusPercent)
+                if (currentMultiplier < maxRadiusPercent)
                 {
                     // Get Radius, divide, then multiply
                     float setRadius = ward.Networkradius;
                     //Log.Debug(" _ _ + + WARD setRadius old: " + setRadius + " | currentPercent: " + currentPercent);
-                    setRadius /= currentPercent / 100f;
-                    currentPercent = Mathf.Min(currentPercent + overhealPer, maxRadiusPercent);
-                    setRadius *= currentPercent / 100f;
+                    setRadius /= currentMultiplier / 100f;
+                    currentMultiplier = Mathf.Min(currentMultiplier + overhealPer, maxRadiusPercent);
+                    setRadius *= currentMultiplier / 100f;
                     ward.Networkradius = Mathf.Max(ward.Networkradius, setRadius);
                     //Log.Debug(" _ _ + + WARD setRadius new = " + ward.Networkradius + " | currentPercent: " + currentPercent + " | maxPercent: " + maxRadiusPercent);
                 }
@@ -292,7 +316,6 @@ namespace UltitemsCyan.Items.Tier2
         }
 
 
-        // Original
         public class IglooHoldoutZoneController : MonoBehaviour
         {
             private HoldoutZoneController _holdoutZoneController = null!;
@@ -352,5 +375,56 @@ namespace UltitemsCyan.Items.Tier2
                 color = Color.Lerp(color, _materialColor, Mathf.Min((currentMultiplier - 100f) / currentMultMaxColor, 1f) * colorMix);
             }
         }
+
+        // Mechanicly increases size but dosn't visually
+        /*public class IglooHalcyoniteShrineController : MonoBehaviour
+        {
+            private HalcyoniteShrineInteractable halshrine = null!;
+            private float currentMultiplier = 100f;
+
+            private void Awake()
+            {
+                currentMultiplier = 100f;
+            }
+
+            // Called on Startup
+            public void SetShrine(HalcyoniteShrineInteractable aShrine)
+            {
+                Log.Debug(" ()() Add HalcyoniteShrine");
+                halshrine = aShrine;
+                zoneList.Add(halshrine);
+            }
+
+            private void OnDisable()
+            {
+                Log.Debug(" ()() Remove HalcyoniteShrine");
+                _ = zoneList.Remove(halshrine);
+            }
+
+            public void IncreaseSize(float overhealPer, int grabCount)
+            {
+                float maxRadiusPercent = 100 + (baseMaxRadius + (grabCount - 1) * perStackMaxRadius);
+                if (currentMultiplier < maxRadiusPercent)
+                {
+                    // Get Radius, divide, then multiply
+                    float setRadius = halshrine.radius;
+                    //float setScale = halshrine.shrineHalcyoniteBubble.transform;
+                    
+                    Log.Warning(" _ _ + + SHRINE setRadius old: " + setRadius + " mag: ?? | currentPercent: " + currentMultiplier);
+                    Log.Warning(" _ _ + + SHRINE lossy: " + halshrine.shrineHalcyoniteBubble.transform.lossyScale);
+                    
+                    setRadius /= currentMultiplier / 100f;
+                    //setScale /= currentMultiplier / 100f;
+                    currentMultiplier = Mathf.Min(currentMultiplier + overhealPer, maxRadiusPercent);
+                    setRadius *= currentMultiplier / 100f;
+                    //setScale *= currentMultiplier / 100f;
+                    halshrine.radius = Mathf.Max(halshrine.radius, setRadius);
+                    //halshrine.shrineHalcyoniteBubble.transform.localScale *= Mathf.Max(halshrine.shrineHalcyoniteBubble.transform.localScale.magnitude, setScale);
+                    //Log.Warning(" _ _ + + SHRINE setRadius new = " + halshrine.radius + " mag: " + halshrine.shrineHalcyoniteBubble.transform.localScale + " | currentPercent: " + currentMultiplier + " | maxPercent: " + maxRadiusPercent);
+                    Log.Warning(" _ _ + + SHRINE setRadius new = " + halshrine.radius + " mag: ?? | currentPercent: " + currentMultiplier + " | maxPercent: " + maxRadiusPercent);
+
+                }
+            }
+        }*/
     }
 }

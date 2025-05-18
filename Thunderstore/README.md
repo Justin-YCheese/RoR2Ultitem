@@ -17,7 +17,7 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/Zdjwt4L.png) | Birthday Candles    | Temporarily deal extra damage after pickup and at the start of each stage.                                              |      Green      |
 | ![Imgur](https://i.imgur.com/KERPnX6.png) | H.M.T               | Chance to ignite enemies when you inflict something else                                                                |      Green      |
 | ![Imgur](https://i.imgur.com/PRYmaiW.png) | Overclocked GPU     | Increase attack speed on kill. Stacks 10 times. Resets upon getting hurt.                                               |      Green      |
-| ![Imgur](https://i.imgur.com/ns8dF2w.png) | Tiny Igloo          | Increase healing per zones occupied. Overhealing increases zone size.                                                   |      Green      |
+| ![Imgur](https://i.imgur.com/ns8dF2w.png) | Tiny Igloo          | Increase healing per zones occupied. Healing increases zone size.                                                       |      Green      |
 | ![Imgur](https://i.imgur.com/7nCsVaj.png) | Xenon Ampoule       | Activating your Equipment also fires a laser. Damage and size scale with equipment duration.                            |      Green      |
 | ![Imgur](https://i.imgur.com/4DFayZF.png) | Corroding Vault     | Breaks at the start of the next stage. Contains white items.                                                            |       Red       |
 | ![Imgur](https://i.imgur.com/t7YNoVY.png) | Grapevine           | Chance on kill to drop grapes that block damage.                                                                        |       Red       |
@@ -45,4 +45,4 @@ There is a config file to enable or disable specific items.
 | ![Imgur](https://i.imgur.com/seg2YFF.png) | Yield Sign          | 10  | Alternate between multiplying speed and canceling it. Hit nearby enemies each time.                                     | Normal |
 | ![Imgur](https://i.imgur.com/dVK9J9h.png) | Macroseismograph    | 300 | While on the ground, summons a tremendious power... **BUT forgo all equipments**                                        | Lunar  |
 | ![Imgur](https://i.imgur.com/CfvSgjp.png) | Pot of Regolith     | 2   | **Take damage** on use.                                                                                                 | Lunar  |
-| ![Imgur](https://i.imgur.com/IrEnroy.png) | Universal Solute    | 60  | **Erase** your last item from existence.                                                                                | Lunar  |
+| ![Imgur](https://i.imgur.com/IrEnroy.png) | Obsolute            | 30  | **Erase** your last item from existence and gain some gold.                                                             | Lunar  |

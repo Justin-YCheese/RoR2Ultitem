@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using R2API;
 using System;
 using UltitemsCyan.Buffs;
 using UltitemsCyan.Items.Tier2;
@@ -31,10 +32,6 @@ namespace UltitemsCyan.Items.Void
         public static ItemDef item;
         public static ItemDef transformItem;
 
-        //private const float basePercentHealth = 12f;
-        //private const float percentHealthPerStack = 3f;
-        //private const float bossFraction = 3f;
-
         private const float percentPerStack = 20f;
         public const float duration = 3f; // Any greater than 3 and the health bar visual dissapears before inflicting damage
 
@@ -65,19 +62,22 @@ namespace UltitemsCyan.Items.Void
             On.RoR2.HealthComponent.SendDamageDealt += HealthComponent_SendDamageDealt;
         }
 
-        private void HealthComponent_SendDamageDealt(On.RoR2.HealthComponent.orig_SendDamageDealt orig, DamageReport damageReport)
+        private void HealthComponent_SendDamageDealt(On.RoR2.HealthComponent.orig_SendDamageDealt orig, DamageReport dR)
         {
-            orig(damageReport);
+            //Log.Debug(" / / / / / Zorse start");
+            orig(dR);
+            //Log.Debug(" / / / / / Zorse mid");
             try
             {
-                GameObject victimObject = damageReport.victimBody.gameObject;
+                GameObject victimObject = dR.victimBody.gameObject;
                 // If the victum has an inventory
                 // and damage isn't rejected?
-                if (victimObject && damageReport.attackerBody && damageReport.attackerBody.inventory &&
-                    !damageReport.damageInfo.rejected && damageReport.damageInfo.damageType != DamageType.DoT &&
-                    damageReport.damageDealt > 0)
+                if (victimObject && dR.attackerBody && dR.attackerBody.inventory &&
+                    !dR.damageInfo.rejected && dR.damageInfo.damageType != DamageType.DoT &&
+                    dR.damageDealt > 0)
                 {
-                    CharacterBody inflictor = damageReport.attackerBody;
+                    //Log.Debug(" / / / / / Zorse 1");
+                    CharacterBody inflictor = dR.attackerBody;
                     int grabCount = inflictor.inventory.GetItemCount(item);
                     if (grabCount > 0)
                     {
@@ -85,9 +85,14 @@ namespace UltitemsCyan.Items.Void
                         // If you have fewer than the max number of downloads, then grant buff
 
                         //float damageMultiplier = (basePercentHealth + (percentHealthPerStack * (grabCount - 1))) / 100f;
-                        //Log.Debug("Damage = " + damageDealt + " | i.damage: " + inflictor.damage + " i.damageRecalc: " + inflictor.damageFromRecalculateStats
-                        //    + " di.damage: " + damageInfo.damage + " di.crit: " + damageInfo.crit
-                        //    + " multiplier:" + damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f);
+                        /*Log.Debug("Damage = " + dR.damageDealt + " | dR.info.damage: " + dR.damageInfo.damage
+                            + " di.damage: " + dR.damageInfo.damage + " di.crit: " + dR.damageInfo.crit
+                            + " multiplier: " + dR.damageInfo.damage / inflictor.damage
+                                               * (dR.damageInfo.crit ? 2 : 1)
+                                               * grabCount * percentPerStack / 100f);*/
+                        /*Log.Debug("Damage = " + dR.damageDealt + " | dR.info.damage: " + dR.damageInfo.damage + " i.recalcDamage: " + inflictor.damageFromRecalculateStats
+                            + " di.damage: " + dR.damageInfo.damage + " di.crit: " + dR.damageInfo.crit
+                            + " multiplier: " + dR.damageInfo.damage / inflictor.damage * grabCount * percentPerStack / 100f);*/
                         InflictDotInfo inflictDotInfo = new()
                         {
                             victimObject = victimObject,
@@ -95,9 +100,14 @@ namespace UltitemsCyan.Items.Void
                             //totalDamage = 0,
                             dotIndex = ZorseStarvingBuff.index,
                             duration = duration,
-                            //damageMultiplier = damageInfo.damage / inflictor.damage * grabCount * percentPerStack / 100f,
-                            damageMultiplier = damageReport.damageDealt / inflictor.damageFromRecalculateStats
-                                               * (damageReport.damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f,
+                            /*damageMultiplier = dR.damageDealt / inflictor.damageFromRecalculateStats
+                                               * (dR.damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f,*/
+                            /*damageMultiplier = dR.damageDealt / dR.damageInfo.damage
+                                               * (dR.damageDealt / inflictor.damage)
+                                               * grabCount * percentPerStack / 100f,*/
+                            damageMultiplier = dR.damageInfo.damage / inflictor.damage
+                                               * (dR.damageInfo.crit ? 2 : 1)
+                                               * grabCount * percentPerStack / 100f,
                             maxStacksFromAttacker = null
                         };
                         InflictDot(ref inflictDotInfo);
@@ -111,53 +121,7 @@ namespace UltitemsCyan.Items.Void
             {
                 Log.Debug(" oh...  Zorse Pill had an expected null error");
             }
+            //Log.Debug(" / / / / / Zorse end");
         }
-
-        /*private void DamageReport_ctor(On.RoR2.DamageReport.orig_ctor orig, DamageReport self, DamageInfo damageInfo, HealthComponent victim, float damageDealt, float combinedHealthBeforeDamage)
-        {
-            orig(self, damageInfo, victim, damageDealt, combinedHealthBeforeDamage);
-            try
-            {
-                GameObject victimObject = victim.body.gameObject;
-                // If the victum has an inventory
-                // and damage isn't rejected?
-                if (victimObject && damageInfo.attacker.GetComponent<CharacterBody>() &&
-                    damageInfo.attacker.GetComponent<CharacterBody>().inventory && !damageInfo.rejected &&
-                    damageInfo.damageType != DamageType.DoT)
-                {
-                    CharacterBody inflictor = damageInfo.attacker.GetComponent<CharacterBody>();
-                    int grabCount = inflictor.inventory.GetItemCount(item);
-                    if (grabCount > 0)
-                    {
-                        //Log.Debug("  ...Starving enemy with reports...");
-                        // If you have fewer than the max number of downloads, then grant buff
-
-                        //float damageMultiplier = (basePercentHealth + (percentHealthPerStack * (grabCount - 1))) / 100f;
-                        //Log.Debug("Damage = " + damageDealt + " | i.damage: " + inflictor.damage + " i.damageRecalc: " + inflictor.damageFromRecalculateStats
-                        //    + " di.damage: " + damageInfo.damage + " di.crit: " + damageInfo.crit
-                        //    + " multiplier:" + damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f);
-                        InflictDotInfo inflictDotInfo = new()
-                        {
-                            victimObject = victimObject,
-                            attackerObject = damageInfo.attacker,
-                            //totalDamage = 0,
-                            dotIndex = ZorseStarvingBuff.index,
-                            duration = duration,
-                            //damageMultiplier = damageInfo.damage / inflictor.damage * grabCount * percentPerStack / 100f,
-                            damageMultiplier = damageInfo.damage / inflictor.damageFromRecalculateStats * (damageInfo.crit ? 2 : 1) * grabCount * percentPerStack / 100f,
-                            maxStacksFromAttacker = null
-                        };
-                        InflictDot(ref inflictDotInfo);
-                        //EffectManager.SimpleEffect(biteEffect, victim.transform.position, Quaternion.identity, true);
-                        //EffectManager.SimpleEffect(biteEffect, victim.transform.position, Quaternion.identity, true);
-                        //victim.GetComponent<CharacterBody>().AddTimedBuff();
-                    }
-                }
-            }
-            catch (NullReferenceException)
-            {
-                //Log.Debug(" oh...  Zorse Pill had an expected null error");
-            }
-        }*/
     }
 }
